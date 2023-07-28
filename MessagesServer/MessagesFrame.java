@@ -37,11 +37,6 @@ public class MessagesFrame extends JFrame implements ActionListener {
         UIMessage m5 = new UIMessage("LOL");
         mPanel.getScrollPane().setBounds(80, 80, 800, 600);
 
-        mPanel.addSenderMessage(new UIMessage("LOLLL"));
-        mPanel.addGetterMessage(new UIMessage("LOLLL"));
-        mPanel.addSenderMessage(new UIMessage("LOLLL"));
-        mPanel.addGetterMessage(new UIMessage("LOLLL"));
-
         add(mPanel.getScrollPane());
     }
 
