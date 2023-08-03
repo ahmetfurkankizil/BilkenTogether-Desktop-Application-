@@ -1,8 +1,11 @@
+package UserRelated;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.management.Notification;
 
+import MessagesServer.MessageConnection;
 import Posts.*;
 /**
  * Abstract User class implements DatabaseHandler interface
@@ -12,7 +15,7 @@ import Posts.*;
  * @since 8/2/2023
  * @version v1
  */
-public abstract class User implements DatabaseHandler {
+public abstract class User  implements DatabaseHandler {
     // Properties (Instance Variables)
     private int ID;
     private Date dateOfBirth;

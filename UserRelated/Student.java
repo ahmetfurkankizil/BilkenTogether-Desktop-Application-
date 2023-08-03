@@ -1,6 +1,8 @@
+package UserRelated;
+
 import java.util.ArrayList;
 import Posts.*;
-
+import DatabaseRelated.*;
 /**
  * Concrete Student class which extends User implements StudentDatabaseHandler
  * 
@@ -22,7 +24,7 @@ public class Student extends User implements StudentDatabaseHandler {
      * 
      * @param rating rating that
      */
-    public void addRating(double rating) {
+    public void addRating(int rating) {
         ratingCollection.add(rating);
     }
 

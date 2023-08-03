@@ -1,4 +1,4 @@
-
+package UserRelated;
 
 public class FacultyMember extends User {
     // Properties (Instance Variables)
@@ -26,8 +26,4 @@ public class FacultyMember extends User {
     public void setOfficeHours(String officeHours) {
         this.officeHours = officeHours;
     }
-
-
-
-
 }
