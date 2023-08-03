@@ -61,4 +61,9 @@ public abstract class RequestablePost extends Post {
          */
         return requestCollection.contains(student);
     }
+    public void withdrawRequest(Student student){
+        if (isItInRequests(student)) {
+            requestCollection.remove(student);
+        }
+    }
 }
