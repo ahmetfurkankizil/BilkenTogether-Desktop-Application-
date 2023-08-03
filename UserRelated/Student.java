@@ -76,8 +76,8 @@ public class Student extends User implements StudentDatabaseHandler {
         reqPost.acceptRequest(this);
     }
 
-    public void removeJoinRequest(RequestablePost reqPost) {
-        // Cannot fide suitable method
+    public void withdrawJoinRequest(RequestablePost reqPost) {
+        reqPost.withdrawRequest(reqPost);
     }
 
     public void denyJoinRequest(RequestablePost reqPost) {
