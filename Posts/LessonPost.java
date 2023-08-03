@@ -1,5 +1,5 @@
 package Posts;
-
+import UserRelated.*;
 public class LessonPost extends RequestablePost {
     private int requestGiveBinaryBoolean;
 

@@ -1,11 +1,11 @@
 package Posts;
-
+import UserRelated.*;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 
 public class StudyPost extends Post {
-    ,
+    
     private File studyFile;
     private String author;
     private String studyPostHeading;

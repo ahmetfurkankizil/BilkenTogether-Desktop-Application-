@@ -1,5 +1,5 @@
 package Posts;
-
+import UserRelated.*;
 import java.util.*;
 
 public abstract class RequestablePost extends Post {

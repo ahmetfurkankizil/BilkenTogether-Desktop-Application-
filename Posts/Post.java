@@ -1,5 +1,5 @@
 package Posts;
-
+import UserRelated.*;
 import java.util.*;
 
 import javax.xml.stream.events.Comment;
