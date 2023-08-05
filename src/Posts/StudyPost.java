@@ -12,13 +12,12 @@ public class StudyPost extends Post {
     private String[] topicCollection;
     private int numOfTopics;
 
-    public StudyPost(User sender, String description, File studyFile, String author, String heading,
-        String[] topicCollection) {
+    public StudyPost(int postId, User sender, String author, String heading, String description, File studyFile, String[] topicCollection) {
         // StudyFile file olması gerekmiyor mu?
-        super(sender, description);
+        super(postId, sender, description);
         this.author = author;
         this.studyPostHeading = heading;
-        this.topicCollection = Arrays.copyOf(topicCollection, topicCollection.length);
+        this.topicCollection = new String[5];
         this.studyFile = studyFile;
     }
 
@@ -55,7 +54,7 @@ public class StudyPost extends Post {
 
     
 
-  public String getTopic(int index) {
+  public String getTopicByIndex(int index) {
     if (index >-1 && index < numOfTopics){
         return topicCollection[index];
         /*
@@ -69,6 +68,10 @@ public class StudyPost extends Post {
     }
     return null;
   }
+
+    public String[] getTopicCollection() {
+        return this.topicCollection;
+    }
 
 
     private int numOfTopics() {

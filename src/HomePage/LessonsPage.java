@@ -17,7 +17,14 @@ import java.util.ArrayList;
 
 public class LessonsPage extends JFrame {
     private JPanel sectionsTab;
-
+    private JPanel filtersTab;
+    private JPanel postsTab;
+    private JLabel appNameLabel;
+    private SectionButton lessonsButton;
+    private SectionButton activitiesButton;
+    private SectionButton studiesButton;
+    private JScrollPane lessonsScroll;
+    private JPanel lessonsPane;
     private JPanel postingPanel1;
     private JPanel panel1;
     private JLabel hLabel;
@@ -94,7 +101,7 @@ public class LessonsPage extends JFrame {
         profileLabel.setIcon(IconCreator.getIconWithSize(IconCreator.userIcon, secPanelIconWidth, (int) (secPanelIconWidth * 1.14)));
         requestsLabel.setIcon(IconCreator.getIconWithSize(IconCreator.requestSecIcon, secPanelIconWidth, (int) (secPanelIconWidth * .88)));
         hLabel.setIcon(IconCreator.getIconWithSize(IconCreator.houseIcon, secPanelIconWidth, (int) (secPanelIconWidth * .88)));
-
+        System.out.println();
     }
 
 
@@ -197,6 +204,9 @@ public class LessonsPage extends JFrame {
         comp.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+
+
+
     public  class PostingButton extends GeneralButton {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -210,5 +220,40 @@ public class LessonsPage extends JFrame {
 
         }
     }
+
+    public class RequestButton extends GeneralButton
+    {
+
+        public RequestButton()
+        {
+            setText("Send Request");
+            addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    if (!textArea1.getText().isEmpty())
+                    {
+                        setText("Request Sent");
+                        setEnabled(false);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Please Enter A Description!", "No Description", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 

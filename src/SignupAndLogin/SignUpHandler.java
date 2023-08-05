@@ -31,7 +31,7 @@ public class SignUpHandler {
     //This method checks whether the user is a Bilkent University member.
     public boolean checkUserEmail(JTextField emailTextField, JLabel errorLabel) {
         if (emailTextField.getText().equals("")) {
-            errorLabel.setText("Email can't be blank");
+            errorLabel.setText("You should enter your e-mail first! ");
             errorLabel.setForeground(Color.red);
             return false;
         }
@@ -68,7 +68,7 @@ public class SignUpHandler {
             idErrorMessage.setForeground(Color.red);
             return false;
         } else if (idTextField.getText().equals("")) {
-            idErrorMessage.setText("ID cannot be blank!");
+            idErrorMessage.setText("You should enter your ID first! ");
             idErrorMessage.setForeground(Color.red);
             return false;
         } else {
@@ -85,7 +85,7 @@ public class SignUpHandler {
 
     public boolean checkName(JTextField nameTextField, JLabel nameMessageLabel) {
         if (nameTextField.getText().equals("")) {
-            nameMessageLabel.setText("Name can't be blank");
+            nameMessageLabel.setText("You should enter your name first! ");
             nameMessageLabel.setForeground(Color.red);
             return false;}
         else if(checkWhetherNameExists(nameTextField.getText())){
@@ -100,7 +100,7 @@ public class SignUpHandler {
 
     public boolean checkPassword(JPasswordField passwordTextField, JLabel passwordMessageLabel) {
         if (passwordTextField.getText().equals("")) {
-            passwordMessageLabel.setText("Password can't be blank");
+            passwordMessageLabel.setText("You should enter your password first! ");
             passwordMessageLabel.setForeground(Color.red);
             return false;
         } else {
@@ -117,7 +117,7 @@ public class SignUpHandler {
 
     public boolean checkDateOfBirth(JComboBox day, JComboBox month, JComboBox year, JLabel dateMessage) {
         if (day.getSelectedItem().equals("Day:") || month.getSelectedItem().equals("Month:") || year.getSelectedItem().equals("Year:")) {
-            dateMessage.setText("Date can't be blank!");
+            dateMessage.setText("You should enter your date of birth first! ");
             dateMessage.setForeground(Color.red);
             return false;
         } else {
@@ -174,7 +174,7 @@ public class SignUpHandler {
                 statement.setString(1, "Faculty Member");
             }
             statement.setString(2, newUser.getName());
-            statement.setString(3, newUser.getMail());
+            statement.setString(3, newUser.getEmail());
             statement.setInt(4, newUser.getId());
             statement.setString(5, newUser.getGender());
             statement.setString(6, newUser.getDepartment());

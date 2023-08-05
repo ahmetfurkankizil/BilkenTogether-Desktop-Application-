@@ -1,22 +1,20 @@
 package HomePage;
 
 import Icons.IconCreator;
+import Posts.ActivityPost;
 import Posts.LessonPost;
-import Posts.Post;
 import UserRelated.Student;
-import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class HomeScreen extends JFrame {
     private JPanel mainPanel;
+    public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
     private Student currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -35,17 +33,10 @@ public class HomeScreen extends JFrame {
     private JPanel rightPanel;
     private JPanel middlePanel;
     private JLabel bilkenTogetherLabel;
-    private JPanel buttonPanel;
     private JScrollPane flowScrollPane;
-    private JLabel courseType;
-    private JComboBox courseTypeComboBox;
-    private JButton postButton;
-    private JLabel availableDaysLabel;
-    private JComboBox availableDaysComboBox;
     private JPanel insideScrollPanePanel;
     private JButton postLessonButton;
     private JButton requestLessonButton;
-    private JTextArea textArea1;
     private JPanel postingPanel;
     private JLabel logOutLabel;
     private JPanel homeLabelPanel;
@@ -54,6 +45,27 @@ public class HomeScreen extends JFrame {
     private JPanel profileLabelPanel;
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
+    private JPanel buttonPanel;
+    private JTextArea textArea1;
+    private JLabel courseType;
+    private JComboBox courseTypeComboBox;
+    private JButton postButton;
+    private JLabel availableDaysLabel;
+    private JComboBox availableDaysComboBox;
+    private JPanel MainPanel;
+    private JPanel addablePanel;
+    private JPanel TopLabel;
+    private JLabel TopTopLabel;
+    private JPanel MidPanel;
+    private JPanel MidTopPanel;
+    private JLabel MidTopLabel;
+    private JPanel MidBottomPanel;
+    private JLabel MidBottomLabel;
+    private JPanel BottomPanel;
+    private JPanel BottomTopPanel;
+    private JLabel BottomTopLabel;
+    private JPanel BottomBottomPanel;
+    private JLabel BottomBottomLabel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
 
@@ -143,13 +155,15 @@ public class HomeScreen extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer( new LessonPost(currentUser,"a little post des","MAth",0000101,true));
+        ActivitiesPostViewer viewer2 = new ActivitiesPostViewer( new ActivityPost(2, currentUser,"a little post des",3,"20/01/2023"));
+        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(1,currentUser,"a little post des","MAth",11111,true));
         insideScrollPanePanel.add(viewer,g);
+        insideScrollPanePanel.add(viewer2,g);
 
     }
     private void addLessonPost(LessonPost post){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer(post);
+        LessonPostViewer viewer = new LessonPostViewer(post);
         insideScrollPanePanel.add(viewer,g);
 
     }

@@ -15,13 +15,10 @@ public class Student extends User implements StudentDatabaseHandler{
     private ArrayList<LessonPost> lessonPostCollection;
     private ArrayList<ActivityPost> activityPostCollection;
     public Student(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        setName(name);
-        setMail(email);
-        setId(id);
-        setGender(gender);
-        setDepartment(department);
-        setPassword(password);
-        setDateOfBirth(dateOfBirth);
+        super(name, email, id, gender, department, password, dateOfBirth);
+        this.ratingCollection = new ArrayList<>();
+        this.lessonPostCollection = new ArrayList<>();
+        this.activityPostCollection = new ArrayList<>();
     }
 
     // Student Methods
@@ -38,7 +35,7 @@ public class Student extends User implements StudentDatabaseHandler{
         for (Integer rate : ratingCollection) {
             total += rate;
         }
-        return total / ratingCollection.size();
+        return (total / ratingCollection.size());
     }
 
     /**

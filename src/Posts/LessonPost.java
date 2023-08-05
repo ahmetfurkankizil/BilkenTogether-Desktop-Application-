@@ -4,9 +4,9 @@ public class LessonPost extends RequestablePost {
     private int requestGiveBinaryBoolean;
     private boolean requestType;
 
-    public LessonPost(User sender, String description, String typeFilter, int requestGiveBinaryBoolean,boolean requestType) {
+    public LessonPost(int postID ,User sender, String description, String typeFilter, int requestGiveBinaryBoolean,boolean requestType) {
 
-        super(sender, description, typeFilter);
+        super(postID,sender, description, typeFilter);
         this.requestType = requestType;
         setRequestGiveBinaryBoolean(requestGiveBinaryBoolean);
     }
@@ -40,12 +40,11 @@ public class LessonPost extends RequestablePost {
         return returned;
     }
 
-    private String booleanBinaryToString(int a) {
+    public String booleanBinaryToString(int a) {
         String ints = a + "";
         while (ints.length() < 7) {
             ints = "0" + ints;
         }
-        System.out.println(ints);
         return ints;
     }
     public Student getSender(){
