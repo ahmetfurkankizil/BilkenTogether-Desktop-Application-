@@ -44,4 +44,8 @@ public abstract class Post {
     public ArrayList<Comment> getCommentCollection() {
         return commentCollection;
     }
+
+    protected User getSender() {
+        return sender;
+    }
 }

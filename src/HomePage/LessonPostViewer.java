@@ -56,7 +56,7 @@ public class LessonPostViewer extends JPanel {
     public void setUp(){
         g = new GridBagConstraints();
         //sender = (Student)lesPost.getSender();
-        setMinimumSize(new Dimension(750,30));
+        setMinimumSize(new Dimension(300,30));
         setLayout(new GridBagLayout());
         //lesPost.getSender().setName("profile name");
         setBorder(new SectionItemBorder());

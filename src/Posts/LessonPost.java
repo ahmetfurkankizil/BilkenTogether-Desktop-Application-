@@ -48,6 +48,9 @@ public class LessonPost extends RequestablePost {
         System.out.println(ints);
         return ints;
     }
+    public Student getSender(){
+        return (Student) super.getSender();
+    }
     public boolean getRequestType(){
         return requestType;
     }
