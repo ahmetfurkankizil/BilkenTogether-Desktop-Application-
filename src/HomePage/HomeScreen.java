@@ -21,6 +21,18 @@ public class HomeScreen extends JFrame {
     private JPanel leftPanel;
     private JPanel rightPanel;
     private JPanel middlePanel;
+    private JLabel bilkenTogetherLabel;
+    private JPanel buttonPanel;
+    private JScrollPane flowScrollPane;
+    private JLabel courseType;
+    private JComboBox courseTypeComboBox;
+    private JButton postButton;
+    private JLabel availableDaysLabel;
+    private JComboBox availableDaysComboBox;
+    private JPanel insideScrollPanePanel;
+    private JButton postLessonButton;
+    private JButton requestLessonButton;
+    private JTextArea textArea1;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel>  leftPanelLabels;
 
