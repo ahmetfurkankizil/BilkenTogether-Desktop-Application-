@@ -125,14 +125,12 @@ public abstract class User  implements DatabaseHandler {
     /**
      * This method will receive a Comment and adds it to the respective
      * Post’s commentCollection array and Comment Table in SQL Database
-     * 
-     * @param post
-     * @param comment
+     *
      */
     public void commentToPost(Post post, Comment comment) {
         for (StudyPost stuPost : studyPostCollection) {
             if (stuPost.equals(post)) {
-                post.getCommentCollection().addCommnet(comment);
+             //   post.getCommentCollection().addCommnet(comment);
             }
         }
 
@@ -145,7 +143,7 @@ public abstract class User  implements DatabaseHandler {
      * @param comment
      */
     public void commentToComment(Comment mainComment, Comment comment) {
-        mainComment.getCommentCollection().addCommnet(comment);
+       // mainComment.getCommentCollection().addCommnet(comment);
     }
 
     /**

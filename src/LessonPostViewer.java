@@ -57,13 +57,13 @@ public class LessonPostViewer extends JPanel {
         //sender = (Student)lesPost.getSender();
         setMinimumSize(new Dimension(750,30));
         setLayout(new GridBagLayout());
-        lesPost.getSender().setName("profile name");
+        //lesPost.getSender().setName("profile name");
         setBorder(new SectionItemBorder());
         informationBackground = new Color(194, 175, 151);
 
     }
     public void contentSetUp(){
-        proName.setText(lesPost.getSender().getName());
+        //proName.setText(lesPost.getSender().getName());
         g.gridx = 0;
         g.gridy = 0;
         g.insets = new Insets(10,0,0,10);

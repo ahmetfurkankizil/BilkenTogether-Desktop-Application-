@@ -1,8 +1,11 @@
 package UserRelated;
 
+import Posts.ActivityPost;
+import Posts.LessonPost;
+import Posts.RequestablePost;
+
 import java.util.ArrayList;
-import Posts.*;
-import DatabaseRelated.*;
+
 /**
  * Concrete Student class which extends User implements StudentDatabaseHandler
  * 
@@ -10,7 +13,7 @@ import DatabaseRelated.*;
  * @since 8/2/2023
  * @version v1
  */
-public class Student extends User implements StudentDatabaseHandler {
+public class Student extends User {
 
     // Properties (Instance Variables)
     private double averageRating;
@@ -76,9 +79,9 @@ public class Student extends User implements StudentDatabaseHandler {
         reqPost.acceptRequest(this);
     }
 
-    public void withdrawJoinRequest(RequestablePost reqPost) {
-        reqPost.withdrawRequest(reqPost);
-    }
+    //public void withdrawJoinRequest(RequestablePost reqPost) {
+    //    reqPost.withdrawRequest(reqPost);
+    //}
 
     public void denyJoinRequest(RequestablePost reqPost) {
         reqPost.denyRequest(this);
