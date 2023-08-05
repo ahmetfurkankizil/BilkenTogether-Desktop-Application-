@@ -2,10 +2,12 @@ package Posts;
 import UserRelated.*;
 public class LessonPost extends RequestablePost {
     private int requestGiveBinaryBoolean;
+    private boolean requestType;
 
-    public LessonPost(User sender, String description, String typeFilter, int requestGiveBinaryBoolean) {
+    public LessonPost(User sender, String description, String typeFilter, int requestGiveBinaryBoolean,boolean requestType) {
 
         super(sender, description, typeFilter);
+        this.requestType = requestType;
         setRequestGiveBinaryBoolean(requestGiveBinaryBoolean);
     }
 
@@ -45,5 +47,8 @@ public class LessonPost extends RequestablePost {
         }
         System.out.println(ints);
         return ints;
+    }
+    public boolean getRequestType(){
+        return requestType;
     }
 }

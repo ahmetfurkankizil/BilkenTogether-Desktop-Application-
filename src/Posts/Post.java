@@ -40,4 +40,8 @@ public abstract class Post {
     public void addComment(Comment comment) {
         commentCollection.add(comment);
     }
+
+    public ArrayList<Comment> getCommentCollection() {
+        return commentCollection;
+    }
 }
