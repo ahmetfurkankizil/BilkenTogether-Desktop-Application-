@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Authorization.SignUpFrame">
+  <grid id="fce97" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="582" height="497"/>
+    </constraints>
+    <properties>
+      <background color="-2104603"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="20601" binding="signupPanel" layout-manager="GridLayoutManager" row-count="3" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-2104603"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="581ad" binding="panel1" layout-manager="GridLayoutManager" row-count="12" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="8" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2104603"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b3f63" class="javax.swing.JLabel" binding="nameLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Name and Surname: "/>
+                </properties>
+              </component>
+              <component id="2672d" class="javax.swing.JLabel" binding="emailLabel">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="University Email: "/>
+                </properties>
+              </component>
+              <component id="63e85" class="javax.swing.JTextField" binding="emailTextField">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="5bf48" class="javax.swing.JTextField" binding="nameTextField">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="f10d6" class="javax.swing.JLabel" binding="genderLabel">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Gender:"/>
+                </properties>
+              </component>
+              <component id="db0b9" class="javax.swing.JLabel" binding="idLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="University ID: "/>
+                </properties>
+              </component>
+              <component id="27b43" class="javax.swing.JTextField" binding="idTextField">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="a3e43" class="javax.swing.JLabel" binding="nameMessageLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="9ea20" class="javax.swing.JLabel" binding="emailMessageLabel">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="de649" class="javax.swing.JLabel" binding="idMessageLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="531ac" class="javax.swing.JComboBox" binding="genderComboBox">
+                <constraints>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="true"/>
+                  <model>
+                    <item value="Select:"/>
+                    <item value="Male"/>
+                    <item value="Female"/>
+                    <item value="Other"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="d7304" class="javax.swing.JLabel" binding="genderMessageLabel">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="fe4e1" class="javax.swing.JLabel" binding="roleLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Role: "/>
+                </properties>
+              </component>
+              <component id="a7a3f" class="javax.swing.JLabel" binding="departmentLabel">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Department: "/>
+                </properties>
+              </component>
+              <component id="306c7" class="javax.swing.JLabel" binding="roleMessageLabel">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="88e3e" class="javax.swing.JLabel" binding="departmentMessageLabel">
+                <constraints>
+                  <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="34cc0" class="javax.swing.JComboBox" binding="roleComboBox">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Role:"/>
+                    <item value="Student"/>
+                    <item value="Faculty Member"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="70402" class="javax.swing.JComboBox" binding="departmentComboBox">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Department:"/>
+                    <item value="Architecture"/>
+                    <item value="Computer Engineering"/>
+                    <item value="Electrical and Electronics Engineering"/>
+                    <item value="Industrial Engineering"/>
+                    <item value="Mechanical Engineering"/>
+                    <item value="American Culture and Literature"/>
+                    <item value="Archaeology"/>
+                    <item value="English Language and Literature"/>
+                    <item value="Philosophy"/>
+                    <item value="Translation and Interpretation"/>
+                    <item value="Turkish Literature"/>
+                    <item value="Law"/>
+                    <item value="Chemistry"/>
+                    <item value="Mathematics"/>
+                    <item value="Molecular Biology and Genetics"/>
+                    <item value="Physics"/>
+                    <item value="Music"/>
+                    <item value="Performing Arts"/>
+                    <item value="Communication and Design"/>
+                    <item value="Fine Arts"/>
+                    <item value="Graphic Design"/>
+                    <item value="Interior Architecture and Environmental Design"/>
+                    <item value="Landscape Architecture and Urban Design"/>
+                    <item value="Management"/>
+                    <item value="Economics"/>
+                    <item value="History"/>
+                    <item value="International Relations"/>
+                    <item value="Political Science and Public Administration"/>
+                    <item value="Psychology"/>
+                    <item value="Education Sciences"/>
+                    <item value="Teacher Education"/>
+                    <item value="M.A. in Teaching English as a Foreign Language"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="2e25f" class="javax.swing.JLabel" binding="passwordLabel">
+                <constraints>
+                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Password:                        "/>
+                </properties>
+              </component>
+              <component id="fcb42" class="javax.swing.JLabel" binding="dateOfBirthLabel">
+                <constraints>
+                  <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Date Of Birth: "/>
+                </properties>
+              </component>
+              <component id="757f7" class="javax.swing.JLabel" binding="passwordMessageLabel">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="a7783" class="javax.swing.JLabel" binding="dateOfBirthMessageLabel">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Apple LiSung" size="14"/>
+                  <text value=" "/>
+                </properties>
+              </component>
+              <component id="fcb2e" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
+                <constraints>
+                  <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <grid id="11f35" binding="panel2" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-2104603"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="52252" class="javax.swing.JComboBox" binding="dayComboBox">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value="Day:"/>
+                        <item value="1"/>
+                        <item value="2"/>
+                        <item value="3"/>
+                        <item value="4"/>
+                        <item value="5"/>
+                        <item value="6"/>
+                        <item value="7"/>
+                        <item value="8"/>
+                        <item value="9"/>
+                        <item value="10"/>
+                        <item value="11"/>
+                        <item value="12"/>
+                        <item value="13"/>
+                        <item value="14"/>
+                        <item value="15"/>
+                        <item value="16"/>
+                        <item value="17"/>
+                        <item value="18"/>
+                        <item value="19"/>
+                        <item value="20"/>
+                        <item value="21"/>
+                        <item value="22"/>
+                        <item value="23"/>
+                        <item value="24"/>
+                        <item value="25"/>
+                        <item value="26"/>
+                        <item value="27"/>
+                        <item value="28"/>
+                        <item value="29"/>
+                        <item value="30"/>
+                        <item value="31"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="59659" class="javax.swing.JComboBox" binding="monthComboBox">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value="Month:"/>
+                        <item value="January"/>
+                        <item value="February"/>
+                        <item value="March"/>
+                        <item value="April"/>
+                        <item value="May"/>
+                        <item value="June"/>
+                        <item value="July"/>
+                        <item value="August"/>
+                        <item value="September"/>
+                        <item value="October"/>
+                        <item value="November"/>
+                        <item value="December"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="9fc95" class="javax.swing.JComboBox" binding="yearComboBox">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value="Year:"/>
+                        <item value="2004"/>
+                        <item value="2003"/>
+                        <item value="2002"/>
+                        <item value="2001"/>
+                        <item value="2000"/>
+                        <item value="1999"/>
+                        <item value="1998"/>
+                        <item value="1997"/>
+                        <item value="1996"/>
+                        <item value="1995"/>
+                        <item value="1994"/>
+                        <item value="1993"/>
+                        <item value="1992"/>
+                        <item value="1991"/>
+                        <item value="1990"/>
+                        <item value="1989"/>
+                        <item value="1988"/>
+                        <item value="1987"/>
+                        <item value="1986"/>
+                        <item value="1985"/>
+                        <item value="1984"/>
+                        <item value="1983"/>
+                        <item value="1982"/>
+                        <item value="1981"/>
+                        <item value="1980"/>
+                        <item value="1979"/>
+                        <item value="1978"/>
+                        <item value="1977"/>
+                        <item value="1976"/>
+                        <item value="1975"/>
+                        <item value="1974"/>
+                        <item value="1973"/>
+                        <item value="1972"/>
+                        <item value="1971"/>
+                        <item value="1970"/>
+                        <item value="1969"/>
+                        <item value="1968"/>
+                        <item value="1967"/>
+                        <item value="1966"/>
+                        <item value="1965"/>
+                        <item value="1964"/>
+                        <item value="1963"/>
+                        <item value="1962"/>
+                        <item value="1961"/>
+                        <item value="1960"/>
+                        <item value="1959"/>
+                        <item value="1958"/>
+                        <item value="1957"/>
+                        <item value="1956"/>
+                        <item value="1955"/>
+                        <item value="1954"/>
+                        <item value="1953"/>
+                        <item value="1952"/>
+                        <item value="1951"/>
+                        <item value="1950"/>
+                        <item value="1949"/>
+                        <item value="1948"/>
+                        <item value="1947"/>
+                        <item value="1946"/>
+                        <item value="1945"/>
+                        <item value="1944"/>
+                        <item value="1943"/>
+                        <item value="1942"/>
+                        <item value="1941"/>
+                        <item value="1940"/>
+                        <item value="1939"/>
+                        <item value="1938"/>
+                        <item value="1937"/>
+                        <item value="1936"/>
+                        <item value="1935"/>
+                        <item value="1934"/>
+                        <item value="1933"/>
+                        <item value="1932"/>
+                        <item value="1931"/>
+                        <item value="1930"/>
+                        <item value="1929"/>
+                        <item value="1928"/>
+                        <item value="1927"/>
+                        <item value="1926"/>
+                        <item value="1925"/>
+                        <item value="1924"/>
+                        <item value="1923"/>
+                        <item value="1922"/>
+                        <item value="1921"/>
+                        <item value="1920"/>
+                        <item value="1919"/>
+                        <item value="1918"/>
+                        <item value="1917"/>
+                        <item value="1916"/>
+                        <item value="1915"/>
+                        <item value="1914"/>
+                        <item value="1913"/>
+                        <item value="1912"/>
+                        <item value="1911"/>
+                        <item value="1910"/>
+                        <item value="1909"/>
+                        <item value="1908"/>
+                        <item value="1907"/>
+                        <item value="1906"/>
+                        <item value="1905"/>
+                        <item value="1904"/>
+                        <item value="1903"/>
+                        <item value="1902"/>
+                        <item value="1901"/>
+                      </model>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <vspacer id="96c5b">
+                <constraints>
+                  <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="8ad71" binding="panel3" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="8" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2104603"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="81c4" class="javax.swing.JButton" binding="backButton">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <background color="-2104603"/>
+                  <icon value="Authorization/iconsAndOther/backIcon.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="74bdd" class="javax.swing.JLabel" binding="signUpLabel">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <background color="-2104603"/>
+                  <font name="Osaka" size="36" style="0"/>
+                  <foreground color="-13619583"/>
+                  <text value="    SignUp"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="e526b" class="javax.swing.JButton" binding="signupButton">
+            <constraints>
+              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2104603"/>
+              <text value="SignUp"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
