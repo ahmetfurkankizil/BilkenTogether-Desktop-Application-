@@ -1,19 +1,14 @@
 package UserRelated;
 
+import java.util.ArrayList;
+
 public class FacultyMember extends User{
     // Properties (Instance Variables)
     private String officeLocation;
     private String officeHours;
-    private String researchInterests;// array or arrayList ?
 
     public FacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        setName(name);
-        setMail(email);
-        setId(id);
-        setGender(gender);
-        setDepartment(department);
-        setPassword(password);
-        setDateOfBirth(dateOfBirth);
+        super(name, email, id, gender, department, password, dateOfBirth);
     }
 
     // Faculty Member methods
