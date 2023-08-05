@@ -1,4 +1,4 @@
-package Authorization;
+package DatabaseInterfaces;
 
 import javax.xml.crypto.Data;
 import java.sql.*;
