@@ -24,12 +24,12 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="2e421" class="javax.swing.JLabel">
+              <component id="2e421" class="javax.swing.JLabel" binding="profilePhotoLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Profile Photo"/>
                 </properties>
               </component>
               <vspacer id="ad313">
@@ -37,44 +37,44 @@
                   <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
-              <component id="64b5e" class="javax.swing.JLabel">
+              <component id="64b5e" class="javax.swing.JLabel" binding="homeLabel">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Home"/>
                 </properties>
               </component>
-              <component id="6668e" class="javax.swing.JLabel">
+              <component id="6668e" class="javax.swing.JLabel" binding="messagesLabel">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Messages"/>
                 </properties>
               </component>
-              <component id="98c40" class="javax.swing.JLabel">
+              <component id="98c40" class="javax.swing.JLabel" binding="notificationsLabel">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Notifications"/>
                 </properties>
               </component>
-              <component id="8fd78" class="javax.swing.JLabel">
+              <component id="8fd78" class="javax.swing.JLabel" binding="profileLabel">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Profile"/>
                 </properties>
               </component>
-              <component id="60e16" class="javax.swing.JLabel">
+              <component id="60e16" class="javax.swing.JLabel" binding="requestsLabel">
                 <constraints>
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Requests"/>
                 </properties>
               </component>
             </children>
@@ -87,12 +87,12 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="dad49" class="javax.swing.JButton" binding="button4" default-binding="true">
+              <component id="dad49" class="javax.swing.JButton" binding="profileBoxButton" default-binding="true">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="ProfileBox"/>
                 </properties>
               </component>
               <grid id="5e6e2" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -103,12 +103,12 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="f62cf" class="javax.swing.JButton" binding="button5" default-binding="true">
+                  <component id="f62cf" class="javax.swing.JButton" binding="filterBoxButton" default-binding="true">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Button"/>
+                      <text value="filterBox"/>
                     </properties>
                   </component>
                   <vspacer id="44c07">
@@ -133,7 +133,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="BilkenTogether"/>
                 </properties>
               </component>
               <grid id="39ab0" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
@@ -143,22 +143,22 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="3b582" class="javax.swing.JButton" binding="button1" default-binding="true">
+                  <component id="3b582" class="javax.swing.JButton" binding="lessonsButton">
                     <constraints/>
                     <properties>
-                      <text value="Button"/>
+                      <text value="Lessons"/>
                     </properties>
                   </component>
-                  <component id="6b342" class="javax.swing.JButton" binding="button2" default-binding="true">
+                  <component id="6b342" class="javax.swing.JButton" binding="studiesButton" default-binding="true">
                     <constraints/>
                     <properties>
-                      <text value="Button"/>
+                      <text value="Studies"/>
                     </properties>
                   </component>
-                  <component id="a130d" class="javax.swing.JButton" binding="button3" default-binding="true">
+                  <component id="a130d" class="javax.swing.JButton" binding="activitiesButton" default-binding="true">
                     <constraints/>
                     <properties>
-                      <text value="Button"/>
+                      <text value="Activities"/>
                     </properties>
                   </component>
                 </children>
