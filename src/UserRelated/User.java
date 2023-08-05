@@ -7,6 +7,8 @@ import javax.management.Notification;
 
 import MessagesServer.MessageConnection;
 import Posts.*;
+import CommentsRelated.*;
+
 /**
  * Abstract User class implements DatabaseHandler interface
  * also parent of Student and FacultyMember classes
@@ -44,7 +46,7 @@ public abstract class User  implements DatabaseHandler {
      * Adds researchInterest into researchInterests ArrayList.
      * Will be used by both Student and Faculty Member
      * 
-     * @param researchInterests indicates research interest of
+     *   indicates research interest of
      *                          a student or faculty member
      */
     public void addResearchInterest(String researchInterest) {
