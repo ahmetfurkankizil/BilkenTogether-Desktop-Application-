@@ -17,15 +17,9 @@ import java.util.ArrayList;
 
 public class LessonsPage extends JFrame {
     private JPanel sectionsTab;
-    private JPanel filtersTab;
-    private JPanel postsTab;
-    private JLabel appNameLabel;
 
-    private JScrollPane lessonsScroll;
-    private JPanel lessonsPane;
     private JPanel postingPanel1;
     private JPanel panel1;
-    private JButton button6;
     private JLabel hLabel;
     private JLabel messagesLabel;
     private JLabel notificationsLabel;
