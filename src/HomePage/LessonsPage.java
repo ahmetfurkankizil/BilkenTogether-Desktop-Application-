@@ -15,7 +15,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class MainP extends JFrame {
+public class LessonsPage extends JFrame {
     private JPanel sectionsTab;
     private JPanel filtersTab;
     private JPanel postsTab;
@@ -23,9 +23,9 @@ public class MainP extends JFrame {
     private SectionButton lessonsButton;
     private SectionButton activitiesButton;
     private SectionButton studiesButton;
-    private JScrollPane mScroll;
+    private JScrollPane lessonsScroll;
     private JPanel lessonsPane;
-    private JPanel postingPanel;
+    private JPanel postingPanel1;
     private JPanel panel1;
     private JButton button6;
     private JLabel hLabel;
@@ -63,10 +63,12 @@ public class MainP extends JFrame {
     ArrayList<GeneralButton> clearableButtons;
     private static int secPanelIconWidth = 30;
 
-    public MainP() {
+    public LessonsPage() {
         addIcons();
         lessonsButton.setFont(new Font("Montserrat", Font.BOLD,18));
-        lessonsButton.setSelected(true);
+        activitiesButton.setSelected(true);
+
+
         clearButton.setPreferredSize(new Dimension(60,30));
         topicPane.setVisible(false);
         topicNamePanel.setBackground(Color.cyan);
@@ -74,7 +76,7 @@ public class MainP extends JFrame {
         topicXmark.setCursor(new Cursor(Cursor.HAND_CURSOR));
         topicNamePanel.setVisible(false);
 
-        postingPanel.setBorder(new sectionItemBorder());
+        postingPanel1.setBorder(new sectionItemBorder());
         sectionsTab.setBackground(new Color(210, 210, 205));
         g = new GridBagConstraints();
         setSize(1400, 750);
@@ -84,7 +86,7 @@ public class MainP extends JFrame {
         g.gridx = 0;
         //g.insets = new Insets(0,0,0,0);
         //lessonsPane.add(new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000)), g);
-        textArea1.setMargin(new Insets(10, 10, 10, 10));
+        //textArea1.setMargin(new Insets(10, 10, 10, 10));
 
         setUpListeners();
         setUpClearableButtons();
@@ -95,7 +97,7 @@ public class MainP extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainP mainP = new MainP();
+        LessonsPage lessonsPage = new LessonsPage();
     }
 
 
@@ -145,7 +147,7 @@ public class MainP extends JFrame {
     }
     public void setUpClearableButtons(){
         clearableButtons = new ArrayList<>();
-        for (Component c: postingPanel.getComponents()) {
+        for (Component c: postingPanel1.getComponents()) {
 
             if (c instanceof DayButtons || c instanceof RequestGiveButtons){
                 clearableButtons.add((GeneralButton) c);
