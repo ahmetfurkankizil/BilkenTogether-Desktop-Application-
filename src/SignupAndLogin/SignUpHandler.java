@@ -296,6 +296,33 @@ public class SignUpHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean checkWhetherNameExists(String email) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        String insertQuery = "SELECT * FROM userInformationTable WHERE nameAndSurname=?;";
+
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSetOfUser = preparedStatement.executeQuery();
+
+            if (resultSetOfUser.next()) {
+                return true;
+
+            }
+            else{
+                return false;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean checkUserRegisteredFromDB(String email, String password) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
 
