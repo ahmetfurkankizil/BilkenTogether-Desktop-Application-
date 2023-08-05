@@ -11,9 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class HomeScreen extends JFrame {
+public class HomeScreenLessonsFilterPage extends JFrame {
     private JPanel mainPanel;
-    private static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
     private Student currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -51,10 +50,26 @@ public class HomeScreen extends JFrame {
     private JPanel profileLabelPanel;
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
+    private JLabel quickFiltersLabel;
+    private JButton givenButton;
+    private JButton requestedButton;
+    private JLabel courseLabel;
+    private JComboBox courseComboBox;
+    private JPanel lessonsQFpanel;
+    private JComboBox artAndSportComboBox;
+    private JButton mondayButton;
+    private JButton tuesdayButton;
+    private JPanel daysButtonPanel;
+    private JButton wednesdayButton;
+    private JButton fridayButton;
+    private JButton thursdayButton;
+    private JButton saturdayButton;
+    private JButton sundayButton;
+    private JButton submitButton;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
 
-    public HomeScreen() {
+    public HomeScreenLessonsFilterPage() {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
@@ -119,7 +134,7 @@ public class HomeScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        HomeScreen homeScreen = new HomeScreen();
+        HomeScreenLessonsFilterPage homeScreen = new HomeScreenLessonsFilterPage();
     }
     public boolean requestGiveButtonCheck(){
         return !(postLessonButton.isSelected()) && !requestLessonButton.isSelected();
@@ -140,7 +155,7 @@ public class HomeScreen extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(currentUser,"a little post des","MAth",11111,true));
+        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(currentUser,"a little post des","MAth",0000101,true));
         insideScrollPanePanel.add(viewer,g);
 
     }

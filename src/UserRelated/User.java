@@ -1,47 +1,44 @@
 package UserRelated;
 
-
 import javax.management.Notification;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.Date;
 import DatabaseRelated.*;
-import Icons.*;
+import MessagesRelated.MessageConnection;
 import Posts.*;
 import CommentsRelated.*;
-import SignupAndLogin.*;
-import MessagesRelated.*;
-import MessagesServer.*;
 
 public abstract class User implements DatabaseHandler {
     private String[] studyTopics;
     protected DatabaseConnection databaseConnection;
     private int id;
-    private String name;
+    private String nameAndSurname;
     private String password;
-    private String mail;
+    private String email;
     private String department;
     private String gender;
     private String dateOfBirth;
-
-    //Added from Ufuk's User Class implementation
-
     private byte[] profilePhoto;
-
     private String biography;
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
     private ArrayList<Notification> notificationCollection;
-    //private ArrayList<MessageConnection> messageCollection;
+    private ArrayList<MessageConnection> messageCollection;
 
-    public User() {
+    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth) {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
-        //messageCollection = new ArrayList<>();
+        messageCollection = new ArrayList<>();
+        setName(nameAndSurname);
+        setEmail(email);
+        setId(id);
+        setGender(gender);
+        setDepartment(department);
+        setPassword(password);
+        setDateOfBirth(dateOfBirth);
     }
 
     // Getters and Setters
@@ -54,11 +51,11 @@ public abstract class User implements DatabaseHandler {
     }
 
     public String getName() {
-        return name;
+        return nameAndSurname;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nameAndSurname = name;
     }
 
     public String getPassword() {
@@ -69,12 +66,12 @@ public abstract class User implements DatabaseHandler {
         this.password = password;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDepartment() {
@@ -173,7 +170,7 @@ public abstract class User implements DatabaseHandler {
      */
     public void addNotification(Notification notification) {
         notificationCollection.add(notification);
-        // Cannot done adding it Notification Table of the SQL Database
+        // Cannot  adding it Notification Table of the SQL Database
     }
 
     /**

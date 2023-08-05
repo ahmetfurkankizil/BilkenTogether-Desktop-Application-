@@ -174,7 +174,7 @@ public class SignUpHandler {
                 statement.setString(1, "Faculty Member");
             }
             statement.setString(2, newUser.getName());
-            statement.setString(3, newUser.getMail());
+            statement.setString(3, newUser.getEmail());
             statement.setInt(4, newUser.getId());
             statement.setString(5, newUser.getGender());
             statement.setString(6, newUser.getDepartment());
