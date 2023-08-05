@@ -35,13 +35,13 @@ public abstract class User implements DatabaseHandler {
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
     private ArrayList<Notification> notificationCollection;
-    private ArrayList<MessageConnection> messageCollection;
+    //private ArrayList<MessageConnection> messageCollection;
 
     public User() {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
-        messageCollection = new ArrayList<>();
+        //messageCollection = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -210,7 +210,7 @@ public abstract class User implements DatabaseHandler {
     public void commentToPost(Post post, Comment comment) {
         for (StudyPost stuPost : studyPostCollection) {
             if (stuPost.equals(post)) {
-                post.getCommentCollection().addCommnet(comment);
+                //post.getCommentCollection().addCommnet(comment);
             }
         }
 
@@ -223,7 +223,7 @@ public abstract class User implements DatabaseHandler {
      * @param comment
      */
     public void commentToComment(Comment mainComment, Comment comment) {
-        mainComment.getCommentCollection().addCommnet(comment);
+        //mainComment.getCommentCollection().addCommnet(comment);
     }
 
     /**

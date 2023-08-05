@@ -169,7 +169,7 @@ public class MainP extends JFrame {
             g.insets = new Insets(10, 0, 0, 0);
             g.fill = GridBagConstraints.BOTH;
             g.gridx = 0;
-            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000,true));
+            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student("","",2,"","","",""), "lol", "l", 1111000,true));
             addCursor(v);
             lessonsPane.add(v,g);
             revalidate();
