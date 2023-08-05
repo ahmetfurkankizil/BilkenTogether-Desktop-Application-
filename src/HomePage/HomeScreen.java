@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class HomeScreen extends JFrame {
     private JPanel mainPanel;
-    private static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
+    public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
     private Student currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -32,17 +32,10 @@ public class HomeScreen extends JFrame {
     private JPanel rightPanel;
     private JPanel middlePanel;
     private JLabel bilkenTogetherLabel;
-    private JPanel buttonPanel;
     private JScrollPane flowScrollPane;
-    private JLabel courseType;
-    private JComboBox courseTypeComboBox;
-    private JButton postButton;
-    private JLabel availableDaysLabel;
-    private JComboBox availableDaysComboBox;
     private JPanel insideScrollPanePanel;
     private JButton postLessonButton;
     private JButton requestLessonButton;
-    private JTextArea textArea1;
     private JPanel postingPanel;
     private JLabel logOutLabel;
     private JPanel homeLabelPanel;
@@ -51,6 +44,27 @@ public class HomeScreen extends JFrame {
     private JPanel profileLabelPanel;
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
+    private JPanel buttonPanel;
+    private JTextArea textArea1;
+    private JLabel courseType;
+    private JComboBox courseTypeComboBox;
+    private JButton postButton;
+    private JLabel availableDaysLabel;
+    private JComboBox availableDaysComboBox;
+    private JPanel MainPanel;
+    private JPanel addablePanel;
+    private JPanel TopLabel;
+    private JLabel TopTopLabel;
+    private JPanel MidPanel;
+    private JPanel MidTopPanel;
+    private JLabel MidTopLabel;
+    private JPanel MidBottomPanel;
+    private JLabel MidBottomLabel;
+    private JPanel BottomPanel;
+    private JPanel BottomTopPanel;
+    private JLabel BottomTopLabel;
+    private JPanel BottomBottomPanel;
+    private JLabel BottomBottomLabel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
 
