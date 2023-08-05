@@ -20,13 +20,12 @@ public class Client implements Runnable {
     private String inMessage;
     private MessagesPanel messagesPanel;
     private MessagesFrame frame;
-
+    
     public Client(MessagesPanel mPanel, MessagesFrame frame) {
         done = false;
         this.frame = frame;
         messagesPanel = mPanel;
     }
-
     @Override
     public void run() {
         try {
@@ -100,7 +99,7 @@ public class Client implements Runnable {
     }
 
     public void addAsASender(String message) {
-        frame.getmPanel().addSenderMessage(new UIMessage(message));
+        frame.getmPanel().addSenderMessage(new UIMessage(message,true));
         frame.revalidate();
     }
 }

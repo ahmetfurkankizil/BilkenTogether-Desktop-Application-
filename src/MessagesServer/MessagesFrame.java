@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,19 +23,15 @@ public class MessagesFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
         addMessagess();
+        setBackground(Color.white);
         setTitle("Little Messages Try");
-                addTextArea();
-
+        addTextArea();
         setVisible(true);
     }
 
     public void addMessagess() {
         this.mPanel = new MessagesPanel();
-        UIMessage m1 = new UIMessage("LOLLOLLOLLOLLOLLOLLO");
-        UIMessage m2 = new UIMessage("LOL");
-        UIMessage m3 = new UIMessage("LOL");
-        UIMessage m4 = new UIMessage("LOL");
-        UIMessage m5 = new UIMessage("LOL");
+
         mPanel.getScrollPane().setBounds(80, 80, 800, 600);
 
         add(mPanel.getScrollPane());
@@ -46,6 +43,8 @@ public class MessagesFrame extends JFrame implements ActionListener {
         textField.setBounds(80, 700, 700, 50);
         sendButton.setBounds(800, 700, 60, 50);
         sendButton.addActionListener(this);
+        JTextArea ta = new JTextArea("lol");
+        ta.setLineWrap(true);
         add(sendButton);
         add(textField);
     }
@@ -55,10 +54,9 @@ public class MessagesFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getmPanel().addGetterMessage(new UIMessage(textField.getText()));
+        getmPanel().addGetterMessage(new UIMessage(textField.getText(),false));
         revalidate();
         buttonPressed = true;
-        System.out.println(buttonPressed);
     }
 
     public String getTextFieldText() {

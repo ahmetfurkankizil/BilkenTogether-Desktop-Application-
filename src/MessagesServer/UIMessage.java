@@ -5,13 +5,20 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class UIMessage extends JLabel implements Border {
+public class UIMessage extends JTextArea implements Border {
     private String content;
-
-    public UIMessage(String content) {
+    private boolean senderor;
+    public UIMessage(String content, boolean sender) {
         super(content);
         this.content = content;
+        this.senderor = sender;
         setBorder(this);
+        setLineWrap(true);
+        setBackground(Color.white);
+        setEditable(false);
+        setSize(200, 50);
+        setMaximumSize(new Dimension(500, 1000));
+        
 
     }
 
@@ -33,5 +40,10 @@ public class UIMessage extends JLabel implements Border {
         // TODO Auto-generated method stub
         return true;
     }
-
+    public void setSender(boolean sender) {
+        this.senderor = sender;
+    }
+    public boolean getSender(){
+        return senderor;
+    }
 }
