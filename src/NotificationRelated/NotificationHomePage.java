@@ -1,5 +1,7 @@
-package HomePage;
+package NotificationRelated;
 
+import HomePage.HomeScreen;
+import HomePage.*;
 import Icons.IconCreator;
 import Posts.LessonPost;
 import UserRelated.Student;
@@ -11,9 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class HomeScreen extends JFrame {
+public class NotificationHomePage extends JFrame {
     private JPanel mainPanel;
-    public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
     private Student currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -31,11 +32,17 @@ public class HomeScreen extends JFrame {
     private JPanel leftPanel;
     private JPanel rightPanel;
     private JPanel middlePanel;
-    private JLabel bilkenTogetherLabel;
+    private JPanel buttonPanel;
     private JScrollPane flowScrollPane;
+    private JLabel courseType;
+    private JComboBox courseTypeComboBox;
+    private JButton postButton;
+    private JLabel availableDaysLabel;
+    private JComboBox availableDaysComboBox;
     private JPanel insideScrollPanePanel;
     private JButton postLessonButton;
     private JButton requestLessonButton;
+    private JTextArea textArea1;
     private JPanel postingPanel;
     private JLabel logOutLabel;
     private JPanel homeLabelPanel;
@@ -44,40 +51,30 @@ public class HomeScreen extends JFrame {
     private JPanel profileLabelPanel;
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
-    private JPanel buttonPanel;
-    private JTextArea textArea1;
-    private JLabel courseType;
-    private JComboBox courseTypeComboBox;
-    private JButton postButton;
-    private JLabel availableDaysLabel;
-    private JComboBox availableDaysComboBox;
     private JPanel MainPanel;
     private JPanel addablePanel;
     private JPanel TopLabel;
     private JLabel TopTopLabel;
     private JPanel MidPanel;
     private JPanel MidTopPanel;
-    private JLabel MidTopLabel;
     private JPanel MidBottomPanel;
     private JLabel MidBottomLabel;
     private JPanel BottomPanel;
     private JPanel BottomTopPanel;
-    private JLabel BottomTopLabel;
     private JPanel BottomBottomPanel;
     private JLabel BottomBottomLabel;
+    private JLabel MidTopLabel;
+    private JLabel BottomTopLabel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
 
-    public HomeScreen() {
+    public NotificationHomePage() {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
         currentUser = new Student("Erdem","erdem.p",1,"l","d","p","b");
         generalSetup();
-        addLessonPost();
-        addLessonPost();
-        addLessonPost();
-        addLessonPost();
+
 
 
         setVisible(true);
@@ -87,9 +84,7 @@ public class HomeScreen extends JFrame {
         g = new GridBagConstraints();
         sectionButtons = new ArrayList<>();
         leftPanelLabels = new ArrayList<>();
-        sectionButtons.add(lessonsButton);
-        sectionButtons.add(activitiesButton);
-        sectionButtons.add(studiesButton);
+        TopTopLabel.setIcon(HomeScreen.back);
 
         leftPanelLabels.add(homeLabel);
         leftPanelLabels.add(notificationsLabel);
@@ -97,21 +92,16 @@ public class HomeScreen extends JFrame {
         leftPanelLabels.add(profileLabel);
         leftPanelLabels.add(requestsLabel);
         leftPanelLabels.add(logOutLabel);
-        for (JButton j :
-                sectionButtons) {
-            j.setFocusable(false);
-            j.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        }
+
         for (JLabel label :
                 leftPanelLabels) {
             label.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         }
-        postingPanel.setBorder(new SectionItemBorder());
-        postLessonButton.addActionListener(new requestActionListener());
-        requestLessonButton.addActionListener(new requestActionListener());
-        postLessonButton.setFocusable(false);
-        requestLessonButton.setFocusable(false);
+
+
+
+
         int secPanelIconWidth = 30;
         leftPanel.setBackground(new Color(203,203,203));
         logOutLabel.setIcon(IconCreator.getIconWithSize(IconCreator.logOutIcon, secPanelIconWidth, secPanelIconWidth));
@@ -133,7 +123,7 @@ public class HomeScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        HomeScreen homeScreen = new HomeScreen();
+        NotificationHomePage homeScreen = new NotificationHomePage();
     }
     public boolean requestGiveButtonCheck(){
         return !(postLessonButton.isSelected()) && !requestLessonButton.isSelected();
@@ -152,18 +142,8 @@ public class HomeScreen extends JFrame {
 
         }
     }
-    private void addLessonPost(){
-        g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(currentUser,"a little post des","MAth",11111,true));
-        insideScrollPanePanel.add(viewer,g);
 
-    }
-    private void addLessonPost(LessonPost post){
-        g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer(post);
-        insideScrollPanePanel.add(viewer,g);
 
-    }
     private class SectionItemBorder implements Border {
 
 
