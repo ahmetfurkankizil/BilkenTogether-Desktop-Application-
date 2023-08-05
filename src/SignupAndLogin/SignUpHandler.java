@@ -87,7 +87,11 @@ public class SignUpHandler {
         if (nameTextField.getText().equals("")) {
             nameMessageLabel.setText("Name can't be blank");
             nameMessageLabel.setForeground(Color.red);
-            return false;
+            return false;}
+        else if(checkWhetherNameExists(nameTextField.getText())){
+                nameMessageLabel.setText("This name has already taken! Please chose another one.");
+                nameMessageLabel.setForeground(Color.red);
+                return false;
         } else {
             nameMessageLabel.setText("✅");
             return true;
@@ -297,7 +301,7 @@ public class SignUpHandler {
         }
     }
 
-    public boolean checkWhetherNameExists(String email) {
+    public boolean checkWhetherNameExists(String name) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
 
         String insertQuery = "SELECT * FROM userInformationTable WHERE nameAndSurname=?;";
@@ -306,13 +310,12 @@ public class SignUpHandler {
              PreparedStatement statement = connection.prepareStatement(insertQuery)) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, name);
 
             ResultSet resultSetOfUser = preparedStatement.executeQuery();
 
             if (resultSetOfUser.next()) {
                 return true;
-
             }
             else{
                 return false;
