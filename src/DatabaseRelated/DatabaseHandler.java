@@ -1,7 +1,5 @@
-package DatabaseInterfaces;
+package DatabaseRelated;
 
-import javax.xml.crypto.Data;
-import java.sql.*;
 public interface DatabaseHandler {
     boolean createStudiesTable();
 

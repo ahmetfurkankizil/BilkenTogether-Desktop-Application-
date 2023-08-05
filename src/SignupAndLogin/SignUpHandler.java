@@ -13,13 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 
-import Posts.*;
-import CommentsRelated.*;
-import DatabaseInterfaces.*;
-import Icons.*;
-import MessagesServer.*;
-import Other.*;
-import PostComponents.*;
+import DatabaseRelated.*;
 
 //Core Class for the SignUp Process
 public class SignUpHandler {

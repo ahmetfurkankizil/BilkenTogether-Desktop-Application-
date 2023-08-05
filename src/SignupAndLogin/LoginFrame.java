@@ -5,13 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Posts.*;
-import CommentsRelated.*;
-import DatabaseInterfaces.*;
-import Icons.*;
-import MessagesServer.*;
-import Other.*;
-import PostComponents.*;
 import UserRelated.*;
 
 public class LoginFrame extends JFrame{

@@ -1,6 +1,6 @@
 package SignupAndLogin;
 
-import DatabaseInterfaces.*;
+import DatabaseRelated.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
