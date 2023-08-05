@@ -2,6 +2,7 @@ package UserRelated;
 
 import javax.management.Notification;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
@@ -247,10 +248,11 @@ public abstract class User implements DatabaseHandler {
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "postId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "postType VARCHAR(50) NOT NULL,"
                         + "sender VARCHAR(50) NOT NULL,"
+                        + "author VARCHAR(50) NOT NULL,"
                         + "postHeading VARCHAR(150) NULL,"
                         + "postDescription  VARCHAR(250) NOT NULL,"
+                        + "file  VARCHAR(250) NOT NULL,"
                         + "Topic1 VARCHAR(50)  NULL,"
                         + "Topic2 VARCHAR(50)  NULL,"
                         + "Topic3 VARCHAR(50)  NULL,"
@@ -270,23 +272,23 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    /*
 
     @Override
-    public boolean addToStudiesTable(StudyPost studyPost, ArrayList<String> topicsToBeAdded) {
-        int numberOfPostTopics = topicsToBeAdded.size();
+    public boolean addToStudiesTable(StudyPost studyPost) {
+        String[] topicsToBeAdded = studyPost.getTopicCollection();
+        int numberOfPostTopics = topicsToBeAdded.length;
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
             if (connection != null) {
-                String insertTableQuery = "INSERT INTO " + tableName + " (postId, postType, sender, postHeading, postDescription";
+                String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, file";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     int topicNo = i+1;
                     insertTableQuery += "Topic" + topicNo + ", ";
                 }
                 insertTableQuery = insertTableQuery.substring(0, insertTableQuery.length() - 2);
-                insertTableQuery += ") VALUES (?, ?, ?, ?, ? )";
+                insertTableQuery += ") VALUES (?, ?, ?, ?, ?, ?)";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     insertTableQuery += "?, ";
@@ -296,21 +298,21 @@ public abstract class User implements DatabaseHandler {
 
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertTableQuery)) {
                     //Get methods of the StudyPost class will be inserted accordingly
-                    preparedStatement.setInt(1, postId);
-                    preparedStatement.setString(2, postType);
-                    preparedStatement.setString(3, sender);
-                    preparedStatement.setString(4, postHeading);
-                    preparedStatement.setString(5, postDescription);
+                    preparedStatement.setInt(1, studyPost.getPostID());
+                    preparedStatement.setString(2, studyPost.getSender().getName());
+                    preparedStatement.setString(3, studyPost.getAuthor());
+                    preparedStatement.setString(4, studyPost.getStudyPostHeading());
+                    preparedStatement.setString(5, studyPost.getPostDescription());
+                    preparedStatement.setString(6, "File is not added yet");
 
                     for(int i=0; i<numberOfPostTopics; i++){
                         int columnNumber = i+6;
-                        String topicToAdd = topicsToBeAdded.get(i);
+                        String topicToAdd = topicsToBeAdded[i];
                         preparedStatement.setString(columnNumber, topicToAdd);
                     }
 
                     int rowsAffected = preparedStatement.executeUpdate();
                     System.out.println("Rows affected: " + rowsAffected);
-
                     return rowsAffected > 0;
                 }
 
@@ -322,11 +324,11 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-     */
 
-    /*
+
+
     @Override
-    public boolean removeFromStudiesTable(int postId) {
+    public boolean removeFromStudiesTable(StudyPost studyPost) {
         databaseConnection = new DatabaseConnection();
         String tableName = "" + getId() + "StudiesTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
@@ -334,7 +336,7 @@ public abstract class User implements DatabaseHandler {
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
 
-            preparedStatement.setInt(1, postId);
+            preparedStatement.setInt(1, studyPost.getPostID());
 
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Rows affected: " + rowsAffected);
@@ -347,7 +349,7 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-     */
+
 
     /*
     @Override
