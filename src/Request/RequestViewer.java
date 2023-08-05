@@ -1,5 +1,7 @@
 package Request;
 
+import Posts.RequestablePost;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -9,64 +11,75 @@ public class RequestViewer extends JPanel {
     private JPanel panel1;
     private JPanel toppestPanel;
     private JTextArea somePostTextTextArea;
-    private JPanel firstPost;
+
     private JLabel namelabel;
     private JLabel lessonlabel;
     private JTextArea secondtextarea;
     private JPanel parentpanel1;
-    private JPanel pleasePanel;
+    private JPanel selectedPanel;
     private JButton activitiesButton;
-    private JButton lessonsButton;
     private JPanel addablePanel;
+    private JPanel postPanel;
+    private JPanel namePanel;
+    private JPanel requestNumberPanel;
+    private JPanel lessonRequestPanel;
+    private JPanel coursePanel;
+    private JLabel requestNumberLabel;
+    private JLabel courseLabel;
+    private JLabel request;
 
     private static JFrame f;
 
-    public RequestViewer()
-    {
+    public RequestViewer(){
+        toppestPanel = new JPanel();
+        //toppestPanel.setBackground(myColor);
+        //toppestPanel.setLayout(new GridBagLayout());
+        toppestPanel.add(activitiesButton);
+        toppestPanel.add(addablePanel);
+        toppestPanel.add(request);
+somePostTextTextArea = new JTextArea();
+somePostTextTextArea.setEditable(false);
+somePostTextTextArea.setFocusable(false);
+somePostTextTextArea.setLineWrap(true);
+somePostTextTextArea.setColumns(50);
+courseLabel = new JLabel();
+courseLabel.setText("MUSIC");
+        courseLabel.setBackground(Color.YELLOW);
 
-        setLayout(new GridBagLayout());
-        createComponents();
+lessonlabel = new JLabel();
+lessonlabel.setText("LESSON REQUEST");
+lessonlabel.setBackground(Color.GREEN);
 
+requestNumberLabel = new JLabel();
+requestNumberLabel.setText("1 Request");;
+requestNumberLabel.setBackground(Color.RED);
+requestNumberLabel.setForeground(Color.WHITE);
+        postPanel = new JPanel();
+        parentpanel1 = new JPanel();
+        parentpanel1.add(somePostTextTextArea);
+        selectedPanel = new JPanel();
+        coursePanel = new JPanel();
+        coursePanel.add(courseLabel);
+        lessonRequestPanel = new JPanel();
+        lessonRequestPanel.add(lessonlabel);
+        requestNumberPanel = new JPanel();
+        requestNumberPanel.add(requestNumberLabel);
+        selectedPanel.add(requestNumberPanel);
+        selectedPanel.add(lessonRequestPanel);
+        selectedPanel.add(coursePanel);
+        parentpanel1.add(selectedPanel);
+        postPanel.add(parentpanel1);
+
+
+
+
+
+
+        setVisible(true);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-
-    private void createComponents()
-    {
-
-
-        innerPanel1 = new JPanel();
-        innerPanel1.setBackground(myColor);
-        innerPanel1.setLayout(new GridBagLayout());
-
-        innerPanel2 = new JPanel();
-        innerPanel2.setBackground(myColorTwo);
-        innerPanel2.setLayout(new GridBagLayout());
-
-        innerPanel2.setBorder(new LineBorder(myBorderColor,1));
-
-        label1 = new JLabel("Gülferiz Made A Comment On Your Post:  Great perspective! ");
-
-        label1.setFont(myFont);
-
-        label2 = new JLabel("Did you know that the world is turning around really fast. Is there a way we could...");
-        label1.setAlignmentX(0);
-
-
-        innerPanel1.add(label1,gridBagConstraints);
-        innerPanel2.add(label2,gridBagConstraints);
-
-
-        setBorder(new LineBorder(myBorderColor,1));
-        setBackground(myColor);
-        gridBagConstraints.insets = new Insets(5,10,3,10);
-        add(innerPanel1,gridBagConstraints);
-        gridBagConstraints.insets = new Insets(0,10,5,10);
-
-        add(innerPanel2,gridBagConstraints);
-    }
-
     public static void main(String[] args) {
         RequestViewer r =new RequestViewer();
     }
-
 
 }
