@@ -40,12 +40,11 @@ public class LessonPost extends RequestablePost {
         return returned;
     }
 
-    private String booleanBinaryToString(int a) {
+    public String booleanBinaryToString(int a) {
         String ints = a + "";
         while (ints.length() < 7) {
             ints = "0" + ints;
         }
-        System.out.println(ints);
         return ints;
     }
     public Student getSender(){
