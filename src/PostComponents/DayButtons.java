@@ -1,6 +1,7 @@
 package PostComponents;
 
 import javax.swing.*;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 
 import static javax.swing.text.StyleConstants.setForeground;

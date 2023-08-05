@@ -1,8 +1,9 @@
+
+
 import Icons.IconCreator;
 import PostComponents.DayButtons;
 import Posts.LessonPost;
 import UserRelated.Student;
-import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 
 public class LessonPostViewer extends JPanel {
     private JPanel post;
-    private PostUserName proName;
-    private PPImageHandler proPhoto;
+    private JLabel proName;
+    private JLabel proPhoto;
     private JTextArea textArea2;
     private JPanel myPanel;
     private JButton postButton;
