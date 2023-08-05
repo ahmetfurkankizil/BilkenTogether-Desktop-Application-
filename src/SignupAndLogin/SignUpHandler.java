@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 
 import DatabaseRelated.*;
+import UserRelated.*;
 
 //Core Class for the SignUp Process
 public class SignUpHandler {

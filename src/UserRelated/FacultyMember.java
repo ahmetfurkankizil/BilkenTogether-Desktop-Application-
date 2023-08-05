@@ -1,17 +1,22 @@
 package UserRelated;
 
-public class FacultyMember extends User {
+public class FacultyMember extends User{
     // Properties (Instance Variables)
     private String officeLocation;
     private String officeHours;
-    private String researchInterests;// array or arrayList ? 
+    private String researchInterests;// array or arrayList ?
 
-    // Constructor
-    public FacultyMember() {
-        super();
+    public FacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
+        setName(name);
+        setMail(email);
+        setId(id);
+        setGender(gender);
+        setDepartment(department);
+        setPassword(password);
+        setDateOfBirth(dateOfBirth);
     }
-    
-    // Getters
+
+    // Faculty Member methods
     public String getOfficeLocation() {
         return officeLocation;
     }
