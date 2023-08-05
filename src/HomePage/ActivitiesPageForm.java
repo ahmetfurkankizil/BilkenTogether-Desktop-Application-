@@ -20,9 +20,7 @@ public class ActivitiesPageForm extends JFrame {
     private JPanel filtersTab;
     private JPanel postsTab;
     private JLabel appNameLabel;
-    private SectionButton lessonsButton;
-    private SectionButton activitiesButton;
-    private SectionButton studiesButton;
+
     private JScrollPane lessonsScroll;
     private JPanel lessonsPane;
     private JPanel postingPanel1;
@@ -34,21 +32,9 @@ public class ActivitiesPageForm extends JFrame {
     private JLabel profileLabel;
     private JLabel requestsLabel;
     private JLabel logOutButton;
-    private RequestGiveButtons giveButton;
-    private RequestGiveButtons requestButton;
     private JTextField topicField;
-    private DayButtons mondayDayButtons;
-    private DayButtons tuesdayDayButtons;
-    private DayButtons wednesdayDayButtons;
-    private DayButtons thursdayDayButtons;
-    private DayButtons fridayDayButtons;
-    private DayButtons saturdayDayButtons;
-    private DayButtons sundayDayButtons;
     private JTextArea postArea;
-    private PostUserName profileNameLabel;
-    private PPImageHandler profilePhotoLabel;
     private JTextArea textArea1;
-    private GeneralButton postButton;
     private JLabel tru1Label;
     private JList topicsList;
     private JLabel topicNameLabel;
@@ -56,7 +42,6 @@ public class ActivitiesPageForm extends JFrame {
     private JScrollPane topicPane;
     private JPanel topicNamePanel;
     private JPanel daysPanel;
-    private GeneralButton clearButton;
     ArrayList<ImageIcon> unprocessedIcons;
     private PostsPanel lolPanel;
     GridBagConstraints g;
@@ -65,11 +50,6 @@ public class ActivitiesPageForm extends JFrame {
 
     public ActivitiesPageForm() {
         addIcons();
-        lessonsButton.setFont(new Font("Montserrat", Font.BOLD,18));
-        activitiesButton.setSelected(true);
-
-
-        clearButton.setPreferredSize(new Dimension(60,30));
         topicPane.setVisible(false);
         topicNamePanel.setBackground(Color.cyan);
         topicXmark.setIcon(IconCreator.getIconWithSize(IconCreator.deniedIcon,10,10));
@@ -82,7 +62,6 @@ public class ActivitiesPageForm extends JFrame {
         setSize(1400, 750);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(panel1);
-        requestButton.setBackground(Color.cyan);
         g.gridx = 0;
         //g.insets = new Insets(0,0,0,0);
         //lessonsPane.add(new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000)), g);
@@ -163,22 +142,8 @@ public class ActivitiesPageForm extends JFrame {
         }
     }
     public void setUpListeners(){
-        clearButton.addActionListener(e -> {
-            for (GeneralButton generalButton : clearableButtons){
-                generalButton.setSelected(false);
-            }
 
-        });
-        lessonsButton.addActionListener(e -> {
-            g.insets = new Insets(10, 0, 0, 0);
-            g.fill = GridBagConstraints.BOTH;
-            g.gridx = 0;
-            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student("","",2,"","","",""), "lol", "l", 1111000,true));
-            addCursor(v);
-            lessonsPane.add(v,g);
-            revalidate();
-            repaint();
-        });
+
         topicsList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {

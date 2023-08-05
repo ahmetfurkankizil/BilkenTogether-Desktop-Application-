@@ -20,10 +20,8 @@ public class StudiesPage extends JFrame {
     private JPanel filtersTab;
     private JPanel postsTab;
     private JLabel appNameLabel;
-    private SectionButton lessonsButton;
-    private SectionButton activitiesButton;
-    private SectionButton studiesButton;
-    private JScrollPane lessonsScroll;
+
+    private JScrollPane studiesScroll;
     private JPanel lessonsPane;
     private JPanel postingPanel1;
     private JPanel panel1;
@@ -34,19 +32,8 @@ public class StudiesPage extends JFrame {
     private JLabel profileLabel;
     private JLabel requestsLabel;
     private JLabel logOutButton;
-    private RequestGiveButtons giveButton;
-    private RequestGiveButtons requestButton;
     private JTextField topicField;
-    private DayButtons mondayDayButtons;
-    private DayButtons tuesdayDayButtons;
-    private DayButtons wednesdayDayButtons;
-    private DayButtons thursdayDayButtons;
-    private DayButtons fridayDayButtons;
-    private DayButtons saturdayDayButtons;
-    private DayButtons sundayDayButtons;
     private JTextArea postArea;
-    private PostUserName profileNameLabel;
-    private PPImageHandler profilePhotoLabel;
     private JTextArea textArea1;
     private GeneralButton postButton;
     private JLabel tru1Label;
@@ -55,8 +42,13 @@ public class StudiesPage extends JFrame {
     private JLabel topicXmark;
     private JScrollPane topicPane;
     private JPanel topicNamePanel;
-    private JPanel daysPanel;
-    private GeneralButton clearButton;
+    private JPanel studiesPane;
+    private JTextField authorField;
+    private JTextField headerField;
+    private JPanel authorPanel;
+    private JLabel headerLabel;
+    private JLabel authorLabel;
+    private JPanel headerPanel;
     ArrayList<ImageIcon> unprocessedIcons;
     private PostsPanel lolPanel;
     GridBagConstraints g;
@@ -65,11 +57,8 @@ public class StudiesPage extends JFrame {
 
     public StudiesPage() {
         addIcons();
-        lessonsButton.setFont(new Font("Montserrat", Font.BOLD,18));
-        activitiesButton.setSelected(true);
 
 
-        clearButton.setPreferredSize(new Dimension(60,30));
         topicPane.setVisible(false);
         topicNamePanel.setBackground(Color.cyan);
         topicXmark.setIcon(IconCreator.getIconWithSize(IconCreator.deniedIcon,10,10));
@@ -82,14 +71,13 @@ public class StudiesPage extends JFrame {
         setSize(1400, 750);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(panel1);
-        requestButton.setBackground(Color.cyan);
         g.gridx = 0;
         //g.insets = new Insets(0,0,0,0);
         //lessonsPane.add(new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000)), g);
         //textArea1.setMargin(new Insets(10, 10, 10, 10));
 
         setUpListeners();
-        setUpClearableButtons();
+        //setUpClearableButtons();
         setSectionsTab();
 
         setVisible(true);
@@ -145,40 +133,10 @@ public class StudiesPage extends JFrame {
             g2d.drawLine(x, y + height, x + width + 10, y + height);
         }
     }
-    public void setUpClearableButtons(){
-        clearableButtons = new ArrayList<>();
-        for (Component c: postingPanel1.getComponents()) {
 
-            if (c instanceof DayButtons || c instanceof RequestGiveButtons){
-                clearableButtons.add((GeneralButton) c);
-            }
-        }
-        for (Component c: daysPanel.getComponents()) {
-
-            if (c instanceof DayButtons || c instanceof RequestGiveButtons){
-                clearableButtons.add((GeneralButton) c);
-
-
-            }
-        }
-    }
     public void setUpListeners(){
-        clearButton.addActionListener(e -> {
-            for (GeneralButton generalButton : clearableButtons){
-                generalButton.setSelected(false);
-            }
 
-        });
-        lessonsButton.addActionListener(e -> {
-            g.insets = new Insets(10, 0, 0, 0);
-            g.fill = GridBagConstraints.BOTH;
-            g.gridx = 0;
-            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student("","",2,"","","",""), "lol", "l", 1111000,true));
-            addCursor(v);
-            lessonsPane.add(v,g);
-            revalidate();
-            repaint();
-        });
+
         topicsList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
