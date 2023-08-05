@@ -2,6 +2,7 @@ package HomePage;
 
 import Icons.IconCreator;
 import PostComponents.DayButtons;
+import Posts.ActivityPost;
 import Posts.LessonPost;
 import UserRelated.Student;
 
@@ -11,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class LessonPostViewer extends JPanel {
+public class ActivitiesPostViewer extends JPanel {
     private JPanel post;
     private JLabel proName;
     private JLabel proPhoto;
@@ -28,16 +29,16 @@ public class LessonPostViewer extends JPanel {
     private ArrayList<DayButtons> dayButtonsList;
     private static final ImageIcon envelope = IconCreator.getIconWithSize(IconCreator.messageIcon,25,22);
     private static final ImageIcon comment = IconCreator.getIconWithSize(IconCreator.commentIcon,25,22);
-    private LessonPost lesPost;
+    private ActivityPost lesPost;
     private String postSendeName;
     private Student sender;
     private JLabel commentLabel;
     private Color informationBackground;
     private JButton requestButton;
-    public LessonPostViewer(){
+    public ActivitiesPostViewer(){
 
     }
-    public LessonPostViewer(LessonPost p){
+    public ActivitiesPostViewer(ActivityPost p){
         this.lesPost = p;
 
         setUp();
@@ -50,8 +51,8 @@ public class LessonPostViewer extends JPanel {
 
         g.gridy += 1;
         g.gridx =1;
-        addDaysWithBinaryBoolean();
-        setUpDays();
+        //addDaysWithBinaryBoolean();
+        //setUpDays();
     }
     public void setUp(){
         g = new GridBagConstraints();
@@ -78,15 +79,15 @@ public class LessonPostViewer extends JPanel {
         g.fill = GridBagConstraints.HORIZONTAL;
         g.ipady = 0;
         g.insets = new Insets(10,0,10,0);
-        //add(proName,g);
+        add(proName,g);
         g.gridy = 1;
         g.insets = new Insets(0,0,0,0);
         g.fill = GridBagConstraints.BOTH;
         textArea2.setMargin(new Insets(0,0,10,0));
         textArea2.setBackground(getBackground());
         textArea2.setEditable(false);
-        textArea2.setColumns(55);
         textArea2.setFocusable(false);
+        textArea2.setColumns(55);
         textArea2.setLineWrap(true);
         textArea2.setText("p.getPostDescription()");
         add(textArea2,g);
@@ -100,7 +101,7 @@ public class LessonPostViewer extends JPanel {
         topInformationPanel.add(commentLabel);
         topInformationPanel.add(messageLabel);
         // will insert p.getType() here
-        typeLabel = new JLabel( lesPost.getRequestType()? "LESSON REQUEST": "LESSON GIVE");
+        typeLabel = new JLabel( "LESSON REQUEST"+"LESSON GIVE");
         typeLabel.setBackground(informationBackground);
         typeLabel.setOpaque(true);
         addPadding(typeLabel);
@@ -149,42 +150,5 @@ public class LessonPostViewer extends JPanel {
     }
     public static void addPadding(JComponent comp, int top, int left, int bottom, int right) {
         comp.setBorder(new EmptyBorder(top, left, bottom, right));
-    }
-    private void addDaysWithBinaryBoolean(){
-        int binaryboolean = lesPost.getRequestGiveBinaryBoolean();
-
-        dayButtonsList = new ArrayList<>();
-        boolean[] daysAvailable = lesPost.getDaysAvailable();
-        String day = "";
-        for (int i = 0; i < daysAvailable.length; i++) {
-            if (daysAvailable[i]){
-                switch (i){
-                    case 0:
-                        day = "Monday";
-                        break;
-                    case 1:
-                        day = "Tuesday";
-                        break;
-                    case 2:
-                        day = "Wednesday";
-                        break;
-                    case 3:
-                        day = "Thursday";
-                        break;
-                    case 4:
-                        day = "Friday";
-                        break;
-                    case 5:
-                        day = "Saturday";
-                        break;
-                    case 6:
-                        day = "Sunday";
-                        break;
-                }
-                dayButtonsList.add(new DayButtons(day));
-            }
-        }
-
-
     }
 }

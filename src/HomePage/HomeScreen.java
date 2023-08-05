@@ -1,6 +1,7 @@
 package HomePage;
 
 import Icons.IconCreator;
+import Posts.ActivityPost;
 import Posts.LessonPost;
 import UserRelated.Student;
 
@@ -154,8 +155,10 @@ public class HomeScreen extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(currentUser,"a little post des","MAth",11111,true));
+        ActivitiesPostViewer viewer2 = new ActivitiesPostViewer( new ActivityPost(2, currentUser,"a little post des",3,"20/01/2023"));
+        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(1,currentUser,"a little post des","MAth",11111,true));
         insideScrollPanePanel.add(viewer,g);
+        insideScrollPanePanel.add(viewer2,g);
 
     }
     private void addLessonPost(LessonPost post){
