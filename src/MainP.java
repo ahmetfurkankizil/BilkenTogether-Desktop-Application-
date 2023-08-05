@@ -153,7 +153,7 @@ public class MainP extends JFrame {
 
             if (c instanceof DayButtons || c instanceof RequestGiveButtons){
                 clearableButtons.add((GeneralButton) c);
-                System.out.println(c.getClass());
+
 
             }
         }
@@ -169,7 +169,7 @@ public class MainP extends JFrame {
             g.insets = new Insets(10, 0, 0, 0);
             g.fill = GridBagConstraints.BOTH;
             g.gridx = 0;
-            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000));
+            LessonPostViewer v = new LessonPostViewer(new LessonPost(new Student(), "lol", "l", 1111000,true));
             addCursor(v);
             lessonsPane.add(v,g);
             revalidate();
@@ -188,16 +188,7 @@ public class MainP extends JFrame {
                 }
             }
         });
-        postButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (textArea1.getText().length() > 0) {
-                    System.out.println("successfully added!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please Enter A Description!", "No Description", JOptionPane.PLAIN_MESSAGE);
-                }
-            }
-        });
+
 
         topicField.addFocusListener(new FocusAdapter() {
             @Override
@@ -244,5 +235,18 @@ public class MainP extends JFrame {
         comp.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+    public  class PostingButton extends GeneralButton {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            super.actionPerformed(e);
+
+                if (!textArea1.getText().isEmpty()) {
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please Enter A Description!", "No Description", JOptionPane.PLAIN_MESSAGE);
+                }
+
+        }
+    }
 }
 
