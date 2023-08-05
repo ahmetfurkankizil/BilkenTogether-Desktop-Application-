@@ -55,16 +55,19 @@ public class StudiesPostViewer extends JPanel {
     }
     public void setUp(){
         g = new GridBagConstraints();
-        //sender = (Student)lesPost.getSender();
-        setMinimumSize(new Dimension(750,30));
+        sender = (Student)lesPost.getSender();
+        setMinimumSize(new Dimension(300,30));
         setLayout(new GridBagLayout());
         //lesPost.getSender().setName("profile name");
         setBorder(new SectionItemBorder());
         informationBackground = new Color(194, 175, 151);
+        proName = new JLabel();
+        proPhoto = new JLabel();
+        textArea2 = new JTextArea();
 
     }
     public void contentSetUp(){
-        //proName.setText(lesPost.getSender().getName());
+        proName.setText(lesPost.getSender().getName());
         g.gridx = 0;
         g.gridy = 0;
         g.insets = new Insets(10,0,0,10);
@@ -73,7 +76,7 @@ public class StudiesPostViewer extends JPanel {
         g.fill = GridBagConstraints.HORIZONTAL;
         g.ipady = 0;
         g.insets = new Insets(10,0,10,0);
-        add(proName,g);
+        //add(proName,g);
         g.gridy = 1;
         g.insets = new Insets(0,0,0,0);
         g.fill = GridBagConstraints.BOTH;
