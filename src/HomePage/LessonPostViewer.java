@@ -86,6 +86,7 @@ public class LessonPostViewer extends JPanel {
         textArea2.setBackground(getBackground());
         textArea2.setEditable(false);
         textArea2.setColumns(55);
+        textArea2.setFocusable(false);
         textArea2.setLineWrap(true);
         textArea2.setText("p.getPostDescription()");
         add(textArea2,g);

@@ -13,10 +13,11 @@ public abstract class Post {
     private String postDescription;
     private ArrayList<Comment> commentCollection;
 
-    public Post(User sender, String description) {
+    public Post(int postID, User sender, String description) {
         /*
          * Post Id Oluşturma Nasıl Olacak? Database ile uyumlu olması gerekiyor.
          */
+        this.postID = postID;
         this.sender = sender;
         this.postDescription = description;
     }
@@ -45,7 +46,7 @@ public abstract class Post {
         return commentCollection;
     }
 
-    protected User getSender() {
+    public User getSender() {
         return sender;
     }
 }
