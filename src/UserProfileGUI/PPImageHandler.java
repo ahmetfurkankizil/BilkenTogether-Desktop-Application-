@@ -1,18 +1,20 @@
-package HomePage;
+package UserProfileGUI;
 
 import Icons.IconCreator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class PPImageHandler extends JLabel {
     private Icon image;
+    public static final File f = new File("src/UserProfileGUI/profile-phot.png");
+
     public PPImageHandler(){
         super();
-        setIcon(IconCreator.getIconWithSize(new ImageIcon("/Users/erdempulat/Desktop/Project & Pain/MainGUI/src/profile-phot.png"),60,60));
+        setIcon(IconCreator.getIconWithSize(new ImageIcon(f.getAbsolutePath()),60,60));
         image = getIcon();
-
     }
     @Override
     public void paint(Graphics g) {

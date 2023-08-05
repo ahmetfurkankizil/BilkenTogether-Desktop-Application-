@@ -9,6 +9,7 @@ public class LessonPost extends RequestablePost {
         super(postID,sender, description, typeFilter);
         this.requestType = requestType;
         setRequestGiveBinaryBoolean(requestGiveBinaryBoolean);
+        System.out.println();
     }
 
     public int getRequestGiveBinaryBoolean() {

@@ -20,8 +20,8 @@ public abstract class Post {
         this.postID = postID;
         this.sender = sender;
         this.postDescription = description;
+        System.out.println();
     }
-
     public int getPostID() {
         return postID;
     }

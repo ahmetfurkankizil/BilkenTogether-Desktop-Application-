@@ -17,6 +17,7 @@ public abstract class RequestablePost extends Post {
         requestCollection = new ArrayList<Student>();
         deniedCollection = new ArrayList<Student>();
         agreementCollection = new ArrayList<Student>();
+        System.out.println();
     }
 
     public String getTypeFilter() {

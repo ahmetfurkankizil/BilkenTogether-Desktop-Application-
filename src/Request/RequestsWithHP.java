@@ -1,15 +1,11 @@
 package Request;
 
-import HomePage.StudiesPostViewer;
 import Icons.IconCreator;
-import Posts.LessonPost;
 import UserRelated.Student;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class RequestsWithHP extends JFrame {

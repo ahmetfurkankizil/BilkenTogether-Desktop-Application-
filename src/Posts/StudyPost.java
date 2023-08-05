@@ -17,8 +17,9 @@ public class StudyPost extends Post {
         super(postId, sender, description);
         this.author = author;
         this.studyPostHeading = heading;
-        this.topicCollection = new String[5];
+        this.topicCollection = topicCollection;
         this.studyFile = studyFile;
+        System.out.println();
     }
 
     public File getStudyFile() {
@@ -68,6 +69,7 @@ public class StudyPost extends Post {
     }
     return null;
   }
+
 
     public String[] getTopicCollection() {
         return this.topicCollection;

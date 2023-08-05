@@ -162,14 +162,14 @@ public class HomeScreenStudiesWithQuickFilters extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer( new LessonPost(currentUser,"a little post des","MAth",0000101,true));
-        insideScrollPanePanel.add(viewer,g);
+        //StudiesPostViewer viewer = new StudiesPostViewer( new LessonPost(currentUser,"a little post des","MAth",0000101,true));
+        //insideScrollPanePanel.add(viewer,g);
 
     }
     private void addLessonPost(LessonPost post){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer(post);
-        insideScrollPanePanel.add(viewer,g);
+        //StudiesPostViewer viewer = new StudiesPostViewer(post);
+        //insideScrollPanePanel.add(viewer,g);
 
     }
     private class SectionItemBorder implements Border {
