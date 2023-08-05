@@ -11,19 +11,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../jaf-1.0.2" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../jaf-1.0.2/demo" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../jaf-1.0.2" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../javax.mail.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/javax.mail.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -32,22 +20,25 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32" />
+          <root url="file://$MODULE_DIR$/../../lib/jaf-1.0.2" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/build/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/demo/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/generated/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/legacy/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/main/core-api/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/main/core-impl/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/main/protocol-impl/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/main/user-api/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/main/user-impl/java" />
-          <root url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32/src/test/java" />
+          <root url="file://$MODULE_DIR$/../../lib/jaf-1.0.2/demo" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/build/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/demo/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/generated/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/legacy/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/main/core-api/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/main/core-impl/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/main/protocol-impl/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/main/user-api/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/main/user-impl/java" />
+          <root url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32/src/test/java" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../mysql-connector-j-8.0.32" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../lib/jaf-1.0.2" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../lib/mysql-connector-j-8.0.32" recursive="false" />
       </library>
     </orderEntry>
   </component>

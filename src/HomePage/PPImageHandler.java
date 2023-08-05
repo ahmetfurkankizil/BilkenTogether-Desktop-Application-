@@ -1,3 +1,5 @@
+package HomePage;
+
 import Icons.IconCreator;
 
 import javax.swing.*;
