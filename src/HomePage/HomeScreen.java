@@ -22,16 +22,17 @@ public class HomeScreen extends JFrame {
     private JPanel rightPanel;
     private JPanel middlePanel;
     private ArrayList<JButton> sectionButtons;
-    private ArrayList<JLabel>  leftPanelLabels;
+    private ArrayList<JLabel> leftPanelLabels;
 
-    public HomeScreen(){
+    public HomeScreen() {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000,800);
+        setSize(1000, 800);
 
         setVisible(true);
     }
-    public void generalSetup(){
+
+    public void generalSetup() {
         sectionButtons = new ArrayList<>();
         leftPanelLabels = new ArrayList<>();
         sectionButtons.add(lessonsButton);
@@ -44,8 +45,8 @@ public class HomeScreen extends JFrame {
         leftPanelLabels.add(profileLabel);
         leftPanelLabels.add(requestsLabel);
 
-        for (JButton j:
-             sectionButtons) {
+        for (JButton j :
+                sectionButtons) {
             j.setFocusable(false);
             j.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
