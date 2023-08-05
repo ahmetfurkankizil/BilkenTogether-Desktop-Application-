@@ -2,21 +2,18 @@ package HomePage;
 
 import Icons.IconCreator;
 import Posts.LessonPost;
-import Posts.Post;
 import UserRelated.Student;
-import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class HomeScreen extends JFrame {
     private JPanel mainPanel;
+    private static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon,30,30);
     private Student currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -143,13 +140,13 @@ public class HomeScreen extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer( new LessonPost(currentUser,"a little post des","MAth",0000101,true));
+        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(currentUser,"a little post des","MAth",11111,true));
         insideScrollPanePanel.add(viewer,g);
 
     }
     private void addLessonPost(LessonPost post){
         g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer(post);
+        LessonPostViewer viewer = new LessonPostViewer(post);
         insideScrollPanePanel.add(viewer,g);
 
     }
