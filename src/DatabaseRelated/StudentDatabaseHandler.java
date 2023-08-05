@@ -1,4 +1,4 @@
-package Authorization;
+package DatabaseRelated;
 
 public interface StudentDatabaseHandler {
 

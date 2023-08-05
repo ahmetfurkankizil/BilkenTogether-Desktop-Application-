@@ -1,6 +1,7 @@
 package SignupAndLogin;
 
 import DatabaseRelated.*;
+import UserRelated.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
