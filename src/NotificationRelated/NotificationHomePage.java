@@ -1,8 +1,9 @@
-package NotificationRelated;
+package NotificationRelated ;
 
 import HomePage.HomeScreen;
 import HomePage.*;
 import Icons.IconCreator;
+import MessagesRelated.Notification;
 import Posts.LessonPost;
 import UserRelated.Student;
 
@@ -49,36 +50,37 @@ public class NotificationHomePage extends JFrame {
     private JPanel messagesLabelPanel;
     private JPanel notificationsLabelPanel;
     private JPanel profileLabelPanel;
+
+    private Notification notification;
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
-    private JPanel MainPanel;
     private JPanel addablePanel;
     private JPanel TopLabel;
     private JLabel TopTopLabel;
-    private JPanel MidPanel;
-    private JPanel MidTopPanel;
-    private JPanel MidBottomPanel;
-    private JLabel MidBottomLabel;
-    private JPanel BottomPanel;
-    private JPanel BottomTopPanel;
-    private JPanel BottomBottomPanel;
-    private JLabel BottomBottomLabel;
-    private JLabel MidTopLabel;
-    private JLabel BottomTopLabel;
     private ArrayList<JButton> sectionButtons;
+    private GridBagConstraints gridBagConstraints;
     private ArrayList<JLabel> leftPanelLabels;
 
-    public NotificationHomePage() {
+    public NotificationHomePage()
+    {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
-        currentUser = new Student("Erdem","erdem.p",1,"l","d","p","b");
-        generalSetup();
+        currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
+        notification = new Notification(currentUser, currentUser, 1);
+        notification.setContent("Sample notification content");
+
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification));
 
 
+
+        //generalSetup();
 
         setVisible(true);
     }
+
+
+
 
     public void generalSetup() {
         g = new GridBagConstraints();
@@ -159,10 +161,13 @@ public class NotificationHomePage extends JFrame {
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height)
+        {
+
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.gray);
             g2d.drawLine(x,y+height,x+width+10,y+height);
+
         }
     }
 }

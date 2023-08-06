@@ -1,6 +1,9 @@
 package NotificationRelated;
 import MessagesRelated.Notification;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.sql.rowset.WebRowSet;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -16,6 +19,7 @@ public class GeneralNotificationPanel extends JPanel
     private static final Font myFont = new Font("Arial",Font.BOLD,14);
     private static final Color myColor = new Color(190, 255, 220); // açık renk
     private static final Color myColorTwo = new Color(145, 241, 233); // koyu renk
+    private static final Color myColorRead = new Color(158, 154, 143);
     private static final Color myBorderColor = new Color(81, 82, 84); //frame rengi
     private JPanel innerPanel2;
     private JTextArea label1;
@@ -34,18 +38,34 @@ public class GeneralNotificationPanel extends JPanel
         this.notification = notification;
         setLayout(new GridBagLayout());
         createComponents();
+        addMouseListener(new NotificationMouseListener());
     }
     private void createComponents()
     {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
-        assignNotificationReadConditions();
+        boolean isRead = notification.getReadCondition();
+        String senderName = notification.getSender().getName();
+        String receiverName = notification.getReceiver().getName();
+        String notificationContent = notification.getContent();
 
         innerPanel1 = new JPanel();
-        innerPanel1.setBackground(myColor);
-        innerPanel1.setLayout(new GridBagLayout());
+        if (!isRead)
+        {
+            innerPanel1.add(new CircleNotificationIcon(8));
 
+
+        }
+        else
+        {
+            innerPanel1.setBackground(myColorRead);
+        }
+        assignNotificationReadConditions();
+
+
+        innerPanel1.setLayout(new GridBagLayout());
+        innerPanel1.setBackground(myColor);
         innerPanel2 = new JPanel();
         innerPanel2.setBackground(myColorTwo);
         innerPanel2.setLayout(new GridBagLayout());
@@ -62,7 +82,7 @@ public class GeneralNotificationPanel extends JPanel
 
         innerPanel1.add(label1);
         innerPanel2.add(label2);
-        innerPanel1.add(new CircleNotificationIcon(8));
+
 
         setBorder(new LineBorder(myBorderColor,1));
         setBackground(myColor);
@@ -75,7 +95,10 @@ public class GeneralNotificationPanel extends JPanel
         add(innerPanel2,gridBagConstraints);
     }
 
-    private void assignNotificationReadConditions() {
+    private void assignNotificationReadConditions()
+    {
+        boolean isRead = notification.getReadCondition();
+        notification.setReadCondition(!isRead);
     }
 
     private void disableTextAreas() {
@@ -110,4 +133,22 @@ public class GeneralNotificationPanel extends JPanel
             g.fillOval(0,0,perimeter,perimeter);
         }
     }
+    private class NotificationMouseListener extends MouseAdapter
+    {
+        public void mouseClicked(MouseEvent e)
+        {
+
+            System.out.println(notification.getReadCondition());
+            if (notification.getReadCondition())
+            {
+                notification.setReadCondition(true);
+                setBackground(myColorRead);
+                innerPanel1.add(label1);
+                innerPanel1.revalidate();
+                innerPanel1.repaint();
+            }
+
+        }
+    }
+
 }
