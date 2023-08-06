@@ -16,6 +16,12 @@ public class PPImageHandler extends JLabel {
         setIcon(IconCreator.getIconWithSize(new ImageIcon(f.getAbsolutePath()),60,60));
         image = getIcon();
     }
+    public PPImageHandler(ImageIcon i){
+        super();
+        setIcon(IconCreator.getIconWithSize(i,60,60));
+        image = getIcon();
+    }
+
     @Override
     public void paint(Graphics g) {
         if (image != null) {
