@@ -79,7 +79,6 @@ public class GeneralNotificationPanel extends JPanel
         label2 = new JTextArea("Did you know that the world is turning around really fast. Is there a way we couldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcould...");
         disableTextAreas();
 
-
         innerPanel1.add(label1);
         innerPanel2.add(label2);
 

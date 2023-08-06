@@ -1,4 +1,4 @@
-package HomePage;
+package HomePage.LessonsPage;
 
 import Icons.IconCreator;
 import UserProfileGUI.PPImageHandler;

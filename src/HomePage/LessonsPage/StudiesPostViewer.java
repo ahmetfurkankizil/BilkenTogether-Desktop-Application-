@@ -1,4 +1,4 @@
-package HomePage;
+package HomePage.LessonsPage;
 
 import Icons.IconCreator;
 import Posts.StudyPost;
@@ -6,8 +6,6 @@ import UserProfileGUI.PPImageHandler;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class StudiesPostViewer extends PostViewer {

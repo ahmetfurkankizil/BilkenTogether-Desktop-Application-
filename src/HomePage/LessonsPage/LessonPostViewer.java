@@ -1,4 +1,4 @@
-package HomePage;
+package HomePage.LessonsPage;
 
 import PostComponents.DayButtons;
 import Posts.LessonPost;

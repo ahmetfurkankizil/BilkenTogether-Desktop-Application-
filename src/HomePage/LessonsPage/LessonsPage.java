@@ -1,5 +1,8 @@
-package HomePage;
+package HomePage.LessonsPage;
 
+import HomePage.ActivityPage.ActivitiesPage;
+import HomePage.StudiesPage.Main;
+import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
 import Posts.ActivityPost;
 import Posts.LessonPost;
@@ -13,11 +16,15 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HomeScreen extends JFrame {
+public class LessonsPage extends JFrame {
+    private StudiesPage studies;
+    private ActivitiesPage activities;
     private JPanel mainPanel;
+    private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
     private JButton lessonsButton;
@@ -67,6 +74,24 @@ public class HomeScreen extends JFrame {
     private JLabel logoLabel;
     private JButton clearButton;
     private JLabel errorLabel;
+    private JPanel lessonsQFpanel;
+    private JLabel quickFiltersLabel;
+    private JButton givenButton;
+    private JButton requestedButton;
+    private JLabel courseLabel;
+    private JComboBox courseComboBox;
+    private JComboBox artAndSportComboBox;
+    private JPanel daysButtonPanel;
+    private JButton filtersSubmitButton;
+    private JButton mondayFilterButton;
+    private JButton TuesdayFilterButton;
+    private JButton WednesdayFilterButton;
+    private JButton thursdayFilterButton;
+    private JButton fridayFilterButton;
+    private JButton saturdayFilterButton;
+    private JButton sundayFilterButton;
+    private JPanel quickFiltersPanel;
+    private JPanel removableRight;
     private JRadioButton radioButton1;
     private JRadioButton radioButton2;
     private JRadioButton radioButton3;
@@ -92,7 +117,16 @@ public class HomeScreen extends JFrame {
     private ArrayList<JButton> postingComponentButtons;
     private ArrayList<JButton> dayButtons;
 
-    public HomeScreen() {
+    public JPanel getInsideScrollPanePanel() {
+        return insideScrollPanePanel;
+    }
+
+    public JPanel getQuickFiltersPanel() {
+        return quickFiltersPanel;
+    }
+
+    public LessonsPage() {
+        setUpPages();
 
         postButton.addActionListener(new LesssonPostPostingListener());
         setContentPane(mainPanel);
@@ -100,9 +134,82 @@ public class HomeScreen extends JFrame {
         setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
+        //setVisible(true);
+        filterBoxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton but = (JButton) e.getSource();
+                but.setSelected(!but.isSelected());
+            }
+        };
+        mondayFilterButton.addActionListener(listener);
+        TuesdayFilterButton.addActionListener(listener);
+        WednesdayFilterButton.addActionListener(listener);
+        fridayFilterButton.addActionListener(listener);
+        thursdayFilterButton.addActionListener(listener);
+        saturdayFilterButton.addActionListener(listener);
+        sundayFilterButton.addActionListener(listener);
+        ActionListener listener1 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton) e.getSource();
+                if (requestGiveButtonCheckFilter()) {
+                    b.setSelected(true);
+                } else if (b.isSelected()) {
+                    b.setSelected(false);
+                }
+            }
+        };
+        givenButton.addActionListener(listener1);
+        requestedButton.addActionListener(listener1);
 
-        setVisible(true);
+        filterBoxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (lessonsQFpanel.isVisible())
+                    lessonsQFpanel.setVisible(false);
+                else
+                    lessonsQFpanel.setVisible(true);
+            }
+        });
+
+        studiesButton.addComponentListener(new ComponentAdapter() {
+        });
+        studiesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(studies.getContentPane());
+            }
+        });
+        activitiesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                insideScrollPanePanel.removeAll();
+                insideScrollPanePanel.add(activities.getInsideScrollPanePanel());
+                removableRight.remove(quickFiltersPanel);
+                removableRight.add(activities.getActivitiesQFpanel());
+
+                repaint();
+                revalidate();
+
+            }
+        });
+    }
+
+    private void setUpPages() {
+        activities = new ActivitiesPage();
+        studies = new StudiesPage();
+        activities.setStudiesPage(studies);
+        studies.setLessonsPage(this);
+        activities.setLessonsPage(this);
+        studies.setActivitiesPage(activities);
+
     }
 
     public void setCurrentUser(User user) {
@@ -150,20 +257,28 @@ public class HomeScreen extends JFrame {
         leftPanelLabels.add(requestsLabel);
         leftPanelLabels.add(logOutLabel);
 
-        postLessonButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        requestLessonButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        postLessonButton.setCursor(handCursor);
+        requestLessonButton.setCursor(handCursor);
+
+        filterBoxButton.setCursor(handCursor);
+        filtersSubmitButton.setCursor(handCursor);
+        mondayFilterButton.setCursor(handCursor);
+        saturdayFilterButton.setCursor(handCursor);
+        sundayFilterButton.setCursor(handCursor);
+        sundayFilterButton.setFocusable(false);
 
 
         setUpDaysButtons();
         for (JButton j :
                 sectionButtons) {
             j.setFocusable(false);
-            j.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            j.setCursor(handCursor);
         }
         for (JLabel label :
                 leftPanelLabels) {
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            label.setCursor(handCursor);
         }
+
     }
 
     private void setUpDaysButtons() {
@@ -192,14 +307,14 @@ public class HomeScreen extends JFrame {
                 JButton tempButton = (JButton) c;
                 dayButtons.add(tempButton);
                 tempButton.setFocusable(false);
-                tempButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                tempButton.setCursor(handCursor);
                 tempButton.addActionListener(dayButtonListener);
             }
         }
         clearButton.setFocusable(false);
         clearButton.addActionListener(resetButtonListener);
-        clearButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        postButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        clearButton.setCursor(handCursor);
+        postButton.setCursor(handCursor);
         postButton.setFocusable(false);
 
     }
@@ -232,11 +347,19 @@ public class HomeScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        HomeScreen homeScreen = new HomeScreen();
+        LessonsPage lessonsPage = new LessonsPage();
     }
 
     public boolean requestGiveButtonCheck() {
         return !(postLessonButton.isSelected()) && !requestLessonButton.isSelected();
+    }
+
+    public boolean requestGiveButtonCheckFilter() {
+        return !(givenButton.isSelected()) && !requestedButton.isSelected();
+    }
+    private Main main;
+    public void setMain(Main main) {
+        this.main =main;
     }
 
 
@@ -244,7 +367,6 @@ public class HomeScreen extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton b = (JButton) e.getSource();
-            System.out.println(requestGiveButtonCheck());
             if (requestGiveButtonCheck()) {
                 b.setSelected(true);
             } else if (b.isSelected()) {
@@ -257,11 +379,11 @@ public class HomeScreen extends JFrame {
         g.gridx = 0;
 
         ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert", "25/09/2003"));
-        String[] topicColl = {"Algebra","Complex Analysis"};
+        String[] topicColl = {"Algebra", "Complex Analysis"};
         LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true, "25/09/2003"));
         //insideScrollPanePanel.add(viewer, g);
-        currentUser.addToStudiesTable(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("K",10) +"NG DESCRIPTION", null,"23:05", topicColl));
-        currentUser.addToStudiesTable(new StudyPost(3, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("FOR",10) +"NG DESCRIPTION", null,"23:05", topicColl));
+        currentUser.addToStudiesTable(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" + makeItLong("K", 10) + "NG DESCRIPTION", null, "23:05", topicColl));
+        currentUser.addToStudiesTable(new StudyPost(3, (Student) currentUser, "Author", "Very Important Header", " Very L" + makeItLong("FOR", 10) + "NG DESCRIPTION", null, "23:05", topicColl));
         ((Student) currentUser).addToLessonsTable(new LessonPost(4, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
         ((Student) currentUser).addToLessonsTable(new LessonPost(5, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
         ((Student) currentUser).addToLessonsTable(new LessonPost(6, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
@@ -273,19 +395,19 @@ public class HomeScreen extends JFrame {
         LessonPost tempPost4 = ((Student) currentUser).pullLessonPostFromDB(22203112, 6);
         LessonPost tempPost5 = ((Student) currentUser).pullLessonPostFromDB(22203112, 7);
         //insideScrollPanePanel.add(viewer2, g);
-        StudiesPostViewer viewer3 = new StudiesPostViewer(tempPost );
-        StudiesPostViewer viewer4 = new StudiesPostViewer(tempPost1 );
+        StudiesPostViewer viewer3 = new StudiesPostViewer(tempPost);
+        StudiesPostViewer viewer4 = new StudiesPostViewer(tempPost1);
         LessonPostViewer viewer5 = new LessonPostViewer(tempPost2);
-        LessonPostViewer viewer6 = new LessonPostViewer(tempPost3 );
-        LessonPostViewer viewer7 = new LessonPostViewer(tempPost4 );
-        LessonPostViewer viewer8 = new LessonPostViewer(tempPost5 );
+        LessonPostViewer viewer6 = new LessonPostViewer(tempPost3);
+        LessonPostViewer viewer7 = new LessonPostViewer(tempPost4);
+        LessonPostViewer viewer8 = new LessonPostViewer(tempPost5);
 
-        insideScrollPanePanel.add(viewer3,g);
-        insideScrollPanePanel.add(viewer4,g);
-        insideScrollPanePanel.add(viewer5,g);
-        insideScrollPanePanel.add(viewer6,g);
-        insideScrollPanePanel.add(viewer7,g);
-        insideScrollPanePanel.add(viewer8,g);
+        insideScrollPanePanel.add(viewer3, g);
+        insideScrollPanePanel.add(viewer4, g);
+        insideScrollPanePanel.add(viewer5, g);
+        insideScrollPanePanel.add(viewer6, g);
+        insideScrollPanePanel.add(viewer7, g);
+        insideScrollPanePanel.add(viewer8, g);
 
     }
 
@@ -323,26 +445,28 @@ public class HomeScreen extends JFrame {
         }
     }
 
-    public  class LesssonPostPostingListener implements ActionListener {
+    public class LesssonPostPostingListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (checkIfValid()){
+            if (checkIfValid()) {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
-                LessonPost tempPost = new LessonPost(postId,currentUser,textArea1.getText(),(String)courseTypeComboBox.getSelectedItem(),getSelectedDaysBinary(),!postLessonButton.isSelected(),new Date().toString());
+                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
                 addLessonPost(tempPost);
-
-                System.out.println("printed this many times");
                 repaint();
                 revalidate();
+                main.repaint();
+                main.revalidate();
             }
         }
-        private boolean checkIfValid(){
-            if (textArea1.getText().isEmpty()){
+
+        private boolean checkIfValid() {
+            if (textArea1.getText().isEmpty()) {
                 errorLabel.setText("Please Enter A Description!");
                 return false;
-            }if (!checkPostButtons()) {
+            }
+            if (!checkPostButtons()) {
                 errorLabel.setText("Please Select A Post Type!");
                 return false;
             }
@@ -350,7 +474,7 @@ public class HomeScreen extends JFrame {
                 errorLabel.setText("Please Select At Least One Day!");
                 return false;
             }
-            if (courseTypeComboBox.getSelectedItem() == null || courseTypeComboBox.getSelectedItem().equals("Select:")){
+            if (courseTypeComboBox.getSelectedItem() == null || courseTypeComboBox.getSelectedItem().equals("Select:")) {
                 errorLabel.setText("Please Select A Course Type!");
                 return false;
 
@@ -359,12 +483,14 @@ public class HomeScreen extends JFrame {
             errorLabel.setText(" ");
             return true;
         }
-        public boolean checkPostButtons(){
+
+        public boolean checkPostButtons() {
             return postLessonButton.isSelected() || requestLessonButton.isSelected();
         }
 
     }
-    private int getSelectedDaysBinary(){
+
+    private int getSelectedDaysBinary() {
         int returned = 0;
         if (mondayButton.isSelected())
             returned += 1000000;
@@ -381,6 +507,6 @@ public class HomeScreen extends JFrame {
         if (sundayButton.isSelected())
             returned += 1;
         System.out.println(returned);
-        return  returned;
+        return returned;
     }
 }

@@ -1,4 +1,4 @@
-package HomePage;
+package HomePage.LessonsPage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

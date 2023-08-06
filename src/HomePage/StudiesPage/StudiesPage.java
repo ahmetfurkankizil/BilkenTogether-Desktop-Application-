@@ -1,5 +1,7 @@
-package StudiesPage;
+package HomePage.StudiesPage;
 
+import HomePage.ActivityPage.ActivitiesPage;
+import HomePage.LessonsPage.LessonsPage;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -9,8 +11,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StudiesPostPage extends JFrame{
+public class StudiesPage extends JFrame{
     private JPanel mainPanel;
+    private JFrame activities;
+
+    public void setActivitiesPage(ActivitiesPage activities) {
+        this.activities = activities;
+    }
+
+    public void setLessonsPage(LessonsPage lessons) {
+        this.lessons = lessons;
+    }
+
+    private JFrame lessons;
     private JPanel secondMainPanel;
     private JPanel leftPanel;
     private JLabel logoLabel;
@@ -49,9 +62,12 @@ public class StudiesPostPage extends JFrame{
     private JButton instructorButton;
     private JButton studentButton;
     private JButton submitButton;
+    private JPanel nonRemovableRightPanel;
+    private JPanel qfPanel;
+    private JPanel insideScrollPanel;
     private GridBagConstraints g;
     private User currentUser;
-    public StudiesPostPage() {
+    public StudiesPage() {
 
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,7 +76,7 @@ public class StudiesPostPage extends JFrame{
         generalSetup();
 
 
-        setVisible(true);
+        //setVisible(true);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +91,21 @@ public class StudiesPostPage extends JFrame{
 
             }
         });
+        lessonsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(lessons.getContentPane());
+            }
+        });
+        activitiesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(activities.getContentPane());
+
+            }
+
+        });
+
     }
 
     public void setCurrentUser(User user) {
@@ -93,6 +124,17 @@ public class StudiesPostPage extends JFrame{
     }
 
     public static void main(String[] args) {
-        StudiesPostPage page = new StudiesPostPage();
+        StudiesPage page = new StudiesPage();
+    }
+
+    public JPanel getInsideScrollPanePanel() {
+        return insideScrollPanel;
+    }
+    public JPanel getQfPanel(){
+        return qfPanel;
+    }
+    private Main main;
+    public void setMain(Main main) {
+        this.main = main;
     }
 }

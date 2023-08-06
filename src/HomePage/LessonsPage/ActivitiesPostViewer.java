@@ -1,14 +1,11 @@
-package HomePage;
+package HomePage.LessonsPage;
 
-import Icons.IconCreator;
 import PostComponents.DayButtons;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 

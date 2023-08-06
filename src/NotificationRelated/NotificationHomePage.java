@@ -1,10 +1,8 @@
 package NotificationRelated ;
 
-import HomePage.HomeScreen;
-import HomePage.*;
+import HomePage.LessonsPage.LessonsPage;
 import Icons.IconCreator;
 import MessagesRelated.Notification;
-import Posts.LessonPost;
 import UserRelated.Student;
 
 import javax.swing.*;
@@ -86,7 +84,7 @@ public class NotificationHomePage extends JFrame {
         g = new GridBagConstraints();
         sectionButtons = new ArrayList<>();
         leftPanelLabels = new ArrayList<>();
-        TopTopLabel.setIcon(HomeScreen.back);
+        TopTopLabel.setIcon(LessonsPage.back);
 
         leftPanelLabels.add(homeLabel);
         leftPanelLabels.add(notificationsLabel);
