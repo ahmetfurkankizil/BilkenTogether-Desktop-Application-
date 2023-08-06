@@ -202,7 +202,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean removeFromLessonsTable(int lessonPostId) {
         String tableName = "" + getId() + "LessonsTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
@@ -251,7 +250,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean addToActivitiesTable(ActivityPost activityPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -266,7 +264,8 @@ public class Student extends User implements StudentDatabaseHandler{
                     preparedStatement.setString(3, activityPost.getPostDescription());
                     preparedStatement.setInt(4, activityPost.getNumberOfAttendants());
                     preparedStatement.setString(5, activityPost.getDateOfPost());
-                    preparedStatement.setString(6, activityPost.getActivityDate());
+                    preparedStatement.setString(6, activityPost.getTypeFilter());
+                    preparedStatement.setString(7, activityPost.getActivityDate());
 
                     int rowsAffected = preparedStatement.executeUpdate();
                     System.out.println("Activity is inserted successfully.");
@@ -282,7 +281,6 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
     public boolean removeFromActivitiesTable(int userId, int activitiesPostId) {
         String tableName = "" + getId() + "ActivitiesTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
