@@ -39,6 +39,14 @@ public abstract class User implements DatabaseHandler {
         setDateOfBirth(dateOfBirth);
     }
 
+    public void addStudyPost(StudyPost studyPost) {
+        studyPostCollection.add(studyPost);
+    }
+
+    public int generateStudyPostId() {
+        return studyPostCollection.size() +1;
+    }
+
     // Getters and Setters
     public int getId() {
         return id;

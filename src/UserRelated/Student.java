@@ -19,6 +19,22 @@ public class Student extends User implements StudentDatabaseHandler{
         this.activityPostCollection = new ArrayList<>();
     }
 
+    public void addLessonPost(LessonPost lessonPost) {
+        lessonPostCollection.add(lessonPost);
+    }
+
+    public int generateLessonPostId() {
+        return lessonPostCollection.size() + 1;
+    }
+
+    public void addActivityPost(ActivityPost activityPost) {
+        activityPostCollection.add(activityPost);
+    }
+
+    public int generateActivityPostId() {
+        return activityPostCollection.size() + 1;
+    }
+
     // Student Methods
     public void addRating(int rating) {
         ratingCollection.add(rating);
@@ -170,7 +186,7 @@ public class Student extends User implements StudentDatabaseHandler{
                 String postDate = resultSetOfUser.getString("dateOfPost");
 
 
-                User u = new Student(senderName,null,0,null,null,null,null);
+                Student u = new Student(senderName,null,0,null,null,null,null);
                 lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
             } else {
                 System.out.println("sent null");

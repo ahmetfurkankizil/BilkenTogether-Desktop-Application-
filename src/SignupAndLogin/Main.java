@@ -1,5 +1,8 @@
 package SignupAndLogin;
 
+import SignupAndLogin.LoginFrame;
+import SignupAndLogin.SignUpHandler;
+
 import javax.swing.*;
 
 public class Main {

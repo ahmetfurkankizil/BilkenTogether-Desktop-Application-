@@ -4,12 +4,12 @@ public class LessonPost extends RequestablePost {
     private int dateBinaryBoolean;
     private boolean requestType;
 
-    public LessonPost(int postID ,User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
+    public LessonPost(int postID , User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
 
         super(postID,sender, description, typeFilter, dateOfPost);
         this.requestType = requestType;
         setDateBinaryBoolean(dateBinaryBoolean);
-        System.out.println();
+        ((Student) sender).addLessonPost(this);
     }
 
     public int getDateBinaryBoolean() {
