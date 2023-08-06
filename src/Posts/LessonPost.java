@@ -1,24 +1,24 @@
 package Posts;
 import UserRelated.*;
 public class LessonPost extends RequestablePost {
-    private int requestGiveBinaryBoolean;
+    private int dateBinaryBoolean;
     private boolean requestType;
 
-    public LessonPost(int postID ,User sender, String description, String typeFilter, int requestGiveBinaryBoolean, boolean requestType, String dateOfPost) {
+    public LessonPost(int postID ,User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
 
         super(postID,sender, description, typeFilter, dateOfPost);
         this.requestType = requestType;
-        setRequestGiveBinaryBoolean(requestGiveBinaryBoolean);
+        setDateBinaryBoolean(dateBinaryBoolean);
         System.out.println();
     }
 
-    public int getRequestGiveBinaryBoolean() {
-        return requestGiveBinaryBoolean;
+    public int getDateBinaryBoolean() {
+        return dateBinaryBoolean;
     }
 
-    public void setRequestGiveBinaryBoolean(int requestGiveBinaryBoolean) {
-        if (requestGiveBinaryBoolean > 0 && requestGiveBinaryBoolean < 10000000 && isBinary(requestGiveBinaryBoolean)) {
-            this.requestGiveBinaryBoolean = requestGiveBinaryBoolean;
+    public void setDateBinaryBoolean(int dateBinaryBoolean) {
+        if (dateBinaryBoolean > 0 && dateBinaryBoolean < 10000000 && isBinary(dateBinaryBoolean)) {
+            this.dateBinaryBoolean = dateBinaryBoolean;
         }
     }
 
@@ -34,7 +34,7 @@ public class LessonPost extends RequestablePost {
 
     public boolean[] getDaysAvailable() {
         boolean[] returned = new boolean[7];
-        String stringV = booleanBinaryToString(requestGiveBinaryBoolean);
+        String stringV = booleanBinaryToString(dateBinaryBoolean);
         for (int i = 0; i < 7; i++) {
             returned[i] = Integer.parseInt(stringV.charAt(i) + "") == 1 ? true : false;
         }
