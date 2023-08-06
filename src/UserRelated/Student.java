@@ -19,6 +19,22 @@ public class Student extends User implements StudentDatabaseHandler{
         this.activityPostCollection = new ArrayList<>();
     }
 
+    public void addLessonPost(LessonPost lessonPost) {
+        lessonPostCollection.add(lessonPost);
+    }
+
+    public int generateLessonPostId() {
+        return lessonPostCollection.size() + 1;
+    }
+
+    public void addActivityPost(ActivityPost activityPost) {
+        activityPostCollection.add(activityPost);
+    }
+
+    public int generateActivityPostId() {
+        return activityPostCollection.size() + 1;
+    }
+
     // Student Methods
     public void addRating(int rating) {
         ratingCollection.add(rating);
@@ -170,7 +186,7 @@ public class Student extends User implements StudentDatabaseHandler{
                 String postDate = resultSetOfUser.getString("dateOfPost");
 
 
-                User u = new Student(senderName,null,0,null,null,null,null);
+                Student u = new Student(senderName,null,0,null,null,null,null);
                 lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
             } else {
                 System.out.println("sent null");
@@ -186,7 +202,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean removeFromLessonsTable(int lessonPostId) {
         String tableName = "" + getId() + "LessonsTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
@@ -235,7 +250,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean addToActivitiesTable(ActivityPost activityPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -250,7 +264,8 @@ public class Student extends User implements StudentDatabaseHandler{
                     preparedStatement.setString(3, activityPost.getPostDescription());
                     preparedStatement.setInt(4, activityPost.getNumberOfAttendants());
                     preparedStatement.setString(5, activityPost.getDateOfPost());
-                    preparedStatement.setString(6, activityPost.getActivityDate());
+                    preparedStatement.setString(6, activityPost.getTypeFilter());
+                    preparedStatement.setString(7, activityPost.getActivityDate());
 
                     int rowsAffected = preparedStatement.executeUpdate();
                     System.out.println("Activity is inserted successfully.");
@@ -266,7 +281,6 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
     public boolean removeFromActivitiesTable(int userId, int activitiesPostId) {
         String tableName = "" + getId() + "ActivitiesTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
