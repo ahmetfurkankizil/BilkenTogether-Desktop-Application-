@@ -155,8 +155,8 @@ public class HomeScreenLessonsFilterPage extends JFrame {
     }
     private void addLessonPost(){
         g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer( new LessonPost(1,currentUser,"a little post des","MAth",0000101,true));
-        insideScrollPanePanel.add(viewer,g);
+        //LessonPostViewer viewer = new LessonPostViewer( new LessonPost(1,currentUser,"a little post des","MAth",0000101,true));
+        //insideScrollPanePanel.add(viewer,g);
 
     }
     private void addLessonPost(LessonPost post){

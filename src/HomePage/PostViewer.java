@@ -71,4 +71,5 @@ public abstract class PostViewer extends JPanel {
     public static void addPadding(JComponent comp, int top, int left, int bottom, int right) {
         comp.setBorder(new EmptyBorder(top, left, bottom, right));
     }
+
 }

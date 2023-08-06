@@ -8,8 +8,8 @@ public abstract class RequestablePost extends Post {
     private ArrayList<Student> deniedCollection;
     private ArrayList<Student> agreementCollection;
 
-    public RequestablePost(int postId, User sender, String description, String typeFilter) {
-        super(postId, sender, description);
+    public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost) {
+        super(postId, sender, description, dateOfPost);
         this.typeFilter = typeFilter;
         /*
          * Date filter LessonPost ve ActivityPost için ayrı ayrı uygulandı

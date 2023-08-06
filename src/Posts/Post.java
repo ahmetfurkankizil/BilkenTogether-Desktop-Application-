@@ -10,15 +10,17 @@ import javax.xml.stream.events.Comment;
 public abstract class Post {
     private int postID;
     private User sender;
+    private String dateOfPost;
     private String postDescription;
     private ArrayList<Comment> commentCollection;
 
-    public Post(int postID, User sender, String description) {
+    public Post(int postID, User sender, String description, String dateOfPost) {
         /*
          * Post Id Oluşturma Nasıl Olacak? Database ile uyumlu olması gerekiyor.
          */
         this.postID = postID;
         this.sender = sender;
+        this.dateOfPost = dateOfPost;
         this.postDescription = description;
         System.out.println();
     }
@@ -26,7 +28,12 @@ public abstract class Post {
         return postID;
     }
 
+    public String getDateOfPost() {
+        return dateOfPost;
+    }
+
     public void setPostID(int postID) {
+
         this.postID = postID;
     }
 

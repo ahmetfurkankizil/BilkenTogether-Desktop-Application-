@@ -4,13 +4,12 @@ import java.sql.Date;
 import UserRelated.*;
 public class ActivityPost extends RequestablePost {
     private int numberOfAttendants;
-    private String date;
+    private String activityDate;
 
-    public ActivityPost(int postId, Student sender, String description, int numberOfAttendants, String date,String typeFilter) {
-        super(postId,sender, description,typeFilter);
+    public ActivityPost(int postId, Student sender, String description, int numberOfAttendants, String dateOfPost, String typeFilter, String activityDate) {
+        super(postId,sender, description,typeFilter, dateOfPost);
         this.numberOfAttendants = numberOfAttendants;
-        this.date = date;
-
+        this.activityDate = activityDate;
         System.out.println();
     }
     public Student getSender(){
@@ -24,7 +23,7 @@ public class ActivityPost extends RequestablePost {
     public void setNumberOfAttendants(int numberOfAttendants) {
         this.numberOfAttendants = numberOfAttendants;
     }
-    public String getDate(){
-        return date;
+    public String getActivityDate(){
+        return activityDate;
     }
 }

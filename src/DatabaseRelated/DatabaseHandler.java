@@ -7,6 +7,7 @@ public interface DatabaseHandler {
 
     boolean addToStudiesTable(StudyPost studyPost);
     boolean removeFromStudiesTable(StudyPost studypost);
+    StudyPost pullStudyPostFromDB(int userId, int studyPostID);
     boolean createNotificationsTable();
 
     //boolean addToNotificationsTable();

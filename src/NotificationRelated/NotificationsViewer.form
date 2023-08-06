@@ -19,7 +19,7 @@
       </vspacer>
       <grid id="2a740" binding="addablePanel" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="true"/>
         </constraints>
         <properties/>
         <border type="none"/>

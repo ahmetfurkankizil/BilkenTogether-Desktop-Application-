@@ -1,15 +1,11 @@
 package HomePage;
 
-import Icons.IconCreator;
 import PostComponents.DayButtons;
 import Posts.LessonPost;
 import UserProfileGUI.PPImageHandler;
-import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -91,10 +87,10 @@ public class LessonPostViewer extends PostViewer {
         addPadding(topicLabel);
         topicLabel.setOpaque(true);
         topInformationPanel.add(topicLabel, g);
-        add(topInformationPanel, g);
-
         requestButton.addActionListener(new RequestActionListener());
         topInformationPanel.add(requestButton);
+        add(topInformationPanel, g);
+
     }
 
     public void setUpDays() {
@@ -110,7 +106,7 @@ public class LessonPostViewer extends PostViewer {
 
 
     private void addDaysWithBinaryBoolean() {
-        int binaryboolean = lesPost.getRequestGiveBinaryBoolean();
+        int binaryboolean = lesPost.getDateBinaryBoolean();
 
         dayButtonsList = new ArrayList<>();
         boolean[] daysAvailable = lesPost.getDaysAvailable();
