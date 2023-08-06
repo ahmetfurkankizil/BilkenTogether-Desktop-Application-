@@ -6,6 +6,8 @@ import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StudiesPostPage extends JFrame{
     private JPanel mainPanel;
@@ -26,7 +28,6 @@ public class StudiesPostPage extends JFrame{
     private JLabel logOutLabel;
     private JPanel rightPanel;
     private JButton profileBoxButton;
-    private JButton filterBoxButton;
     private JPanel middlePanel;
     private JLabel bilkenTogetherLabel;
     private JPanel buttonPanel;
@@ -42,6 +43,12 @@ public class StudiesPostPage extends JFrame{
     private JPanel studiesPostArea;
     private JButton postButton;
     private JTextArea textArea2;
+    private JButton filterBoxButton;
+    private JPanel studiesQFPanel;
+    private JList list1;
+    private JButton instructorButton;
+    private JButton studentButton;
+    private JButton submitButton;
     private GridBagConstraints g;
     private User currentUser;
     public StudiesPostPage() {
@@ -54,6 +61,20 @@ public class StudiesPostPage extends JFrame{
 
 
         setVisible(true);
+        filterBoxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton button = (JButton) e.getSource();
+
+                if (studiesQFPanel.isVisible()){
+                    studiesQFPanel.setVisible(false);
+                } else {
+                    studiesQFPanel.setVisible(true);
+                }
+
+
+            }
+        });
     }
 
     public void setCurrentUser(User user) {
