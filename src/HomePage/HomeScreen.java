@@ -1,7 +1,9 @@
 package HomePage;
 
 import Icons.IconCreator;
+import Posts.ActivityPost;
 import Posts.LessonPost;
+import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -326,10 +328,11 @@ public class HomeScreen extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (checkIfValid()){
-                // int postId = Database.getPostID();
+                // int postId = Database.getNewPostID();
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId,currentUser,textArea1.getText(),(String)courseTypeComboBox.getSelectedItem(),getSelectedDaysBinary(),!postLessonButton.isSelected(),new Date().toString());
                 addLessonPost(tempPost);
+
                 System.out.println("printed this many times");
                 repaint();
                 revalidate();
