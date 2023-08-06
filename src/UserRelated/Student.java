@@ -19,6 +19,22 @@ public class Student extends User implements StudentDatabaseHandler{
         this.activityPostCollection = new ArrayList<>();
     }
 
+    public void addLessonPost(LessonPost lessonPost) {
+        lessonPostCollection.add(lessonPost);
+    }
+
+    public int generateLessonPostId() {
+        return lessonPostCollection.size() + 1;
+    }
+
+    public void addActivityPost(ActivityPost activityPost) {
+        activityPostCollection.add(activityPost);
+    }
+
+    public int generateActivityPostId() {
+        return activityPostCollection.size() + 1;
+    }
+
     // Student Methods
     public void addRating(int rating) {
         ratingCollection.add(rating);
@@ -132,7 +148,6 @@ public class Student extends User implements StudentDatabaseHandler{
                         preparedStatement.setInt(6, 0);
                     }
                     preparedStatement.setString(7, lessonPost.getDateOfPost());
-
                     preparedStatement.executeUpdate();
                     System.out.println("Lesson is inserted successfully.");
                     return true;
@@ -171,7 +186,7 @@ public class Student extends User implements StudentDatabaseHandler{
                 String postDate = resultSetOfUser.getString("dateOfPost");
 
 
-                User u = new Student(senderName,null,0,null,null,null,null);
+                Student u = new Student(senderName,null,0,null,null,null,null);
                 lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
             } else {
                 System.out.println("sent null");
@@ -186,19 +201,17 @@ public class Student extends User implements StudentDatabaseHandler{
         return lessonPost;
     }
 
-    /*
-    @Override
-    public boolean removeFromLessonsTable(int postId) {
+
+    public boolean removeFromLessonsTable(int lessonPostId) {
         String tableName = "" + getId() + "LessonsTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
 
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
 
-            preparedStatement.setInt(1, postId);
+            preparedStatement.setInt(1, lessonPostId);
 
             int rowsAffected = preparedStatement.executeUpdate();
-            System.out.println("Rows affected: " + rowsAffected);
             System.out.println("Lesson deleted successfully");
             return true;
 
@@ -208,8 +221,6 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-     */
-
     @Override
     public boolean createActivitiesTable() {
         super.databaseConnection = new DatabaseConnection();
@@ -218,10 +229,12 @@ public class Student extends User implements StudentDatabaseHandler{
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "postId INT PRIMARY KEY AUTO_INCREMENT,"
+                        + "sender VARCHAR(50) NOT NULL,"
+                        + "postDescription VARCHAR(50) NOT NULL,"
+                        + "numberOfAttendants INT,"
+                        + "dateOfPost VARCHAR(50) NOT NULL,"
                         + "typeFilter VARCHAR(50) NOT NULL,"
-                        + "dateFilter VARCHAR(50) NOT NULL,"
-                        + "content VARCHAR(150) NULL,"
-                        + "requestGiveBoolean  TINYINT(1) DEFAULT 0"
+                        + "activityDate VARCHAR(50) NOT NULL"
                         + ");";
 
                 try (Statement statement = connection.createStatement()) {
@@ -236,26 +249,25 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    /*
-    @Override
-    public boolean addToActivitiesTable() {
+
+    public boolean addToActivitiesTable(ActivityPost activityPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "ActivitiesTable";
             if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (postId, typeFilter, dateFilter, content, requestGiveBoolean) VALUES (?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + tableName + " (postId, sender, postDescription, numberOfAttendants, dateOfPost, typeFilter, activityDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, );
-                    preparedStatement.setString(2, );
-                    preparedStatement.setString(3, );
-                    preparedStatement.setString(4, );
-                    preparedStatement.setBoolean(5, );
+                    preparedStatement.setInt(1, activityPost.getPostID());
+                    preparedStatement.setString(2, activityPost.getSender().getName());
+                    preparedStatement.setString(3, activityPost.getPostDescription());
+                    preparedStatement.setInt(4, activityPost.getNumberOfAttendants());
+                    preparedStatement.setString(5, activityPost.getDateOfPost());
+                    preparedStatement.setString(6, activityPost.getTypeFilter());
+                    preparedStatement.setString(7, activityPost.getActivityDate());
 
                     int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
                     System.out.println("Activity is inserted successfully.");
                     return true;
                 } catch (SQLException e) {
@@ -269,18 +281,16 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
-    public boolean removeFromActivitiesTable(int postId) {
+    public boolean removeFromActivitiesTable(int userId, int activitiesPostId) {
         String tableName = "" + getId() + "ActivitiesTable";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
 
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
 
-            preparedStatement.setInt(1, postId);
+            preparedStatement.setInt(1, activitiesPostId);
 
             int rowsAffected = preparedStatement.executeUpdate();
-            System.out.println("Rows affected: " + rowsAffected);
             System.out.println("Activity deleted successfully");
             return true;
 
@@ -290,5 +300,43 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-     */
+    public ActivityPost pullActivityPostFromDB(int userId, int activityPostID) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ActivityPost activityPost = null;
+        String tableName = "" + userId + "ActivitiesTable";
+        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId=?;";
+
+        try (Connection connection = databaseConnection.getConnection();
+
+             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, activityPostID);
+
+            ResultSet resultSetOfUser = preparedStatement.executeQuery();
+            if (resultSetOfUser.next()) {
+                int postId = resultSetOfUser.getInt("postId");
+                String senderName = resultSetOfUser.getString("sender");
+                String postDescription = resultSetOfUser.getString("postDescription");
+                int numberOfAttendants = resultSetOfUser.getInt("numberOfAttendants");
+                String dateOfPost = resultSetOfUser.getString("dateOfPost");
+                String typeFilter = resultSetOfUser.getString("typeFilter");
+                String activityDate = resultSetOfUser.getString("activityDate");
+
+
+                Student u = new Student(senderName,null,0,null,null,null,null);
+                activityPost = new ActivityPost(postId, u, postDescription, numberOfAttendants, dateOfPost, typeFilter, activityDate);
+            } else {
+                return null;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return activityPost;
+    }
 }
+
+

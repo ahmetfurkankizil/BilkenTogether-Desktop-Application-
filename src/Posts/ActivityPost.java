@@ -10,7 +10,7 @@ public class ActivityPost extends RequestablePost {
         super(postId,sender, description,typeFilter, dateOfPost);
         this.numberOfAttendants = numberOfAttendants;
         this.activityDate = activityDate;
-        System.out.println();
+        sender.addActivityPost(this);
     }
     public Student getSender(){
         return (Student) super.getSender();

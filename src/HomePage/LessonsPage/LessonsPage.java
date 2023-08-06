@@ -446,7 +446,6 @@ public class LessonsPage extends JFrame {
     }
 
     public class LesssonPostPostingListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if (checkIfValid()) {
@@ -454,6 +453,7 @@ public class LessonsPage extends JFrame {
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
                 addLessonPost(tempPost);
+
                 repaint();
                 revalidate();
                 main.repaint();

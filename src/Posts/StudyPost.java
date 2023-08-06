@@ -14,13 +14,12 @@ public class StudyPost extends Post {
     private String dateOfPost;
 
     public StudyPost(int postId, User sender, String author, String heading, String description, File studyFile, String dateOfPost, String[] topicCollection) {
-        // StudyFile file olması gerekmiyor mu?
         super(postId, sender, description, dateOfPost);
         this.author = author;
         this.studyPostHeading = heading;
         this.topicCollection = topicCollection;
         this.studyFile = studyFile;
-        System.out.println();
+        sender.addStudyPost(this);
     }
 
     public File getStudyFile() {
