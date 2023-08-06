@@ -91,10 +91,10 @@ public class LessonPostViewer extends PostViewer {
         addPadding(topicLabel);
         topicLabel.setOpaque(true);
         topInformationPanel.add(topicLabel, g);
-        add(topInformationPanel, g);
-
         requestButton.addActionListener(new RequestActionListener());
         topInformationPanel.add(requestButton);
+        add(topInformationPanel, g);
+
     }
 
     public void setUpDays() {

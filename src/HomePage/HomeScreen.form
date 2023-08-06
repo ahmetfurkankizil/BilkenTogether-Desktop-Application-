@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="731" height="384"/>
+      <xy x="20" y="20" width="1262" height="450"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -26,7 +26,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="2e421" class="javax.swing.JLabel" binding="profilePhotoLabel">
+              <component id="2e421" class="javax.swing.JLabel" binding="logoLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -235,35 +235,47 @@
             <children>
               <component id="59339" class="javax.swing.JLabel" binding="bilkenTogetherLabel">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="22"/>
                   <text value="BilkenTogether"/>
                 </properties>
               </component>
-              <grid id="39ab0" binding="buttonPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+              <grid id="39ab0" binding="buttonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="40"/>
+                  </grid>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
                   <component id="3b582" class="javax.swing.JButton" binding="lessonsButton">
-                    <constraints/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
                     <properties>
+                      <font size="20"/>
                       <text value="Lessons"/>
                     </properties>
                   </component>
                   <component id="6b342" class="javax.swing.JButton" binding="studiesButton" default-binding="true">
-                    <constraints/>
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
                     <properties>
+                      <font size="20"/>
                       <text value="Studies"/>
                     </properties>
                   </component>
                   <component id="a130d" class="javax.swing.JButton" binding="activitiesButton" default-binding="true">
-                    <constraints/>
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
                     <properties>
+                      <font size="20"/>
                       <text value="Activities"/>
                     </properties>
                   </component>
@@ -278,19 +290,21 @@
                 <children>
                   <grid id="1ef51" binding="insideScrollPanePanel" layout-manager="GridBagLayout">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <minimumSize width="654" height="600"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <grid id="462c9" binding="postingPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="10" left="0" bottom="0" right="0"/>
                         <constraints>
-                          <grid row="0" column="0" row-span="3" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <grid id="93bf3" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="93bf3" binding="postingButtonPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -298,17 +312,11 @@
                             <properties/>
                             <border type="none"/>
                             <children>
-                              <component id="71461" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="Label"/>
-                                </properties>
-                              </component>
                               <component id="c5fab" class="javax.swing.JButton" binding="requestLessonButton" default-binding="true">
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="100" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties>
                                   <text value="Request Lesson"/>
@@ -316,12 +324,22 @@
                               </component>
                               <component id="bf248" class="javax.swing.JButton" binding="postLessonButton" default-binding="true">
                                 <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="100" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties>
                                   <text value="Post Lesson"/>
                                 </properties>
                               </component>
+                              <grid id="2a2ce" binding="profilePhotoPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children/>
+                              </grid>
                             </children>
                           </grid>
                           <grid id="9b4b7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -335,7 +353,8 @@
                               <component id="26a69" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="50"/>
+                                    <preferred-size width="500" height="-1"/>
+                                    <maximum-size width="500" height="-1"/>
                                   </grid>
                                 </constraints>
                                 <properties/>
@@ -378,7 +397,7 @@
                               </component>
                             </children>
                           </grid>
-                          <grid id="94c84" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="94c84" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -388,42 +407,110 @@
                             <children>
                               <component id="60cbf" class="javax.swing.JButton" binding="postButton" default-binding="true">
                                 <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="-1" height="40"/>
+                                    <maximum-size width="130" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties>
+                                  <font size="18"/>
                                   <text value="Post"/>
                                 </properties>
                               </component>
-                              <grid id="f98d5" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                              <grid id="f98d5" binding="daysPanel" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
                                 <children>
-                                  <component id="bf93d" class="javax.swing.JLabel" binding="availableDaysLabel">
-                                    <constraints/>
+                                  <component id="97608" class="javax.swing.JButton" binding="mondayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
                                     <properties>
-                                      <text value="Available Days: "/>
+                                      <text value="Monday"/>
                                     </properties>
                                   </component>
-                                  <component id="2beb2" class="javax.swing.JComboBox" binding="availableDaysComboBox">
-                                    <constraints/>
+                                  <component id="24330" class="javax.swing.JButton" binding="tuesdayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
                                     <properties>
-                                      <model>
-                                        <item value="Select:"/>
-                                        <item value="Monday"/>
-                                        <item value="Tuesday"/>
-                                        <item value="Wednesday"/>
-                                        <item value="Thursday"/>
-                                        <item value="Friday"/>
-                                        <item value="Saturday"/>
-                                        <item value="Sunday"/>
-                                      </model>
+                                      <text value="Tuesday"/>
                                     </properties>
                                   </component>
+                                  <component id="3736d" class="javax.swing.JButton" binding="wednesdayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Wednesday"/>
+                                    </properties>
+                                  </component>
+                                  <component id="34a8a" class="javax.swing.JButton" binding="thursdayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Thursday"/>
+                                    </properties>
+                                  </component>
+                                  <component id="de333" class="javax.swing.JButton" binding="fridayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Friday"/>
+                                    </properties>
+                                  </component>
+                                  <component id="974fb" class="javax.swing.JButton" binding="saturdayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Saturday"/>
+                                    </properties>
+                                  </component>
+                                  <component id="6ca58" class="javax.swing.JButton" binding="sundayButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Sunday"/>
+                                    </properties>
+                                  </component>
+                                  <grid id="1bc5c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="1258" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <foreground color="-16121059"/>
+                                          <text value="Clear"/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
                                 </children>
                               </grid>
+                              <component id="fb1ba" class="javax.swing.JLabel" binding="errorLabel">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <font size="11"/>
+                                  <text value=""/>
+                                </properties>
+                              </component>
                             </children>
                           </grid>
                         </children>

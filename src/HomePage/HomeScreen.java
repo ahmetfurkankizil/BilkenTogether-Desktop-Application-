@@ -1,9 +1,8 @@
 package HomePage;
 
 import Icons.IconCreator;
-import Posts.ActivityPost;
 import Posts.LessonPost;
-import Posts.StudyPost;
+import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -13,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HomeScreen extends JFrame {
     private JPanel mainPanel;
@@ -28,7 +28,7 @@ public class HomeScreen extends JFrame {
     private JLabel notificationsLabel;
     private JLabel profileLabel;
     private JLabel requestsLabel;
-    private JLabel profilePhotoLabel;
+    private PPImageHandler profilePhoto;
     private JPanel secondMainPanel;
     private GridBagConstraints g;
     private JPanel leftPanel;
@@ -52,8 +52,19 @@ public class HomeScreen extends JFrame {
     private JLabel courseType;
     private JComboBox courseTypeComboBox;
     private JButton postButton;
-    private JLabel availableDaysLabel;
-    private JComboBox availableDaysComboBox;
+    private JButton mondayButton;
+    private JButton tuesdayButton;
+    private JButton wednesdayButton;
+    private JButton thursdayButton;
+    private JButton fridayButton;
+    private JButton saturdayButton;
+    private JButton sundayButton;
+    private JPanel postingButtonPanel;
+    private JPanel profilePhotoPanel;
+    private JPanel daysPanel;
+    private JLabel logoLabel;
+    private JButton clearButton;
+    private JLabel errorLabel;
     private JRadioButton radioButton1;
     private JRadioButton radioButton2;
     private JRadioButton radioButton3;
@@ -77,14 +88,17 @@ public class HomeScreen extends JFrame {
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private ArrayList<JButton> postingComponentButtons;
+    private ArrayList<JButton> dayButtons;
 
     public HomeScreen() {
+
+        postButton.addActionListener(new LesssonPostPostingListener());
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
         generalSetup();
-        addLessonPost();
+
 
         setVisible(true);
     }
@@ -95,16 +109,27 @@ public class HomeScreen extends JFrame {
 
     public void generalSetup() {
         g = new GridBagConstraints();
+        textArea1.setMargin(new Insets(5, 5, 5, 5));
+        textArea1.setLineWrap(true);
+        textArea1.setColumns(50);
         setUpCursors();
+        setUpProfilePhoto();
         setUpActionListeners();
         setUpPostComponentButtons();
         setUpSectionLabels();
     }
 
+    private void setUpProfilePhoto() {
+        errorLabel.setForeground(Color.red);
+        errorLabel.setText(" ");
+        profilePhoto = new PPImageHandler();
+        profilePhotoPanel.add(profilePhoto);
+    }
+
     private void setUpActionListeners() {
         postLessonButton.addActionListener(new requestActionListener());
         requestLessonButton.addActionListener(new requestActionListener());
-        postButton.addActionListener(new PostingButtonListener(insideScrollPanePanel, textArea1, null, currentUser));
+
     }
 
     private void setUpCursors() {
@@ -122,6 +147,12 @@ public class HomeScreen extends JFrame {
         leftPanelLabels.add(profileLabel);
         leftPanelLabels.add(requestsLabel);
         leftPanelLabels.add(logOutLabel);
+
+        postLessonButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        requestLessonButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
+        setUpDaysButtons();
         for (JButton j :
                 sectionButtons) {
             j.setFocusable(false);
@@ -131,6 +162,44 @@ public class HomeScreen extends JFrame {
                 leftPanelLabels) {
             label.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
+    }
+
+    private void setUpDaysButtons() {
+        dayButtons = new ArrayList<>();
+        ActionListener dayButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton) e.getSource();
+                b.setSelected(!b.isSelected());
+            }
+        };
+        ActionListener resetButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (JButton button :
+                        dayButtons) {
+                    button.setSelected(false);
+                }
+                postLessonButton.setSelected(false);
+                requestLessonButton.setSelected(false);
+            }
+        };
+        for (Component c :
+                daysPanel.getComponents()) {
+            if (c instanceof JButton) {
+                JButton tempButton = (JButton) c;
+                dayButtons.add(tempButton);
+                tempButton.setFocusable(false);
+                tempButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                tempButton.addActionListener(dayButtonListener);
+            }
+        }
+        clearButton.setFocusable(false);
+        clearButton.addActionListener(resetButtonListener);
+        clearButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        postButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        postButton.setFocusable(false);
+
     }
 
     private void setUpSectionLabels() {
@@ -168,6 +237,7 @@ public class HomeScreen extends JFrame {
         return !(postLessonButton.isSelected()) && !requestLessonButton.isSelected();
     }
 
+
     private class requestActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -183,16 +253,17 @@ public class HomeScreen extends JFrame {
 
     private void addLessonPost() {
         g.gridx = 0;
-        ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert"));
-        String[] topicColl = {"Algebra","Complex Analysis"};
-        StudiesPostViewer viewer3 = new StudiesPostViewer(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("OOOOOOOOOOOOO",10) +"NG DESCRIPTION", null,"23:05", topicColl));
-        LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true));
-        insideScrollPanePanel.add(viewer, g);
-        insideScrollPanePanel.add(viewer2, g);
-        insideScrollPanePanel.add(viewer3,g);
+        //ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert"));
+        //String[] topicColl = {"Algebra","Complex Analysis"};
+        //StudiesPostViewer viewer3 = new StudiesPostViewer(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("OOOOOOOOOOOOO",10) +"NG DESCRIPTION", null,"23:05", topicColl));
+        //LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true));
+        //insideScrollPanePanel.add(viewer, g);
+        //insideScrollPanePanel.add(viewer2, g);
+        //insideScrollPanePanel.add(viewer3,g);
 
     }
-    public String makeItLong(String str, int repeat){
+
+    public String makeItLong(String str, int repeat) {
         String returnS = "";
         for (int i = 0; i < repeat; i++) {
             returnS += str;
@@ -202,8 +273,8 @@ public class HomeScreen extends JFrame {
 
     private void addLessonPost(LessonPost post) {
         g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer(post);
-        insideScrollPanePanel.add(viewer, g);
+        LessonPostViewer viewer6 = new LessonPostViewer(post);
+        insideScrollPanePanel.add(viewer6, g);
 
     }
 
@@ -224,5 +295,65 @@ public class HomeScreen extends JFrame {
             g2d.setColor(Color.gray);
             g2d.drawLine(x, y + height, x + width + 10, y + height);
         }
+    }
+
+    public  class LesssonPostPostingListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkIfValid()){
+                // int postId = Database.getPostID();
+                int postId = 0;
+                LessonPost tempPost = new LessonPost(postId,currentUser,textArea1.getText(),(String)courseTypeComboBox.getSelectedItem(),getSelectedDaysBinary(),!postLessonButton.isSelected(),new Date().toString());
+                addLessonPost(tempPost);
+                System.out.println("printed this many times");
+                repaint();
+                revalidate();
+            }
+        }
+        private boolean checkIfValid(){
+            if (textArea1.getText().isEmpty()){
+                errorLabel.setText("Please Enter A Description!");
+                return false;
+            }if (!checkPostButtons()) {
+                errorLabel.setText("Please Select A Post Type!");
+                return false;
+            }
+            if (getSelectedDaysBinary() == 0) {
+                errorLabel.setText("Please Select At Least One Day!");
+                return false;
+            }
+            if (courseTypeComboBox.getSelectedItem() == null || courseTypeComboBox.getSelectedItem().equals("Select:")){
+                errorLabel.setText("Please Select A Course Type!");
+                return false;
+
+            }
+
+            errorLabel.setText(" ");
+            return true;
+        }
+        public boolean checkPostButtons(){
+            return postLessonButton.isSelected() || requestLessonButton.isSelected();
+        }
+
+    }
+    private int getSelectedDaysBinary(){
+        int returned = 0;
+        if (mondayButton.isSelected())
+            returned += 1000000;
+        if (tuesdayButton.isSelected())
+            returned += 100000;
+        if (wednesdayButton.isSelected())
+            returned += 10000;
+        if (thursdayButton.isSelected())
+            returned += 1000;
+        if (fridayButton.isSelected())
+            returned += 100;
+        if (saturdayButton.isSelected())
+            returned += 10;
+        if (sundayButton.isSelected())
+            returned += 1;
+        System.out.println(returned);
+        return  returned;
     }
 }
