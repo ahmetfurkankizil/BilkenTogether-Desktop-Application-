@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.File;
 
 public class IconCreator extends JFrame {
-    public static final File f = new File("src/Icons/house-solid.png");
+    public static final File f = new File("CS-Project-Repository/src/Icons/house-solid.png");
     public static final ImageIcon houseIcon = new ImageIcon(f.getAbsolutePath());
 
     public static final ImageIcon backIcon = new ImageIcon(f.getAbsolutePath().replace("house", "arrow-left"));
@@ -57,7 +57,7 @@ public class IconCreator extends JFrame {
             add(new JLabel(getIconWithSize(filterIcon, 100, 100)));
             add(new JLabel(getIconWithSize(requestSecIcon, 100, 100)));
             add(new JLabel(getIconWithSize(myTry, 100, 100)));
-
+            add(new JLabel(new ImageIcon("C:\\Users\\ufukb\\Desktop\\CS102_Project\\CS-Project-Repository\\src\\Icons\\bell-solid.png")));
             add(new JLabel(getIconWithSize(searchIcon, 50, 50)));
         }
     }
