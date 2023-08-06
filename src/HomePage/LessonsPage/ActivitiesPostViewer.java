@@ -54,7 +54,7 @@ public class ActivitiesPostViewer extends PostViewer {
 
         g.gridx = 1;
         g.fill = GridBagConstraints.HORIZONTAL;
-        g.ipady = 0;
+
         g.insets = new Insets(10,0,10,0);
         add(proName,g);
 
