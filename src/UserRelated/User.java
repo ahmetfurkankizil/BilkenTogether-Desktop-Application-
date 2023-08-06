@@ -1,10 +1,7 @@
 package UserRelated;
 
 import javax.management.Notification;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import DatabaseRelated.*;
 import MessagesRelated.MessageConnection;
@@ -273,7 +270,6 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-
     @Override
     public boolean addToStudiesTable(StudyPost studyPost) {
         String[] topicsToBeAdded = studyPost.getTopicCollection();
@@ -282,14 +278,14 @@ public abstract class User implements DatabaseHandler {
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
             if (connection != null) {
-                String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file";
+                String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file, ";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     int topicNo = i+1;
                     insertTableQuery += "Topic" + topicNo + ", ";
                 }
                 insertTableQuery = insertTableQuery.substring(0, insertTableQuery.length() - 2);
-                insertTableQuery += ") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                insertTableQuery += ") VALUES (?, ?, ?, ?, ?, ?, ?, ";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     insertTableQuery += "?, ";
@@ -308,7 +304,7 @@ public abstract class User implements DatabaseHandler {
                     preparedStatement.setString(7, "File is not added yet");
 
                     for(int i=0; i<numberOfPostTopics; i++){
-                        int columnNumber = i+6;
+                        int columnNumber = i+8;
                         String topicToAdd = topicsToBeAdded[i];
                         preparedStatement.setString(columnNumber, topicToAdd);
                     }
@@ -325,9 +321,6 @@ public abstract class User implements DatabaseHandler {
         databaseConnection.closeConnection();
         return false;
     }
-
-
-
 
     @Override
     public boolean removeFromStudiesTable(StudyPost studyPost) {
@@ -349,6 +342,60 @@ public abstract class User implements DatabaseHandler {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public StudyPost pullStudyPostFromDB(int userId, int studyPostID) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        StudyPost studyPost = null;
+        String[] topicCollection = new String[5];
+        String tableName = "" + userId + "StudiesTable";
+        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId=?;";
+
+        try (Connection connection = databaseConnection.getConnection();
+
+             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, studyPostID);
+
+            ResultSet resultSetOfUser = preparedStatement.executeQuery();
+            if (resultSetOfUser.next()) {
+                int postId = resultSetOfUser.getInt("postId");
+                String senderName = resultSetOfUser.getString("sender");
+                String author = resultSetOfUser.getString("author");
+                String postHeading = resultSetOfUser.getString("postHeading");
+                String postDesctiption = resultSetOfUser.getString("postDescription");
+                String fileString = resultSetOfUser.getString("file");
+                String postDate = resultSetOfUser.getString("postDate");
+
+                if (resultSetOfUser.getString("Topic1") != null) {
+                    topicCollection[0] = resultSetOfUser.getString("Topic1");
+                    if (resultSetOfUser.getString("Topic2") != null) {
+                        topicCollection[1] = resultSetOfUser.getString("Topic2");
+                        if (resultSetOfUser.getString("Topic3") != null) {
+                            topicCollection[2] = resultSetOfUser.getString("Topic3");
+                            if (resultSetOfUser.getString("Topic4") != null) {
+                                topicCollection[3] = resultSetOfUser.getString("Topic4");
+                                if (resultSetOfUser.getString("Topic5") != null) {
+                                    topicCollection[4] = resultSetOfUser.getString("Topic5");
+                                }
+                            }
+                        }
+                    }
+                }
+                User u = new Student(senderName,null,0,null,null,null,null);
+                studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection);
+            } else {
+                return null;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return studyPost;
     }
 
 

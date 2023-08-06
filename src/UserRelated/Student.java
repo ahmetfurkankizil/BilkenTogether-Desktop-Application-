@@ -1,8 +1,6 @@
 package UserRelated;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import DatabaseRelated.*;
 import Posts.*;
@@ -88,14 +86,16 @@ public class Student extends User implements StudentDatabaseHandler{
     public boolean createLessonsTable() {
         super.databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "LessonTable";
+            String tableName = "" + getId() + "LessonsTable";
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "postId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "typeFilter VARCHAR(50) NOT NULL,"
-                        + "dateFilter VARCHAR(50) NOT NULL,"
-                        + "content VARCHAR(150) NULL,"
-                        + "requestGiveBoolean  TINYINT(1) DEFAULT 0"
+                        + "sender VARCHAR(150) NOT NULL,"
+                        + "postDescription VARCHAR(350) NOT NULL,"
+                        + "typeFilter VARCHAR(100) NOT NULL,"
+                        + "dateBinaryBoolean INT,"
+                        + "requestType TINYINT(0) NOT NULL,"
+                        + "dateOfPost VARCHAR(50) NOT NULL"
                         + ");";
 
                 try (Statement statement = connection.createStatement()) {
@@ -110,26 +110,30 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    /*
+
     @Override
-    public boolean addToLessonsTable() {
+    public boolean addToLessonsTable(LessonPost lessonPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "LessonsTable";
             if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (postId, typeFilter, dateFilter, content, requestGiveBoolean) VALUES (?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + tableName + " (postId, sender, postDescription, typeFilter, dateBinaryBoolean, requestType, dateOfPost) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, );
-                    preparedStatement.setString(2, );
-                    preparedStatement.setString(3, );
-                    preparedStatement.setString(4, );
-                    preparedStatement.setBoolean(5, );
+                    preparedStatement.setInt(1, lessonPost.getPostID());
+                    preparedStatement.setString(2, lessonPost.getSender().getName());
+                    preparedStatement.setString(3, lessonPost.getPostDescription());
+                    preparedStatement.setString(4, lessonPost.getTypeFilter());
+                    preparedStatement.setInt(5, lessonPost.getDateBinaryBoolean());
+                    if (lessonPost.getRequestType() == true) {
+                        preparedStatement.setInt(6, 1);
+                    } else {
+                        preparedStatement.setInt(6, 0);
+                    }
+                    preparedStatement.setString(7, lessonPost.getDateOfPost());
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
+                    preparedStatement.executeUpdate();
                     System.out.println("Lesson is inserted successfully.");
                     return true;
                 } catch (SQLException e) {
@@ -143,7 +147,44 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-     */
+    public LessonPost pullLessonPostFromDB(int userId, int lessonPostID) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        LessonPost lessonPost = null;
+        String tableName = "" + userId + "LessonsTable";
+        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId=?;";
+
+        try (Connection connection = databaseConnection.getConnection();
+
+             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, lessonPostID);
+
+            ResultSet resultSetOfUser = preparedStatement.executeQuery();
+            if (resultSetOfUser.next()) {
+                int postId = resultSetOfUser.getInt("postId");
+                String senderName = resultSetOfUser.getString("sender");
+                String postDescription = resultSetOfUser.getString("postDescription");
+                String typeFilter = resultSetOfUser.getString("typeFilter");
+                int dateBinaryBoolean = resultSetOfUser.getInt("dateBinaryBoolean");
+                boolean requestType = resultSetOfUser.getBoolean("requestType");
+                String postDate = resultSetOfUser.getString("dateOfPost");
+
+
+                User u = new Student(senderName,null,0,null,null,null,null);
+                lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
+            } else {
+                System.out.println("sent null");
+                return null;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lessonPost;
+    }
 
     /*
     @Override

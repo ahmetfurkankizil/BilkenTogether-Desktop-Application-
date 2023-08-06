@@ -96,7 +96,7 @@ public class HomeScreen extends JFrame {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
 
 
@@ -253,13 +253,37 @@ public class HomeScreen extends JFrame {
 
     private void addLessonPost() {
         g.gridx = 0;
-        //ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert"));
-        //String[] topicColl = {"Algebra","Complex Analysis"};
-        //StudiesPostViewer viewer3 = new StudiesPostViewer(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("OOOOOOOOOOOOO",10) +"NG DESCRIPTION", null,"23:05", topicColl));
-        //LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true));
+
+        ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert", "25/09/2003"));
+        String[] topicColl = {"Algebra","Complex Analysis"};
+        LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true, "25/09/2003"));
         //insideScrollPanePanel.add(viewer, g);
+        currentUser.addToStudiesTable(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("K",10) +"NG DESCRIPTION", null,"23:05", topicColl));
+        currentUser.addToStudiesTable(new StudyPost(3, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("FOR",10) +"NG DESCRIPTION", null,"23:05", topicColl));
+        ((Student) currentUser).addToLessonsTable(new LessonPost(4, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
+        ((Student) currentUser).addToLessonsTable(new LessonPost(5, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
+        ((Student) currentUser).addToLessonsTable(new LessonPost(6, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
+        ((Student) currentUser).addToLessonsTable(new LessonPost(7, (Student) currentUser, "This is description", "This is type filter", 3131, true, "25/09/2003"));
+        StudyPost tempPost = currentUser.pullStudyPostFromDB(22203112, 2);
+        StudyPost tempPost1 = currentUser.pullStudyPostFromDB(22203112, 3);
+        LessonPost tempPost2 = ((Student) currentUser).pullLessonPostFromDB(22203112, 4);
+        LessonPost tempPost3 = ((Student) currentUser).pullLessonPostFromDB(22203112, 5);
+        LessonPost tempPost4 = ((Student) currentUser).pullLessonPostFromDB(22203112, 6);
+        LessonPost tempPost5 = ((Student) currentUser).pullLessonPostFromDB(22203112, 7);
         //insideScrollPanePanel.add(viewer2, g);
-        //insideScrollPanePanel.add(viewer3,g);
+        StudiesPostViewer viewer3 = new StudiesPostViewer(tempPost );
+        StudiesPostViewer viewer4 = new StudiesPostViewer(tempPost1 );
+        LessonPostViewer viewer5 = new LessonPostViewer(tempPost2);
+        LessonPostViewer viewer6 = new LessonPostViewer(tempPost3 );
+        LessonPostViewer viewer7 = new LessonPostViewer(tempPost4 );
+        LessonPostViewer viewer8 = new LessonPostViewer(tempPost5 );
+
+        insideScrollPanePanel.add(viewer3,g);
+        insideScrollPanePanel.add(viewer4,g);
+        insideScrollPanePanel.add(viewer5,g);
+        insideScrollPanePanel.add(viewer6,g);
+        insideScrollPanePanel.add(viewer7,g);
+        insideScrollPanePanel.add(viewer8,g);
 
     }
 
