@@ -90,7 +90,7 @@ public class ActivitiesPostViewer extends PostViewer {
         g.gridy +=1;
         requestButton.addActionListener(new RequestActionListener());
         topInformationPanel.add(requestButton);
-        dateLabel = new JLabel("Date: "+lesPost.getDate());
+        dateLabel = new JLabel("Date: "+lesPost.getActivityDate());
         dateLabel.setFont(dateFont);
         dateLabel.setForeground(new Color(40,40,40));
         bottomIformationPanel = new JPanel();

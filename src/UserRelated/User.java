@@ -252,6 +252,7 @@ public abstract class User implements DatabaseHandler {
                         + "author VARCHAR(50) NOT NULL,"
                         + "postHeading VARCHAR(150) NULL,"
                         + "postDescription  VARCHAR(250) NOT NULL,"
+                        + "postDate  VARCHAR(250) NOT NULL,"
                         + "file  VARCHAR(250) NOT NULL,"
                         + "Topic1 VARCHAR(50)  NULL,"
                         + "Topic2 VARCHAR(50)  NULL,"
@@ -281,14 +282,14 @@ public abstract class User implements DatabaseHandler {
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
             if (connection != null) {
-                String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, file";
+                String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     int topicNo = i+1;
                     insertTableQuery += "Topic" + topicNo + ", ";
                 }
                 insertTableQuery = insertTableQuery.substring(0, insertTableQuery.length() - 2);
-                insertTableQuery += ") VALUES (?, ?, ?, ?, ?, ?)";
+                insertTableQuery += ") VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 for(int i=0; i<numberOfPostTopics; i++){
                     insertTableQuery += "?, ";
@@ -303,7 +304,8 @@ public abstract class User implements DatabaseHandler {
                     preparedStatement.setString(3, studyPost.getAuthor());
                     preparedStatement.setString(4, studyPost.getStudyPostHeading());
                     preparedStatement.setString(5, studyPost.getPostDescription());
-                    preparedStatement.setString(6, "File is not added yet");
+                    preparedStatement.setString(6, studyPost.getDateOfPost());
+                    preparedStatement.setString(7, "File is not added yet");
 
                     for(int i=0; i<numberOfPostTopics; i++){
                         int columnNumber = i+6;

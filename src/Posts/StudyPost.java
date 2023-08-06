@@ -11,6 +11,7 @@ public class StudyPost extends Post {
     private String studyPostHeading;
     private String[] topicCollection;
     private int numOfTopics;
+    private String dateOfPost;
 
     public StudyPost(int postId, User sender, String author, String heading, String description, File studyFile, String dateOfPost, String[] topicCollection) {
         // StudyFile file olması gerekmiyor mu?
@@ -25,6 +26,8 @@ public class StudyPost extends Post {
     public File getStudyFile() {
         return this.studyFile;
     }
+
+
 
     public String getAuthor() {
         return author;

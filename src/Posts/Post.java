@@ -28,7 +28,7 @@ public abstract class Post {
         return postID;
     }
 
-    public String getDate() {
+    public String getDateOfPost() {
         return dateOfPost;
     }
 
