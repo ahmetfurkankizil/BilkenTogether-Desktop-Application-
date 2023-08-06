@@ -185,7 +185,7 @@ public class HomeScreen extends JFrame {
         g.gridx = 0;
         ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(new ActivityPost(2, (Student) currentUser, "a little post des", 3, "20/01/2023", "Concert"));
         String[] topicColl = {"Algebra","Complex Analysis"};
-        StudiesPostViewer viewer3 = new StudiesPostViewer(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("OOOOOOOOOOOOO",10) +"NG DESCRIPTION", null,topicColl));
+        StudiesPostViewer viewer3 = new StudiesPostViewer(new StudyPost(2, (Student) currentUser, "Author", "Very Important Header", " Very L" +makeItLong("OOOOOOOOOOOOO",10) +"NG DESCRIPTION", null,"23:05", topicColl));
         LessonPostViewer viewer = new LessonPostViewer(new LessonPost(1, (Student) currentUser, "a little post des", "MAth", 11111, true));
         insideScrollPanePanel.add(viewer, g);
         insideScrollPanePanel.add(viewer2, g);

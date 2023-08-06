@@ -4,9 +4,9 @@ public class LessonPost extends RequestablePost {
     private int requestGiveBinaryBoolean;
     private boolean requestType;
 
-    public LessonPost(int postID ,User sender, String description, String typeFilter, int requestGiveBinaryBoolean,boolean requestType) {
+    public LessonPost(int postID ,User sender, String description, String typeFilter, int requestGiveBinaryBoolean, boolean requestType, String dateOfPost) {
 
-        super(postID,sender, description, typeFilter);
+        super(postID,sender, description, typeFilter, dateOfPost);
         this.requestType = requestType;
         setRequestGiveBinaryBoolean(requestGiveBinaryBoolean);
         System.out.println();
