@@ -182,6 +182,7 @@ public class ActivitiesPage extends JFrame {
         private boolean checkPost(){
             if (textArea1.getText().isEmpty()){
                 errorLabel.setText("Please Enter A Description!");
+                return false;
             }
             if (activityTypeComboBox.getSelectedItem().equals("Select:")) {
                 errorLabel.setText("Please Select Activity Type!");

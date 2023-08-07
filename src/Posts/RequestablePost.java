@@ -19,7 +19,6 @@ public abstract class RequestablePost extends Post {
         agreementCollection = new ArrayList<Student>();
         System.out.println();
     }
-
     public String getTypeFilter() {
         return typeFilter;
     }
