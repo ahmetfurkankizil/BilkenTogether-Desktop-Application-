@@ -54,4 +54,12 @@ public class ConversationViewer extends JPanel {
         g.insets = new Insets(3,8,3,3);
         add(messageContent,g);
     }
+
+    public void setMessageContent(String str) {
+        this.messageContent.setText(str);
+    }
+
+    public String getMessageContent() {
+        return messageContent.getText();
+    }
 }

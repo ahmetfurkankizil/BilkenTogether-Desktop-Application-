@@ -1,5 +1,10 @@
 package MessagesGUI;
-
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import HomePage.StudiesPage.Main;
 import Icons.IconCreator;
 import MessagesRelated.Message;
@@ -23,9 +28,9 @@ public class MessagesGUI extends JFrame {
     JButton searchButton;
     JLabel searchLabel;
     JTextField searchField;
-    ConversationPanel conversationPanel;
     private Main main;
-
+    ConversationPanel conversationPanel;
+    MessagesPanel m;
     public MessagesGUI(){
 
         searchPanel.setBackground(searchPanelColor);
@@ -42,11 +47,30 @@ public class MessagesGUI extends JFrame {
 
 
 
+        // Adding ActionListener to the search button
+        searchButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
+
+        // Adding KeyListener to the search field
+        searchField.addKeyListener(new KeyAdapter()
+        {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    performSearch();
+                }
+            }
+        });
+
+
 
 
         searchField.setColumns(20);
         conversationPanel = new ConversationPanel();
-        MessagesPanel m = new MessagesPanel();
+        m = new MessagesPanel();
         //textInputArea.setMargin(new Insets(5,5,5,5));
         addablePanelLeft.add(m);
         addablePanelRight.add(conversationPanel);
@@ -59,6 +83,7 @@ public class MessagesGUI extends JFrame {
         add(panel1);
         //setVisible(true);
     }
+
     public static void main(String[] args) {
          new MessagesGUI();
     }
@@ -89,4 +114,32 @@ public class MessagesGUI extends JFrame {
     public ConversationPanel getConversationPanel() {
         return conversationPanel;
     }
+
+    private void performSearch() {
+        String searchTerm = searchField.getText().toLowerCase();
+        System.out.println(searchTerm);
+        for (int i = 0; i < m.getConversationViewers().size(); i++)
+        {
+            System.out.println("lolkl");
+            String messageContent = m.getConversationViewers().get(i).getMessageContent().toLowerCase();
+
+            if (messageContent.contains(searchTerm))
+            {
+
+                m.getConversationViewers().get(i).setVisible(true);
+            } else {
+                System.out.println("lol");
+                m.getConversationViewers().get(i).setVisible(false);
+            }
+
+        }
+        leftPanel.repaint();
+        leftPanel.repaint();
+    }
+
 }
+
+
+
+
+

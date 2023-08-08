@@ -27,6 +27,10 @@ public class Student extends User implements StudentDatabaseHandler{
         return lessonPostCollection.size() + 1;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
     public void addActivityPost(ActivityPost activityPost) {
         activityPostCollection.add(activityPost);
     }
@@ -335,6 +339,124 @@ public class Student extends User implements StudentDatabaseHandler{
 
         return activityPost;
     }
+
+    public boolean createRequestsTable() {
+        super.databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "RequestsTable";
+            if (connection != null) {
+                String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                        + "postId INT PRIMARY KEY AUTO_INCREMENT,"
+                        + "requesterName VARCHAR(50) NOT NULL,"
+                        + "averageRating DOUBLE NOT NULL,"
+                        + "unanswered BOOLEAN,"
+                        + "accepted BOOLEAN,"
+                        + "denied BOOLEAN,"
+                        + ");";
+
+                try (Statement statement = connection.createStatement()) {
+                    statement.executeUpdate(createTableQuery);
+                    System.out.println("Requests Table created successfully.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    // When a join button is clicked
+    public boolean addToRequestTable(RequestablePost requestablePost) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "RequestsTable";
+            if (connection != null) {
+                String insertQuery = "INSERT INTO " + tableName + " (postId, requesterName, averageRating, unanswered, accepted, denied) VALUES (?, ?, ?, ?, ?, ?)";
+
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1, requestablePost.getPostID());
+                    preparedStatement.setString(2, requestablePost.getSender().getName());
+                    preparedStatement.setDouble(3, ((Student)requestablePost.getSender()).getAverageRating());
+                    preparedStatement.setInt(4,1);
+                    preparedStatement.setInt(5,0);
+                    preparedStatement.setInt(6,0);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println("Request is inserted successfully.");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    //When accept button is clicked in requests tab
+    public boolean acceptTheRequest(RequestablePost requestablePost) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "RequestsTable";
+            if (connection != null) {
+                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE postId = ?";
+
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1,1);
+                    preparedStatement.setInt(2,0);
+                    preparedStatement.setInt(3,0);
+                    preparedStatement.setInt(4, requestablePost.getPostID());
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println("Request is changed successfully.");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    //When deny button is clicked in requests tab
+    public boolean denyTheRequest(RequestablePost requestablePost) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "RequestsTable";
+            if (connection != null) {
+                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE postId = ?";
+
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1,0);
+                    preparedStatement.setInt(2,0);
+                    preparedStatement.setInt(3,1);
+                    preparedStatement.setInt(4, requestablePost.getPostID());
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println("Request is changed successfully.");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+
+
 }
 
 
