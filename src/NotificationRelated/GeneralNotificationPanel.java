@@ -54,15 +54,12 @@ public class GeneralNotificationPanel extends JPanel
         if (!isRead)
         {
             innerPanel1.add(new CircleNotificationIcon(8));
-
-
         }
         else
         {
             innerPanel1.setBackground(myColorRead);
         }
         assignNotificationReadConditions();
-
 
         innerPanel1.setLayout(new GridBagLayout());
         innerPanel1.setBackground(myColor);

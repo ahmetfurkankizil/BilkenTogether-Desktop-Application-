@@ -51,7 +51,6 @@ public abstract class RequestablePost extends Post {
     public void denyRequest(Student student) {
         if (isItInRequests(student)) {
             deniedCollection.add(student);
-
         }
     }
 
@@ -65,5 +64,9 @@ public abstract class RequestablePost extends Post {
         if (isItInRequests(student)) {
             requestCollection.remove(student);
         }
+    }
+
+    public Student getTheRequestSender() {
+        return null;
     }
 }

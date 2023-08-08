@@ -7,9 +7,10 @@ import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class StudiesPage extends JFrame{
     private JPanel mainPanel;
@@ -25,20 +26,6 @@ public class StudiesPage extends JFrame{
 
     private JFrame lessons;
     private JPanel secondMainPanel;
-    private JPanel leftPanel;
-    private JLabel logoLabel;
-    private JPanel homeLabelPanel;
-    private JLabel homeLabel;
-    private JPanel messagesLabelPanel;
-    private JLabel messagesLabel;
-    private JPanel notificationsLabelPanel;
-    private JLabel notificationsLabel;
-    private JPanel profileLabelPanel;
-    private JLabel profileLabel;
-    private JPanel requestLabelPanel;
-    private JLabel requestsLabel;
-    private JPanel logOutLabelPanel;
-    private JLabel logOutLabel;
     private JPanel rightPanel;
     private JButton profileBoxButton;
     private JPanel middlePanel;
@@ -65,6 +52,20 @@ public class StudiesPage extends JFrame{
     private JPanel nonRemovableRightPanel;
     private JPanel qfPanel;
     private JPanel insideScrollPanel;
+    private JLabel errorLabel;
+    private JList <String>list2;
+    private DefaultListModel<String> listModel;
+    private JLabel selectedOption;
+    private JScrollPane listScroll;
+    private JPanel topicPanel;
+    private JLabel topicLabel1;
+    private JLabel topicLabel2;
+    private JLabel topicLabel3;
+    private JLabel topicLabel4;
+    private JLabel topicLabel5;
+    private JLabel errorLabel2;
+    private JTextField textField1;
+    private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
     private User currentUser;
     public StudiesPage() {
@@ -74,6 +75,9 @@ public class StudiesPage extends JFrame{
         setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
+        listModel = new DefaultListModel<>();
+        list2 = new JList<>(listModel);
+
 
 
         //setVisible(true);
@@ -106,6 +110,83 @@ public class StudiesPage extends JFrame{
 
         });
 
+        postButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String postText = textArea2.getText();
+                String heading = headingtextArea.getText();
+                //String addAuthors = addAuthoursTextArea.getText();
+                if(postText.isEmpty()) {
+                    String errorMessage = "Post content cannot be empty.";
+                    errorLabel.setText(errorMessage);
+                    errorLabel.setForeground(Color.RED);
+                }
+                if(heading.isEmpty()){
+                    String errorMessage = "Heading cannot be empty.";
+                    errorLabel2.setText(errorMessage);
+                    errorLabel2.setForeground(Color.RED);
+
+                }
+
+
+
+                }
+
+
+
+
+
+        });
+        list2.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                list2.getSelectedValue();
+                String selectedValue = list2.getSelectedValue();
+
+                if (selectedValue != null) {
+                    topicLabel1.setText(selectedValue);
+                }
+
+
+
+
+
+
+                selectedOption = new JLabel("Selected Option");
+            }
+        });
+
+        addTopicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println("clicked!");
+                if(listScroll.isVisible()){
+                    listScroll.setVisible(false);
+                }
+                else{
+                    listScroll.setVisible(true);
+
+                }
+            }
+        });
+        list2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println("1");
+
+                if (e.getClickCount() == 2) {
+                    String selectedIndex = list2.getSelectedValue();
+                    //String selectedValue = listModel.get(selectedIndex);
+                        topicLabel1.setText(selectedIndex);
+                        topicLabel1.setVisible(true);
+                    }
+
+
+                }
+
+        });
     }
 
     public void setCurrentUser(User user) {
