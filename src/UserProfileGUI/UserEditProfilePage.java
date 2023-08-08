@@ -1,6 +1,6 @@
-package UserEditProfilePageGUI;
+package UserProfileGUI;
 
-import UserProfileGUI.src.UserProfilePage;
+import UserProfileGUI.UserProfilePage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

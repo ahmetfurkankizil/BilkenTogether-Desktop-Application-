@@ -1,7 +1,6 @@
-package UserProfileGUI.src;
+package UserProfileGUI;
 
 import HomePage.StudiesPage.Main;
-import UserEditProfilePageGUI.UserEditProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 

@@ -4,11 +4,10 @@ import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import Icons.IconCreator;
 import MessagesGUI.*;
-import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
-import UserProfileGUI.src.UserProfilePage;
+import UserProfileGUI.UserProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -18,7 +17,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Main extends JFrame {
     private StudiesPage studies;

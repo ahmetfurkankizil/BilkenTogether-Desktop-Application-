@@ -4,6 +4,7 @@ import Icons.IconCreator;
 import MessagesRelated.Message;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class MessagesPanel extends JPanel {
         return conversationViewers;
     }
 
-    public static class ConversationViewer extends JPanel {
+    private class ConversationViewer extends JPanel {
         private JLabel profilePhotoLabel;
         private final Font profileNameFont = new Font("Ariel", Font.BOLD, 16);
         private final Font dateFont = new Font("Ariel", Font.PLAIN, 10);
@@ -109,6 +110,24 @@ public class MessagesPanel extends JPanel {
 
         public String getMessageContent() {
             return messageContent.getText();
+        }
+    }
+
+    private   class BottomBorder implements Border {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.setColor(Color.gray);
+            g.drawLine(x,y+height,x+width,y+height);
+        }
+
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(2,5,5,5);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return true;
         }
     }
 }
