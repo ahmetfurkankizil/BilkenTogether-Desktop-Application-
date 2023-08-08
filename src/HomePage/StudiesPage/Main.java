@@ -261,7 +261,6 @@ public class Main extends JFrame {
                 invisibleAddablePanelLeft.setVisible(false);
 
                 invisibleAddablePanelRight.setVisible(false);
-                insideScrollPanePanel.add(profilePage.getInPanel());
                 rightPanel.setVisible(true);
                 removableRight.removeAll();
                 //removableRight.add(lessons.getQuickFiltersPanel());
