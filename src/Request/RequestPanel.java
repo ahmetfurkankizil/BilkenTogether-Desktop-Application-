@@ -3,92 +3,74 @@ package Request;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.RequestablePost;
-import UserRelated.Student;
-import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RequestPanel extends JPanel {
 
-    private JLabel profilePhotoLabel;
-    private JLabel nameSurnameLabel;
-    private JTextArea requestTextArea;
-    private JLabel requestStatusLabel;
-    private JLabel typeNameLabel;
-    private JLabel requestNumberLabel;
-    private RequestablePost reqPost;
+    private final RequestablePost REQ_POST;
 
     public RequestPanel(RequestablePost reqPost) {
         super();
-        this.reqPost = reqPost;
-        setLayout( new GridBagLayout());
+        this.REQ_POST = reqPost;
+        setLayout(new GridBagLayout());
         addComponents();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 400);
-        frame.setLocationRelativeTo(null);
-        User sender = new Student("Ufuk", "a", 1,"male","cs", "132", "06/05/2001");
-        RequestablePost requestablePost = new LessonPost(1, sender, "xxxxx", "CS",
-                123, true, "1/1/2001");
-        RequestPanel requestPanel = new RequestPanel(requestablePost);
-        requestPanel.setPreferredSize( new Dimension(900, 300));
-        requestPanel.setForeground(Color.BLUE);
-        frame.add(requestPanel);
-        frame.setVisible(true);
-    }
     private void addComponents() {
-        GridBagConstraints constrains = new GridBagConstraints();
-        constrains.fill = GridBagConstraints.BOTH;
-        constrains.insets = new Insets(5,5,5,5); // Padding
+        GridBagConstraints c = new GridBagConstraints();
 
-        // Add components with appropriate constrains
-        // profilePhotoLabel
-        profilePhotoLabel = new JLabel("Profile Photo");
-        constrains.gridx = 0;
-        constrains.gridy = 0;
-        add(profilePhotoLabel,constrains);
+        // Profile Photo Label
+        JLabel profilePhotoLabel = new JLabel("Profile Photo");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(5,5,5,5);
+        add(profilePhotoLabel, c);
 
-        // nameSurnameLabel
-        nameSurnameLabel = new JLabel(reqPost.getSender().getName());
-        constrains.gridx = 1; //constrains.gridy = 0;
-        add(nameSurnameLabel,constrains);
+        // Name and Surname Label
+        JLabel nameSurnameLabel = new JLabel(REQ_POST.getSender().getName());
+        c.gridx = 1;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(nameSurnameLabel, c);
 
-        // requestTextArea
-        requestTextArea = new JTextArea();
-        requestTextArea.setText(reqPost.getPostDescription());
+        // Request Text Area
+        JTextArea requestTextArea = new JTextArea();
+        requestTextArea.setColumns(50);
+        requestTextArea.setText(REQ_POST.getPostDescription());
         requestTextArea.setLineWrap(true);
         requestTextArea.setEditable(false);
-        constrains.gridx = 0;
-        constrains.gridy = 1;
-        add(requestTextArea, constrains);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 3;
+        add(requestTextArea, c);
 
-        // requestStatusLabel
-        requestStatusLabel = new JLabel();
-        if(reqPost instanceof LessonPost) {
-            LessonPost lesPost = (LessonPost) reqPost;
+
+
+        // Request Status Label
+        JLabel requestStatusLabel = new JLabel();
+        if (REQ_POST instanceof LessonPost lesPost) {
             requestStatusLabel.setText(lesPost.getRequestType() ? "LESSON REQUEST" : "LESSON GIVE");
-        } else if(reqPost instanceof ActivityPost) {
-            ActivityPost actPost = (ActivityPost) reqPost;
+        } else if (REQ_POST instanceof ActivityPost actPost) {
             requestStatusLabel.setText(actPost.getTypeFilter());
         }
-        constrains.gridx = 0;
-        constrains.gridy = 2;
-        add(requestStatusLabel, constrains);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(requestStatusLabel, c);
 
-        // lessonsNameLabel
-        typeNameLabel = new JLabel(reqPost.getTypeFilter());
-        constrains.gridx = 1; // constrains.gridy = 2;
-        add(typeNameLabel, constrains);
+        // Type Name Label
+        JLabel typeNameLabel = new JLabel(REQ_POST.getTypeFilter());
+        c.gridx = 2;
+        add(typeNameLabel, c);
 
-        // requestNumberLabel
-        requestNumberLabel = new JLabel("Number");
-        constrains.gridx = 2; // constrains.gridy = 2;
-        add(requestNumberLabel, constrains);
-
+        // Request Number Label
+        JLabel requestNumberLabel = new JLabel("Number");
+        c.gridx = 3;
+        add(requestNumberLabel, c);
     }
 
 }
