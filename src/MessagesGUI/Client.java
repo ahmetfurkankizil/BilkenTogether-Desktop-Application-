@@ -2,9 +2,6 @@ package MessagesGUI;
 
 import HomePage.StudiesPage.Main;
 import MessagesRelated.Message;
-import MessagesServer.MessagesFrame;
-import MessagesServer.MessagesPanel;
-import MessagesServer.UIMessage;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -101,8 +98,7 @@ public class Client implements Runnable {
 
     public void addAsASender(String message) {
         User otherUser  = new Student("a","a",1,"d","s","d","d");
-        Message tempMessage = new Message(otherUser,otherUser,message,new Date());
-        messagesPanel.addMessage(new MessagesViewer(tempMessage,false),false);
+        messagesPanel.getMessage(otherUser,message);
         messagesPanel.repaint();
         messagesPanel.revalidate();
         System.out.println("pressed");

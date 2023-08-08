@@ -1,6 +1,6 @@
 package Request;
 
-import MessagesGUI.MessagesViewer;
+import MessagesGUI.ConversationPanel;
 
 import javax.swing.*;
 
@@ -15,7 +15,7 @@ public class RequestMiddlePanel {
     private JButton acceptedButton;
     private JButton backButton;
     public RequestMiddlePanel(){
-        insideScrollPanel.add(new MessagesViewer());
+
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("RequestMiddlePanel");

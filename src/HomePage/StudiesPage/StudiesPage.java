@@ -13,19 +13,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class StudiesPage extends JFrame{
+public class StudiesPage {
     private JPanel mainPanel;
-    private JFrame activities;
-
-    public void setActivitiesPage(ActivitiesPage activities) {
-        this.activities = activities;
-    }
-
-    public void setLessonsPage(LessonsPage lessons) {
-        this.lessons = lessons;
-    }
-
-    private JFrame lessons;
     private JPanel secondMainPanel;
     private JPanel rightPanel;
     private JButton profileBoxButton;
@@ -71,7 +60,7 @@ public class StudiesPage extends JFrame{
     private GridBagConstraints g;
     private User currentUser;
     private ArrayList<String> options;
-    private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
+    private final JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
     public StudiesPage() {
         list2.addMouseListener(new MouseAdapter() {
             @Override
@@ -120,20 +109,6 @@ public class StudiesPage extends JFrame{
 
 
             }
-        });
-        lessonsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(lessons.getContentPane());
-            }
-        });
-        activitiesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(activities.getContentPane());
-
-            }
-
         });
 
         postButton.addActionListener(new ActionListener() {
@@ -199,9 +174,6 @@ public class StudiesPage extends JFrame{
 
         });
         generalSetup();
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1500, 800);
     }
 
     public void setCurrentUser(User user) {

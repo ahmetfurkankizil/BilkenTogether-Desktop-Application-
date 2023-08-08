@@ -16,12 +16,18 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
+    private static final File LOGFILE= new File("src/HomePage/StudiesPage/logo.PNG");
+    private static final ImageIcon  LOGO = IconCreator.getIconWithSize(new ImageIcon(LOGFILE.getAbsolutePath()),60,60);;
+
+
+
     NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
     private JPanel mainPanel;
@@ -106,10 +112,11 @@ public class Main extends JFrame {
     private RequestMidPanel requestsPage;
 
     public Main() {
+
         messageSendButtonPressed = false;
         setUpPages();
+        logoLabel.setIcon(LOGO);
         client = new Client(messagesGUI.getConversationPanel(),this);
-
         setContentPane(mainPanel);
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
@@ -119,10 +126,11 @@ public class Main extends JFrame {
         setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
-
+        setUpLabelListeners();
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton tempButton = (JButton) e.getSource();
@@ -162,179 +170,14 @@ public class Main extends JFrame {
         lessonsButton.addActionListener(sectionButtonListener);
         studiesButton.addActionListener(sectionButtonListener);
         activitiesButton.addActionListener(sectionButtonListener);
-        messagesLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                topVisiblisty.setVisible(false);
-                insideScrollPanePanel.removeAll();
-                g.anchor = GridBagConstraints.NORTHWEST;
-                flowScrollPane.setVisible(false);
-                rightPanel.setVisible(false);
-                g.gridx = 0;
-                g.gridy = 0;
-                JPanel left = messagesGUI.getLeftPanel();
-                //left.setMinimumSize(new Dimension(600,800));
-                JPanel right = messagesGUI.getRightPanel();
-                g.fill = GridBagConstraints.VERTICAL;
-                invisibleAddablePanelLeft.add(left,g);
-                g.gridx++;
-                g.gridheight = 3;
-                g.gridy++;
-                g.ipady = 50;
-                //invisibleAddablePanelLeft.add(new JTextArea(),g);
-                g.ipadx = 50;
-                g.ipady = 0;
-                g.gridy--;
-                invisibleAddablePanelRight.setLayout(new LayoutManager() {
-                    @Override
-                    public void addLayoutComponent(String name, Component comp) {
 
-                    }
-
-                    @Override
-                    public void removeLayoutComponent(Component comp) {
-
-                    }
-
-                    @Override
-                    public Dimension preferredLayoutSize(Container parent) {
-                        return new Dimension(600,600);
-                    }
-
-                    @Override
-                    public Dimension minimumLayoutSize(Container parent) {
-                        return null;
-                    }
-
-                    @Override
-                    public void layoutContainer(Container parent) {
-
-                    }
-                });
-                right.setBounds(0,0,640,600);
-                invisibleAddablePanelRight.add(right);
-                g.ipadx = 0;
-                g.gridheight = 1;
-                g.gridy ++;
-
-                invisibleAddablePanelLeft.setVisible(true);
-                invisibleAddablePanelRight.setVisible(true);
-                textAreaPanel.setVisible(true);
-                resetLabelFonts();
-
-                messagesLabel.setFont(new Font("default",Font.BOLD,22));
-                g.anchor = GridBagConstraints.NONE;
-                repaint();
-                revalidate();
-            }
-        });
-        homeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                insideScrollPanePanel.removeAll();
-                flowScrollPane.setVisible(true);
-                invisibleAddablePanelRight.removeAll();
-                invisibleAddablePanelLeft.removeAll();
-                textAreaPanel.setVisible(false);
-                invisibleAddablePanelLeft.setVisible(false);
-                invisibleAddablePanelRight.setVisible(false);
-                insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-                rightPanel.setVisible(true);
-                removableRight.removeAll();
-                removableRight.add(lessons.getQuickFiltersPanel());
-                topVisiblisty.setVisible(true);
-                resetLabelFonts();
-
-                homeLabel.setFont(new Font("default",Font.BOLD,22));
-                lessonsButton.setSelected(true);
-                repaint();
-                revalidate();
-            }
-        });
-        profileLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                insideScrollPanePanel.removeAll();
-                flowScrollPane.setVisible(true);
-                invisibleAddablePanelRight.removeAll();
-                invisibleAddablePanelLeft.removeAll();
-                textAreaPanel.setVisible(false);
-                invisibleAddablePanelLeft.removeAll();
-                g.ipadx = 600;
-                invisibleAddablePanelLeft.add(profilePage.getInPanel());
-                invisibleAddablePanelRight.setVisible(false);
-                rightPanel.setVisible(true);
-                removableRight.removeAll();
-                //removableRight.add(lessons.getQuickFiltersPanel());
-                topVisiblisty.setVisible(false);
-                flowScrollPane.setVisible(false);
-                resetLabelFonts();
-
-                profileLabel.setFont(new Font("default",Font.BOLD,22));
-                //lessonsButton.setSelected(true);
-                repaint();
-                revalidate();
-            }
-        });
-        requestsLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                insideScrollPanePanel.removeAll();
-                flowScrollPane.setVisible(true);
-                invisibleAddablePanelRight.removeAll();
-                invisibleAddablePanelLeft.removeAll();
-                textAreaPanel.setVisible(false);
-                invisibleAddablePanelLeft.removeAll();
-                invisibleAddablePanelRight.setVisible(false);
-                rightPanel.setVisible(true);
-                removableRight.removeAll();
-                GridBagConstraints g2 = new GridBagConstraints();
-                g2.ipadx = 750;
-                g2.ipady = 800;
-
-                flowScrollPane.setVisible(false);
-                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g);
-                //removableRight.add(lessons.getQuickFiltersPanel());
-                topVisiblisty.setVisible(false);
-                resetLabelFonts();
-
-                requestsLabel.setFont(new Font("default",Font.BOLD,22));
-                //lessonsButton.setSelected(true);
-                repaint();
-                revalidate();
-            }
-        });
-        notificationsLabel.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                topVisiblisty.setVisible(false);
-                insideScrollPanePanel.removeAll();
-                resetPanels();
-
-                invisibleAddablePanelRight.add(notificationHomePage.getTopLabel());
-                invisibleAddablePanelRight.setVisible(true);
-                JPanel tempP = notificationHomePage.getMainPanel();
-                insideScrollPanePanel.add(tempP);
-                flowScrollPane.setVisible(true);
-                insideScrollPanePanel.setVisible(true);
-                resetLabelFonts();
-                notificationsLabel.setFont(new Font("default",Font.BOLD,22));
-
-                repaint();
-                revalidate();
-
-            }
-        });
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 messageSendButtonPressed = true;
                 if (!textInputArea.getText().isEmpty()){
-                    Message message = new Message(currentUser,null,textInputArea.getText(),new Date());
-                    messagesGUI.sendMessage(message);
+
+                    messagesGUI.sendMessage(currentUser,textInputArea.getText());
                 }
                 revalidate();
                 repaint();
@@ -343,13 +186,120 @@ public class Main extends JFrame {
         client.run();
     }
 
+    private void setUpLabelListeners() {
+        messagesLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (checkIfLabelAlreadySelected(e)){
+                resetPanels();
+                GridBagConstraints g2 = new GridBagConstraints();
+                //g2.anchor = GridBagConstraints.NORTHWEST;
+                //g2.gridx = 0;
+                //g2.gridy = 0;
+                JPanel left = messagesGUI.getLeftPanel();
+                JPanel right = messagesGUI.getRightPanel();
+                //g2.fill = GridBagConstraints.VERTICAL;
+                invisibleAddablePanelLeft.add(left,g);
+                setUpRightPanelLayout();
+                right.setBounds(0,0,640,600);
+                invisibleAddablePanelRight.add(right);
+                rightPanel.setVisible(false);
+                invisibleAddablePanelLeft.setVisible(true);
+                invisibleAddablePanelRight.setVisible(true);
+                textAreaPanel.setVisible(true);
+                resetLabelFonts();
+                messagesLabel.setFont(new Font("default",Font.BOLD,22));
+                update();}
+            }
+        });
+        homeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (checkIfLabelAlreadySelected(e)){
+                resetPanels();
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                rightPanel.setVisible(true);
+                removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(true);
+                resetLabelFonts();
+                homeLabel.setFont(new Font("default",Font.BOLD,22));
+                lessonsButton.setSelected(true);
+                update();}
+            }
+        });
+        profileLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (checkIfLabelAlreadySelected(e)){
+                resetPanels();
+                GridBagConstraints g2 = new GridBagConstraints();
+                invisibleAddablePanelLeft.add(profilePage.getInPanel(),g2);
+                rightPanel.setVisible(true);
+                invisibleAddablePanelLeft.setVisible(true);
+                resetLabelFonts();
+                profileLabel.setFont(new Font("default",Font.BOLD,22));
+                update();}
+            }
+        });
+        requestsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (checkIfLabelAlreadySelected(e)){
+                resetPanels();
+                GridBagConstraints g2 = new GridBagConstraints();
+
+                g2.ipady = 800;
+
+                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g2);
+                invisibleAddablePanelLeft.setVisible(true);
+                rightPanel.setVisible(true);
+                resetLabelFonts();
+                requestsLabel.setFont(new Font("default",Font.BOLD,22));
+                update();}
+            }
+        });
+        notificationsLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (checkIfLabelAlreadySelected(e)){
+                resetPanels();
+                invisibleAddablePanelLeft.add(notificationHomePage.getTopLabel());
+                invisibleAddablePanelLeft.setVisible(true);
+                JPanel tempP = notificationHomePage.getMainPanel();
+                insideScrollPanePanel.add(tempP);
+                insideScrollPanePanel.setVisible(true);
+                flowScrollPane.setVisible(true);
+                rightPanel.setVisible(true);
+                resetLabelFonts();
+                notificationsLabel.setFont(new Font("default",Font.BOLD,22));
+                update();}
+
+
+            }
+        });
+
+    }
+
+
+    public void update(){
+        repaint();
+        revalidate();
+    }
+
+
     private void resetPanels() {
         textAreaPanel.setVisible(false);
+        topVisiblisty.setVisible(false);
         invisibleAddablePanelLeft.setVisible(false);
         invisibleAddablePanelRight.setVisible(false);
         invisibleAddablePanelRight.removeAll();
         invisibleAddablePanelLeft.removeAll();
         removableRight.removeAll();
+        insideScrollPanePanel.removeAll();
+        flowScrollPane.setVisible(false);
     }
 
     private void resetLabelFonts() {
@@ -417,6 +367,7 @@ public class Main extends JFrame {
     private void setUpSectionLabels() {
         int secPanelIconWidth = 30;
         leftPanel.setBackground(new Color(203, 205, 208));
+
         logOutLabel.setIcon(IconCreator.getIconWithSize(IconCreator.logOutIcon, secPanelIconWidth, secPanelIconWidth));
         int a = (int) (secPanelIconWidth * 1.14);
         messagesLabel.setIcon(IconCreator.getIconWithSize(IconCreator.messageIcon, secPanelIconWidth, secPanelIconWidth));
@@ -472,5 +423,36 @@ public class Main extends JFrame {
     public void setButtonPressed(boolean b){
         messageSendButtonPressed = b;
     }
+    private void setUpRightPanelLayout() {
+        invisibleAddablePanelRight.setLayout(new LayoutManager() {
+            @Override
+            public void addLayoutComponent(String name, Component comp) {
 
+            }
+
+            @Override
+            public void removeLayoutComponent(Component comp) {
+
+            }
+
+            @Override
+            public Dimension preferredLayoutSize(Container parent) {
+                return new Dimension(600,600);
+            }
+
+            @Override
+            public Dimension minimumLayoutSize(Container parent) {
+                return null;
+            }
+
+            @Override
+            public void layoutContainer(Container parent) {
+
+            }
+        });
+    }
+    private boolean checkIfLabelAlreadySelected(MouseEvent e){
+        JLabel label = (JLabel) e.getSource();
+        return !label.getFont().isBold();
+    }
 }

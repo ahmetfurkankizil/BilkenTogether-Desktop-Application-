@@ -7,10 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import HomePage.StudiesPage.Main;
 import Icons.IconCreator;
-import MessagesRelated.Message;
-
-import javax.swing.*;
-import java.awt.*;
+import UserRelated.User;
 
 public class MessagesGUI extends JFrame {
     private JPanel panel1;
@@ -24,6 +21,7 @@ public class MessagesGUI extends JFrame {
     private JButton sendMessageButton;
     private JPanel searchPanel;
     private JScrollPane belowBorderedPane;
+    private JScrollPane scrollLeft;
     private final Color searchPanelColor = new Color(200,205,209);
     JButton searchButton;
     JLabel searchLabel;
@@ -61,6 +59,7 @@ public class MessagesGUI extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     performSearch();
+                    main.update();
                 }
             }
         });
@@ -100,9 +99,8 @@ public class MessagesGUI extends JFrame {
     }
 
 
-    public void sendMessage(Message message) {
-        MessagesViewer tempM = new MessagesViewer(message);
-        conversationPanel.addMessage(tempM,true);
+    public void sendMessage(User sender, String message) {
+        conversationPanel.sendMessage(sender,message);
         //main.repaint();
         //main.revalidate();
     }
@@ -133,11 +131,14 @@ public class MessagesGUI extends JFrame {
             }
 
         }
-        leftPanel.repaint();
-        leftPanel.repaint();
+        m.repaint();
+        m.revalidate();
+        scrollLeft.repaint();
+        scrollLeft.revalidate();
     }
 
 }
+
 
 
 

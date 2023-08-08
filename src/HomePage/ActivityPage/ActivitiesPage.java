@@ -15,38 +15,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-public class ActivitiesPage extends JFrame {
-    private StudiesPage studies;
-    private LessonsPage lessons;
+public class ActivitiesPage {
+    private Main main;
 
-    public void setStudiesPage(StudiesPage studies) {
-        this.studies = studies;
-    }
-
-    public void setLessonsPage(LessonsPage lessons) {
-        this.lessons = lessons;
-    }
 
     private JPanel mainPanel;
-    private JPanel secondMainPanel;
-    private JPanel leftPanel;
-    private JLabel logoLabel;
-    private JPanel homeLabelPanel;
-    private JLabel homeLabel;
-    private JPanel messagesLabelPanel;
-    private JLabel messagesLabel;
-    private JPanel notificationsLabelPanel;
-    private JLabel notificationsLabel;
-    private JPanel profileLabelPanel;
-    private JLabel profileLabel;
-    private JPanel requestLabelPanel;
-    private JLabel requestsLabel;
-    private JPanel logOutLabelPanel;
-    private JLabel logOutLabel;
-    private JPanel rightPanel;
     private JButton profileBoxButton;
     private JButton filterBoxButton;
-    private JPanel middlePanel;
     private JLabel bilkenTogetherLabel;
     private JPanel buttonPanel;
     private JButton lessonsButton;
@@ -82,14 +57,8 @@ public class ActivitiesPage extends JFrame {
     public ActivitiesPage() {
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
-
-
-        //setVisible(true);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,27 +68,13 @@ public class ActivitiesPage extends JFrame {
                     activitiesQFpanel.setVisible(true);
             }
         });
-        studiesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(studies.getContentPane());
-            }
-        });
-        lessonsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(lessons.getContentPane());
-            }
-        });
+
     }
     public JPanel getInsideScrollPanePanel(){
         return insideScrollPanePanel;
     }
     public JPanel getActivitiesQFpanel(){
         return quickFiltersPanel;
-    }
-    public JPanel getRightPanel(){
-        return rightPanel;
     }
     public void setCurrentUser(User user) {
         currentUser = user;
@@ -141,22 +96,7 @@ public class ActivitiesPage extends JFrame {
         for (int i = 1; i < 16; i++) {
             peopleCountComboBox.addItem(i +"");
         }
-        lessonsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lessons.setVisible(true);
-                setVisible(false);
-                repaint();
-                revalidate();
-
-            }
-        });
     }
-
-    public static void main(String[] args) {
-        ActivitiesPage page = new ActivitiesPage();
-    }
-    private Main main;
     public void setMain(Main main) {
         this.main = main;
     }
@@ -172,12 +112,9 @@ public class ActivitiesPage extends JFrame {
                 g.gridx = 0;
                 ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText(),peopleCount,date.toString(),type,"23/03/2023");
                 tempStudent.addToActivitiesTable(tempPost);
-
-
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()));
                 insideScrollPanePanel.add(viewer2,g);
-                main.repaint();
-                main.revalidate();
+                main.update();
             }
 
         }
