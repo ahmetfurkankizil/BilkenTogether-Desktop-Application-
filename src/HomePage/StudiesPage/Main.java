@@ -4,7 +4,11 @@ import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import Icons.IconCreator;
 import MessagesGUI.*;
+import MessagesRelated.Message;
+import NotificationRelated.NotificationHomePage;
+import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
+import UserProfileGUI.src.UserProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -13,13 +17,15 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
-
+    NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
     private JPanel mainPanel;
+    private Client client;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
@@ -53,7 +59,6 @@ public class Main extends JFrame {
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
     private JPanel buttonPanel;
-    private JTextArea textArea1;
     private JComboBox courseTypeComboBox;
     private JButton postButton;
     private JButton mondayButton;
@@ -71,6 +76,7 @@ public class Main extends JFrame {
     private JPanel lessonsQFpanel;
     private JButton givenButton;
     private JButton requestedButton;
+    private UserProfilePage profilePage;
     private JButton filtersSubmitButton;
     private JButton mondayFilterButton;
     private JButton TuesdayFilterButton;
@@ -85,16 +91,25 @@ public class Main extends JFrame {
     private JPanel invisibleAddablePanelLeft;
     private JPanel neverOpenCursed;
     private JPanel P;
+    private JPanel parentP;
+    private JPanel problematic;
     private JPanel invisibleAddablePanelRight;
     private JButton sendMessageButton;
     private JTextArea textInputArea;
     private JPanel textAreaPanel;
+    private JPanel bPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
 
+    private boolean messageSendButtonPressed;
+    private RequestMidPanel requestsPage;
+
     public Main() {
+        messageSendButtonPressed = false;
         setUpPages();
+        client = new Client(messagesGUI.getConversationPanel(),this);
+
         setContentPane(mainPanel);
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
@@ -167,11 +182,38 @@ public class Main extends JFrame {
                 g.gridheight = 3;
                 g.gridy++;
                 g.ipady = 50;
-                invisibleAddablePanelLeft.add(new JTextArea(),g);
+                //invisibleAddablePanelLeft.add(new JTextArea(),g);
                 g.ipadx = 50;
                 g.ipady = 0;
                 g.gridy--;
-                invisibleAddablePanelRight.add(right,g);
+                invisibleAddablePanelRight.setLayout(new LayoutManager() {
+                    @Override
+                    public void addLayoutComponent(String name, Component comp) {
+
+                    }
+
+                    @Override
+                    public void removeLayoutComponent(Component comp) {
+
+                    }
+
+                    @Override
+                    public Dimension preferredLayoutSize(Container parent) {
+                        return new Dimension(600,600);
+                    }
+
+                    @Override
+                    public Dimension minimumLayoutSize(Container parent) {
+                        return null;
+                    }
+
+                    @Override
+                    public void layoutContainer(Container parent) {
+
+                    }
+                });
+                right.setBounds(0,0,640,600);
+                invisibleAddablePanelRight.add(right);
                 g.ipadx = 0;
                 g.gridheight = 1;
                 g.gridy ++;
@@ -179,8 +221,9 @@ public class Main extends JFrame {
                 invisibleAddablePanelLeft.setVisible(true);
                 invisibleAddablePanelRight.setVisible(true);
                 textAreaPanel.setVisible(true);
+                resetLabelFonts();
+
                 messagesLabel.setFont(new Font("default",Font.BOLD,22));
-                homeLabel.setFont(new Font("default",Font.PLAIN,22));
                 g.anchor = GridBagConstraints.NONE;
                 repaint();
                 revalidate();
@@ -191,19 +234,130 @@ public class Main extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 insideScrollPanePanel.removeAll();
                 flowScrollPane.setVisible(true);
+                invisibleAddablePanelRight.removeAll();
+                invisibleAddablePanelLeft.removeAll();
+                textAreaPanel.setVisible(false);
                 invisibleAddablePanelLeft.setVisible(false);
+                invisibleAddablePanelRight.setVisible(false);
                 insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
                 rightPanel.setVisible(true);
                 removableRight.removeAll();
                 removableRight.add(lessons.getQuickFiltersPanel());
                 topVisiblisty.setVisible(true);
-                messagesLabel.setFont(new Font("default",Font.PLAIN,22));
+                resetLabelFonts();
+
                 homeLabel.setFont(new Font("default",Font.BOLD,22));
                 lessonsButton.setSelected(true);
                 repaint();
                 revalidate();
             }
         });
+        profileLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                invisibleAddablePanelRight.removeAll();
+                invisibleAddablePanelLeft.removeAll();
+                textAreaPanel.setVisible(false);
+                invisibleAddablePanelLeft.removeAll();
+                g.ipadx = 600;
+                invisibleAddablePanelLeft.add(profilePage.getInPanel());
+                invisibleAddablePanelRight.setVisible(false);
+                rightPanel.setVisible(true);
+                removableRight.removeAll();
+                //removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(false);
+                flowScrollPane.setVisible(false);
+                resetLabelFonts();
+
+                profileLabel.setFont(new Font("default",Font.BOLD,22));
+                //lessonsButton.setSelected(true);
+                repaint();
+                revalidate();
+            }
+        });
+        requestsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                invisibleAddablePanelRight.removeAll();
+                invisibleAddablePanelLeft.removeAll();
+                textAreaPanel.setVisible(false);
+                invisibleAddablePanelLeft.removeAll();
+                invisibleAddablePanelRight.setVisible(false);
+                rightPanel.setVisible(true);
+                removableRight.removeAll();
+                GridBagConstraints g2 = new GridBagConstraints();
+                g2.ipadx = 750;
+                g2.ipady = 800;
+
+                flowScrollPane.setVisible(false);
+                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g);
+                //removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(false);
+                resetLabelFonts();
+
+                requestsLabel.setFont(new Font("default",Font.BOLD,22));
+                //lessonsButton.setSelected(true);
+                repaint();
+                revalidate();
+            }
+        });
+        notificationsLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                topVisiblisty.setVisible(false);
+                insideScrollPanePanel.removeAll();
+                resetPanels();
+
+                invisibleAddablePanelRight.add(notificationHomePage.getTopLabel());
+                invisibleAddablePanelRight.setVisible(true);
+                JPanel tempP = notificationHomePage.getMainPanel();
+                insideScrollPanePanel.add(tempP);
+                flowScrollPane.setVisible(true);
+                insideScrollPanePanel.setVisible(true);
+                resetLabelFonts();
+                notificationsLabel.setFont(new Font("default",Font.BOLD,22));
+
+                repaint();
+                revalidate();
+
+            }
+        });
+        sendMessageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                messageSendButtonPressed = true;
+                if (!textInputArea.getText().isEmpty()){
+                    Message message = new Message(currentUser,null,textInputArea.getText(),new Date());
+                    messagesGUI.sendMessage(message);
+                }
+                revalidate();
+                repaint();
+            }
+        });
+        client.run();
+    }
+
+    private void resetPanels() {
+        textAreaPanel.setVisible(false);
+        invisibleAddablePanelLeft.setVisible(false);
+        invisibleAddablePanelRight.setVisible(false);
+        invisibleAddablePanelRight.removeAll();
+        invisibleAddablePanelLeft.removeAll();
+        removableRight.removeAll();
+    }
+
+    private void resetLabelFonts() {
+        homeLabel.setFont(new Font("default",Font.PLAIN,22));
+        notificationsLabel.setFont(new Font("default",Font.PLAIN,22));
+        messagesLabel.setFont(new Font("default",Font.PLAIN,22));
+        requestsLabel.setFont(new Font("default",Font.PLAIN,22));
+        profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
 
     private void setUpPages() {
@@ -214,6 +368,11 @@ public class Main extends JFrame {
         lessons = new LessonsPage();
         lessons.setMain(this);
         messagesGUI = new MessagesGUI();
+        messagesGUI.setMain(this);
+        notificationHomePage = new NotificationHomePage();
+        profilePage = new UserProfilePage();
+        profilePage.setMain(this);
+        requestsPage = new RequestMidPanel();
     }
 
     public void setCurrentUser(User user) {
@@ -278,9 +437,15 @@ public class Main extends JFrame {
     }
 
 
+
     public static void main(String[] args) {
         Main lessonsPage = new Main();
     }
+
+    public String getTextFieldText() {
+        return textInputArea.getText();
+    }
+
 
 
     private class SectionItemBorder implements Border {
@@ -300,6 +465,12 @@ public class Main extends JFrame {
             g2d.setColor(Color.gray);
             g2d.drawLine(x, y + height, x + width + 10, y + height);
         }
+    }
+    public boolean getButtonPressed(){
+        return messageSendButtonPressed;
+    }
+    public void setButtonPressed(boolean b){
+        messageSendButtonPressed = b;
     }
 
 }

@@ -1,5 +1,6 @@
 package UserProfileGUI.src;
 
+import HomePage.StudiesPage.Main;
 import UserEditProfilePageGUI.UserEditProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
@@ -8,14 +9,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UserProfilePage extends JFrame {
-    private JButton arrowIconButton;
+public class UserProfilePage extends JPanel {
+
     private JButton editProfileButton;
     private JButton lessonsButton;
     private JButton activitiesButton;
     private JButton studiesButton;
 
-    private JLabel backLabel;
     private JLabel nameSurnameLabel;
     private JLabel eMailLabel;
     private JLabel researchInterestsLabel;
@@ -23,24 +23,24 @@ public class UserProfilePage extends JFrame {
     private JPanel mainPanel;
     private JPanel historyLessons;
     private JPanel profilePhotoPanel;
-    private JPanel backButtonPanel;
     private JPanel personalInfoPanel;
     private JPanel backgroundPhotoPanel;
     private JLabel bioLabel;
     private JLabel biographyLabel;
     private JLabel resIntLabel;
+    private JPanel inPanel;
     private User user;
+    private Main main;
 
     public UserProfilePage() {
         add(mainPanel);
         setName("Profile");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 600);
-
         setDefaultPhotos(); // Implementations are empty
         createActionListeners(); // Implementations are empty
+    }
 
-        setVisible(true);
+    public void setMain(Main main) {
+        this.main = main;
     }
 
     public UserProfilePage(User user) {
@@ -52,12 +52,6 @@ public class UserProfilePage extends JFrame {
 
     }
 
-
-    public static void main(String[] args) {
-        JFrame frame = new UserProfilePage(new User("Ufuk Baran Güler",
-                "baran.guler@gmail.com", 22001734, "Male", "CS", "1234", "06/05/2001") {
-        });
-    }
 
     /*
      * This method takes user's information and sets
@@ -95,11 +89,14 @@ public class UserProfilePage extends JFrame {
 
     private void openEditProfilePage() {
         JFrame frame = new UserEditProfilePage(this);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);
+    }
+
+    public JPanel getInPanel() {
+        return inPanel;
     }
 
     /**
@@ -115,17 +112,6 @@ public class UserProfilePage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openEditProfilePage();
-            }
-        });
-
-        /*
-         * adds listener to arrowIconButton
-         * Navigate user back to home page when user click this button
-         */
-        arrowIconButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Implementation is empty
             }
         });
 

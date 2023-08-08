@@ -7,9 +7,11 @@ import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class StudiesPage extends JFrame{
     private JPanel mainPanel;
@@ -25,20 +27,6 @@ public class StudiesPage extends JFrame{
 
     private JFrame lessons;
     private JPanel secondMainPanel;
-    private JPanel leftPanel;
-    private JLabel logoLabel;
-    private JPanel homeLabelPanel;
-    private JLabel homeLabel;
-    private JPanel messagesLabelPanel;
-    private JLabel messagesLabel;
-    private JPanel notificationsLabelPanel;
-    private JLabel notificationsLabel;
-    private JPanel profileLabelPanel;
-    private JLabel profileLabel;
-    private JPanel requestLabelPanel;
-    private JLabel requestsLabel;
-    private JPanel logOutLabelPanel;
-    private JLabel logOutLabel;
     private JPanel rightPanel;
     private JButton profileBoxButton;
     private JPanel middlePanel;
@@ -65,15 +53,57 @@ public class StudiesPage extends JFrame{
     private JPanel nonRemovableRightPanel;
     private JPanel qfPanel;
     private JPanel insideScrollPanel;
+    private JLabel errorLabel;
+    private JList <String>list2;
+    private DefaultListModel<String> listModel;
+    private JLabel selectedOption;
+    private JScrollPane listScroll;
+    private JPanel topicPanel;
+    private JLabel topicLabel1;
+    private JLabel topicLabel2;
+    private JLabel topicLabel3;
+    private JLabel topicLabel4;
+    private JLabel topicLabel5;
+    private JLabel errorLabel2;
+    private JTextField addAuthorsTextField;
+    private JLabel errorLabel3;
+    private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
     private User currentUser;
+    private ArrayList<String> options;
+    private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
     public StudiesPage() {
+        list2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("1");
 
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1500, 800);
+
+                if (e.getClickCount() == 2) {
+                    int selectedIndex = list2.getSelectedIndex();
+                    String selectedValue = list2.getSelectedValue();
+
+                    if (selectedIndex >= 0 && selectedIndex <= topicLabels.length) {
+
+                        topicLabels[selectedIndex].setText(selectedValue);
+                        topicLabels[selectedIndex].setVisible(true);
+
+                    }
+                   if(topicLabels[selectedIndex].isVisible()){
+
+                   }
+
+
+
+                }
+            }
+        });
+
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
-        generalSetup();
+
+        listModel = new DefaultListModel<>();
+
+
 
 
         //setVisible(true);
@@ -106,6 +136,72 @@ public class StudiesPage extends JFrame{
 
         });
 
+        postButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String postText = textArea2.getText();
+                String heading = headingtextArea.getText();
+               String addAuthors = addAuthorsTextField.getText();
+                if(postText.isEmpty()) {
+                    String errorMessage = "Post content cannot be empty.";
+                    errorLabel.setText(errorMessage);
+                    errorLabel.setForeground(Color.RED);
+                    errorLabel.setSize(30,30);
+                }
+                if(heading.isEmpty()){
+                    String errorMessage = "Heading cannot be empty.";
+                    errorLabel2.setText(errorMessage);
+                    errorLabel2.setForeground(Color.RED);
+                    errorLabel2.setSize(30,30);
+
+                }
+                if(addAuthors.isEmpty()){
+                    String errorMessage = "Authors cannot be empty.";
+                    errorLabel3.setText(errorMessage);
+                    errorLabel3.setForeground(Color.RED);
+                    errorLabel2.setSize(30,30);
+
+                }
+
+
+
+                }
+
+
+
+
+
+        });
+
+
+        addTopicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println("clicked!");
+                if(listScroll.isVisible()){
+                    listScroll.setVisible(false);
+                }
+                else{
+                    listScroll.setVisible(true);
+
+                }
+            }
+        });
+        listScroll.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+
+
+
+        });
+        generalSetup();
+        setContentPane(mainPanel);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1500, 800);
     }
 
     public void setCurrentUser(User user) {

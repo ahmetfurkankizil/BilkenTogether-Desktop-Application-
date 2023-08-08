@@ -60,7 +60,6 @@ public class MessagesFrame extends JFrame implements ActionListener {
     }
 
     public String getTextFieldText() {
-
         return textField.getText();
 
     }
