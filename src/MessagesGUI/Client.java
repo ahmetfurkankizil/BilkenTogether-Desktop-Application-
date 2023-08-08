@@ -1,16 +1,19 @@
-package MessagesServer;
+package MessagesGUI;
 
-import java.awt.Frame;
+import HomePage.StudiesPage.Main;
+import MessagesRelated.Message;
+import MessagesServer.MessagesFrame;
+import MessagesServer.MessagesPanel;
+import MessagesServer.UIMessage;
+import UserRelated.Student;
+import UserRelated.User;
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-
-import javax.swing.JFrame;
+import java.util.Date;
 
 public class Client implements Runnable {
     private Socket client;
@@ -18,10 +21,10 @@ public class Client implements Runnable {
     private PrintWriter out;
     private boolean done;
     private String inMessage;
-    private MessagesPanel messagesPanel;
-    private MessagesFrame frame;
+    private ConversationPanel messagesPanel;
+    private Main frame;
     
-    public Client(MessagesPanel mPanel, MessagesFrame frame) {
+    public Client(ConversationPanel mPanel, Main frame) {
         done = false;
         this.frame = frame;
         messagesPanel = mPanel;
@@ -76,11 +79,14 @@ public class Client implements Runnable {
                 inReader = new BufferedReader(new InputStreamReader(System.in));
                 while (!done) {
                     
-                    if (frame.getTextFieldText() != "" && frame.getButtonPressed()) {
+                    if (!frame.getTextFieldText().isEmpty()&& frame.getButtonPressed()) {
                         message = frame.getTextFieldText();
                         out.println(message);
-                        frame.revalidate();
+                        messagesPanel.repaint();
+                        messagesPanel.revalidate();
                         frame.setButtonPressed(false);
+                        System.out.println("pressed");
+
                     }
 
                 }
@@ -92,14 +98,13 @@ public class Client implements Runnable {
 
     }
 
-    public static void main(String[] args) {
-        MessagesFrame myFrame = new MessagesFrame();
-        Client client = new Client(myFrame.getmPanel(), myFrame);
-        client.run();
-    }
 
     public void addAsASender(String message) {
-        frame.getmPanel().addSenderMessage(new UIMessage(message,true));
-        frame.revalidate();
+        User otherUser  = new Student("a","a",1,"d","s","d","d");
+        Message tempMessage = new Message(otherUser,otherUser,message,new Date());
+        messagesPanel.addMessage(new MessagesViewer(tempMessage,false),false);
+        messagesPanel.repaint();
+        messagesPanel.revalidate();
+        System.out.println("pressed");
     }
 }

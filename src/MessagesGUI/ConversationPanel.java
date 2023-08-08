@@ -18,18 +18,26 @@ public class ConversationPanel extends JPanel {
 
         g = new GridBagConstraints();
         g.gridy = 0;
+        g.gridx =0;
+        g.gridwidth = 2;
         g.fill = GridBagConstraints.HORIZONTAL;
-        addMessage(new MessagesViewer(null, false), false);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
-        addMessage(new MessagesViewer(null, true), true);
+        JTextArea empty = new JTextArea();
+        empty.setColumns(50);
+        empty.setOpaque(false);
 
 
-
+        mainPanel.add(empty,g);
+        g.gridx = 0;
+        g.gridy += 1;
+        JTextArea empty2 = new JTextArea();
+        empty2.setColumns(25);
+        empty2.setEditable(false);
+        empty2.setOpaque(false);
+        g.gridwidth = 1;
+        mainPanel.add(empty2,g);
+        //g.gridx = 1;
+        //addMessage(new MessagesViewer(null, true), true);
+        g.gridx = 0;
         add(mainPanel);
     }
 

@@ -32,7 +32,6 @@ public class NotificationHomePage extends JFrame {
     private JPanel rightPanel;
     private JPanel middlePanel;
     private JPanel buttonPanel;
-    private JScrollPane flowScrollPane;
     private JLabel courseType;
     private JComboBox courseTypeComboBox;
     private JButton postButton;
@@ -63,22 +62,32 @@ public class NotificationHomePage extends JFrame {
     {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1500, 800);
+        //setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
         notification = new Notification(currentUser, currentUser, 1);
         notification.setContent("Sample notification content");
+        g = new GridBagConstraints();
+        g.gridx = 0;
+        g.fill = GridBagConstraints.VERTICAL;
+        g.anchor = GridBagConstraints.NORTHWEST;
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
 
-        insideScrollPanePanel.add(new GeneralNotificationPanel(notification));
+        insideScrollPanePanel.add(new GeneralNotificationPanel(notification),g);
 
 
 
         //generalSetup();
 
-        setVisible(true);
+        //setVisible(true);
     }
 
-
-
+    public JPanel getMainPanel() {
+        return insideScrollPanePanel;
+    }
 
     public void generalSetup() {
         g = new GridBagConstraints();
@@ -120,6 +129,10 @@ public class NotificationHomePage extends JFrame {
 
 
 
+    }
+
+    public JPanel getTopLabel() {
+        return TopLabel;
     }
 
     public static void main(String[] args) {

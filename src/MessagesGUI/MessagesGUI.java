@@ -2,6 +2,7 @@ package MessagesGUI;
 
 import HomePage.StudiesPage.Main;
 import Icons.IconCreator;
+import MessagesRelated.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,8 @@ public class MessagesGUI extends JFrame {
     JButton searchButton;
     JLabel searchLabel;
     JTextField searchField;
+    ConversationPanel conversationPanel;
+    private Main main;
 
     public MessagesGUI(){
 
@@ -42,11 +45,11 @@ public class MessagesGUI extends JFrame {
 
 
         searchField.setColumns(20);
-        ConversationPanel c = new ConversationPanel();
+        conversationPanel = new ConversationPanel();
         MessagesPanel m = new MessagesPanel();
         //textInputArea.setMargin(new Insets(5,5,5,5));
         addablePanelLeft.add(m);
-        addablePanelRight.add(c);
+        addablePanelRight.add(conversationPanel);
         //setSize(1200,800);
         //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         //sendMessageButton.setFocusable(false);
@@ -72,4 +75,18 @@ public class MessagesGUI extends JFrame {
     }
 
 
+    public void sendMessage(Message message) {
+        MessagesViewer tempM = new MessagesViewer(message);
+        conversationPanel.addMessage(tempM,true);
+        //main.repaint();
+        //main.revalidate();
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+    public ConversationPanel getConversationPanel() {
+        return conversationPanel;
+    }
 }
