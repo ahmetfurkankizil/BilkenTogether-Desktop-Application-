@@ -1,9 +1,6 @@
 package ProfileBox;
 
-import NotificationRelated.GeneralNotificationPanel;
-import NotificationRelated.NotificationsViewer;
 import javax.swing.*;
-import java.awt.*;
 
 public class ProfileBox extends  JFrame {
     private JPanel panel1;

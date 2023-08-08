@@ -1,7 +1,7 @@
 package CommentsGUI;
 
 import CommentsRelated.Comment;
-import HomePage.LessonsPage.LessonPostViewer;
+import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 import UserRelated.Student;

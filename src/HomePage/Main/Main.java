@@ -1,7 +1,8 @@
-package HomePage.StudiesPage;
+package HomePage.Main;
 
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
+import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
 import MessagesGUI.*;
 import NotificationRelated.NotificationHomePage;
@@ -21,12 +22,9 @@ import java.util.ArrayList;
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
-    private static final File LOGFILE= new File("src/HomePage/StudiesPage/logo.PNG");
+    private static final File LOGFILE= new File("HomePage/StudiesPage/logo.PNG");
     private static final ImageIcon  LOGO = IconCreator.getIconWithSize(new ImageIcon(LOGFILE.getAbsolutePath()),60,60);;
-
-
-
-    NotificationHomePage notificationHomePage;
+    private NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
     private JPanel mainPanel;
     private Client client;

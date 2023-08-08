@@ -1,14 +1,11 @@
 package HomePage.StudiesPage;
 
-import HomePage.ActivityPage.ActivitiesPage;
-import HomePage.LessonsPage.LessonsPage;
+import HomePage.Main.Main;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -117,7 +114,7 @@ public class StudiesPage {
                 String postText = textArea2.getText();
                 String heading = headingtextArea.getText();
                String addAuthors = addAuthorsTextField.getText();
-                if(postText.isEmpty()) {
+                if(postText.isBlank()) {
                     String errorMessage = "Post content cannot be empty.";
                     errorLabel.setText(errorMessage);
                     errorLabel.setForeground(Color.RED);
@@ -135,17 +132,9 @@ public class StudiesPage {
                     errorLabel3.setText(errorMessage);
                     errorLabel3.setForeground(Color.RED);
                     errorLabel2.setSize(30,30);
-
                 }
-
-
-
+                main.update();
                 }
-
-
-
-
-
         });
 
 

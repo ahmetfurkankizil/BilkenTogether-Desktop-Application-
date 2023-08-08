@@ -57,7 +57,7 @@ public class MessagesPanel extends JPanel {
         return conversationViewers;
     }
 
-    private class ConversationViewer extends JPanel {
+    public class ConversationViewer extends JPanel {
         private JLabel profilePhotoLabel;
         private final Font profileNameFont = new Font("Ariel", Font.BOLD, 16);
         private final Font dateFont = new Font("Ariel", Font.PLAIN, 10);

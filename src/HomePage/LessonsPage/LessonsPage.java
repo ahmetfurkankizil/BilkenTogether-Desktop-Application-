@@ -1,22 +1,18 @@
 package HomePage.LessonsPage;
-import HomePage.ActivityPage.ActivitiesPage;
-import HomePage.StudiesPage.Main;
-import HomePage.StudiesPage.StudiesPage;
+import HomePage.Main.Main;
 import Icons.IconCreator;
+import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
 public class LessonsPage {
@@ -258,7 +254,7 @@ public class LessonsPage {
             if (checkIfValid()) {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
-                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
+                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
                 addLessonPost(tempPost);
                 Student s = (Student) currentUser;
                 main.update();
@@ -268,7 +264,7 @@ public class LessonsPage {
         }
 
         private boolean checkIfValid() {
-            if (textArea1.getText().isEmpty()) {
+            if (textArea1.getText().isBlank()) {
                 errorLabel.setText("Please Enter A Description!");
                 return false;
             }

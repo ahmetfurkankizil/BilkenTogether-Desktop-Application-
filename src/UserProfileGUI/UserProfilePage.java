@@ -1,6 +1,6 @@
 package UserProfileGUI;
 
-import HomePage.StudiesPage.Main;
+import HomePage.Main.Main;
 import UserRelated.Student;
 import UserRelated.User;
 

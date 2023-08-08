@@ -1,9 +1,7 @@
 package HomePage.ActivityPage;
 
-import HomePage.LessonsPage.ActivitiesPostViewer;
-import HomePage.LessonsPage.LessonsPage;
-import HomePage.StudiesPage.Main;
-import HomePage.StudiesPage.StudiesPage;
+import PostComponents.ActivitiesPostViewer;
+import HomePage.Main.Main;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -110,7 +108,7 @@ public class ActivitiesPage {
                 Student tempStudent = (Student) currentUser;
                 Date date = new Date();
                 g.gridx = 0;
-                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText(),peopleCount,date.toString(),type,"23/03/2023");
+                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type,"23/03/2023");
                 tempStudent.addToActivitiesTable(tempPost);
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()));
                 insideScrollPanePanel.add(viewer2,g);
@@ -119,7 +117,7 @@ public class ActivitiesPage {
 
         }
         private boolean checkPost(){
-            if (textArea1.getText().isEmpty()){
+            if (textArea1.getText().isBlank()){
                 errorLabel.setText("Please Enter A Description!");
                 return false;
             }

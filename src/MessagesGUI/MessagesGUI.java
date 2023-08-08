@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import HomePage.StudiesPage.Main;
+import HomePage.Main.Main;
 import Icons.IconCreator;
 import UserRelated.User;
 

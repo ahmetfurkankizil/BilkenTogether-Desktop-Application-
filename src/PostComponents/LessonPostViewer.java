@@ -1,6 +1,5 @@
-package HomePage.LessonsPage;
+package PostComponents;
 
-import PostComponents.DayButtons;
 import Posts.LessonPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.User;

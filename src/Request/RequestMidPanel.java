@@ -1,6 +1,6 @@
 package Request;
 
-import HomePage.StudiesPage.Main;
+import HomePage.Main.Main;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 import UserRelated.Student;

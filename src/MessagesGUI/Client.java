@@ -1,7 +1,6 @@
 package MessagesGUI;
 
-import HomePage.StudiesPage.Main;
-import MessagesRelated.Message;
+import HomePage.Main.Main;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Date;
 
 public class Client implements Runnable {
     private Socket client;
