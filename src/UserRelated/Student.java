@@ -256,6 +256,7 @@ public class Student extends User implements StudentDatabaseHandler{
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    activityPost.setPostID(generateActivityPostId());
                     preparedStatement.setInt(1, activityPost.getPostID());
                     preparedStatement.setString(2, activityPost.getSender().getName());
                     preparedStatement.setString(3, activityPost.getPostDescription());
