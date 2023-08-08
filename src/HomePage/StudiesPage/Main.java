@@ -1,14 +1,9 @@
 package HomePage.StudiesPage;
 
 import HomePage.ActivityPage.ActivitiesPage;
-import HomePage.LessonsPage.ActivitiesPostViewer;
-import HomePage.LessonsPage.LessonPostViewer;
 import HomePage.LessonsPage.LessonsPage;
-import HomePage.LessonsPage.StudiesPostViewer;
 import Icons.IconCreator;
-import Posts.ActivityPost;
-import Posts.LessonPost;
-import Posts.StudyPost;
+import MessagesGUI.*;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -16,11 +11,8 @@ import UserRelated.User;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -89,8 +81,17 @@ public class Main extends JFrame {
     private JButton sundayFilterButton;
     private JPanel quickFiltersPanel;
     private JPanel removableRight;
+    private JPanel topVisiblisty;
+    private JPanel invisibleAddablePanelLeft;
+    private JPanel neverOpenCursed;
+    private JPanel P;
+    private JPanel invisibleAddablePanelRight;
+    private JButton sendMessageButton;
+    private JTextArea textInputArea;
+    private JPanel textAreaPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
+    private MessagesGUI messagesGUI;
 
     public Main() {
         setUpPages();
@@ -98,6 +99,8 @@ public class Main extends JFrame {
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        homeLabel.setFont(new Font("default",Font.BOLD,22));
+        lessonsButton.setSelected(true);
         setSize(1500, 800);
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
@@ -144,6 +147,63 @@ public class Main extends JFrame {
         lessonsButton.addActionListener(sectionButtonListener);
         studiesButton.addActionListener(sectionButtonListener);
         activitiesButton.addActionListener(sectionButtonListener);
+        messagesLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                topVisiblisty.setVisible(false);
+                insideScrollPanePanel.removeAll();
+                g.anchor = GridBagConstraints.NORTHWEST;
+                flowScrollPane.setVisible(false);
+                rightPanel.setVisible(false);
+                g.gridx = 0;
+                g.gridy = 0;
+                JPanel left = messagesGUI.getLeftPanel();
+                //left.setMinimumSize(new Dimension(600,800));
+                JPanel right = messagesGUI.getRightPanel();
+                g.fill = GridBagConstraints.VERTICAL;
+                invisibleAddablePanelLeft.add(left,g);
+                g.gridx++;
+                g.gridheight = 3;
+                g.gridy++;
+                g.ipady = 50;
+                invisibleAddablePanelLeft.add(new JTextArea(),g);
+                g.ipadx = 50;
+                g.ipady = 0;
+                g.gridy--;
+                invisibleAddablePanelRight.add(right,g);
+                g.ipadx = 0;
+                g.gridheight = 1;
+                g.gridy ++;
+
+                invisibleAddablePanelLeft.setVisible(true);
+                invisibleAddablePanelRight.setVisible(true);
+                textAreaPanel.setVisible(true);
+                messagesLabel.setFont(new Font("default",Font.BOLD,22));
+                homeLabel.setFont(new Font("default",Font.PLAIN,22));
+                g.anchor = GridBagConstraints.NONE;
+                repaint();
+                revalidate();
+            }
+        });
+        homeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                invisibleAddablePanelLeft.setVisible(false);
+                insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                rightPanel.setVisible(true);
+                removableRight.removeAll();
+                removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(true);
+                messagesLabel.setFont(new Font("default",Font.PLAIN,22));
+                homeLabel.setFont(new Font("default",Font.BOLD,22));
+                lessonsButton.setSelected(true);
+                repaint();
+                revalidate();
+            }
+        });
     }
 
     private void setUpPages() {
@@ -153,6 +213,7 @@ public class Main extends JFrame {
         studies.setMain(this);
         lessons = new LessonsPage();
         lessons.setMain(this);
+        messagesGUI = new MessagesGUI();
     }
 
     public void setCurrentUser(User user) {

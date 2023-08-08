@@ -5,8 +5,9 @@ import java.awt.*;
 import java.io.File;
 
 public class IconCreator extends JFrame {
-    public static final File f = new File("CS-Project-Repository/src/Icons/house-solid.png");
+    public static final File f = new File("src/Icons/house-solid.png");
     public static final ImageIcon houseIcon = new ImageIcon(f.getAbsolutePath());
+
 
     public static final ImageIcon backIcon = new ImageIcon(f.getAbsolutePath().replace("house", "arrow-left"));
     public static final ImageIcon notificationsIcon = new ImageIcon(f.getAbsolutePath().replace("house", "bell"));
@@ -29,7 +30,6 @@ public class IconCreator extends JFrame {
 
     public IconCreator() {
 
-        System.out.println(f.getAbsolutePath());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(new MPanel());
         pack();

@@ -453,7 +453,8 @@ public class LessonsPage extends JFrame {
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
                 addLessonPost(tempPost);
-
+                Student s = (Student) currentUser;
+                s.addToLessonsTable(tempPost);
                 repaint();
                 revalidate();
                 main.repaint();

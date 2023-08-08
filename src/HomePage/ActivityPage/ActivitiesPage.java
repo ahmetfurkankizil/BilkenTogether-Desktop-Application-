@@ -172,7 +172,9 @@ public class ActivitiesPage extends JFrame {
                 g.gridx = 0;
                 ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText(),peopleCount,date.toString(),type,"23/03/2023");
                 tempStudent.addToActivitiesTable(tempPost);
-                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),0));
+
+
+                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()));
                 insideScrollPanePanel.add(viewer2,g);
                 main.repaint();
                 main.revalidate();
@@ -182,6 +184,7 @@ public class ActivitiesPage extends JFrame {
         private boolean checkPost(){
             if (textArea1.getText().isEmpty()){
                 errorLabel.setText("Please Enter A Description!");
+                return false;
             }
             if (activityTypeComboBox.getSelectedItem().equals("Select:")) {
                 errorLabel.setText("Please Select Activity Type!");
