@@ -1,5 +1,6 @@
 package Request;
 
+import HomePage.StudiesPage.Main;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 import UserRelated.Student;
@@ -12,6 +13,8 @@ public class RequestMidPanel extends JFrame {
     private JButton lessonsButton;
     private JPanel insideScrollPanel;
     private JPanel mP;
+    private JPanel inPanel;
+    private Main main;
 
     public RequestMidPanel() {
         setSize(700,700);
@@ -33,7 +36,14 @@ public class RequestMidPanel extends JFrame {
         addRequestPanel(new RequestPanel(post));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        //setVisible(true);
+    }
+
+    public JPanel getInPanel() {
+        return inPanel;
+    }
+    public void setMatin(Main main){
+        this.main = main;
     }
 
     private void addRequestPanel(RequestPanel requestPanel) {

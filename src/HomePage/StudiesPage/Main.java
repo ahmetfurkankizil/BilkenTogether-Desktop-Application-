@@ -6,6 +6,7 @@ import Icons.IconCreator;
 import MessagesGUI.*;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
+import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.src.UserProfilePage;
 import UserRelated.Student;
@@ -102,6 +103,7 @@ public class Main extends JFrame {
     private MessagesGUI messagesGUI;
 
     private boolean messageSendButtonPressed;
+    private RequestMidPanel requestsPage;
 
     public Main() {
         messageSendButtonPressed = false;
@@ -275,6 +277,34 @@ public class Main extends JFrame {
                 revalidate();
             }
         });
+        requestsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                invisibleAddablePanelRight.removeAll();
+                invisibleAddablePanelLeft.removeAll();
+                textAreaPanel.setVisible(false);
+                invisibleAddablePanelLeft.removeAll();
+                invisibleAddablePanelRight.setVisible(false);
+                rightPanel.setVisible(true);
+                removableRight.removeAll();
+                GridBagConstraints g2 = new GridBagConstraints();
+                g2.ipadx = 750;
+                g2.ipady = 800;
+
+                flowScrollPane.setVisible(false);
+                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g);
+                //removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(false);
+                resetLabelFonts();
+
+                requestsLabel.setFont(new Font("default",Font.BOLD,22));
+                //lessonsButton.setSelected(true);
+                repaint();
+                revalidate();
+            }
+        });
         notificationsLabel.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -342,7 +372,7 @@ public class Main extends JFrame {
         notificationHomePage = new NotificationHomePage();
         profilePage = new UserProfilePage();
         profilePage.setMain(this);
-
+        requestsPage = new RequestMidPanel();
     }
 
     public void setCurrentUser(User user) {

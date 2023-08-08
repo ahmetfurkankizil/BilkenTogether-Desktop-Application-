@@ -41,6 +41,7 @@ public class RequestPanel extends JPanel {
         requestTextArea.setText(requestablePost.getPostDescription());
         requestTextArea.setLineWrap(true);
         requestTextArea.setEditable(false);
+        requestTextArea.setFocusable(false);
         c.gridx = 1;
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
