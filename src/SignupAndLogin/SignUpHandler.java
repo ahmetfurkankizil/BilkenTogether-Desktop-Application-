@@ -263,9 +263,16 @@ public class SignUpHandler {
     public boolean checkVerificationCodeTextField(JTextField enterTextField, JLabel messageLabel) {
         if (!enterTextField.getText().equals("")) {
             if (codeIsInteger(enterTextField)) {
-                return true;
+                if (checkVerificationCode(Integer.valueOf(enterTextField.getText()))) {
+                    return true;
+                } else {
+                    messageLabel.setText("The code is wrong, verification fails!");
+                    messageLabel.setForeground(Color.red);
+                    return false;
+                }
             } else {
-                messageLabel.setText("The code you entered is not in an integer format'");
+                messageLabel.setText("The code is not in integer format, verification fails!");
+                messageLabel.setForeground(Color.red);
                 return false;
             }
         } else {

@@ -7,7 +7,7 @@
     </constraints>
     <properties>
       <background color="-2104603"/>
-      <foreground color="-2104603"/>
+      <foreground color="-16777216"/>
     </properties>
     <border type="none"/>
     <children>
@@ -104,7 +104,8 @@
           <component id="f4369" class="javax.swing.JTextField" binding="codeTextField">
             <constraints border-constraint="Center"/>
             <properties>
-              <foreground color="-2104603"/>
+              <background color="-2104603"/>
+              <foreground color="-16777216"/>
             </properties>
           </component>
           <hspacer id="9cee6">
