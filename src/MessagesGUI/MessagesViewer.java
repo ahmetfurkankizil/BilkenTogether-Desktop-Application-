@@ -93,7 +93,6 @@ public class MessagesViewer extends JPanel {
             g.insets = new Insets(0, 10, 0, 0);
             rightPane.add(profileNameLabel, g);
         }
-
     }
 
     public static void main(String[] args) {
