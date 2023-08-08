@@ -30,6 +30,7 @@ public abstract class RequestablePost extends Post {
     public void addRequest(Student student) {
         if (!isItInRequests(student)) {
             requestCollection.add(student);
+            ((Student)this.getSender()).addToRequestTable(this, student);
         }
         // (This method receives a student object and adds it to the requestCollection.
         // From this
@@ -41,7 +42,7 @@ public abstract class RequestablePost extends Post {
     public void acceptRequest(Student student) {
         if (isItInRequests(student)) {
             agreementCollection.add(student);
-
+            ((Student)this.getSender()).acceptTheRequest(this, student);
         }
         // (This method will first check whether the request is in the requestCollection
         // or not. If it's
@@ -51,6 +52,7 @@ public abstract class RequestablePost extends Post {
     public void denyRequest(Student student) {
         if (isItInRequests(student)) {
             deniedCollection.add(student);
+            ((Student)this.getSender()).denyTheRequest(this, student);
         }
     }
 
