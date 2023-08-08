@@ -1,13 +1,13 @@
 package Request;
 
 import Icons.IconCreator;
+import UserRelated.Student;
 
 import javax.swing.*;
 
 public class RequestConfirmationPanelViewer extends JPanel {
-
     private static final int starwidth = 10;
-    public ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
+    public ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
     public ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
     public ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
     public ImageIcon cross = IconCreator.getIconWithSize(IconCreator.deniedIcon, starwidth, starwidth);
@@ -29,7 +29,6 @@ public class RequestConfirmationPanelViewer extends JPanel {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-
         frame.add(new RequestConfirmationPanelViewer());
         frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
