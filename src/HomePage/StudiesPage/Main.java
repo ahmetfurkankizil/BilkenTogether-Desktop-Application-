@@ -258,13 +258,15 @@ public class Main extends JFrame {
                 invisibleAddablePanelRight.removeAll();
                 invisibleAddablePanelLeft.removeAll();
                 textAreaPanel.setVisible(false);
-                invisibleAddablePanelLeft.setVisible(false);
-
+                invisibleAddablePanelLeft.removeAll();
+                g.ipadx = 600;
+                invisibleAddablePanelLeft.add(profilePage.getInPanel());
                 invisibleAddablePanelRight.setVisible(false);
                 rightPanel.setVisible(true);
                 removableRight.removeAll();
                 //removableRight.add(lessons.getQuickFiltersPanel());
                 topVisiblisty.setVisible(false);
+                flowScrollPane.setVisible(false);
                 resetLabelFonts();
 
                 profileLabel.setFont(new Font("default",Font.BOLD,22));
