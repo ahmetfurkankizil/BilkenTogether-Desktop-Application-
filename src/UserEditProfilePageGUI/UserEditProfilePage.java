@@ -32,7 +32,7 @@ public class UserEditProfilePage extends JFrame {
         this.userProfilePage = userProfilePage;
         setTitle("Edit User Profile");
         setSize(900,600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainPanel);
         createListeners();
 
@@ -50,7 +50,7 @@ public class UserEditProfilePage extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
             }
         });
         profilePictureChangeButton.addActionListener(new ActionListener() {

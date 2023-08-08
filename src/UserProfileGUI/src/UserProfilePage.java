@@ -1,5 +1,6 @@
 package UserProfileGUI.src;
 
+import HomePage.StudiesPage.Main;
 import UserEditProfilePageGUI.UserEditProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
@@ -29,18 +30,24 @@ public class UserProfilePage extends JFrame {
     private JLabel bioLabel;
     private JLabel biographyLabel;
     private JLabel resIntLabel;
+    private JPanel inPanel;
     private User user;
+    private Main main;
 
     public UserProfilePage() {
         add(mainPanel);
         setName("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 600);
+        //setSize(900, 600);
 
         setDefaultPhotos(); // Implementations are empty
         createActionListeners(); // Implementations are empty
 
-        setVisible(true);
+        //setVisible(true);
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
     }
 
     public UserProfilePage(User user) {
@@ -95,11 +102,14 @@ public class UserProfilePage extends JFrame {
 
     private void openEditProfilePage() {
         JFrame frame = new UserEditProfilePage(this);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);
+    }
+
+    public JPanel getInPanel() {
+        return inPanel;
     }
 
     /**

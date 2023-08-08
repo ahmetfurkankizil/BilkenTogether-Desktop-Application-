@@ -7,6 +7,7 @@ import MessagesGUI.*;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import UserProfileGUI.PPImageHandler;
+import UserProfileGUI.src.UserProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -57,7 +58,6 @@ public class Main extends JFrame {
     private JPanel requestLabelPanel;
     private JPanel logOutLabelPanel;
     private JPanel buttonPanel;
-    private JTextArea textArea1;
     private JComboBox courseTypeComboBox;
     private JButton postButton;
     private JButton mondayButton;
@@ -75,6 +75,7 @@ public class Main extends JFrame {
     private JPanel lessonsQFpanel;
     private JButton givenButton;
     private JButton requestedButton;
+    private UserProfilePage profilePage;
     private JButton filtersSubmitButton;
     private JButton mondayFilterButton;
     private JButton TuesdayFilterButton;
@@ -89,11 +90,13 @@ public class Main extends JFrame {
     private JPanel invisibleAddablePanelLeft;
     private JPanel neverOpenCursed;
     private JPanel P;
+    private JPanel parentP;
+    private JPanel problematic;
     private JPanel invisibleAddablePanelRight;
     private JButton sendMessageButton;
     private JTextArea textInputArea;
     private JPanel textAreaPanel;
-    private JPanel problematicPanel;
+    private JPanel bPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
@@ -181,7 +184,34 @@ public class Main extends JFrame {
                 g.ipadx = 50;
                 g.ipady = 0;
                 g.gridy--;
-                invisibleAddablePanelRight.add(right,g);
+                invisibleAddablePanelRight.setLayout(new LayoutManager() {
+                    @Override
+                    public void addLayoutComponent(String name, Component comp) {
+
+                    }
+
+                    @Override
+                    public void removeLayoutComponent(Component comp) {
+
+                    }
+
+                    @Override
+                    public Dimension preferredLayoutSize(Container parent) {
+                        return new Dimension(600,600);
+                    }
+
+                    @Override
+                    public Dimension minimumLayoutSize(Container parent) {
+                        return null;
+                    }
+
+                    @Override
+                    public void layoutContainer(Container parent) {
+
+                    }
+                });
+                right.setBounds(0,0,640,600);
+                invisibleAddablePanelRight.add(right);
                 g.ipadx = 0;
                 g.gridheight = 1;
                 g.gridy ++;
@@ -220,6 +250,30 @@ public class Main extends JFrame {
                 revalidate();
             }
         });
+        profileLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                invisibleAddablePanelRight.removeAll();
+                invisibleAddablePanelLeft.removeAll();
+                textAreaPanel.setVisible(false);
+                invisibleAddablePanelLeft.setVisible(false);
+
+                invisibleAddablePanelRight.setVisible(false);
+                insideScrollPanePanel.add(profilePage.getInPanel());
+                rightPanel.setVisible(true);
+                removableRight.removeAll();
+                //removableRight.add(lessons.getQuickFiltersPanel());
+                topVisiblisty.setVisible(false);
+                resetLabelFonts();
+
+                profileLabel.setFont(new Font("default",Font.BOLD,22));
+                //lessonsButton.setSelected(true);
+                repaint();
+                revalidate();
+            }
+        });
         notificationsLabel.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -251,7 +305,8 @@ public class Main extends JFrame {
                     Message message = new Message(currentUser,null,textInputArea.getText(),new Date());
                     messagesGUI.sendMessage(message);
                 }
-
+                revalidate();
+                repaint();
             }
         });
         client.run();
@@ -284,6 +339,9 @@ public class Main extends JFrame {
         messagesGUI = new MessagesGUI();
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
+        profilePage = new UserProfilePage();
+        profilePage.setMain(this);
+
     }
 
     public void setCurrentUser(User user) {
@@ -356,6 +414,7 @@ public class Main extends JFrame {
     public String getTextFieldText() {
         return textInputArea.getText();
     }
+
 
 
     private class SectionItemBorder implements Border {

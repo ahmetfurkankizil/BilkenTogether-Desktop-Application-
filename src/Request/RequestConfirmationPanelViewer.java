@@ -22,7 +22,7 @@ public class RequestConfirmationPanelViewer extends JPanel {
 
         nameLabel.setText("Name Surname");
         deniedPanel.add(nameLabel);
-        addStars(10);
+        addStars(3);
         deniedPanel.add(crossLabel);
         add(deniedPanel);
     }
