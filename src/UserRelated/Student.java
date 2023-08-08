@@ -96,8 +96,6 @@ public class Student extends User implements StudentDatabaseHandler{
         reqPost.denyRequest(this);
     }
 
-
-
     @Override
     public boolean createLessonsTable() {
         super.databaseConnection = new DatabaseConnection();
@@ -117,6 +115,34 @@ public class Student extends User implements StudentDatabaseHandler{
                 try (Statement statement = connection.createStatement()) {
                     statement.executeUpdate(createTableQuery);
                     System.out.println("Lessons Table created successfully.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    @Override
+    public boolean createActivitiesTable() {
+        super.databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "TableOfActivities";
+            if (connection != null) {
+                String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                        + "postId INT PRIMARY KEY AUTO_INCREMENT,"
+                        + "sender VARCHAR(50) NOT NULL,"
+                        + "postDescription VARCHAR(50) NOT NULL,"
+                        + "numberOfAttendants INT,"
+                        + "dateOfPost VARCHAR(50) NOT NULL,"
+                        + "typeFilter VARCHAR(50) NOT NULL,"
+                        + "activityDate VARCHAR(50) NOT NULL"
+                        + ");";
+
+                try (Statement statement = connection.createStatement()) {
+                    statement.executeUpdate(createTableQuery);
+                    System.out.println("Activities Table created successfully.");
                 }
             }
         } catch (SQLException e) {
@@ -221,39 +247,10 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
-    public boolean createActivitiesTable() {
-        super.databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "ActivitesTable";
-            if (connection != null) {
-                String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
-                        + "postId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "sender VARCHAR(50) NOT NULL,"
-                        + "postDescription VARCHAR(50) NOT NULL,"
-                        + "numberOfAttendants INT,"
-                        + "dateOfPost VARCHAR(50) NOT NULL,"
-                        + "typeFilter VARCHAR(50) NOT NULL,"
-                        + "activityDate VARCHAR(50) NOT NULL"
-                        + ");";
-
-                try (Statement statement = connection.createStatement()) {
-                    statement.executeUpdate(createTableQuery);
-                    System.out.println("Activities Table created successfully.");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    }
-
-
     public boolean addToActivitiesTable(ActivityPost activityPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "ActivitiesTable";
+            String tableName = "" + getId() + "TableOfActivities";
             if (connection != null) {
                 String insertQuery = "INSERT INTO " + tableName + " (postId, sender, postDescription, numberOfAttendants, dateOfPost, typeFilter, activityDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -282,7 +279,7 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
     public boolean removeFromActivitiesTable(int userId, int activitiesPostId) {
-        String tableName = "" + getId() + "ActivitiesTable";
+        String tableName = "" + getId() + "TableOfActivities";
         String deleteQuery = "DELETE FROM " + tableName + " WHERE postId = ?";
 
         try (Connection connection = databaseConnection.getConnection();
@@ -303,7 +300,7 @@ public class Student extends User implements StudentDatabaseHandler{
     public ActivityPost pullActivityPostFromDB(int userId, int activityPostID) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         ActivityPost activityPost = null;
-        String tableName = "" + userId + "ActivitiesTable";
+        String tableName = "" + userId + "TableOfActivities";
         String insertQuery = "SELECT * FROM " + tableName + " WHERE postId=?;";
 
         try (Connection connection = databaseConnection.getConnection();
