@@ -27,9 +27,10 @@ public class IconCreator extends JFrame {
     public static final ImageIcon halfStarIcon = new ImageIcon(f.getAbsolutePath().replace("house", "star-half-stroke"));
     public static final ImageIcon starIcon = new ImageIcon(f.getAbsolutePath().replace("house", "star"));
     public static final ImageIcon emptyStarIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "star-regular"));
+    public static final ImageIcon emptyLikeIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "heart-regular"));;
 
     public IconCreator() {
-
+        System.out.println(f.getAbsolutePath());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(new MPanel());
         pack();

@@ -9,11 +9,11 @@ import java.awt.*;
 
 public class RequestPanel extends JPanel {
 
-    private final RequestablePost REQ_POST;
+    private RequestablePost requestablePost;
 
-    public RequestPanel(RequestablePost reqPost) {
+    public RequestPanel(RequestablePost requestablePost) {
         super();
-        this.REQ_POST = reqPost;
+        this.requestablePost = requestablePost;
         setLayout(new GridBagLayout());
         addComponents();
     }
@@ -29,7 +29,7 @@ public class RequestPanel extends JPanel {
         add(profilePhotoLabel, c);
 
         // Name and Surname Label
-        JLabel nameSurnameLabel = new JLabel(REQ_POST.getSender().getName());
+        JLabel nameSurnameLabel = new JLabel(requestablePost.getSender().getName());
         c.gridx = 1;
         c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -38,7 +38,7 @@ public class RequestPanel extends JPanel {
         // Request Text Area
         JTextArea requestTextArea = new JTextArea();
         requestTextArea.setColumns(50);
-        requestTextArea.setText(REQ_POST.getPostDescription());
+        requestTextArea.setText(requestablePost.getPostDescription());
         requestTextArea.setLineWrap(true);
         requestTextArea.setEditable(false);
         c.gridx = 1;
@@ -51,9 +51,10 @@ public class RequestPanel extends JPanel {
 
         // Request Status Label
         JLabel requestStatusLabel = new JLabel();
-        if (REQ_POST instanceof LessonPost lesPost) {
+        requestStatusLabel.setBackground(Color.CYAN);
+        if (requestablePost instanceof LessonPost lesPost) {
             requestStatusLabel.setText(lesPost.getRequestType() ? "LESSON REQUEST" : "LESSON GIVE");
-        } else if (REQ_POST instanceof ActivityPost actPost) {
+        } else if (requestablePost instanceof ActivityPost actPost) {
             requestStatusLabel.setText(actPost.getTypeFilter());
         }
         c.gridx = 1;
@@ -63,12 +64,14 @@ public class RequestPanel extends JPanel {
         add(requestStatusLabel, c);
 
         // Type Name Label
-        JLabel typeNameLabel = new JLabel(REQ_POST.getTypeFilter());
+        JLabel typeNameLabel = new JLabel(requestablePost.getTypeFilter());
+        typeNameLabel.setBackground(Color.LIGHT_GRAY);
         c.gridx = 2;
         add(typeNameLabel, c);
 
         // Request Number Label
         JLabel requestNumberLabel = new JLabel("Number");
+        requestNumberLabel.setBackground(Color.RED);
         c.gridx = 3;
         add(requestNumberLabel, c);
     }
