@@ -20,7 +20,6 @@ public class UserProfilePage extends JPanel {
     private JLabel researchInterestsLabel;
     private JLabel ratingStarsLabel;
     private JPanel mainPanel;
-    private JPanel historyLessons;
     private JPanel profilePhotoPanel;
     private JPanel personalInfoPanel;
     private JPanel backgroundPhotoPanel;
@@ -28,6 +27,10 @@ public class UserProfilePage extends JPanel {
     private JLabel biographyLabel;
     private JLabel resIntLabel;
     private JPanel inPanel;
+    private JPanel HistoryPanel;
+    private JPanel LessonsHistoryPanel;
+    private JPanel ActivitiesHistoryPanel;
+    private JPanel StudiesHistoryPanel;
     private User user;
     private Main main;
 
@@ -121,7 +124,9 @@ public class UserProfilePage extends JPanel {
         lessonsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implementation is empty
+                LessonsHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                StudiesHistoryPanel.setVisible(false);
             }
         });
 
@@ -132,7 +137,9 @@ public class UserProfilePage extends JPanel {
         activitiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implementation is empty
+                ActivitiesHistoryPanel.setVisible(true);
+                StudiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
 
@@ -143,7 +150,9 @@ public class UserProfilePage extends JPanel {
         studiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // To do
+                StudiesHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
     }

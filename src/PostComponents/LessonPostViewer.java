@@ -1,11 +1,15 @@
 package PostComponents;
 
+import HomePage.Main.Main;
 import Posts.LessonPost;
+import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class LessonPostViewer extends PostViewer {
@@ -16,13 +20,11 @@ public class LessonPostViewer extends PostViewer {
     private JButton requestButton;
     private User sender;
 
-    public LessonPostViewer() {
 
-    }
 
-    public LessonPostViewer(LessonPost p) {
+    public LessonPostViewer(LessonPost p, Main main) {
+        super(main);
         this.lesPost = p;
-
         setUp();
         contentSetUp();
 
@@ -43,6 +45,12 @@ public class LessonPostViewer extends PostViewer {
         requestButton = new JButton("Send Request");
         requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
+
+    }
+
+    @Override
+    public Post getPost() {
+        return lesPost;
     }
 
     public void contentSetUp() {
@@ -141,5 +149,6 @@ public class LessonPostViewer extends PostViewer {
 
 
     }
+
 
 }
