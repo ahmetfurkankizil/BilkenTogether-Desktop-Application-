@@ -66,7 +66,7 @@ public class UserProfilePage extends JPanel {
         this();
         this.user = user;
         this.profileBox = profileBox;
-        setDefaultPhotos();
+        //setDefaultPhotos();
         setPersonalInformation();
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
@@ -74,7 +74,6 @@ public class UserProfilePage extends JPanel {
         g2.ipady = 300;
         addL();
     }
-        createActionListeners(); // Implementations are empty
 
     public void addL() {
         GridBagConstraints g2 = new GridBagConstraints();

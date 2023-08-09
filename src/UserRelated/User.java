@@ -2,8 +2,6 @@ package UserRelated;
 
 import CommentsRelated.Comment;
 import DatabaseRelated.DatabaseConnection;
-import DatabaseRelated.DatabaseHandler;
-import MessagesRelated.MessageConnection;
 import Posts.Post;
 import Posts.StudyPost;
 

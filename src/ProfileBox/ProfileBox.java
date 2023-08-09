@@ -21,15 +21,15 @@ public class ProfileBox extends  JPanel {
         add(panel1);
         nameSurnameLabel.setText(user.getName());
         emailLabel.setText(user.getEmail());
-        InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
-        BufferedImage image;
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ImageIcon icon = new ImageIcon(image);
-        profilePhotoLabel.setIcon(icon);
+       // InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
+        //BufferedImage image;
+        //try {
+          //  image = ImageIO.read(is);
+        //} catch (IOException e) {
+          //  throw new RuntimeException(e);
+        //}
+        //ImageIcon icon = new ImageIcon(image);
+        //profilePhotoLabel.setIcon(icon);
     }
 
     public JLabel getProfilePhotoLabel() {
