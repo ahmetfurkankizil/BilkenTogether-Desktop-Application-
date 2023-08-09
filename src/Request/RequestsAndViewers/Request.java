@@ -1,27 +1,22 @@
 package Request.RequestsAndViewers;
 
+import Posts.RequestablePost;
+import UserRelated.Student;
+
+import java.util.Random;
+
 public abstract class Request {
-    private String requesterName;
-    private int averageRating;
+    private int requesterId;
 
-    public Request(String requesterName, int averageRating) {
-        this.requesterName = requesterName;
-        this.averageRating = averageRating;
+    public Request(int requesterId) {
+        this.requesterId = requesterId;
     }
 
-    public String getRequesterName() {
-        return requesterName;
+    public int getRequesterID() {
+        return this.requesterId;
     }
 
-    public void setRequesterName(String requesterName) {
-        this.requesterName = requesterName;
-    }
-
-    public int getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(int averageRating) {
-        this.averageRating = averageRating;
+    public void setRequesterID(int requesterId) {
+        this.requesterId = requesterId;
     }
 }

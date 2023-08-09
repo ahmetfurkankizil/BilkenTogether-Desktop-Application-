@@ -28,7 +28,7 @@ public class CommentsPanel extends JPanel{
         add(profilePhotoLabel, c);
 
         // Name and Surname Label
-        JLabel nameSurnameLabel = new JLabel(COMMENT.getSender().getName());
+        JLabel nameSurnameLabel = new JLabel(COMMENT.getCommenter().getName());
         c.gridx = 1;
         c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;

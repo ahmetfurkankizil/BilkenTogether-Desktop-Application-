@@ -137,7 +137,7 @@ public class Main extends JFrame {
         setUpLabelListeners();
         LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         lessons.addLessonPost(tempPost);
-        tempPost.addComment(new Comment(currentUser,currentUser,"lol so cool"));
+        tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {

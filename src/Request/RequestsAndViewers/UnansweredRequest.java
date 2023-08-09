@@ -1,10 +1,13 @@
 package Request.RequestsAndViewers;
 
+import Posts.RequestablePost;
 import Request.RequestsAndViewers.Request;
+import UserRelated.Student;
+
 
 public class UnansweredRequest extends Request {
-    public UnansweredRequest(String requesterName, int averageRating) {
-        super(requesterName,averageRating);
+    public UnansweredRequest(int requesterId) {
+        super(requesterId);
     }
 
 }

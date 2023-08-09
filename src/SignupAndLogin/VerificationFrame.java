@@ -42,11 +42,9 @@ public class VerificationFrame extends JFrame{
                         if (tempUser instanceof Student) {
                             Student tempStudent = (Student) tempUser;
                             tempStudent.createStudiesTable();
-                            tempStudent.createMessagesTable();
                             tempStudent.createNotificationsTable();
                             tempStudent.createActivitiesTable();
                             tempStudent.createLessonsTable();
-                            tempStudent.createRequestsTable();
                         }
                     }
                 }

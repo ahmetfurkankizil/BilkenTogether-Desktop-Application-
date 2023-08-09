@@ -9,7 +9,7 @@ import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
 
-public class Student extends User implements StudentDatabaseHandler{
+public class Student extends User{
 
     // Properties (Instance Variables)
     private double averageRating;
@@ -92,23 +92,7 @@ public class Student extends User implements StudentDatabaseHandler{
             lessonPostCollection.remove(lessonPost);
     }
 
-    public void sendJoinRequest(RequestablePost reqPost) {
-        reqPost.addRequest(this);
-    }
 
-    public void acceptJoinRequest(RequestablePost reqPost) {
-        reqPost.acceptRequest(this);
-    }
-
-    public void withdrawJoinRequest(RequestablePost reqPost) {
-        reqPost.withdrawRequest(this);
-    }
-
-    public void denyJoinRequest(RequestablePost reqPost) {
-        reqPost.denyRequest(this);
-    }
-
-    @Override
     public boolean createLessonsTable() {
         super.databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -136,7 +120,6 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
     public boolean createActivitiesTable() {
         super.databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -165,7 +148,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean addToLessonsTable(LessonPost lessonPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -347,244 +329,6 @@ public class Student extends User implements StudentDatabaseHandler{
 
         return activityPost;
     }
-
-    public boolean createRequestsTable() {
-        super.databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "RequestsTable";
-            if (connection != null) {
-                String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
-                        + "postId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "requesterName VARCHAR(50) NOT NULL,"
-                        + "averageRating DOUBLE NOT NULL,"
-                        + "unanswered BOOLEAN,"
-                        + "accepted BOOLEAN,"
-                        + "denied BOOLEAN"
-                        + ");";
-
-                try (Statement statement = connection.createStatement()) {
-                    statement.executeUpdate(createTableQuery);
-                    System.out.println("Requests Table created successfully.");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    }
-
-    // When a join button is clicked
-    public boolean addToRequestTable(RequestablePost requestablePost, Student receiver) {
-        databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "RequestsTable";
-            if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (postId, requesterName, averageRating, unanswered, accepted, denied) VALUES (?, ?, ?, ?, ?, ?)";
-
-                //The information will be taken from message class getters
-                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, requestablePost.getPostID());
-                    preparedStatement.setString(2, receiver.getName());
-                    preparedStatement.setDouble(3, receiver.getAverageRating());
-                    preparedStatement.setInt(4,1);
-                    preparedStatement.setInt(5,0);
-                    preparedStatement.setInt(6,0);
-
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Request is inserted successfully.");
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    }
-
-    //When accept button is clicked in requests tab
-    public boolean acceptTheRequest(RequestablePost requestablePost, Student receiver) {
-        databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "RequestsTable";
-            if (connection != null) {
-                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE postId = ? AND requesterName = ?;";
-
-                //The information will be taken from message class getters
-                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1,1);
-                    preparedStatement.setInt(2,0);
-                    preparedStatement.setInt(3,0);
-                    preparedStatement.setInt(4, requestablePost.getPostID());
-                    preparedStatement.setString(5, receiver.getName());
-
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Request is changed successfully.");
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    }
-
-    //When deny button is clicked in requests tab
-    public boolean denyTheRequest(RequestablePost requestablePost, Student receiver) {
-        databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "RequestsTable";
-            if (connection != null) {
-                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE postId = ? AND requesterName = ?;";
-
-                //The information will be taken from message class getters
-                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1,0);
-                    preparedStatement.setInt(2,0);
-                    preparedStatement.setInt(3,1);
-                    preparedStatement.setInt(4, requestablePost.getPostID());
-                    preparedStatement.setString(5, receiver.getName());
-
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Request is changed successfully.");
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    }
-
-    public ArrayList<Request> pullTheRequestsFromDB() {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "RequestsTable";
-        String selectQuery = "SELECT * FROM " + tableName;
-
-        ArrayList<Request> requests = new ArrayList<>();
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int postId = resultSet.getInt("postId");
-                String requesterName = resultSet.getString("requesterName");
-
-                if (resultSet.getBoolean("unanswered")) {
-                    UnansweredRequest unansweredRequest = new UnansweredRequest(requesterName,postId);
-                    requests.add(unansweredRequest);
-                } else if (resultSet.getBoolean("accepted")) {
-                    AcceptedRequest acceptedRequest = new AcceptedRequest(requesterName, postId);
-                    requests.add(acceptedRequest);
-                } else {
-                    DeniedRequest deniedRequest = new DeniedRequest(requesterName, postId);
-                    requests.add(deniedRequest);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
-    }
-
-    /* public boolean theRequestIsAccepted(RequestablePost post, Student receiver) {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "RequestsTable";
-        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId = ? AND requesterName = ?;";
-
-        try (Connection connection = databaseConnection.getConnection();
-
-             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-
-            preparedStatement.setInt(1, post.getPostID());
-            preparedStatement.setString(2, receiver.getName());
-
-            ResultSet resultSetOfUser = preparedStatement.executeQuery();
-            if (resultSetOfUser.next()) {
-                if (resultSetOfUser.getBoolean("accepted")) {
-                    return true;
-                }
-            } else {
-                System.out.println("The request has been accepted");
-                return false;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-    }
-
-    public boolean theRequestIsDenied(RequestablePost post, Student receiver) {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "RequestsTable";
-        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId = ? AND requesterName = ?;";
-
-        try (Connection connection = databaseConnection.getConnection();
-
-             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-
-            preparedStatement.setInt(1, post.getPostID());
-            preparedStatement.setString(2, receiver.getName());
-
-            ResultSet resultSetOfUser = preparedStatement.executeQuery();
-            if (resultSetOfUser.next()) {
-                if (resultSetOfUser.getBoolean("denied")) {
-                    return true;
-                }
-            } else {
-                System.out.println("The request has been denied");
-                return false;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-    }
-
-    public boolean checkWhetherRequestExists(RequestablePost requestablePost, Student receiver) {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "RequestsTable";
-        String insertQuery = "SELECT * FROM " + tableName + " WHERE postId = ? AND requesterName = ?;";
-
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setInt(1, requestablePost.getPostID());
-            preparedStatement.setString(2, receiver.getName());
-
-            ResultSet resultSetOfUser = preparedStatement.executeQuery();
-
-            if (resultSetOfUser.next()) {
-                return true;
-            }
-            else{
-                return false;
-            }
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-     */
-
-
-
 
 
 }

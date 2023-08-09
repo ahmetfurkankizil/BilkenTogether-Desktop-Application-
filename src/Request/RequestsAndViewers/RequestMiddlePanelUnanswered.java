@@ -4,6 +4,7 @@ import Posts.LessonPost;
 import UserRelated.Student;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ public class RequestMiddlePanelUnanswered {
     private JPanel insideScrollPanel;
     private JButton acceptedButton;
     private JButton backButton;
+    private JPanel holdingPanel;
     private  RequestMiddlePanelDenied deniedPanel;
     private RequestMiddlePanelAccepted acceptedPanel;
 
@@ -25,8 +27,11 @@ public class RequestMiddlePanelUnanswered {
         Student tutor = new Student("Tutor", null, 22203112, null, null, null, null);
 
         Student student1 = new Student("Jack", null, 10, null, null, null, null);
-        Student student2 = new Student("Saul", null, 10, null, null, null, null);
-        Student student3 = new Student("Heisenberg", null, 10, null, null, null, null);
+        Student student2 = new Student("Saul", null, 11, null, null, null, null);
+        Student student3 = new Student("Heisenberg", null, 12, null, null, null, null);
+        Student student4 = new Student("Jesse", null, 13, null, null, null, null);
+        Student student5 = new Student("Hank", null, 14, null, null, null, null);
+        Student student6 = new Student("Fring", null, 15, null, null, null, null);
         student1.setAverageRating(2);
         student2.setAverageRating(3);
         student3.setAverageRating(4);
@@ -34,16 +39,19 @@ public class RequestMiddlePanelUnanswered {
         LessonPost lpTest1 = new LessonPost(101, tutor, null, null, 1, true, null);
         LessonPost lpTest2 = new LessonPost(102, tutor, null, null, 1, true, null);
         LessonPost lpTest3 = new LessonPost(103, tutor, null, null, 1, true, null);
-        //lpTest1.addRequest(student1);
-        //lpTest2.addRequest(student2);
-        //lpTest3.addRequest(student3);
-        lpTest2.acceptRequest(student2);
-        lpTest3.denyRequest(student3);
 
-        for (int i = 0; i < tutor.pullTheRequestsFromDB().size(); i++) {
-            Request request = tutor.pullTheRequestsFromDB().get(i);
+        lpTest1.addRequest(new UnansweredRequest(student1.getId()));
+        lpTest1.addRequest(new UnansweredRequest(student2.getId()));
+        lpTest1.addRequest(new UnansweredRequest(student3.getId()));
+
+
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        for (int i = 0; i < lpTest1.pullTheRequestsFromDB().size(); i++) {
+            Request request = lpTest1.pullTheRequestsFromDB().get(i);
             if (request instanceof UnansweredRequest) {
-                insideScrollPanel.add(new UnansweredViewer(request));
+                holdingPanel.add(new UnansweredViewer(request),g2);
+                insideScrollPanel.add(holdingPanel);
             }
         }
         deniedButton.addActionListener(new ActionListener() {
@@ -51,6 +59,24 @@ public class RequestMiddlePanelUnanswered {
             public void actionPerformed(ActionEvent e) {
                 insideScrollPanel.removeAll();
                 insideScrollPanel.add(deniedPanel.getInsideScrollPanel());
+                insideScrollPanel.repaint();
+                insideScrollPanel.revalidate();
+            }
+        });
+        unansweredButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                insideScrollPanel.removeAll();
+                insideScrollPanel.add(holdingPanel);
+                insideScrollPanel.repaint();
+                insideScrollPanel.revalidate();
+            }
+        });
+        acceptedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                insideScrollPanel.removeAll();
+                insideScrollPanel.add(acceptedPanel.getInsideScrollPanel());
                 insideScrollPanel.repaint();
                 insideScrollPanel.revalidate();
             }
@@ -68,5 +94,9 @@ public class RequestMiddlePanelUnanswered {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public JPanel getInsideScrollPanel() {
+        return holdingPanel;
     }
 }
