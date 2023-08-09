@@ -124,6 +124,7 @@ public class Main extends JFrame {
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        resetLabelFonts();
         homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);

@@ -1,6 +1,9 @@
 package HomePage.StudiesPage;
 
 import HomePage.Main.Main;
+import PostComponents.StudiesPostViewer;
+import Posts.ActivityPost;
+import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -60,6 +63,7 @@ public class StudiesPage {
     private User currentUser;
     private ArrayList<String> options;
     private String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+    private String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
     private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
     public StudiesPage() {
 
@@ -76,14 +80,9 @@ public class StudiesPage {
                     String selectedValue = list2.getSelectedValue();
                     //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
 
-                   topics[selectedIndex] = "";
+                   topics[selectedIndex] = null;
 
                     list2.setListData(topics);
-
-
-
-
-
                     topicLabels[index].setText(selectedValue);
                     topicLabels[index].setVisible(true);
 
@@ -102,13 +101,6 @@ public class StudiesPage {
 
 
                 }
-                //list2.remove(list2.getSelectedIndex());
-                /*String[] l = new String[2];
-                l[0] = "";
-                l[1] = "";
-                list2.setListData(l);
-                list2.repaint();
-                list2.revalidate();*/
 
 
             }
@@ -117,7 +109,7 @@ public class StudiesPage {
 
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
 
-        //listModel = new DefaultListModel<>();
+
 
 
 
@@ -150,18 +142,34 @@ public class StudiesPage {
                     errorLabel.setForeground(Color.RED);
                     errorLabel.setSize(30,30);
                 }
-                if(heading.isEmpty()){
+                else if(heading.isEmpty()){
                     String errorMessage = "Heading cannot be empty.";
                     errorLabel2.setText(errorMessage);
                     errorLabel2.setForeground(Color.RED);
                     errorLabel2.setSize(30,30);
 
                 }
-                if(addAuthors.isEmpty()){
+                else if(addAuthors.isEmpty()){
                     String errorMessage = "Authors cannot be empty.";
                     errorLabel3.setText(errorMessage);
                     errorLabel3.setForeground(Color.RED);
                     errorLabel2.setSize(30,30);
+                }else {
+                    String[] collection = new String[5];
+                    collection[0] = topicLabel1.getText();
+                    collection[1] = topicLabel2.getText();
+                    collection[2] = topicLabel3.getText();
+                    collection[3] = topicLabel4.getText();
+                    collection[4] = topicLabel5.getText();
+                    StudyPost temp = new StudyPost(2,currentUser,addAuthors, heading,postText,null,"2002",collection);
+                    StudiesPostViewer viewer = new StudiesPostViewer(temp);
+                    GridBagConstraints g2 = new GridBagConstraints();
+                    g2.gridx =0;
+
+                    insideScrollPanel.add(viewer,g2);
+                    insideScrollPanel.repaint();
+                    insideScrollPanel.revalidate();
+                    main.update();
                 }
                 main.update();
                 }
@@ -193,6 +201,31 @@ public class StudiesPage {
 
         });
         generalSetup();
+
+        ResetButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                super.mouseClicked(e);
+                list2.setListData(updatedTopics);
+                for (int i = 0; i < updatedTopics.length; i++) {
+                    topics[0] = updatedTopics[0];
+                }
+                if (e.getClickCount() == 2) {
+
+
+                    for (int i = 0; i < topicLabels.length; i++) {
+                        topicLabels[i].setText("");
+
+                    }
+
+
+
+                    index = 0;
+
+                }
+            }
+        });
     }
 
     public void setCurrentUser(User user) {
