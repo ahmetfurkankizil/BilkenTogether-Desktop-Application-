@@ -1,7 +1,10 @@
 package Request.RequestsAndViewers;
 
+import Posts.RequestablePost;
+import UserRelated.Student;
+
 public class DeniedRequest extends Request {
-    public DeniedRequest(String requesterName, int averageRating) {
-        super(requesterName,averageRating);
+    public DeniedRequest(int requesterId) {
+        super(requesterId);
     }
 }

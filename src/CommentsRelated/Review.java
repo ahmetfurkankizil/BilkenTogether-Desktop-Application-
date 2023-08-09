@@ -10,8 +10,8 @@ public class Review extends Comment {
     private int receiverReview;
 
     // Constructor
-    public Review( User sender, User receiver,String content, int senderReview, int receiverReview) {
-        super( sender, receiver, content);
+    public Review( User reviewer,String content, int senderReview, int receiverReview) {
+        super( reviewer, content);
         this.senderReview = senderReview;
         this.receiverReview = receiverReview;
     }

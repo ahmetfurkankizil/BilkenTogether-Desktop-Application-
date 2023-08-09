@@ -1,5 +1,6 @@
 package Request.RequestsAndViewers;
 
+import DatabaseRelated.DatabaseConnection;
 import Icons.IconCreator;
 import Posts.RequestablePost;
 import UserRelated.Student;
@@ -22,19 +23,21 @@ public class RequestConfirmationPanelViewer extends JPanel {
     protected JPanel buttonsPanel = new JPanel();
     protected JLabel nameLabel = new JLabel();
     protected JButton tickButton, crossButton;
+    private DatabaseConnection databaseConnection;
     public RequestConfirmationPanelViewer(Request request) {
 
-        nameLabel.setText(request.getRequesterName());
+        Student student = (Student) databaseConnection.pullUserByIdFromDB(request.getRequesterID());
+
+        //This student can't be null because it is already added to the database
+        assert student != null;
+
+        nameLabel.setText(student.getName());
         deniedPanel.add(nameLabel);
-        addStars((int) Math.round(request.getAverageRating()));
+        addStars((int) student.getAverageRating());
         tickButton = new JButton(check);
         crossButton = new JButton(cross);
         buttonsPanel = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = GridBagConstraints.RELATIVE; // Start from the current row and add panels vertically
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+
     }
 
     public void addStars(double rating) {
