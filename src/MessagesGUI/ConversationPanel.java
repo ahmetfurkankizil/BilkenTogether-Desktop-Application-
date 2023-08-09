@@ -31,6 +31,7 @@ public class ConversationPanel extends JPanel {
         mainPanel.setLayout(new GridBagLayout());
         this.currentUser = messageConnection.getCurrentUser();
         this.otherUser = messageConnection.getOtherUser();
+        this.temp = messageConnection;
         g = new GridBagConstraints();
         g.gridy = 0;
         g.gridx = 0;
@@ -65,10 +66,25 @@ public class ConversationPanel extends JPanel {
                     getMessage(message.getSender(),message.getContent());
         }
     }
+    MessageConnection temp;
     public void addPastMessages(MessageConnection connection) {
-        MessageConnection temp = connection;
+        temp = connection;
         mainPanel.removeAll();
         pastMessages = connection.getMessages();
+        for (Message message : pastMessages) {
+            if (message.getSender() == currentUser)
+                sendMessage(currentUser,message.getContent());
+            else
+                getMessage(message.getSender(),message.getContent());
+        }
+        repaint();
+        revalidate();
+        mainPanel.setVisible(true);
+    }
+    public void addPastMessages(ArrayList<Message> messages) {
+
+        mainPanel.removeAll();
+        pastMessages = messages;
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
                 sendMessage(currentUser,message.getContent());
@@ -92,10 +108,14 @@ public class ConversationPanel extends JPanel {
     public void getMessage(User sender, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        Message message1 = new Message(sender, null, message, new Date().toString());
+        Message message1 = new Message(sender, sender, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, false);
         g.gridx = 0;
         mainPanel.add(m, g);
+    }
+
+    public User getCurrentReceiver() {
+        return temp.getOtherUser();
     }
 
     private class MessagesViewer extends JPanel {

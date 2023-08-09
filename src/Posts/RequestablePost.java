@@ -26,7 +26,7 @@ public abstract class RequestablePost extends Post {
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        //createRequestsTable();
+        createRequestsTable();
     }
 
     public boolean createRequestsTable() {

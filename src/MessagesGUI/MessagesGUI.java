@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Date;
+
 import HomePage.Main.Main;
 import Icons.IconCreator;
+import MessagesRelated.Message;
 import UserRelated.User;
 
 public class MessagesGUI extends JFrame {
@@ -92,10 +95,11 @@ public class MessagesGUI extends JFrame {
     }
 
 
-    public void sendMessage(User sender, String message) {
+    public void sendMessage(User sender, User receiver,String message) {
         conversationPanel.sendMessage(sender,message);
-        //main.repaint();
-        //main.revalidate();
+        sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
+        main.repaint();
+        main.revalidate();
     }
 
     public void setMain(Main main) {
@@ -130,6 +134,9 @@ public class MessagesGUI extends JFrame {
         scrollLeft.revalidate();
     }
 
+    public User getCurrentReceiver() {
+        return conversationPanel.getCurrentReceiver();
+    }
 }
 
 
