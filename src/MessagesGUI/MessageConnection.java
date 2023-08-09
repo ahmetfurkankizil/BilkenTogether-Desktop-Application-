@@ -18,8 +18,8 @@ public class MessageConnection {
         this.messages = new ArrayList<>();
         this.id = (int)(Math.random()*100000000);
         this.port = port;
-        currentUser.insertToMessageConnectionTable(id,currentUser,otherUser,port);
-        currentUser.createMessageHistory(id);
+        currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
+        currentUser.createMessageHistory(this.id);
     }
     public void setMessages(){
 
@@ -35,7 +35,7 @@ public class MessageConnection {
     }
     public void addMessages(Message message) {
         messages.add(message);
-        currentUser.insertToMessageHistoryTable(id,message);
+        currentUser.insertToMessageHistoryTable(this.id,message);
     }
 }
 

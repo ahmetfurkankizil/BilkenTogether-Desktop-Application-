@@ -83,7 +83,7 @@ public class ConversationPanel extends JPanel {
     public void sendMessage(User user, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        Message message1 = new Message(user, null, message, new Date());
+        Message message1 = new Message(user, null, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, true);
         g.gridx = 1;
         mainPanel.add(m, g);
@@ -92,7 +92,7 @@ public class ConversationPanel extends JPanel {
     public void getMessage(User sender, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        Message message1 = new Message(sender, null, message, new Date());
+        Message message1 = new Message(sender, null, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, false);
         g.gridx = 0;
         mainPanel.add(m, g);

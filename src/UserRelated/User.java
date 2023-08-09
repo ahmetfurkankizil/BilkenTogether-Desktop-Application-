@@ -14,6 +14,10 @@ import MessagesRelated.Message;
 import MessagesGUI.MessageConnection;
 import Posts.*;
 import CommentsRelated.*;
+import Request.RequestsAndViewers.AcceptedRequest;
+import Request.RequestsAndViewers.DeniedRequest;
+import Request.RequestsAndViewers.Request;
+import Request.RequestsAndViewers.UnansweredRequest;
 
 public abstract class User{
     private String[] studyTopics;
@@ -488,16 +492,13 @@ public abstract class User{
             if (connection != null) {
                 String insertQuery = "INSERT INTO " + tableName + " (senderId, receiverId, content, date) VALUES (?, ?, ?, ?)";
 
-                //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setInt(1, message.getSender().getId());
                     preparedStatement.setInt(2, message.getReceiver().getId());
                     preparedStatement.setString(3, message.getContent());
                     preparedStatement.setString(4, message.getTime().toString());
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
+                    preparedStatement.executeUpdate();
                     System.out.println("Inserted to message connection successfuly");
                     return true;
                 } catch (SQLException e) {
@@ -509,6 +510,35 @@ public abstract class User{
         }
         databaseConnection.closeConnection();
         return false;
+    }
+
+    public ArrayList<Message> pullMessageHistoryFromDB(int connectionId) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + connectionId + "MessageHistory";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<Message> messages = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int senderId = resultSet.getInt("senderId");
+                User sender = databaseConnection.pullUserByIdFromDB(senderId);
+                int receiverId = resultSet.getInt("receiverId");
+                User receiver = databaseConnection.pullUserByIdFromDB(receiverId);
+                String content = resultSet.getString("content");
+                String date = resultSet.getString("date");
+
+                Message m1 = new Message(sender,receiver,content,date);
+                messages.add(m1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return messages;
     }
 
     //Left
@@ -552,9 +582,7 @@ public abstract class User{
                     preparedStatement.setInt(3, user2.getId());
                     preparedStatement.setInt(4, port);
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
+                    preparedStatement.executeUpdate();
                     System.out.println("Inserted to message connection successfuly");
                     return true;
                 } catch (SQLException e) {
