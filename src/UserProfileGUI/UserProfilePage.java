@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 public class UserProfilePage extends JPanel {
 
@@ -39,8 +38,7 @@ public class UserProfilePage extends JPanel {
     private JPanel StudiesHistoryPanel;
 
 
-    private JButton button1;
-    private JButton button2;
+    private JPanel lolPane;
     private User user;
     private Main main;
 
@@ -65,9 +63,18 @@ public class UserProfilePage extends JPanel {
         g2.gridx = 0;
         g2.ipadx = 300;
         g2.ipady = 300;
-        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, main.getCurrentUser(), "lol","l",1,true,"1"),main),g2);
-        StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, main.getCurrentUser(), "lol","l","aa",null ,"",null),main),g2);
-        ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, main.getCurrentUser(), "lol","l",1,true,"1"),main),g2);
+        addL();
+    }
+
+    public void addL() {
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        LessonsHistoryPanel.add(new JLabel("lol"));
+        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        repaint();
+        revalidate();
     }
 
 
@@ -115,6 +122,14 @@ public class UserProfilePage extends JPanel {
 
     public JPanel getInPanel() {
         return inPanel;
+    }
+
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        f.add(new UserProfilePage());
+        f.setSize(800,800);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
@@ -189,4 +204,6 @@ public class UserProfilePage extends JPanel {
     public JLabel getBioLabel() {
         return bioLabel;
     }
+
+
 }

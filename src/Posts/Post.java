@@ -30,7 +30,7 @@ public abstract class Post {
         commentCollection = new ArrayList<>();
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        createCommentsTable();
+        //createCommentsTable();
     }
     public int getPostID() {
         return postID;
