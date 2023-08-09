@@ -6,6 +6,8 @@ import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -55,39 +57,68 @@ public class StudiesPage {
     private JLabel errorLabel3;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
+    int index;
     private User currentUser;
     private ArrayList<String> options;
-    private final JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
+    private String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+    private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
     public StudiesPage() {
+
+        index = 0;
+        list2.setListData(topics);
         list2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("1");
 
 
                 if (e.getClickCount() == 2) {
                     int selectedIndex = list2.getSelectedIndex();
+
                     String selectedValue = list2.getSelectedValue();
+                    //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
 
-                    if (selectedIndex >= 0 && selectedIndex <= topicLabels.length) {
+                   topics[selectedIndex] = "";
 
-                        topicLabels[selectedIndex].setText(selectedValue);
-                        topicLabels[selectedIndex].setVisible(true);
+                    list2.setListData(topics);
+
+
+
+
+
+                    topicLabels[index].setText(selectedValue);
+                    topicLabels[index].setVisible(true);
+
+                    if (index<4) {
+                        index++;
 
                     }
-                   if(topicLabels[selectedIndex].isVisible()){
+                   ArrayList<String> list = new ArrayList<String>(list2.getSelectedValuesList());
+                    System.out.println(list);
 
-                   }
+
+
+
+
 
 
 
                 }
+                //list2.remove(list2.getSelectedIndex());
+                /*String[] l = new String[2];
+                l[0] = "";
+                l[1] = "";
+                list2.setListData(l);
+                list2.repaint();
+                list2.revalidate();*/
+
+
             }
+
         });
 
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
 
-        listModel = new DefaultListModel<>();
+        //listModel = new DefaultListModel<>();
 
 
 

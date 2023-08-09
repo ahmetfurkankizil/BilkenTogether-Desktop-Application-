@@ -230,12 +230,7 @@
                                           <component id="d77a1" class="javax.swing.JList" binding="list2" default-binding="true">
                                             <constraints/>
                                             <properties>
-                                              <model>
-                                                <item value="PHYSICS"/>
-                                                <item value="CS"/>
-                                                <item value="MATH"/>
-                                                <item value="OTHER"/>
-                                              </model>
+                                              <model/>
                                               <visible value="true"/>
                                               <visibleRowCount value="2"/>
                                             </properties>
