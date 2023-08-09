@@ -1,7 +1,6 @@
 package HomePage.Main;
 
 import CommentsGUI.CommentsMidPanel;
-import CommentsRelated.Comment;
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
@@ -10,7 +9,6 @@ import MessagesGUI.Client;
 import MessagesGUI.MessageConnection;
 import MessagesGUI.MessagesGUI;
 import MessagesGUI.Server;
-import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
 import Posts.LessonPost;
@@ -134,12 +132,12 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
-        //ppHandler();
+        ppHandler();
         setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        //profileBox = new ProfileBox(currentUser);
-        //profileBoxPanel.add(profileBox);
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -159,7 +157,7 @@ public class Main extends JFrame {
         setUpLabelListeners();
         LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         lessons.addLessonPost(tempPost);
-        tempPost.addComment(new Comment(currentUser,"lol so cool"));
+        //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
@@ -398,8 +396,8 @@ public class Main extends JFrame {
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        requestExtended = new RequestMiddlePanelUnanswered();
-        requestExtended.setMain(this);
+        //requestExtended = new RequestMiddlePanelUnanswered();
+        //requestExtended.setMain(this);
         //profilePage.addL();
     }
     public void setUpPastMessages(){

@@ -181,7 +181,7 @@ public abstract class RequestablePost extends Post {
 
     public void addRequest(Request request) {
         requestCollection.add(request);
-        addToRequestTable(request);
+        //addToRequestTable(request);
 
         // (This method receives a student object and adds it to the requestCollection.
         // From this
@@ -200,7 +200,7 @@ public abstract class RequestablePost extends Post {
 
     public void denyRequest(Request request) {
         deniedCollection.add(request);
-        denyTheRequest(request);
+        //denyTheRequest(request);
     }
 
 }

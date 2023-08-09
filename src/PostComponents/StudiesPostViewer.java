@@ -9,6 +9,12 @@ import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class StudiesPostViewer extends PostViewer {
 
@@ -18,6 +24,7 @@ public class StudiesPostViewer extends PostViewer {
     private JLabel authorLabel;
     private StudyPost lesPost;
     private User sender;
+    private JButton fileOpenerButton;
 
 
     public StudiesPostViewer(StudyPost p, Main main) {
@@ -85,10 +92,11 @@ public class StudiesPostViewer extends PostViewer {
         authorLabel.setOpaque(true);
         addPadding(authorLabel);
         topInformationPanel.add(authorLabel);
+
         addTopics();
         add(topInformationPanel, g);
         g.gridy += 1;
-        //add(bottomIformationPanel, g);
+        add(bottomIformationPanel, g);
     }
 
     private void addTopics() {
@@ -103,6 +111,29 @@ public class StudiesPostViewer extends PostViewer {
                 System.out.println("Not Empty");
             }
         }
+        fileOpenerButton = new JButton("File");
+        fileOpenerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                byte data[] = lesPost.getStudyFile();
+                File destination = new File("test.pdf");
+
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(destination);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    fos.write(data);
+                    fos.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
+        bottomIformationPanel.add(fileOpenerButton);
 
     }
 

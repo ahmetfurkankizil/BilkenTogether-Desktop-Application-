@@ -1,4 +1,5 @@
 package HomePage.StudiesPage;
+
 import HomePage.Main.Main;
 import PostComponents.StudiesPostViewer;
 import Posts.StudyPost;
@@ -7,17 +8,14 @@ import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class StudiesPage {
     private Main main;
@@ -341,21 +339,28 @@ public class StudiesPage {
                     } catch (FileNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
-
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    int read;
+                    while(true) {
+                        try {
+                            if (!((read = fis.read(bytes)) != -1)) break;
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        os.write(bytes, 0, read);
+                    }
+                    uploadedPdf = bytes;
                     try {
-                        fis.read(bytes);
+                        fis.close();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
-                    } finally {
-                        if(fis != null) {
-                            uploadedPdf = bytes;
-                            try {
-                                fis.close();
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                        }
                     }
+                    try {
+                        os.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
 
                 }
 
@@ -404,7 +409,7 @@ public class StudiesPage {
         headingtextArea.setLineWrap(true);
         headingtextArea.setColumns(50);
         PPImageHandler profilePhoto = new PPImageHandler();
-        //profilePhotoPanel.add(profilePhoto);
+        profilePhotoPanel.add(profilePhoto);
 
 
     }
