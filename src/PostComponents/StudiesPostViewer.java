@@ -106,4 +106,7 @@ public class StudiesPostViewer extends PostViewer {
 
     }
 
+    public StudyPost getStudyPost() {
+        return lesPost;
+    }
 }
