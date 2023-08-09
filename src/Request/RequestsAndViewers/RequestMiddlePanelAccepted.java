@@ -33,9 +33,6 @@ public class RequestMiddlePanelAccepted {
         LessonPost lpTest2 = new LessonPost(102, tutor, null, null, 1, true, null);
         LessonPost lpTest3 = new LessonPost(103, tutor, null, null, 1, true, null);
 
-        lpTest1.addRequest(new UnansweredRequest(student1.getId()));
-        lpTest1.addRequest(new UnansweredRequest(student2.getId()));
-        lpTest1.addRequest(new UnansweredRequest(student3.getId()));
 
         for (int i = 0; i < lpTest1.pullTheRequestsFromDB().size(); i++) {
             Request request = lpTest1.pullTheRequestsFromDB().get(i);

@@ -1,5 +1,6 @@
 package Request.RequestsAndViewers;
 
+import HomePage.Main.Main;
 import Posts.LessonPost;
 import UserRelated.Student;
 
@@ -23,7 +24,7 @@ public class RequestMiddlePanelUnanswered {
     private RequestMiddlePanelAccepted acceptedPanel;
 
     public RequestMiddlePanelUnanswered(){
-        setUpPages();
+
         Student tutor = new Student("Tutor", null, 22203112, null, null, null, null);
 
         Student student1 = new Student("Jack", null, 10, null, null, null, null);
@@ -43,6 +44,8 @@ public class RequestMiddlePanelUnanswered {
         lpTest1.addRequest(new UnansweredRequest(student1.getId()));
         lpTest1.addRequest(new UnansweredRequest(student2.getId()));
         lpTest1.addRequest(new UnansweredRequest(student3.getId()));
+        lpTest1.acceptRequest(new UnansweredRequest(student2.getId()));
+        lpTest1.denyRequest(new UnansweredRequest(student3.getId()));
 
 
         GridBagConstraints g2 = new GridBagConstraints();
@@ -81,11 +84,15 @@ public class RequestMiddlePanelUnanswered {
                 insideScrollPanel.revalidate();
             }
         });
+        setUpPages();
     }
 
     private void setUpPages() {
         acceptedPanel = new RequestMiddlePanelAccepted();
         deniedPanel = new RequestMiddlePanelDenied();
+    }
+    public JPanel getMiddlePanel(){
+        return middlePanel;
     }
 
     public static void main(String[] args) {
@@ -98,5 +105,9 @@ public class RequestMiddlePanelUnanswered {
 
     public JPanel getInsideScrollPanel() {
         return holdingPanel;
+    }
+    private Main main;
+    public void setMain(Main main) {
+        this.main = main;
     }
 }

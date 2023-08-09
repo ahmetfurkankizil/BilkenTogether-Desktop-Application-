@@ -25,11 +25,10 @@ public class RequestConfirmationPanelViewer extends JPanel {
     protected JButton tickButton, crossButton;
     private DatabaseConnection databaseConnection;
     public RequestConfirmationPanelViewer(Request request) {
-
-        Student student = (Student) databaseConnection.pullUserByIdFromDB(request.getRequesterID());
-
+        this.databaseConnection = new DatabaseConnection();
+        Student student = (Student) this.databaseConnection.pullUserByIdFromDB(request.getRequesterID());
+        student = new Student("1","1",45,"1","1","1","1");
         //This student can't be null because it is already added to the database
-        assert student != null;
 
         nameLabel.setText(student.getName());
         deniedPanel.add(nameLabel);

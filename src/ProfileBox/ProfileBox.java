@@ -1,31 +1,39 @@
 package ProfileBox;
 
+import UserRelated.User;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class ProfileBox extends  JFrame {
+public class ProfileBox extends  JPanel {
     private JPanel panel1;
-    private JPanel MainPanel;
-    private JPanel TopPanel;
-    private JPanel MiddlePanel;
-    private JPanel BottomPanel;
-    private JLabel MiddleLabel;
-    private JLabel BottomLabel;
+    private JLabel nameSurnameLabel;
+    private JLabel emailLabel;
+    private JLabel profilePhotoLabel;
 
 
-    public ProfileBox()
-    {
 
-        setContentPane(MainPanel);
-        setSize(300,200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
+    public ProfileBox(User user) {
+        add(panel1);
+        nameSurnameLabel.setText(user.getName());
+        emailLabel.setText(user.getEmail());
+       // InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
+        //BufferedImage image;
+        //try {
+          //  image = ImageIO.read(is);
+        //} catch (IOException e) {
+          //  throw new RuntimeException(e);
+        //}
+        //ImageIcon icon = new ImageIcon(image);
+        //profilePhotoLabel.setIcon(icon);
     }
 
-    public static void main(String[] args) {
-        ProfileBox myFrame = new ProfileBox();
-    }
-
-    private void createUIComponents() {
+    public JLabel getProfilePhotoLabel() {
+        return profilePhotoLabel;
     }
 }
 

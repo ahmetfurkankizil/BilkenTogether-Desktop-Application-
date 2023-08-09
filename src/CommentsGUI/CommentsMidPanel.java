@@ -27,8 +27,8 @@ public class CommentsMidPanel extends JFrame {
     private  Post REQUESTABLE_POST;
     private Main main;
 
-    public CommentsMidPanel(Post requestablePost,Main main){
-        REQUESTABLE_POST = requestablePost;
+    public CommentsMidPanel(Post post, Main main){
+        REQUESTABLE_POST = post;
         setSize(700,700);
         this.main = main;
         Student student1 = new Student("Erdem", "", 1, "", "", "", "");
@@ -52,7 +52,7 @@ public class CommentsMidPanel extends JFrame {
             postDisplayPanel.add(new StudiesPostViewer((StudyPost) REQUESTABLE_POST,null),g2);
 
         commentPosting.setBackground(Color.GRAY);
-        comments = requestablePost.getCommentCollection();
+        comments = post.getCommentCollection();
         for (Comment c :
                 comments) {
             addCommentsPanel(new CommentsPanel(c));
@@ -65,7 +65,7 @@ public class CommentsMidPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!textArea1.getText().isBlank()) {
                     Comment temp = new Comment(main.getCurrentUser(), textArea1.getText());
-                    requestablePost.addComment(temp);
+                    post.addComment(temp);
                     addCommentsPanel(new CommentsPanel(temp));
                     main.update();
                 }

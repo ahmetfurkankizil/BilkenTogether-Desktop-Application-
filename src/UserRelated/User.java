@@ -1,7 +1,13 @@
 package UserRelated;
 
+import CommentsRelated.Comment;
+import DatabaseRelated.DatabaseConnection;
+import Posts.Post;
+import Posts.StudyPost;
+
 import javax.management.Notification;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.*;
 import DatabaseRelated.*;
 import MessagesRelated.Message;
@@ -20,6 +26,7 @@ public abstract class User{
     private String gender;
     private String dateOfBirth;
     private byte[] profilePhoto;
+    private byte[] backGroundPhoto;
     private String biography;
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
@@ -121,6 +128,14 @@ public abstract class User{
 
     public byte[] getProfilePhoto() {
         return profilePhoto;
+    }
+
+    public byte[] getBackGroundPhoto() {
+        return backGroundPhoto;
+    }
+
+    public void setBackGroundPhoto(byte[] backGroundPhoto) {
+        this.backGroundPhoto = backGroundPhoto;
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {

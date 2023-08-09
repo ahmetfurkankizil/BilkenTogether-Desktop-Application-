@@ -28,9 +28,13 @@ public abstract class Post {
         this.postID = postID;
         this.sender = sender;
         commentCollection = new ArrayList<>();
+
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
         //createCommentsTable();
+    }
+    public void addPastComents() {
+        //ArrayListi commentCollectiona atıcak (=)
     }
     public int getPostID() {
         return postID;
@@ -55,6 +59,7 @@ public abstract class Post {
 
     public void addComment(Comment comment) {
         commentCollection.add(comment);
+        addToCommentsTable(comment);
     }
 
     public ArrayList<Comment> getCommentCollection() {
@@ -73,7 +78,6 @@ public abstract class Post {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "commenterId INT AUTO_INCREMENT PRIMARY KEY,"
                         + "reviewBoolean BOOLEAN,"
-                        + "unanswered BOOLEAN,"
                         + "content VARCHAR(350) NOT NULL"
                         + ");";
 
@@ -94,7 +98,7 @@ public abstract class Post {
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getSender().getId() + "x" + getPostID() + "CommentsTable";
             if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (requesterId, reviewBoolean, content) VALUES (?, ?, ?)";
+                String insertQuery = "INSERT INTO " + tableName + " (commenterId, reviewBoolean, content) VALUES (?, ?, ?)";
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
