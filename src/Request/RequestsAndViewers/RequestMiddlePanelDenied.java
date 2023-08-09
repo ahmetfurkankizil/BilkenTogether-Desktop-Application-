@@ -45,7 +45,7 @@ public class RequestMiddlePanelDenied {
         for (int i = 0; i < lpTest1.pullTheRequestsFromDB().size(); i++) {
             Request request = lpTest1.pullTheRequestsFromDB().get(i);
             if (request instanceof DeniedRequest) {
-                insideScrollPanel.add(new DeniedViewer(request),g2);
+                //insideScrollPanel.add(new DeniedViewer(request),g2);
             }
         }
     }

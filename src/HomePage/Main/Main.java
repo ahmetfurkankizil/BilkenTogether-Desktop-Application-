@@ -35,6 +35,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -486,9 +487,14 @@ public class Main extends JFrame {
     }
     public void expandPost(PostViewer p){
         Post tempPost = p.getPost();
-        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this);
+        CommentsMidPanel tempPanel = null;
+        try {
+            tempPanel = new CommentsMidPanel(tempPost,this);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         resetPanels();
-        invisibleAddablePanelLeft.setLayout(new FlowLayout());
+        invisibleAddablePanelLeft.setLayout(new GridLayout());
         invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
         invisibleAddablePanelLeft.setVisible(true);
         update();

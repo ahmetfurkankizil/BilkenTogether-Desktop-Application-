@@ -53,5 +53,11 @@ public class Comment {
         return usersWhoLiked.contains(user);
     }
 
-    
+
+    public void decrementLikeCount(User user) {
+        if (usersWhoLiked.contains(user)) {
+            usersWhoLiked.remove(user);
+            likeCount--;
+        }
+    }
 }
