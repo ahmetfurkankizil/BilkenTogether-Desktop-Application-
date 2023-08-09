@@ -7,14 +7,12 @@ import Icons.IconCreator;
 import MessagesGUI.Client;
 import MessagesGUI.MessagesGUI;
 import NotificationRelated.NotificationHomePage;
-import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -22,16 +20,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.io.IOException;
 
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
-    private static final File LOGFILE= new File("HomePage/StudiesPage/logo.PNG");
+    private static final File LOGFILE= new File("src/HomePage/Main/logo.PNG");
     private static final ImageIcon  LOGO = IconCreator.getIconWithSize(new ImageIcon(LOGFILE.getAbsolutePath()),60,60);;
     private NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
@@ -115,10 +111,13 @@ public class Main extends JFrame {
 
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
+    private Server server;
 
     private ProfileBox profileBox;
 
     public Main() {
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        setUpPastMessages();
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
         BufferedImage bi = null;
@@ -158,17 +157,24 @@ public class Main extends JFrame {
         profileBoxPanel.add((profileBox));
         setUpPages();
         logoLabel.setIcon(LOGO);
-        client = new Client(messagesGUI.getConversationPanel(),this);
+        server = new Server(22);
+
+        client = new Client(messagesGUI.getConversationPanel(),this,server);
         setContentPane(mainPanel);
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        resetLabelFonts();
+        homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
 
         generalSetup();
 
         setUpLabelListeners();
+        LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        lessons.addLessonPost(tempPost);
+        //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
@@ -216,15 +222,18 @@ public class Main extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageSendButtonPressed = true;
-                if (!textInputArea.getText().isEmpty()){
 
+                if (!textInputArea.getText().isEmpty()){
+                    messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,textInputArea.getText());
+                    messagesGUI.getConversationPanel();
+
                 }
                 revalidate();
                 repaint();
             }
         });
+
         client.run();
     }
 
@@ -311,17 +320,18 @@ public class Main extends JFrame {
                 invisibleAddablePanelLeft.add(notificationHomePage.getTopLabel());
                 invisibleAddablePanelLeft.setVisible(true);
                 JPanel tempP = notificationHomePage.getMainPanel();
-                insideScrollPanePanel.add(tempP);
-                insideScrollPanePanel.setVisible(true);
-                flowScrollPane.setVisible(true);
+                GridBagConstraints g2 = new GridBagConstraints();
+                //tempP.setBounds(0,0,600,600);
+                g2.gridx = 0;
+                invisibleAddablePanelLeft.add(tempP,g2);
+                //invisibleAddablePanelRight.setVisible(true);
+                //flowScrollPane.setVisible(true);
                 rightPanel.setVisible(true);
                 resetLabelFonts();
                 notificationsLabel.setFont(new Font("default",Font.BOLD,22));
-                update();}
-
-
-            }
-        });
+                update();
+                }
+            }});
 
     }
 
@@ -333,6 +343,7 @@ public class Main extends JFrame {
 
 
     private void resetPanels() {
+        invisibleAddablePanelLeft.setLayout(new GridBagLayout());
         textAreaPanel.setVisible(false);
         topVisiblisty.setVisible(false);
         invisibleAddablePanelLeft.setVisible(false);
@@ -351,7 +362,7 @@ public class Main extends JFrame {
         requestsLabel.setFont(new Font("default",Font.PLAIN,22));
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
-
+    private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
         activities = new ActivitiesPage();
         activities.setMain(this);
@@ -359,12 +370,37 @@ public class Main extends JFrame {
         studies.setMain(this);
         lessons = new LessonsPage();
         lessons.setMain(this);
-        messagesGUI = new MessagesGUI();
+        messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
+        profilePage = new UserProfilePage(currentUser);
         profilePage = new UserProfilePage(currentUser,profileBox);
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
+        requestExtended = new RequestMiddlePanelUnanswered();
+        requestExtended.setMain(this);
+        profilePage.addL();
+    }
+    public void setUpPastMessages(){
+        Student otherUser = new Student("aba","a",1,"s","s","s","s");
+        MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,22);
+        Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+
+        temp2.addMessages(new Message(currentUser,otherUser2,"IT WORKS",new Date()));
+        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
+        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser,"WORKS",new Date()));
+        currentUser.addMessageConnection(temp);
+        currentUser.addMessageConnection(temp2);
     }
 
     public void setCurrentUser(User user) {
@@ -379,6 +415,7 @@ public class Main extends JFrame {
 
 
     private void setUpCursors() {
+        logoLabel.setCursor(handCursor);
         sectionButtons = new ArrayList<>();
         sectionButtons.add(lessonsButton);
         sectionButtons.add(activitiesButton);
@@ -426,6 +463,15 @@ public class Main extends JFrame {
         profileLabelPanel.setBorder(new SectionItemBorder());
         messagesLabelPanel.setBorder(new SectionItemBorder());
         notificationsLabelPanel.setBorder(new SectionItemBorder());
+    }
+    public void expandPost(PostViewer p){
+        Post tempPost = p.getPost();
+        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this);
+        resetPanels();
+        invisibleAddablePanelLeft.setLayout(new FlowLayout());
+        invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
+        invisibleAddablePanelLeft.setVisible(true);
+        update();
 
     }
 
@@ -439,6 +485,9 @@ public class Main extends JFrame {
         return textInputArea.getText();
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
 
     private class SectionItemBorder implements Border {

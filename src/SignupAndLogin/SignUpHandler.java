@@ -23,7 +23,6 @@ public class SignUpHandler {
     private static final String bilkenTogetherPassword = "rkdpbcwtjuvfxlhp"; //Server alınınca değiştirilecek
     private int verificationCode;
     private Random random;
-    private DatabaseHandler databaseHandler;
 
     public SignUpHandler() {
     }

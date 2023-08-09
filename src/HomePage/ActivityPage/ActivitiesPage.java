@@ -110,7 +110,7 @@ public class ActivitiesPage {
                 g.gridx = 0;
                 ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type,"23/03/2023");
                 tempStudent.addToActivitiesTable(tempPost);
-                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()));
+                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()),main);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();
             }

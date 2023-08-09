@@ -1,6 +1,10 @@
 package UserProfileGUI;
 
 import HomePage.Main.Main;
+import PostComponents.LessonPostViewer;
+import PostComponents.StudiesPostViewer;
+import Posts.LessonPost;
+import Posts.StudyPost;
 import Icons.IconCreator;
 import ProfileBox.ProfileBox;
 import UserRelated.Student;
@@ -8,6 +12,7 @@ import UserRelated.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -26,6 +31,7 @@ public class UserProfilePage extends JPanel {
     private JLabel eMailLabel;
     private JLabel ratingStarsLabel;
     private JPanel mainPanel;
+    private JPanel profilePhotoPanel;
     private JPanel historyLessons;
     private JPanel personalInfoPanel;
     private JLabel bioLabel;
@@ -34,6 +40,13 @@ public class UserProfilePage extends JPanel {
     private JPanel inPanel;
     private JLabel backGroundPhotoLabel;
     private JLabel profilePhotoLabel;
+    private JPanel HistoryPanel;
+    private JPanel LessonsHistoryPanel;
+    private JPanel ActivitiesHistoryPanel;
+    private JPanel StudiesHistoryPanel;
+
+
+    private JPanel lolPane;
     private User user;
     private Main main;
     private ProfileBox profileBox;
@@ -55,8 +68,23 @@ public class UserProfilePage extends JPanel {
         this.profileBox = profileBox;
         setDefaultPhotos();
         setPersonalInformation();
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        g2.ipadx = 300;
+        g2.ipady = 300;
+        addL();
+    }
         createActionListeners(); // Implementations are empty
 
+    public void addL() {
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        LessonsHistoryPanel.add(new JLabel("lol"));
+        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        repaint();
+        revalidate();
     }
 
 
@@ -126,6 +154,14 @@ public class UserProfilePage extends JPanel {
         return inPanel;
     }
 
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        f.add(new UserProfilePage());
+        f.setSize(800,800);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
     /**
      * This method creates action listeners for sufficient buttons
      */
@@ -149,7 +185,9 @@ public class UserProfilePage extends JPanel {
         lessonsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implementation is empty
+                LessonsHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                StudiesHistoryPanel.setVisible(false);
             }
         });
 
@@ -160,7 +198,9 @@ public class UserProfilePage extends JPanel {
         activitiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implementation is empty
+                ActivitiesHistoryPanel.setVisible(true);
+                StudiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
 
@@ -171,7 +211,9 @@ public class UserProfilePage extends JPanel {
         studiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // To do
+                StudiesHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
     }
@@ -192,6 +234,8 @@ public class UserProfilePage extends JPanel {
     public JLabel getBioLabel() {
         return bioLabel;
     }
+
+
 
     public JLabel getProfilePhotoLabel() {
         return profilePhotoLabel;

@@ -6,17 +6,15 @@ import UserRelated.User;
 
 public class Comment {
     // Properties (Instance Variables)
-    private User sender;
-    private User receiver;
+    private User commenter;
     private int likeCount;
     private String content;
     private ArrayList<Comment> comments;
     private ArrayList<User> usersWhoLiked;
 
     // Constructor
-    public Comment( User sender, User receiver, String content) {
-        this.sender = sender;
-        this.receiver = receiver;
+    public Comment( User commenter, String content) {
+        this.commenter = commenter;
         this.content = content;
         this.likeCount = 0;
         this.comments = new ArrayList<>();
@@ -39,13 +37,8 @@ public class Comment {
             likeCount++;
         }
     }
-
-    public User getSender() {
-        return sender;
-    }
-
-    public User getReceiver() {
-        return receiver;
+    public User getCommenter() {
+        return commenter;
     }
 
     public String getContent() {

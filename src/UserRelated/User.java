@@ -10,8 +10,14 @@ import Posts.StudyPost;
 import javax.management.Notification;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.*;
+import DatabaseRelated.*;
+import MessagesRelated.Message;
+import MessagesGUI.MessageConnection;
+import Posts.*;
+import CommentsRelated.*;
 
-public abstract class User implements DatabaseHandler {
+public abstract class User{
     private String[] studyTopics;
     protected DatabaseConnection databaseConnection;
     private int id;
@@ -27,13 +33,13 @@ public abstract class User implements DatabaseHandler {
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
     private ArrayList<Notification> notificationCollection;
-    private ArrayList<MessageConnection> messageCollection;
+    private ArrayList<MessageConnection> messageConnections;
 
     public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth) {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
-        messageCollection = new ArrayList<>();
+        messageConnections = new ArrayList<>();
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -41,6 +47,13 @@ public abstract class User implements DatabaseHandler {
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
+    }
+    public void addMessageConnection(MessageConnection connection){
+        messageConnections.add(connection);
+    }
+
+    public ArrayList<MessageConnection> getMessageConnections() {
+        return messageConnections;
     }
 
     public void addStudyPost(StudyPost studyPost) {
@@ -257,7 +270,6 @@ public abstract class User implements DatabaseHandler {
     }
 
     // DatabaseHandler Methods
-    @Override
     public boolean createStudiesTable() {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -290,7 +302,7 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
+
     public boolean addToStudiesTable(StudyPost studyPost) {
         String[] topicsToBeAdded = studyPost.getTopicCollection();
         int numberOfPostTopics = topicsToBeAdded.length;
@@ -342,7 +354,6 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
     public boolean removeFromStudiesTable(StudyPost studyPost) {
         databaseConnection = new DatabaseConnection();
         String tableName = "" + getId() + "StudiesTable";
@@ -364,7 +375,6 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
     public StudyPost pullStudyPostFromDB(int userId, int studyPostID) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         StudyPost studyPost = null;
@@ -418,44 +428,6 @@ public abstract class User implements DatabaseHandler {
         return studyPost;
     }
 
-
-
-    /*
-    @Override
-    public boolean addToMessagesTable() {
-        databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "MessagesTable";
-            if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (postId, messageType, messageSender, messageReceiver, content, dateTime) VALUES (?, ?, ?, ?, ?, ?)";
-
-                //The information will be taken from message class getters
-                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, );
-                    preparedStatement.setString(2, );
-                    preparedStatement.setString(3, );
-                    preparedStatement.setString(4, );
-                    preparedStatement.setString(5, );
-                    preparedStatement.setString(6, );
-
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
-                    System.out.println("Message values inserted successfully.");
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        databaseConnection.closeConnection();
-        return false;
-    } */
-
-
-    @Override
     public boolean createNotificationsTable() {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -484,26 +456,111 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-
-    @Override
-    public boolean createMessagesTable() {
+    //Right
+    public boolean createMessageHistory(int connectionId) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "MessagesTable";
+            String tableName = "" + connectionId + "MessageHistory";
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
-                        + "postId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "messageType VARCHAR(50) NOT NULL,"
-                        + "messageSender VARCHAR(50) NOT NULL,"
-                        + "messageReceiver VARCHAR(50) NOT NULL,"
-                        + "content VARCHAR(150) NOT NULL,"
-                        + "dateTime  VARCHAR(250) NOT NULL"
+                        + "senderId INT NOT NULL,"
+                        + "receiverId INT NOT NULL,"
+                        + "content VARCHAR(250) NOT NULL,"
+                        + "date VARCHAR(50) NOT NULL"
                         + ");";
 
                 try (Statement statement = connection.createStatement()) {
                     statement.executeUpdate(createTableQuery);
-                    System.out.println("Message Table created successfully.");
+                    System.out.println("Message History created successfully.");
                     return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    //Right
+    public boolean insertToMessageHistoryTable(int connectionId, Message message) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + connectionId + "MessageHistory";
+            if (connection != null) {
+                String insertQuery = "INSERT INTO " + tableName + " (senderId, receiverId, content, date) VALUES (?, ?, ?, ?)";
+
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1, message.getSender().getId());
+                    preparedStatement.setInt(2, message.getReceiver().getId());
+                    preparedStatement.setString(3, message.getContent());
+                    preparedStatement.setString(4, message.getTime().toString());
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println("Rows affected: " + rowsAffected);
+                    preparedStatement.executeUpdate(insertQuery);
+                    System.out.println("Inserted to message connection successfuly");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    //Left
+    public boolean createMessagesConnectionTable() {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "UserMessageConnectionTable";
+            if (connection != null) {
+                String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                        + "connectionId INT PRIMARY KEY AUTO_INCREMENT,"
+                        + "id1 INT NOT NULL,"
+                        + "id2 INT NOT NULL,"
+                        + "port INT NOT NULL,"
+                        + ");";
+
+                try (Statement statement = connection.createStatement()) {
+                    statement.executeUpdate(createTableQuery);
+                    System.out.println("User Message Connection Table created successfully.");
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
+        return false;
+    }
+
+    //Left
+    public boolean insertToMessageConnectionTable(int connectionId, User user1, User user2, int port) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "UserMessageConnectionTable";
+            if (connection != null) {
+                String insertQuery = "INSERT INTO " + tableName + " (connectionId, id1, id2, port) VALUES (?, ?, ?, ?)";
+
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1, connectionId);
+                    preparedStatement.setInt(2, user1.getId());
+                    preparedStatement.setInt(3, user2.getId());
+                    preparedStatement.setInt(4, port);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println("Rows affected: " + rowsAffected);
+                    preparedStatement.executeUpdate(insertQuery);
+                    System.out.println("Inserted to message connection successfuly");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (SQLException e) {

@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class RequestConfirmationPanelViewer extends JPanel {
     private static final int starwidth = 10;
-    public ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
+    public ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
     public ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
     public ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
     public ImageIcon cross = IconCreator.getIconWithSize(IconCreator.deniedIcon, starwidth, starwidth);
@@ -19,10 +19,9 @@ public class RequestConfirmationPanelViewer extends JPanel {
     public JLabel nameLabel = new JLabel();
 
     public RequestConfirmationPanelViewer() {
-
         nameLabel.setText("Name Surname");
         deniedPanel.add(nameLabel);
-        addStars(3);
+        addStars(5);
         deniedPanel.add(crossLabel);
         add(deniedPanel);
     }

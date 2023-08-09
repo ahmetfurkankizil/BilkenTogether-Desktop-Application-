@@ -18,6 +18,7 @@ public class NotificationHomePage extends JFrame {
     private JPanel insideScrollPanePanel;
     private Notification notification;
     private JPanel TopLabel;
+    private JPanel scrollBig;
     private ArrayList<JButton> sectionButtons;
 
     public NotificationHomePage() {
@@ -38,8 +39,10 @@ public class NotificationHomePage extends JFrame {
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-
-
+        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
     }
 
     public void addNotification(Notification notification) {
@@ -47,7 +50,7 @@ public class NotificationHomePage extends JFrame {
     }
 
     public JPanel getMainPanel() {
-        return insideScrollPanePanel;
+        return scrollBig;
     }
 
     public JPanel getTopLabel() {
