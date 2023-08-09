@@ -6,8 +6,6 @@ import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -55,6 +53,7 @@ public class StudiesPage {
     private JLabel errorLabel2;
     private JTextField addAuthorsTextField;
     private JLabel errorLabel3;
+    private JButton ResetButton;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
     int index;
