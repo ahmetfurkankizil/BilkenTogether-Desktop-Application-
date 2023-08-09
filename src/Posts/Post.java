@@ -1,8 +1,8 @@
 package Posts;
+import CommentsRelated.Comment;
 import UserRelated.*;
 import java.util.*;
 
-import javax.xml.stream.events.Comment;
 
 /**
  * Post
@@ -20,6 +20,7 @@ public abstract class Post {
          */
         this.postID = postID;
         this.sender = sender;
+        commentCollection = new ArrayList<>();
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
         System.out.println();

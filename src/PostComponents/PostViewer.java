@@ -1,12 +1,16 @@
 package PostComponents;
 
+import HomePage.Main.Main;
 import Icons.IconCreator;
+import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public abstract class PostViewer extends JPanel {
     public static final Font headerFont = new Font("Ariel",Font.BOLD,15);
@@ -23,9 +27,10 @@ public abstract class PostViewer extends JPanel {
     protected JPanel bottomIformationPanel;
     protected JLabel messageLabel;
     protected JTextArea textArea2;
+    protected Main main;
 
-    public PostViewer() {
-
+    public PostViewer(Main main) {
+        this.main = main;
     }
     protected void setUp(){
         g = new GridBagConstraints();
@@ -46,7 +51,15 @@ public abstract class PostViewer extends JPanel {
         textArea2.setLineWrap(true);
         textArea2.setMargin(new Insets(0,0,10,0));
         commentLabel = new JLabel(comment);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                main.expandPost(getThis());
+
+            }
+        });
     }
+    public PostViewer getThis(){return  this;}
     private class SectionItemBorder implements Border {
         @Override
         public Insets getBorderInsets(Component c) {
@@ -71,5 +84,5 @@ public abstract class PostViewer extends JPanel {
     public static void addPadding(JComponent comp, int top, int left, int bottom, int right) {
         comp.setBorder(new EmptyBorder(top, left, bottom, right));
     }
-
+    public abstract Post getPost();
 }
