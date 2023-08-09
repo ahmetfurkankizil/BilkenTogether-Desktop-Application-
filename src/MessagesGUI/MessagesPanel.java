@@ -23,11 +23,12 @@ public class MessagesPanel extends JPanel {
         g.gridx = 0;
         pastMessageConnections = currentUser.getMessageConnections();
         g.fill = GridBagConstraints.HORIZONTAL;
+        conversationViewers = new ArrayList<>();
         for (MessageConnection m : pastMessageConnections) {
             ConversationViewer temp = new ConversationViewer(m);
-            add(temp,g);
+            conversationViewers.add(temp);
         }
-        conversationViewers = new ArrayList<>();
+
 
         for (int i = 0; i < 8; i++) {
             conversationViewers.add(new ConversationViewer());
@@ -150,6 +151,10 @@ public class MessagesPanel extends JPanel {
         }
         public void setMessageContent(String str) {
             this.messageContent.setText(str);
+        }
+        public String getName()
+        {
+            return profileNameLabel.getText();
         }
 
         public String getMessageContent() {

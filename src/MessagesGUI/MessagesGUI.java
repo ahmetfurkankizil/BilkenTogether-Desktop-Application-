@@ -29,6 +29,7 @@ public class MessagesGUI extends JFrame {
     private Main main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
+    MessagesPanel n;
     User currentUser;
     public MessagesGUI(User currentUser){
 
@@ -64,6 +65,7 @@ public class MessagesGUI extends JFrame {
         searchField.setColumns(20);
         conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
         m = new MessagesPanel(currentUser);
+        n= new MessagesPanel(currentUser);
         //textInputArea.setMargin(new Insets(5,5,5,5));
         addablePanelLeft.add(m);
         addablePanelRight.add(conversationPanel);
@@ -110,8 +112,8 @@ public class MessagesGUI extends JFrame {
         {
             System.out.println("lolkl");
             String messageContent = m.getConversationViewers().get(i).getMessageContent().toLowerCase();
-
-            if (messageContent.contains(searchTerm))
+            String senderName = n.getConversationViewers().get(i).getName().toLowerCase();
+            if (senderName.contains(searchTerm) || messageContent.contains(searchTerm))
             {
 
                 m.getConversationViewers().get(i).setVisible(true);
