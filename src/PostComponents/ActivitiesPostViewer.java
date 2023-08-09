@@ -1,6 +1,8 @@
 package PostComponents;
 
+import HomePage.Main.Main;
 import Posts.ActivityPost;
+import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 
@@ -19,12 +21,10 @@ public class ActivitiesPostViewer extends PostViewer {
     private ActivityPost lesPost;
     private Student sender;
     private JButton requestButton;
-    public ActivitiesPostViewer(){
 
-    }
-    public ActivitiesPostViewer(ActivityPost p){
+    public ActivitiesPostViewer(ActivityPost p, Main main){
+        super(main);
         this.lesPost = p;
-
         setUp();
         contentSetUp();
 
@@ -44,6 +44,12 @@ public class ActivitiesPostViewer extends PostViewer {
         sender = lesPost.getSender();
         proName.setText(lesPost.getSender().getName());
     }
+
+    @Override
+    public Post getPost() {
+        return lesPost;
+    }
+
     public void contentSetUp(){
 
         g.gridx = 0;

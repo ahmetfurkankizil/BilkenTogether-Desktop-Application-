@@ -83,6 +83,7 @@ public class LessonsPage {
         generalSetup();
 
 
+
         textArea1.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -242,11 +243,10 @@ public class LessonsPage {
             }
         }
     }
-    private void addLessonPost(LessonPost post) {
+    public void addLessonPost(LessonPost post) {
         g.gridx = 0;
-        LessonPostViewer viewer6 = new LessonPostViewer(post);
+        LessonPostViewer viewer6 = new LessonPostViewer(post,main);
         insideScrollPanePanel.add(viewer6, g);
-
     }
     public class LesssonPostPostingListener implements ActionListener {
         @Override

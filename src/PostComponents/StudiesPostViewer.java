@@ -1,6 +1,8 @@
 package PostComponents;
 
+import HomePage.Main.Main;
 import Icons.IconCreator;
+import Posts.Post;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.User;
@@ -17,11 +19,9 @@ public class StudiesPostViewer extends PostViewer {
     private StudyPost lesPost;
     private User sender;
 
-    public StudiesPostViewer() {
 
-    }
-
-    public StudiesPostViewer(StudyPost p) {
+    public StudiesPostViewer(StudyPost p, Main main) {
+        super(main);
         this.lesPost = p;
         setUp();
         contentSetUp();
@@ -43,6 +43,11 @@ public class StudiesPostViewer extends PostViewer {
         proPhoto = new PPImageHandler();
         header = new JLabel(lesPost.getStudyPostHeading());
         header.setFont(headerFont);
+    }
+
+    @Override
+    public Post getPost() {
+        return lesPost;
     }
 
     public void contentSetUp() {

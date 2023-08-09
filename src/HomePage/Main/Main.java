@@ -1,5 +1,7 @@
 package HomePage.Main;
 
+import CommentsGUI.CommentsMidPanel;
+import CommentsRelated.Comment;
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
@@ -7,6 +9,9 @@ import Icons.IconCreator;
 import MessagesGUI.*;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
+import PostComponents.PostViewer;
+import Posts.LessonPost;
+import Posts.Post;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
@@ -129,6 +134,9 @@ public class Main extends JFrame {
         setSize(1500, 800);
         generalSetup();
         setUpLabelListeners();
+        LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        lessons.addLessonPost(tempPost);
+        tempPost.addComment(new Comment(currentUser,currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
@@ -295,6 +303,7 @@ public class Main extends JFrame {
 
 
     private void resetPanels() {
+        invisibleAddablePanelLeft.setLayout(new GridBagLayout());
         textAreaPanel.setVisible(false);
         topVisiblisty.setVisible(false);
         invisibleAddablePanelLeft.setVisible(false);
@@ -400,6 +409,15 @@ public class Main extends JFrame {
         profileLabelPanel.setBorder(new SectionItemBorder());
         messagesLabelPanel.setBorder(new SectionItemBorder());
         notificationsLabelPanel.setBorder(new SectionItemBorder());
+    }
+    public void expandPost(PostViewer p){
+        Post tempPost = p.getPost();
+        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this);
+        resetPanels();
+        invisibleAddablePanelLeft.setLayout(new FlowLayout());
+        invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
+        invisibleAddablePanelLeft.setVisible(true);
+        update();
 
     }
 
@@ -413,6 +431,9 @@ public class Main extends JFrame {
         return textInputArea.getText();
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
 
     private class SectionItemBorder implements Border {
