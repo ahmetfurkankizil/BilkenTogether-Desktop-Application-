@@ -1,17 +1,21 @@
 package HomePage.Main;
 
 import CommentsGUI.CommentsMidPanel;
+import CommentsRelated.Comment;
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
 import MessagesGUI.Client;
-import MessagesGUI.*;
+import MessagesGUI.MessageConnection;
+import MessagesGUI.MessagesGUI;
+import MessagesGUI.Server;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
 import Posts.LessonPost;
 import Posts.Post;
+import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
 import UserProfileGUI.PPImageHandler;
@@ -30,10 +34,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
-import ProfileBox.ProfileBox;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -129,10 +133,8 @@ public class Main extends JFrame {
 
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
-
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
-        //ppHandler();
+        ppHandler();
         setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
@@ -155,9 +157,9 @@ public class Main extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        //LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
-        //lessons.addLessonPost(tempPost);
-        //tempPost.addComment(new Comment(currentUser,"lol so cool"));
+        LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        lessons.addLessonPost(tempPost);
+        tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
@@ -223,7 +225,7 @@ public class Main extends JFrame {
     private void ppHandler() {
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read( new File("CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
+            bi = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -392,6 +394,7 @@ public class Main extends JFrame {
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
+
         profilePage = new UserProfilePage(currentUser,profileBox);
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
@@ -473,9 +476,14 @@ public class Main extends JFrame {
     }
     public void expandPost(PostViewer p){
         Post tempPost = p.getPost();
-        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this);
+        CommentsMidPanel tempPanel = null;
+        try {
+            tempPanel = new CommentsMidPanel(tempPost,this);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         resetPanels();
-        invisibleAddablePanelLeft.setLayout(new FlowLayout());
+        invisibleAddablePanelLeft.setLayout(new GridLayout());
         invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
         invisibleAddablePanelLeft.setVisible(true);
         update();

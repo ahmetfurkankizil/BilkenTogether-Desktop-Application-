@@ -1,18 +1,24 @@
 package HomePage.StudiesPage;
-import PostComponents.StudiesPostViewer;
 import HomePage.Main.Main;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
-import Posts.StudyPost;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class StudiesPage {
-    private  Main main;
+    private Main main;
+    private final String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
+    private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
+    int index;
     private JPanel mainPanel;
     private JPanel secondMainPanel;
     private JPanel rightPanel;
@@ -42,7 +48,8 @@ public class StudiesPage {
     private JPanel qfPanel;
     private JPanel insideScrollPanel;
     private JLabel errorLabel;
-    private JList <String>list2;
+    private byte[] uploadedPdf;
+    private JList<String> list2;
     private DefaultListModel<String> listModel;
     private JLabel selectedOption;
     private JScrollPane listScroll;
@@ -52,10 +59,12 @@ public class StudiesPage {
     private JLabel topicLabel3;
     private JLabel topicLabel4;
     private JLabel topicLabel5;
+    private final JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
     private JLabel errorLabel2;
     private JTextField addAuthorsTextField;
     private JLabel errorLabel3;
     private JButton ResetButton;
+    private JButton uploadFileButton;
     private JLabel selectedTopic;
     private JLabel filterBox1;
     private JLabel filterBox2;
@@ -67,17 +76,12 @@ public class StudiesPage {
     private JButton resetButtonInBox;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
-    int index;
+
     int indexOfFilterBox;
     private User currentUser;
     private ArrayList<String> options;
-    private String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
-
-    private String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
-    private String[] filteredTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
-    private String[] updatedFilteredTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+  
     private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
-    private JLabel[] filterLabels = {filterBox1,filterBox2,filterBox3,filterBox4,filterBox5};
     public StudiesPage() {
 
         index = 0;
@@ -95,17 +99,17 @@ public class StudiesPage {
                     String selectedValue = list2.getSelectedValue();
                     //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
 
-                   topics[selectedIndex] = null;
+                    topics[selectedIndex] = null;
 
                     list2.setListData(topics);
                     topicLabels[index].setText(selectedValue);
                     topicLabels[index].setVisible(true);
 
-                    if (index<4) {
+                    if (index < 4) {
                         index++;
 
                     }
-                   ArrayList<String> list = new ArrayList<String>(list2.getSelectedValuesList());
+                    ArrayList<String> list = new ArrayList<String>(list2.getSelectedValuesList());
                     System.out.println(list);
 
 
@@ -140,21 +144,13 @@ public class StudiesPage {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
 
 
-
-
-
-
         //setVisible(true);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton button = (JButton) e.getSource();
 
-                if (studiesQFPanel.isVisible()){
-                    studiesQFPanel.setVisible(false);
-                } else {
-                    studiesQFPanel.setVisible(true);
-                }
+                studiesQFPanel.setVisible(!studiesQFPanel.isVisible());
 
 
             }
@@ -165,25 +161,23 @@ public class StudiesPage {
             public void actionPerformed(ActionEvent e) {
                 String postText = textArea2.getText();
                 String heading = headingtextArea.getText();
-               String addAuthors = addAuthorsTextField.getText();
-                if(postText.isBlank()) {
+                String addAuthors = addAuthorsTextField.getText();
+                if (postText.isBlank()) {
                     String errorMessage = "Post content cannot be empty.";
                     errorLabel.setText(errorMessage);
                     errorLabel.setForeground(Color.RED);
-                    errorLabel.setSize(30,30);
-                }
-                else if(heading.isEmpty()){
+                    errorLabel.setSize(30, 30);
+                } else if (heading.isEmpty()) {
                     String errorMessage = "Heading cannot be empty.";
                     errorLabel2.setText(errorMessage);
                     errorLabel2.setForeground(Color.RED);
-                    errorLabel2.setSize(30,30);
+                    errorLabel2.setSize(30, 30);
 
-                }
-                else if(addAuthors.isEmpty()){
+                } else if (addAuthors.isEmpty()) {
                     String errorMessage = "Authors cannot be empty.";
                     errorLabel3.setText(errorMessage);
                     errorLabel3.setForeground(Color.RED);
-                    errorLabel3.setSize(30,30);
+                    errorLabel2.setSize(30, 30);
                 }else {
                     String[] collection = new String[5];
                     collection[0] = topicLabel1.getText();
@@ -191,18 +185,22 @@ public class StudiesPage {
                     collection[2] = topicLabel3.getText();
                     collection[3] = topicLabel4.getText();
                     collection[4] = topicLabel5.getText();
-                    StudyPost temp = new StudyPost(2,currentUser,addAuthors, heading,postText,null,"2002",collection);
-                    //StudiesPostViewer viewer = new StudiesPostViewer(temp);
+                    StudyPost temp;
+                    if (uploadedPdf != null)
+                       temp = new StudyPost(2, currentUser, addAuthors, heading, postText, uploadedPdf, "2002", collection);
+                    else
+                        temp = new StudyPost(2, currentUser, addAuthors, heading, postText, null, "2002", collection);
+                    StudiesPostViewer viewer = new StudiesPostViewer(temp,main);
                     GridBagConstraints g2 = new GridBagConstraints();
-                    g2.gridx =0;
+                    g2.gridx = 0;
 
-                    //insideScrollPanel.add(viewer,g2);
+                    insideScrollPanel.add(viewer,g2);
                     insideScrollPanel.repaint();
                     insideScrollPanel.revalidate();
                     main.update();
                 }
                 main.update();
-                }
+            }
         });
 
 
@@ -211,13 +209,7 @@ public class StudiesPage {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.out.println("clicked!");
-                if(listScroll.isVisible()){
-                    listScroll.setVisible(false);
-                }
-                else{
-                    listScroll.setVisible(true);
-
-                }
+                listScroll.setVisible(!listScroll.isVisible());
             }
         });
         listScroll.addMouseListener(new MouseAdapter() {
@@ -225,8 +217,6 @@ public class StudiesPage {
             public void mouseClicked(MouseEvent e) {
 
             }
-
-
 
 
         });
@@ -248,7 +238,6 @@ public class StudiesPage {
                         topicLabels[i].setText("");
 
                     }
-
 
 
                     index = 0;
@@ -349,6 +338,48 @@ public class StudiesPage {
     }
 
 
+        uploadFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                fc.addChoosableFileFilter(new FileNameExtensionFilter("File.pdf",  "pdf"));
+                int choice = fc.showOpenDialog(new JPanel());
+                if (choice == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fc.getSelectedFile();
+                    File file = new File(selectedFile.getAbsolutePath());
+                    byte[] bytes = new byte[(int) file.length()];
+                    FileInputStream fis = null;
+                    try {
+                        fis = new FileInputStream(file);
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    try {
+                        fis.read(bytes);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } finally {
+                        if(fis != null) {
+                            uploadedPdf = bytes;
+                            try {
+                                fis.close();
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        StudiesPage page = new StudiesPage();
+    }
 
     public void setCurrentUser(User user) {
         currentUser = user;
@@ -365,14 +396,11 @@ public class StudiesPage {
 
     }
 
-    public static void main(String[] args) {
-        StudiesPage page = new StudiesPage();
-    }
-
     public JPanel getInsideScrollPanePanel() {
         return insideScrollPanel;
     }
-    public JPanel getQfPanel(){
+
+    public JPanel getQfPanel() {
         return qfPanel;
     }
 

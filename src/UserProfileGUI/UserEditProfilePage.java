@@ -72,7 +72,7 @@ public class UserEditProfilePage extends JFrame {
                         throw new RuntimeException(exception);
                     }
                     ImageIcon icon = new ImageIcon(image);
-                    userProfilePage.getBackGroundPhotoLabel().setIcon(IconCreator.getIconWithSize(icon,300,600));
+                    userProfilePage.getBackGroundPhotoLabel().setIcon(IconCreator.getIconWithSize(icon,800,300));
                 }
 
             }

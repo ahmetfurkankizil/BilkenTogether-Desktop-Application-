@@ -1,11 +1,9 @@
 package UserProfileGUI;
 
 import HomePage.Main.Main;
-import PostComponents.LessonPostViewer;
-import PostComponents.StudiesPostViewer;
-import Posts.LessonPost;
-import Posts.StudyPost;
 import Icons.IconCreator;
+import PostComponents.LessonPostViewer;
+import Posts.LessonPost;
 import ProfileBox.ProfileBox;
 import UserRelated.Student;
 import UserRelated.User;
@@ -66,7 +64,8 @@ public class UserProfilePage extends JPanel {
         this();
         this.user = user;
         this.profileBox = profileBox;
-        //setDefaultPhotos();
+        createActionListeners();
+        setDefaultPhotos();
         setPersonalInformation();
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
@@ -143,7 +142,6 @@ public class UserProfilePage extends JPanel {
 
     private void openEditProfilePage() {
         JFrame frame = new UserEditProfilePage(this, profileBox );
-
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);

@@ -1,16 +1,14 @@
 package Posts;
-import CommentsRelated.Comment;
-import CommentsRelated.Review;
+
 import DatabaseRelated.DatabaseConnection;
 import Request.RequestsAndViewers.AcceptedRequest;
 import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
-import UserRelated.*;
+import UserRelated.User;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public abstract class RequestablePost extends Post {
     private String typeFilter;
@@ -28,7 +26,7 @@ public abstract class RequestablePost extends Post {
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        createRequestsTable();
+        //createRequestsTable();
     }
 
     public boolean createRequestsTable() {

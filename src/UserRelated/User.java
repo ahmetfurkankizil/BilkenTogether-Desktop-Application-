@@ -596,6 +596,10 @@ public abstract class User{
         return false;
     }
 
+    public void withDrawLike(Comment comment) {
+        comment.decrementLikeCount(this);
+    }
+
 
     /*
     @Override

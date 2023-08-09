@@ -18,7 +18,7 @@ public class CommentsPanelTester {
                 "ksajfnlkajsfşdakjsdfnjkavnkdsjfnvajknsdflkavnlkjsdfnlavndlkfjvnalkjdfkavndkfvnakjdvakjndfkvnakdfnvjnad" +
                 "avsojvnasjnvakjsndvkajsnjkdvansljkdaljsfnvajnsfk0anksfjdvanlkjsfvnkajsfn0anfdlvanlkdfjvalkdjfvnlakjvlkn");
 
-        CommentsPanel commentsPanel = new CommentsPanel(comment);
+        CommentsPanel commentsPanel = new CommentsPanel(comment,student1);
         frame.add(commentsPanel);
         frame.setVisible(true);
     }

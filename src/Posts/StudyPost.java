@@ -1,27 +1,29 @@
 package Posts;
 import UserRelated.*;
 import java.io.File;
+import java.io.InputStream;
+import java.util.Arrays;
 
 public class StudyPost extends Post {
     
-    private File studyFile;
+
     private String author;
     private String studyPostHeading;
     private String[] topicCollection;
     private int numOfTopics;
     private String dateOfPost;
-
-    public StudyPost(int postId, User sender, String author, String heading, String description, File studyFile, String dateOfPost, String[] topicCollection) {
+    private byte[] pdfFile;
+    public StudyPost(int postId, User sender, String author, String heading, String description, byte[] studyFile, String dateOfPost, String[] topicCollection) {
         super(postId, sender, description, dateOfPost);
         this.author = author;
         this.studyPostHeading = heading;
         this.topicCollection = topicCollection;
-        this.studyFile = studyFile;
+        this.pdfFile = studyFile;
         sender.addStudyPost(this);
     }
 
-    public File getStudyFile() {
-        return this.studyFile;
+    public byte[] getStudyFile() {
+        return this.pdfFile;
     }
 
 
@@ -32,9 +34,6 @@ public class StudyPost extends Post {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-    public File getStudyPost() {
-        return studyFile;
     }
 
     public String getStudyPostHeading() {
