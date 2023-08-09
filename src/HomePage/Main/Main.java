@@ -1,17 +1,12 @@
 package HomePage.Main;
 
-import CommentsGUI.CommentsMidPanel;
-import CommentsRelated.Comment;
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
-import MessagesGUI.*;
-import MessagesRelated.Message;
+import MessagesGUI.Client;
+import MessagesGUI.MessagesGUI;
 import NotificationRelated.NotificationHomePage;
-import PostComponents.PostViewer;
-import Posts.LessonPost;
-import Posts.Post;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
@@ -21,10 +16,13 @@ import UserRelated.User;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
+import java.io.IOException;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -41,7 +39,6 @@ public class Main extends JFrame {
     private JButton lessonsButton;
     private JButton studiesButton;
     private JButton activitiesButton;
-    private JButton profileBoxButton;
     private JButton filterBoxButton;
     private JLabel homeLabel;
     private JLabel messagesLabel;
@@ -107,6 +104,7 @@ public class Main extends JFrame {
     private JTextArea textInputArea;
     private JPanel textAreaPanel;
     private JPanel bPanel;
+    private JPanel profileBoxPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
@@ -115,11 +113,48 @@ public class Main extends JFrame {
     private RequestMidPanel requestsPage;
     private Server server;
 
+    private ProfileBox profileBox;
+
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         setUpPastMessages();
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        //Adding profile photo (photo to byte)
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bi,"png",os);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] bytes = os.toByteArray();
+        currentUser.setProfilePhoto(bytes);
+
+        // Adding Background Photo (photo to byte[])
+        BufferedImage ib = null;
+        try {
+            ib = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayOutputStream so = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(ib,"png",so);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] bytes1 = so.toByteArray();
+        currentUser.setBackGroundPhoto(bytes1);
 
         messageSendButtonPressed = false;
+        resetLabelFonts();
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add((profileBox));
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -133,11 +168,13 @@ public class Main extends JFrame {
         homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
+
         generalSetup();
+
         setUpLabelListeners();
         LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         lessons.addLessonPost(tempPost);
-        tempPost.addComment(new Comment(currentUser,"lol so cool"));
+        //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
@@ -185,10 +222,12 @@ public class Main extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageSendButtonPressed = true;
-                if (!textInputArea.getText().isEmpty()){
 
+                if (!textInputArea.getText().isEmpty()){
+                    messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,textInputArea.getText());
+                    messagesGUI.getConversationPanel();
+
                 }
                 revalidate();
                 repaint();
@@ -323,7 +362,7 @@ public class Main extends JFrame {
         requestsLabel.setFont(new Font("default",Font.PLAIN,22));
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
-
+    private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
         activities = new ActivitiesPage();
         activities.setMain(this);
@@ -334,9 +373,13 @@ public class Main extends JFrame {
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
-        profilePage = new UserProfilePage();
+        profilePage = new UserProfilePage(currentUser);
+        profilePage = new UserProfilePage(currentUser,profileBox);
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
+        requestExtended = new RequestMiddlePanelUnanswered();
+        requestExtended.setMain(this);
+        profilePage.addL();
     }
     public void setUpPastMessages(){
         Student otherUser = new Student("aba","a",1,"s","s","s","s");

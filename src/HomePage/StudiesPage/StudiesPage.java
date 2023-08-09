@@ -162,11 +162,11 @@ public class StudiesPage {
                     collection[3] = topicLabel4.getText();
                     collection[4] = topicLabel5.getText();
                     StudyPost temp = new StudyPost(2,currentUser,addAuthors, heading,postText,null,"2002",collection);
-                    StudiesPostViewer viewer = new StudiesPostViewer(temp,main);
+                    //StudiesPostViewer viewer = new StudiesPostViewer(temp);
                     GridBagConstraints g2 = new GridBagConstraints();
                     g2.gridx =0;
 
-                    insideScrollPanel.add(viewer,g2);
+                    //insideScrollPanel.add(viewer,g2);
                     insideScrollPanel.repaint();
                     insideScrollPanel.revalidate();
                     main.update();

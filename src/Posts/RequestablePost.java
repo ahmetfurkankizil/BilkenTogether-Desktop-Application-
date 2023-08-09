@@ -51,7 +51,7 @@ public abstract class RequestablePost extends Post {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        databaseConnection.closeConnection();
+        //databaseConnection.closeConnection();
         return false;
     }
 

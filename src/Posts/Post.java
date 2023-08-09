@@ -28,10 +28,10 @@ public abstract class Post {
         this.postID = postID;
         this.sender = sender;
         commentCollection = new ArrayList<>();
-        addPastComents();
+
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        createCommentsTable();
+        //createCommentsTable();
     }
     public void addPastComents() {
         //ArrayListi commentCollectiona atıcak (=)
