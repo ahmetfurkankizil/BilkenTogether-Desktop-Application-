@@ -347,7 +347,17 @@ public class Main extends JFrame {
         temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
         temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
         temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,22);
+        Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+
+        temp2.addMessages(new Message(currentUser,otherUser2,"IT WORKS",new Date()));
+        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
+        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
+        temp2.addMessages(new Message(currentUser,otherUser,"WORKS",new Date()));
         currentUser.addMessageConnection(temp);
+        currentUser.addMessageConnection(temp2);
     }
 
     public void setCurrentUser(User user) {

@@ -6,6 +6,8 @@ import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,6 +64,20 @@ public class ConversationPanel extends JPanel {
                 else
                     getMessage(message.getSender(),message.getContent());
         }
+    }
+    public void addPastMessages(MessageConnection connection) {
+        MessageConnection temp = connection;
+        mainPanel.removeAll();
+        pastMessages = connection.getMessages();
+        for (Message message : pastMessages) {
+            if (message.getSender() == currentUser)
+                sendMessage(currentUser,message.getContent());
+            else
+                getMessage(message.getSender(),message.getContent());
+        }
+        repaint();
+        revalidate();
+        mainPanel.setVisible(true);
     }
 
     public void sendMessage(User user, String message) {
@@ -145,7 +161,10 @@ public class ConversationPanel extends JPanel {
             setUp();
             g.insets = new Insets(5, 10, 0, 0);
             add(rightPane, g);
+
         }
+
+
 
         private void setUpNameLabel(boolean isItCurrentUser) {
             if (!isItCurrentUser) {
