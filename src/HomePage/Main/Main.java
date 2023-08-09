@@ -134,12 +134,12 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
-        ppHandler();
+        //ppHandler();
         setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        profileBox = new ProfileBox(currentUser);
-        profileBoxPanel.add(profileBox);
+        //profileBox = new ProfileBox(currentUser);
+        //profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -395,12 +395,12 @@ public class Main extends JFrame {
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
 
-        profilePage = new UserProfilePage(currentUser,profileBox);
-        profilePage.setMain(this);
+        //profilePage = new UserProfilePage(currentUser,profileBox);
+        //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
         requestExtended = new RequestMiddlePanelUnanswered();
         requestExtended.setMain(this);
-        profilePage.addL();
+        //profilePage.addL();
     }
     public void setUpPastMessages(){
         Student otherUser = new Student("aba","a",1,"s","s","s","s");

@@ -1,5 +1,6 @@
 package HomePage.StudiesPage;
 import HomePage.Main.Main;
+import PostComponents.StudiesPostViewer;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -11,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -81,7 +86,9 @@ public class StudiesPage {
     private User currentUser;
     private ArrayList<String> options;
   
-    private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
+    private JLabel[] filterLabels ={topicLabel1,topicLabel2,topicLabel3,topicLabel4,topicLabel4,topicLabel5};
+    private String[] filteredTopics = {"LINEAR ALGEBRA","CALCULUS","COMPLEX ANALYSIS","ALGEBRA","RECURSION","TURING"};
+    private String[] updatedFilteredTopics = {"LINEAR ALGEBRA","CALCULUS","COMPLEX ANALYSIS","ALGEBRA","RECURSION","TURING"};
     public StudiesPage() {
 
         index = 0;
@@ -257,6 +264,7 @@ public class StudiesPage {
                     String selectedValue = list1.getSelectedValue();
                     //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
 
+
                     filteredTopics[selectedIndex] = null;
 
                     list1.setListData(filteredTopics);
@@ -313,31 +321,10 @@ public class StudiesPage {
                 }
             }
         });
+        setUpUploadButton();
     }
 
-    private void filterStudies(String selectedValue) {
-        Component[] components = insideScrollPanel.getComponents();
-        for (Component component : components) {
-            if (component instanceof StudiesPostViewer) {
-                StudiesPostViewer posts = (StudiesPostViewer) component;
-                StudyPost post = posts.getStudyPost();
-
-                // Adjust the following line based on how you want to filter based on studyFile
-                boolean matchesFilter = post.getStudyFile().getName().contains(selectedValue);
-
-                if (matchesFilter) {
-                    posts.setVisible(true);
-                } else {
-                    posts.setVisible(false);
-                }
-            }
-        }
-        insideScrollPanel.revalidate();
-        insideScrollPanel.repaint();
-        main.update();
-    }
-
-
+    private void setUpUploadButton() {
         uploadFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -376,6 +363,32 @@ public class StudiesPage {
             }
         });
     }
+
+
+    private void filterStudies(String selectedValue) {
+        Component[] components = insideScrollPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof StudiesPostViewer) {
+                StudiesPostViewer posts = (StudiesPostViewer) component;
+                StudyPost post = posts.getStudyPost();
+
+                // Adjust the following line based on how you want to filter based on studyFile
+                //boolean matchesFilter = post.getStudyFile().getName().contains(selectedValue);
+
+                //if (matchesFilter) {
+                  //  posts.setVisible(true);
+                //} else {
+                  //  posts.setVisible(false);
+                //}
+            }
+        }
+        insideScrollPanel.revalidate();
+        insideScrollPanel.repaint();
+        main.update();
+    }
+
+
+
 
     public static void main(String[] args) {
         StudiesPage page = new StudiesPage();
