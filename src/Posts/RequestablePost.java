@@ -26,7 +26,7 @@ public abstract class RequestablePost extends Post {
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        //createRequestsTable();
+        createRequestsTable();
     }
 
     public boolean createRequestsTable() {
@@ -194,13 +194,25 @@ public abstract class RequestablePost extends Post {
         // (This method will first check whether the request is in the requestCollection
         // or not. If it's there, then the passed Student will be added to the agreementCollection.)
         agreementCollection.add(request);
+        requestCollection.remove(request);
         acceptTheRequest(request);
 
     }
 
     public void denyRequest(Request request) {
         deniedCollection.add(request);
-        //denyTheRequest(request);
+        requestCollection.remove(request);
+        denyTheRequest(request);
     }
 
+    public ArrayList<Request> getRequestCollection() {
+        return requestCollection;
+    }
+
+    public ArrayList<Request> getAgreementCollection() {
+        return agreementCollection;
+    }
+    public ArrayList<Request> getDeniedCollection() {
+        return deniedCollection;
+    }
 }

@@ -3,6 +3,7 @@ import HomePage.Main.Main;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
+import Posts.RequestablePost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -232,6 +233,12 @@ public class LessonsPage {
     public void setMain(Main main) {
         this.main =main;
     }
+
+    public RequestablePost getPost() {
+        Student needed = new Student("a","a",22203112,"h","e","s","s");
+        return new LessonPost(1,needed,"desc","a",1,false,"S");
+    }
+
     private class requestActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

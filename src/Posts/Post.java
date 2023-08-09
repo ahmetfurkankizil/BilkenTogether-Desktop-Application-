@@ -31,7 +31,7 @@ public abstract class Post {
 
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        //createCommentsTable();
+        createCommentsTable();
     }
     public void addPastComents() {
         //ArrayListi commentCollectiona atıcak (=)

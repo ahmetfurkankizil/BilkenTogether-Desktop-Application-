@@ -152,8 +152,8 @@ public class MessagesPanel extends JPanel {
             }
             addMouseListener(new mouseList());
         }
-        private void createContent(){
-            panel.addPastMessages(messageConnection);
+        private void createContent(ArrayList<Message> messages){
+            panel.addPastMessages(messages);
         }
 
         private class mouseList extends MouseAdapter {
@@ -163,7 +163,7 @@ public class MessagesPanel extends JPanel {
                 if (!getBackground().equals(new Color(239, 143, 143))) {
                     resetBackgrounds();
                     setBackground(new Color(239, 143, 143));
-                    createContent();
+                    createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
                 }
             }
         }

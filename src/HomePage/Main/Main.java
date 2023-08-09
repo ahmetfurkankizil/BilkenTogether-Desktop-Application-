@@ -155,7 +155,7 @@ public class Main extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         lessons.addLessonPost(tempPost);
         //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
@@ -208,8 +208,9 @@ public class Main extends JFrame {
 
                 if (!textInputArea.getText().isEmpty()){
                     messageSendButtonPressed = true;
-                    messagesGUI.sendMessage(currentUser,textInputArea.getText());
+                    messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
+
 
                 }
                 revalidate();
@@ -396,19 +397,20 @@ public class Main extends JFrame {
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        //requestExtended = new RequestMiddlePanelUnanswered();
-        //requestExtended.setMain(this);
+        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost());
+        requestExtended.setMain(this);
         //profilePage.addL();
     }
     public void setUpPastMessages(){
         Student otherUser = new Student("aba","a",1,"s","s","s","s");
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
-
-        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
-        Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+        //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
+        //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+        temp.addMessages(new Message(currentUser,otherUser,"lol sent",new Date().toString()));
+        temp.addMessages(new Message(otherUser,currentUser,"lol got",new Date().toString()));
 
         currentUser.addMessageConnection(temp);
-        currentUser.addMessageConnection(temp2);
+        //currentUser.addMessageConnection(temp2);
     }
 
     public void setCurrentUser(User user) {

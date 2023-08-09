@@ -25,6 +25,7 @@ public class Student extends User{
 
     public void addLessonPost(LessonPost lessonPost) {
         lessonPostCollection.add(lessonPost);
+        addToLessonsTable(lessonPost);
     }
 
     public int generateLessonPostId() {
