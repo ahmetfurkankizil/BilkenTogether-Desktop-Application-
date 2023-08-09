@@ -319,7 +319,7 @@ public class Main extends JFrame {
 
                 g2.ipady = 800;
 
-                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g2);
+                invisibleAddablePanelLeft.add(requestExtended.getMiddlePanel(),g2);
                 invisibleAddablePanelLeft.setVisible(true);
                 rightPanel.setVisible(true);
                 resetLabelFonts();
@@ -392,8 +392,8 @@ public class Main extends JFrame {
         profilePage = new UserProfilePage(currentUser,profileBox);
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        //requestExtended = new RequestMiddlePanelUnanswered();
-        //requestExtended.setMain(this);
+        requestExtended = new RequestMiddlePanelUnanswered();
+        requestExtended.setMain(this);
         profilePage.addL();
     }
     public void setUpPastMessages(){

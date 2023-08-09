@@ -24,7 +24,7 @@ public class RequestMiddlePanelUnanswered {
     private RequestMiddlePanelAccepted acceptedPanel;
 
     public RequestMiddlePanelUnanswered(){
-        setUpPages();
+
         Student tutor = new Student("Tutor", null, 22203112, null, null, null, null);
 
         Student student1 = new Student("Jack", null, 10, null, null, null, null);
@@ -44,6 +44,8 @@ public class RequestMiddlePanelUnanswered {
         lpTest1.addRequest(new UnansweredRequest(student1.getId()));
         lpTest1.addRequest(new UnansweredRequest(student2.getId()));
         lpTest1.addRequest(new UnansweredRequest(student3.getId()));
+        lpTest1.acceptRequest(new UnansweredRequest(student2.getId()));
+        lpTest1.denyRequest(new UnansweredRequest(student3.getId()));
 
 
         GridBagConstraints g2 = new GridBagConstraints();
@@ -82,6 +84,7 @@ public class RequestMiddlePanelUnanswered {
                 insideScrollPanel.revalidate();
             }
         });
+        setUpPages();
     }
 
     private void setUpPages() {
@@ -97,7 +100,7 @@ public class RequestMiddlePanelUnanswered {
         frame.setContentPane(new RequestMiddlePanelUnanswered().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        //frame.setVisible(true);
+        frame.setVisible(true);
     }
 
     public JPanel getInsideScrollPanel() {

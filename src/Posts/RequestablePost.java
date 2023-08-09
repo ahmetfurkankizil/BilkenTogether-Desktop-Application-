@@ -119,7 +119,7 @@ public abstract class RequestablePost extends Post {
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + super.getSender().getId() + "x" + super.getPostID() + "RequestsTable";
             if (connection != null) {
-                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE requesterId = ? AND postId = ?;";
+                String insertQuery = "UPDATE " + tableName + " SET accepted = ?, unanswered = ?, denied = ? WHERE requesterId = ?;";
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -182,10 +182,9 @@ public abstract class RequestablePost extends Post {
     }
 
     public void addRequest(Request request) {
-        if (!isItInRequests(request)) {
-            requestCollection.add(request);
-            addToRequestTable(request);
-        }
+        requestCollection.add(request);
+        addToRequestTable(request);
+
         // (This method receives a student object and adds it to the requestCollection.
         // From this
         // collection, the provider of the lesson will be able to see the Students which
@@ -196,20 +195,14 @@ public abstract class RequestablePost extends Post {
     public void acceptRequest(Request request) {
         // (This method will first check whether the request is in the requestCollection
         // or not. If it's there, then the passed Student will be added to the agreementCollection.)
-        if (isItInRequests(request)) {
-            agreementCollection.add(request);
-            acceptTheRequest(request);
-        }
+        agreementCollection.add(request);
+        acceptTheRequest(request);
+
     }
 
     public void denyRequest(Request request) {
-        if (isItInRequests(request)) {
-            deniedCollection.add(request);
-            denyTheRequest(request);
-        }
+        deniedCollection.add(request);
+        denyTheRequest(request);
     }
 
-    public boolean isItInRequests(Request request) {
-        return requestCollection.contains(request);
-    }
 }
