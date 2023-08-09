@@ -1,5 +1,6 @@
 package Request.RequestsAndViewers;
 
+import HomePage.Main.Main;
 import Posts.LessonPost;
 import UserRelated.Student;
 
@@ -87,16 +88,23 @@ public class RequestMiddlePanelUnanswered {
         acceptedPanel = new RequestMiddlePanelAccepted();
         deniedPanel = new RequestMiddlePanelDenied();
     }
+    public JPanel getMiddlePanel(){
+        return middlePanel;
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("RequestMiddlePanel");
         frame.setContentPane(new RequestMiddlePanelUnanswered().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setVisible(true);
+        //frame.setVisible(true);
     }
 
     public JPanel getInsideScrollPanel() {
         return holdingPanel;
+    }
+    private Main main;
+    public void setMain(Main main) {
+        this.main = main;
     }
 }

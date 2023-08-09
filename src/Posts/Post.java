@@ -28,6 +28,7 @@ public abstract class Post {
         this.postID = postID;
         this.sender = sender;
         commentCollection = new ArrayList<>();
+
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
         //createCommentsTable();

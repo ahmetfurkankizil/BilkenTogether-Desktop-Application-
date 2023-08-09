@@ -13,6 +13,7 @@ import PostComponents.PostViewer;
 import Posts.LessonPost;
 import Posts.Post;
 import Request.RequestMidPanel;
+import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
 import UserRelated.Student;
@@ -185,10 +186,12 @@ public class Main extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageSendButtonPressed = true;
-                if (!textInputArea.getText().isEmpty()){
 
+                if (!textInputArea.getText().isEmpty()){
+                    messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,textInputArea.getText());
+                    messagesGUI.getConversationPanel();
+
                 }
                 revalidate();
                 repaint();
@@ -323,7 +326,7 @@ public class Main extends JFrame {
         requestsLabel.setFont(new Font("default",Font.PLAIN,22));
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
-
+    private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
         activities = new ActivitiesPage();
         activities.setMain(this);
@@ -336,8 +339,10 @@ public class Main extends JFrame {
         notificationHomePage = new NotificationHomePage();
         profilePage = new UserProfilePage(currentUser);
         profilePage.setMain(this);
+        requestsPage = new RequestMidPanel();
+        requestExtended = new RequestMiddlePanelUnanswered();
+        requestExtended.setMain(this);
         profilePage.addL();
-        //requestsPage = new RequestMidPanel();
     }
     public void setUpPastMessages(){
         Student otherUser = new Student("aba","a",1,"s","s","s","s");
