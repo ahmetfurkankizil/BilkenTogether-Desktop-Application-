@@ -43,6 +43,10 @@ public class RequestMiddlePanelAccepted {
         }
     }
 
+    public JPanel getInsideScrollPanel() {
+        return insideScrollPanel;
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("RequestMiddlePanelAccepted");
         frame.setContentPane(new RequestMiddlePanelAccepted().panel1);

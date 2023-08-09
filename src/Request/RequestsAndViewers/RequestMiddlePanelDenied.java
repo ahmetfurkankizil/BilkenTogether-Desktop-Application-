@@ -50,4 +50,8 @@ public class RequestMiddlePanelDenied {
         frame.pack();
         frame.setVisible(true);
     }
+
+    public JPanel getInsideScrollPanel() {
+        return insideScrollPanel;
+    }
 }

@@ -4,6 +4,8 @@ import Posts.LessonPost;
 import UserRelated.Student;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RequestMiddlePanelUnanswered {
     private JPanel panel1;
@@ -15,7 +17,11 @@ public class RequestMiddlePanelUnanswered {
     private JPanel insideScrollPanel;
     private JButton acceptedButton;
     private JButton backButton;
+    private  RequestMiddlePanelDenied deniedPanel;
+    private RequestMiddlePanelAccepted acceptedPanel;
+
     public RequestMiddlePanelUnanswered(){
+        setUpPages();
         Student tutor = new Student("Tutor", null, 22203112, null, null, null, null);
 
         Student student1 = new Student("Jack", null, 10, null, null, null, null);
@@ -40,7 +46,22 @@ public class RequestMiddlePanelUnanswered {
                 insideScrollPanel.add(new UnansweredViewer(request));
             }
         }
+        deniedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                insideScrollPanel.removeAll();
+                insideScrollPanel.add(deniedPanel.getInsideScrollPanel());
+                insideScrollPanel.repaint();
+                insideScrollPanel.revalidate();
+            }
+        });
     }
+
+    private void setUpPages() {
+        acceptedPanel = new RequestMiddlePanelAccepted();
+        deniedPanel = new RequestMiddlePanelDenied();
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("RequestMiddlePanel");
         frame.setContentPane(new RequestMiddlePanelUnanswered().panel1);
