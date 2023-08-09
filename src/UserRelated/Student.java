@@ -9,7 +9,7 @@ import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
 
-public class Student extends User implements StudentDatabaseHandler{
+public class Student extends User{
 
     // Properties (Instance Variables)
     private double averageRating;
@@ -92,7 +92,7 @@ public class Student extends User implements StudentDatabaseHandler{
             lessonPostCollection.remove(lessonPost);
     }
 
-    @Override
+
     public boolean createLessonsTable() {
         super.databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -120,7 +120,6 @@ public class Student extends User implements StudentDatabaseHandler{
         return false;
     }
 
-    @Override
     public boolean createActivitiesTable() {
         super.databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -149,7 +148,6 @@ public class Student extends User implements StudentDatabaseHandler{
     }
 
 
-    @Override
     public boolean addToLessonsTable(LessonPost lessonPost) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {

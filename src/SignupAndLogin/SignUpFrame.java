@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 public class SignUpFrame extends JFrame{
     private SignUpHandler signUpHandler;
-    private DatabaseHandler databaseHandler;
     private JPanel mainPanel;
     private JPanel signupPanel;
     private JTextField emailTextField;

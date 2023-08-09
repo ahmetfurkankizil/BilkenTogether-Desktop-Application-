@@ -64,7 +64,7 @@ public class CommentsMidPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!textArea1.getText().isBlank()) {
-                    Comment temp = new Comment(main.getCurrentUser(), requestablePost.getSender(), textArea1.getText());
+                    Comment temp = new Comment(main.getCurrentUser(), textArea1.getText());
                     requestablePost.addComment(temp);
                     addCommentsPanel(new CommentsPanel(temp));
                     main.update();

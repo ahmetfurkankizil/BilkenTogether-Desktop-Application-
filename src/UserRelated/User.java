@@ -5,12 +5,11 @@ import java.sql.*;
 import java.util.*;
 import DatabaseRelated.*;
 import MessagesRelated.Message;
-import MessagesRelated.MessageConnection;
 import MessagesGUI.MessageConnection;
 import Posts.*;
 import CommentsRelated.*;
 
-public abstract class User implements DatabaseHandler {
+public abstract class User{
     private String[] studyTopics;
     protected DatabaseConnection databaseConnection;
     private int id;
@@ -254,7 +253,6 @@ public abstract class User implements DatabaseHandler {
     }
 
     // DatabaseHandler Methods
-    @Override
     public boolean createStudiesTable() {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
@@ -287,7 +285,7 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
+
     public boolean addToStudiesTable(StudyPost studyPost) {
         String[] topicsToBeAdded = studyPost.getTopicCollection();
         int numberOfPostTopics = topicsToBeAdded.length;
@@ -339,7 +337,6 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
     public boolean removeFromStudiesTable(StudyPost studyPost) {
         databaseConnection = new DatabaseConnection();
         String tableName = "" + getId() + "StudiesTable";
@@ -361,7 +358,6 @@ public abstract class User implements DatabaseHandler {
         return false;
     }
 
-    @Override
     public StudyPost pullStudyPostFromDB(int userId, int studyPostID) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         StudyPost studyPost = null;
@@ -415,7 +411,6 @@ public abstract class User implements DatabaseHandler {
         return studyPost;
     }
 
-    @Override
     public boolean createNotificationsTable() {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
