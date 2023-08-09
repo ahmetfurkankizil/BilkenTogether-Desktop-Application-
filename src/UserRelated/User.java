@@ -4,7 +4,7 @@ import javax.management.Notification;
 import java.sql.*;
 import java.util.*;
 import DatabaseRelated.*;
-import MessagesRelated.MessageConnection;
+import MessagesGUI.MessageConnection;
 import Posts.*;
 import CommentsRelated.*;
 
@@ -23,13 +23,13 @@ public abstract class User implements DatabaseHandler {
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
     private ArrayList<Notification> notificationCollection;
-    private ArrayList<MessageConnection> messageCollection;
+    private ArrayList<MessageConnection> messageConnections;
 
     public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth) {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
-        messageCollection = new ArrayList<>();
+        messageConnections = new ArrayList<>();
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -37,6 +37,13 @@ public abstract class User implements DatabaseHandler {
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
+    }
+    public void addMessageConnection(MessageConnection connection){
+        messageConnections.add(connection);
+    }
+
+    public ArrayList<MessageConnection> getMessageConnections() {
+        return messageConnections;
     }
 
     public void addStudyPost(StudyPost studyPost) {

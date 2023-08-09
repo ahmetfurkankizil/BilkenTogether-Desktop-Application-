@@ -2,6 +2,7 @@ package MessagesGUI;
 import java.util.Random;
 import Icons.IconCreator;
 import MessagesRelated.Message;
+import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,17 +13,23 @@ public class MessagesPanel extends JPanel {
     GridBagConstraints g;
     ArrayList<ConversationViewer> conversationViewers;
     JPanel mainPanel;
-    public MessagesPanel(){
+    User currentUser;
+    ArrayList<MessageConnection> pastMessageConnections;
+    public MessagesPanel(User currentUser){
+        this.currentUser = currentUser;
         setLayout(new GridBagLayout());
         g = new GridBagConstraints();
         mainPanel = new JPanel(new GridLayout(0,1));
         g.gridx = 0;
-
+        pastMessageConnections = currentUser.getMessageConnections();
         g.fill = GridBagConstraints.HORIZONTAL;
-
+        for (MessageConnection m : pastMessageConnections) {
+            ConversationViewer temp = new ConversationViewer(m);
+            add(temp,g);
+        }
         conversationViewers = new ArrayList<>();
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 8; i++) {
             conversationViewers.add(new ConversationViewer());
         }
         for (int i = 0; i < conversationViewers.size(); i++)
@@ -65,12 +72,20 @@ public class MessagesPanel extends JPanel {
         private JLabel profileNameLabel;
         private final Color backGroundColor = new Color(230, 230, 230);
         private JTextArea messageContent;
+        private MessageConnection messageConnection;
         private GridBagConstraints g;
         private Message m;
         public ConversationViewer(){
             setLayout(new GridBagLayout());
             g = new GridBagConstraints();
             setUp();
+            setBorder(new BottomBorder());
+        };
+        public ConversationViewer(MessageConnection messageConnection){
+            this.messageConnection = messageConnection;
+            setLayout(new GridBagLayout());
+            g = new GridBagConstraints();
+            setUp(true);
             setBorder(new BottomBorder());
         };
         private void setUp(){
@@ -103,7 +118,36 @@ public class MessagesPanel extends JPanel {
             g.insets = new Insets(3,8,3,3);
             add(messageContent,g);
         }
+        private void setUp(boolean b){
+            profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(IconCreator.starIcon,20,20));
+            profileNameLabel = new JLabel(messageConnection.getOtherUser().getName());
+            profileNameLabel.setFont(profileNameFont);
+            messageContent = new JTextArea();
+            //messageContent.setText("CONTENT DE BACIM CONTENTCONTENT DE BACIM CONTENTCONTENT DE BACIM CONTENTCONTENT DE BACIM CONTENTCONTENT DE BACIM CONTENTCONTENT DE BACIM CONTENT");
+            messageContent.setText(messageConnection.getMessages().get(messageConnection.getMessages().size()-1).getContent());
+            messageContent.setMargin(new Insets(7, 7, 7, 7));
+            messageContent.setEditable(false);
+            messageContent.setFocusable(false);
+            messageContent.setColumns(32);
+            messageContent.setRows(1);
+            messageContent.setLineWrap(true);
+            messageContent.setOpaque(false);
 
+            g.gridy = 0;
+            g.gridx = 0;
+            g.insets = new Insets(8,8,5,8);
+            add(profilePhotoLabel,g);
+            g.gridx += 1;
+            g.anchor = GridBagConstraints.CENTER;
+            g.insets = new Insets(0,0,0,0);
+            add(profileNameLabel,g);
+            g.gridy += 1;
+            g.gridx -=1;
+            g.gridwidth =2;
+            g.fill = GridBagConstraints.BOTH;
+            g.insets = new Insets(3,8,3,3);
+            add(messageContent,g);
+        }
         public void setMessageContent(String str) {
             this.messageContent.setText(str);
         }

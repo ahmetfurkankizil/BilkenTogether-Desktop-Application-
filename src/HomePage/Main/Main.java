@@ -5,6 +5,7 @@ import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
 import MessagesGUI.*;
+import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
@@ -18,11 +19,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
-    private static final File LOGFILE= new File("HomePage/StudiesPage/logo.PNG");
+    private static final File LOGFILE= new File("src/HomePage/Main/logo.PNG");
     private static final ImageIcon  LOGO = IconCreator.getIconWithSize(new ImageIcon(LOGFILE.getAbsolutePath()),60,60);;
     private NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
@@ -106,13 +108,18 @@ public class Main extends JFrame {
 
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
+    private Server server;
 
     public Main() {
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        setUpPastMessages();
 
         messageSendButtonPressed = false;
         setUpPages();
         logoLabel.setIcon(LOGO);
-        client = new Client(messagesGUI.getConversationPanel(),this);
+        server = new Server(22);
+
+        client = new Client(messagesGUI.getConversationPanel(),this,server);
         setContentPane(mainPanel);
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
@@ -120,7 +127,6 @@ public class Main extends JFrame {
         homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
         setUpLabelListeners();
 
@@ -179,6 +185,7 @@ public class Main extends JFrame {
                 repaint();
             }
         });
+
         client.run();
     }
 
@@ -265,17 +272,18 @@ public class Main extends JFrame {
                 invisibleAddablePanelLeft.add(notificationHomePage.getTopLabel());
                 invisibleAddablePanelLeft.setVisible(true);
                 JPanel tempP = notificationHomePage.getMainPanel();
-                insideScrollPanePanel.add(tempP);
-                insideScrollPanePanel.setVisible(true);
-                flowScrollPane.setVisible(true);
+                GridBagConstraints g2 = new GridBagConstraints();
+                //tempP.setBounds(0,0,600,600);
+                g2.gridx = 0;
+                invisibleAddablePanelLeft.add(tempP,g2);
+                //invisibleAddablePanelRight.setVisible(true);
+                //flowScrollPane.setVisible(true);
                 rightPanel.setVisible(true);
                 resetLabelFonts();
                 notificationsLabel.setFont(new Font("default",Font.BOLD,22));
-                update();}
-
-
-            }
-        });
+                update();
+                }
+            }});
 
     }
 
@@ -313,12 +321,23 @@ public class Main extends JFrame {
         studies.setMain(this);
         lessons = new LessonsPage();
         lessons.setMain(this);
-        messagesGUI = new MessagesGUI();
+        messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
         profilePage = new UserProfilePage();
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
+    }
+    public void setUpPastMessages(){
+        Student otherUser = new Student("aba","a",1,"s","s","s","s");
+        MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
+        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
+        currentUser.addMessageConnection(temp);
     }
 
     public void setCurrentUser(User user) {
@@ -333,6 +352,7 @@ public class Main extends JFrame {
 
 
     private void setUpCursors() {
+        logoLabel.setCursor(handCursor);
         sectionButtons = new ArrayList<>();
         sectionButtons.add(lessonsButton);
         sectionButtons.add(activitiesButton);

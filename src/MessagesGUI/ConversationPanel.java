@@ -6,6 +6,7 @@ import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,11 +19,16 @@ public class ConversationPanel extends JPanel {
     JTextArea written;
     JButton sendButton;
     JPanel scrollPanePanel;
+    User currentUser;
+    User otherUser;
+    ArrayList<Message> pastMessages;
 
-    public ConversationPanel() {
+    public ConversationPanel(MessageConnection messageConnection) {
         mainPanel = new JPanel();
+        pastMessages = messageConnection.getMessages();
         mainPanel.setLayout(new GridBagLayout());
-
+        this.currentUser = messageConnection.getCurrentUser();
+        this.otherUser = messageConnection.getOtherUser();
         g = new GridBagConstraints();
         g.gridy = 0;
         g.gridx = 0;
@@ -46,6 +52,16 @@ public class ConversationPanel extends JPanel {
         //addMessage(new MessagesViewer(null, true), true);
         g.gridx = 0;
         add(mainPanel);
+        addPastMessages();
+    }
+
+    private void addPastMessages() {
+        for (Message message : pastMessages) {
+                if (message.getSender() == currentUser)
+                    sendMessage(currentUser,message.getContent());
+                else
+                    getMessage(message.getSender(),message.getContent());
+        }
     }
 
     public void sendMessage(User user, String message) {
@@ -79,6 +95,7 @@ public class ConversationPanel extends JPanel {
         private Calendar calendar;
         private JPanel rightPane;
         private Message message;
+
         private void setUp() {
             messageContent = new JTextArea(message.getContent());
             dateLabel.setFont(dateFont);
@@ -118,10 +135,10 @@ public class ConversationPanel extends JPanel {
             g.anchor = GridBagConstraints.NORTHWEST;
 
             String date = calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR) + " at ";
-            date += calendar.get(Calendar.HOUR)> 9 ? "" : "0";
-            date +=  calendar.get(Calendar.HOUR) +":";
-            date += calendar.get(Calendar.MINUTE)> 9 ? "" : "0";
-            date +=  calendar.get(Calendar.MINUTE);
+            date += calendar.get(Calendar.HOUR) > 9 ? "" : "0";
+            date += calendar.get(Calendar.HOUR) + ":";
+            date += calendar.get(Calendar.MINUTE) > 9 ? "" : "0";
+            date += calendar.get(Calendar.MINUTE);
             //date =date.replace("TRT","");
             setUpNameLabel(isItCurrentUser);
             dateLabel = new JLabel(date);

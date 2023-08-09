@@ -29,7 +29,8 @@ public class MessagesGUI extends JFrame {
     private Main main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
-    public MessagesGUI(){
+    User currentUser;
+    public MessagesGUI(User currentUser){
 
         searchPanel.setBackground(searchPanelColor);
         searchLabel = new JLabel("Search Messages :");
@@ -42,9 +43,7 @@ public class MessagesGUI extends JFrame {
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
-
-
-
+        this.currentUser = currentUser;
         // Adding ActionListener to the search button
         searchButton.addActionListener(new ActionListener()
         {
@@ -52,7 +51,6 @@ public class MessagesGUI extends JFrame {
                 performSearch();
             }
         });
-
         // Adding KeyListener to the search field
         searchField.addKeyListener(new KeyAdapter()
         {
@@ -63,13 +61,9 @@ public class MessagesGUI extends JFrame {
                 }
             }
         });
-
-
-
-
         searchField.setColumns(20);
-        conversationPanel = new ConversationPanel();
-        m = new MessagesPanel();
+        conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
+        m = new MessagesPanel(currentUser);
         //textInputArea.setMargin(new Insets(5,5,5,5));
         addablePanelLeft.add(m);
         addablePanelRight.add(conversationPanel);
@@ -81,10 +75,6 @@ public class MessagesGUI extends JFrame {
 
         add(panel1);
         //setVisible(true);
-    }
-
-    public static void main(String[] args) {
-         new MessagesGUI();
     }
     public JPanel getPanel(){
         return contentMessages;

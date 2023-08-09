@@ -17,16 +17,22 @@ public class Server implements Runnable {
     private ConnectionHandler handler;
     private boolean done;
     private ExecutorService pool;
+    private int port;
 
-    public Server() {
+    public Server(int port) {
         connections = new ArrayList<>();
         done = false;
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
     }
 
     @Override
     public void run() {
         try {
-            server = new ServerSocket(20);
+            server = new ServerSocket(port);
             pool = Executors.newCachedThreadPool();
             while (!done) {
                 client = server.accept();
@@ -105,12 +111,6 @@ public class Server implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
-    }
-    public static void main(String[] args) {
-        Server ser1 = new Server();
-        ser1.run();
     }
 }

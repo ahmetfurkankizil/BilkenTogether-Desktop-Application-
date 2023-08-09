@@ -8,7 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client implements Runnable {
     private Socket client;
@@ -18,29 +21,35 @@ public class Client implements Runnable {
     private String inMessage;
     private ConversationPanel messagesPanel;
     private Main frame;
+    private Server server;
     
-    public Client(ConversationPanel mPanel, Main frame) {
+    public Client(ConversationPanel mPanel, Main frame,Server server) {
         done = false;
+        try {
+            System.out.println(Inet4Address.getLocalHost());
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
         this.frame = frame;
         messagesPanel = mPanel;
+        this.server = server;
+        Thread t2 = new Thread(server);
+        t2.start();
     }
     @Override
     public void run() {
         try {
-            client = new Socket("139.179.134.57", 20);
+            client = new Socket(InetAddress.getLocalHost(), server.getPort());
             out = new PrintWriter(client.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             inputHandler iHandler = new inputHandler();
             Thread t = new Thread(iHandler);
             t.start();
-
             while (true) {
                 if ((inMessage = in.readLine()) != null) {
                     addAsASender(inMessage);
                 }
-
             }
-
         } catch (IOException e) {
             shutDown();
         }
