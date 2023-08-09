@@ -1,12 +1,18 @@
 package UserProfileGUI;
 
 import HomePage.Main.Main;
+import PostComponents.LessonPostViewer;
+import PostComponents.StudiesPostViewer;
+import Posts.LessonPost;
+import Posts.StudyPost;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class UserProfilePage extends JPanel {
 
@@ -31,6 +37,10 @@ public class UserProfilePage extends JPanel {
     private JPanel LessonsHistoryPanel;
     private JPanel ActivitiesHistoryPanel;
     private JPanel StudiesHistoryPanel;
+
+
+    private JButton button1;
+    private JButton button2;
     private User user;
     private Main main;
 
@@ -51,7 +61,13 @@ public class UserProfilePage extends JPanel {
         user.setBiography("asdasdasdasd");
         user.addResearchInterest("cs");
         setPersonalInformation();
-
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        g2.ipadx = 300;
+        g2.ipady = 300;
+        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, main.getCurrentUser(), "lol","l",1,true,"1"),main),g2);
+        StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, main.getCurrentUser(), "lol","l","aa",null ,"",null),main),g2);
+        ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, main.getCurrentUser(), "lol","l",1,true,"1"),main),g2);
     }
 
 
