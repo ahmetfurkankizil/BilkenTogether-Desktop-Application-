@@ -35,13 +35,17 @@ public class RequestMiddlePanelDenied {
         LessonPost lpTest1 = new LessonPost(101, tutor, null, null, 1, true, null);
         LessonPost lpTest2 = new LessonPost(102, tutor, null, null, 1, true, null);
         LessonPost lpTest3 = new LessonPost(103, tutor, null, null, 1, true, null);
-
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        g2.anchor = GridBagConstraints.NORTHWEST;
+        g2.ipadx = 100;
+        g2.ipady  = 10;
 
 
         for (int i = 0; i < lpTest1.pullTheRequestsFromDB().size(); i++) {
             Request request = lpTest1.pullTheRequestsFromDB().get(i);
             if (request instanceof DeniedRequest) {
-                insideScrollPanel.add(new DeniedViewer(request));
+                insideScrollPanel.add(new DeniedViewer(request),g2);
             }
         }
     }

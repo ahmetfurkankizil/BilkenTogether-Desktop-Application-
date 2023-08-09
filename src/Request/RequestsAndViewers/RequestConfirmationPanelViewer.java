@@ -27,7 +27,7 @@ public class RequestConfirmationPanelViewer extends JPanel {
     public RequestConfirmationPanelViewer(Request request) {
         this.databaseConnection = new DatabaseConnection();
         Student student = (Student) this.databaseConnection.pullUserByIdFromDB(request.getRequesterID());
-        student = new Student("1","1",45,"1","1","1","1");
+        //student = new Student("1","1",45,"1","1","1","1");
         //This student can't be null because it is already added to the database
 
         nameLabel.setText(student.getName());

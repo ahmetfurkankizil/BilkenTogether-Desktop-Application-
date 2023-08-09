@@ -318,7 +318,10 @@ public class Main extends JFrame {
                 GridBagConstraints g2 = new GridBagConstraints();
 
                 g2.ipady = 800;
-
+                g2.ipadx = 600;
+                g2.anchor = GridBagConstraints.NORTHWEST;
+                g2.gridx = 0;
+                g2.gridy = 0;
                 invisibleAddablePanelLeft.add(requestExtended.getMiddlePanel(),g2);
                 invisibleAddablePanelLeft.setVisible(true);
                 rightPanel.setVisible(true);
@@ -405,7 +408,7 @@ public class Main extends JFrame {
         temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
         temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
         temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
-        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,22);
+        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
 
         temp2.addMessages(new Message(currentUser,otherUser2,"IT WORKS",new Date()));
