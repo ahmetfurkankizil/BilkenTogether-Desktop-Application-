@@ -1,12 +1,15 @@
 package UserRelated;
 
+import CommentsRelated.Comment;
+import DatabaseRelated.DatabaseConnection;
+import DatabaseRelated.DatabaseHandler;
+import MessagesRelated.MessageConnection;
+import Posts.Post;
+import Posts.StudyPost;
+
 import javax.management.Notification;
 import java.sql.*;
-import java.util.*;
-import DatabaseRelated.*;
-import MessagesRelated.MessageConnection;
-import Posts.*;
-import CommentsRelated.*;
+import java.util.ArrayList;
 
 public abstract class User implements DatabaseHandler {
     private String[] studyTopics;
@@ -19,6 +22,7 @@ public abstract class User implements DatabaseHandler {
     private String gender;
     private String dateOfBirth;
     private byte[] profilePhoto;
+    private byte[] backGroundPhoto;
     private String biography;
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
@@ -113,6 +117,14 @@ public abstract class User implements DatabaseHandler {
 
     public byte[] getProfilePhoto() {
         return profilePhoto;
+    }
+
+    public byte[] getBackGroundPhoto() {
+        return backGroundPhoto;
+    }
+
+    public void setBackGroundPhoto(byte[] backGroundPhoto) {
+        this.backGroundPhoto = backGroundPhoto;
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {

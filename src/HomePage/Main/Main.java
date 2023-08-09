@@ -4,19 +4,28 @@ import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
-import MessagesGUI.*;
+import MessagesGUI.Client;
+import MessagesGUI.MessagesGUI;
 import NotificationRelated.NotificationHomePage;
+import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
 import UserRelated.Student;
 import UserRelated.User;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends JFrame {
@@ -34,7 +43,6 @@ public class Main extends JFrame {
     private JButton lessonsButton;
     private JButton studiesButton;
     private JButton activitiesButton;
-    private JButton profileBoxButton;
     private JButton filterBoxButton;
     private JLabel homeLabel;
     private JLabel messagesLabel;
@@ -100,6 +108,7 @@ public class Main extends JFrame {
     private JTextArea textInputArea;
     private JPanel textAreaPanel;
     private JPanel bPanel;
+    private JPanel profileBoxPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
@@ -107,9 +116,46 @@ public class Main extends JFrame {
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
 
+    private ProfileBox profileBox;
+
     public Main() {
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        //Adding profile photo (photo to byte)
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bi,"png",os);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] bytes = os.toByteArray();
+        currentUser.setProfilePhoto(bytes);
+
+        // Adding Background Photo (photo to byte[])
+        BufferedImage ib = null;
+        try {
+            ib = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayOutputStream so = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(ib,"png",so);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] bytes1 = so.toByteArray();
+        currentUser.setBackGroundPhoto(bytes1);
 
         messageSendButtonPressed = false;
+        resetLabelFonts();
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add((profileBox));
         setUpPages();
         logoLabel.setIcon(LOGO);
         client = new Client(messagesGUI.getConversationPanel(),this);
@@ -117,11 +163,11 @@ public class Main extends JFrame {
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+
         generalSetup();
+
         setUpLabelListeners();
 
         setVisible(true);
@@ -316,7 +362,7 @@ public class Main extends JFrame {
         messagesGUI = new MessagesGUI();
         messagesGUI.setMain(this);
         notificationHomePage = new NotificationHomePage();
-        profilePage = new UserProfilePage();
+        profilePage = new UserProfilePage(currentUser,profileBox);
         profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
     }

@@ -1,12 +1,19 @@
 package UserProfileGUI;
 
 import HomePage.Main.Main;
+import Icons.IconCreator;
+import ProfileBox.ProfileBox;
 import UserRelated.Student;
 import UserRelated.User;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UserProfilePage extends JPanel {
 
@@ -17,37 +24,38 @@ public class UserProfilePage extends JPanel {
 
     private JLabel nameSurnameLabel;
     private JLabel eMailLabel;
-    private JLabel researchInterestsLabel;
     private JLabel ratingStarsLabel;
     private JPanel mainPanel;
     private JPanel historyLessons;
-    private JPanel profilePhotoPanel;
     private JPanel personalInfoPanel;
-    private JPanel backgroundPhotoPanel;
     private JLabel bioLabel;
     private JLabel biographyLabel;
     private JLabel resIntLabel;
     private JPanel inPanel;
+    private JLabel backGroundPhotoLabel;
+    private JLabel profilePhotoLabel;
     private User user;
     private Main main;
+    private ProfileBox profileBox;
 
     public UserProfilePage() {
         add(mainPanel);
         setName("Profile");
-        setDefaultPhotos(); // Implementations are empty
-        createActionListeners(); // Implementations are empty
+        // Implementations are empty
+
     }
 
     public void setMain(Main main) {
         this.main = main;
     }
 
-    public UserProfilePage(User user) {
+    public UserProfilePage(User user, ProfileBox profileBox) {
         this();
         this.user = user;
-        user.setBiography("asdasdasdasd");
-        user.addResearchInterest("cs");
+        this.profileBox = profileBox;
+        setDefaultPhotos();
         setPersonalInformation();
+        createActionListeners(); // Implementations are empty
 
     }
 
@@ -82,12 +90,32 @@ public class UserProfilePage extends JPanel {
      * Sets profile photo and background photo
      * If user don't have any just use default ones
      */
-    private void setDefaultPhotos() {
-        // Takes default profile photos and background photos and set
+    private void setDefaultPhotos(){
+
+        InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
+        BufferedImage defaultProfilePhotoImg = null;
+        try {
+            defaultProfilePhotoImg = ImageIO.read(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon icon  = new ImageIcon(defaultProfilePhotoImg);
+        profilePhotoLabel.setIcon(icon);
+
+        InputStream si = new ByteArrayInputStream(user.getBackGroundPhoto());
+        BufferedImage defaultBackGroundPhoto = null;
+        try {
+            defaultBackGroundPhoto = ImageIO.read(si);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon icon2 = new ImageIcon(defaultBackGroundPhoto);
+        backGroundPhotoLabel.setIcon(IconCreator.getIconWithSize(icon2, 800, 200));
     }
 
+
     private void openEditProfilePage() {
-        JFrame frame = new UserEditProfilePage(this);
+        JFrame frame = new UserEditProfilePage(this, profileBox );
 
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -157,11 +185,19 @@ public class UserProfilePage extends JPanel {
         return nameSurnameLabel;
     }
 
-    public JLabel geteMailLabel() {
+    public JLabel getEMailLabel() {
         return eMailLabel;
     }
 
     public JLabel getBioLabel() {
         return bioLabel;
+    }
+
+    public JLabel getProfilePhotoLabel() {
+        return profilePhotoLabel;
+    }
+
+    public JLabel getBackGroundPhotoLabel() {
+        return backGroundPhotoLabel;
     }
 }
