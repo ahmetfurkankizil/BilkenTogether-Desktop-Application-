@@ -10,12 +10,19 @@ public class MessageConnection {
     private User currentUser;
     private ArrayList<Message> messages;
     int port;
+    int id;
 
     public MessageConnection(User currentUser, User otherUser,int port) {
         this.otherUser = otherUser;
         this.currentUser = currentUser;
         this.messages = new ArrayList<>();
+        this.id = (int)(Math.random()*100000000);
         this.port = port;
+        currentUser.insertToMessageConnectionTable(id,currentUser,otherUser,port);
+        currentUser.createMessageHistory(id);
+    }
+    public void setMessages(){
+
     }
     public User getCurrentUser() {
         return currentUser;
@@ -28,6 +35,7 @@ public class MessageConnection {
     }
     public void addMessages(Message message) {
         messages.add(message);
+        currentUser.insertToMessageHistoryTable(id,message);
     }
 }
 

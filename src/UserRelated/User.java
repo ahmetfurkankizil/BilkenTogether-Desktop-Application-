@@ -521,7 +521,7 @@ public abstract class User{
                         + "connectionId INT PRIMARY KEY AUTO_INCREMENT,"
                         + "id1 INT NOT NULL,"
                         + "id2 INT NOT NULL,"
-                        + "port INT NOT NULL,"
+                        + "port INT NOT NULL"
                         + ");";
 
                 try (Statement statement = connection.createStatement()) {

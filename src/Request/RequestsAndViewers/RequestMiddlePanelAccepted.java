@@ -4,6 +4,7 @@ import Posts.LessonPost;
 import UserRelated.Student;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class RequestMiddlePanelAccepted {
     private JPanel panel1;
@@ -33,11 +34,15 @@ public class RequestMiddlePanelAccepted {
         LessonPost lpTest2 = new LessonPost(102, tutor, null, null, 1, true, null);
         LessonPost lpTest3 = new LessonPost(103, tutor, null, null, 1, true, null);
 
-
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        g2.anchor = GridBagConstraints.NORTHWEST;
+        g2.ipadx = 100;
+        g2.ipady  = 10;
         for (int i = 0; i < lpTest1.pullTheRequestsFromDB().size(); i++) {
             Request request = lpTest1.pullTheRequestsFromDB().get(i);
             if (request instanceof AcceptedRequest) {
-                insideScrollPanel.add(new AcceptedViewer(request));
+                insideScrollPanel.add(new AcceptedViewer(request),g2);
             }
         }
     }
