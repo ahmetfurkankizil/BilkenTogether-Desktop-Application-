@@ -1,8 +1,6 @@
 package HomePage.StudiesPage;
 
 import HomePage.Main.Main;
-import PostComponents.StudiesPostViewer;
-import Posts.ActivityPost;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -14,6 +12,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class StudiesPage {
+    private  Main main;
     private JPanel mainPanel;
     private JPanel secondMainPanel;
     private JPanel rightPanel;
@@ -35,7 +34,7 @@ public class StudiesPage {
     private JTextArea textArea2;
     private JButton filterBoxButton;
     private JPanel studiesQFPanel;
-    private JList list1;
+    private JList <String>list1;
     private JButton instructorButton;
     private JButton studentButton;
     private JButton submitButton;
@@ -57,18 +56,34 @@ public class StudiesPage {
     private JTextField addAuthorsTextField;
     private JLabel errorLabel3;
     private JButton ResetButton;
+    private JLabel selectedTopic;
+    private JLabel filterBox1;
+    private JLabel filterBox2;
+    private JLabel filterBox3;
+    private JLabel filterBox4;
+    private JLabel filterBox5;
+    private JLabel topicFilterLabel;
+    private JScrollPane filterboxScroll;
+    private JButton resetButtonInBox;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
     int index;
+    int indexOfFilterBox;
     private User currentUser;
     private ArrayList<String> options;
     private String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+
     private String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+    private String[] filteredTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
+    private String[] updatedFilteredTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS","CS BUT CURSED"};
     private JLabel[] topicLabels = {topicLabel1, topicLabel2, topicLabel3, topicLabel4, topicLabel5};
+    private JLabel[] filterLabels = {filterBox1,filterBox2,filterBox3,filterBox4,filterBox5};
     public StudiesPage() {
 
         index = 0;
+        indexOfFilterBox = 0;
         list2.setListData(topics);
+        list1.setListData(filteredTopics);
         list2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -153,7 +168,7 @@ public class StudiesPage {
                     String errorMessage = "Authors cannot be empty.";
                     errorLabel3.setText(errorMessage);
                     errorLabel3.setForeground(Color.RED);
-                    errorLabel2.setSize(30,30);
+                    errorLabel3.setSize(30,30);
                 }else {
                     String[] collection = new String[5];
                     collection[0] = topicLabel1.getText();
@@ -200,7 +215,7 @@ public class StudiesPage {
 
 
         });
-        generalSetup();
+
 
         ResetButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -222,6 +237,74 @@ public class StudiesPage {
 
 
                     index = 0;
+
+                }
+            }
+        });
+        list1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    int selectedIndex = list1.getSelectedIndex();
+
+                    String selectedValue = list1.getSelectedValue();
+                    //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
+
+                    filteredTopics[selectedIndex] = null;
+
+                    list1.setListData(filteredTopics);
+                    filterLabels[indexOfFilterBox].setText(selectedValue);
+                    filterLabels[indexOfFilterBox].setVisible(true);
+
+                    if (indexOfFilterBox<4) {
+                        indexOfFilterBox++;
+
+                    }
+                    ArrayList<String> list = new ArrayList<String>(list1.getSelectedValuesList());
+                    System.out.println(list);
+            }}
+        });
+        topicFilterLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(filterboxScroll.isVisible()){
+                    filterboxScroll.setVisible(false);
+                }
+                else{
+                    filterboxScroll.setVisible(true);
+
+                }
+            }
+        });
+        filterboxScroll.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        });
+        resetButtonInBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                list1.setListData(updatedFilteredTopics);
+                for (int i = 0; i < updatedFilteredTopics.length; i++) {
+                    filteredTopics[0] = updatedFilteredTopics[0];
+                }
+                if (e.getClickCount() == 2) {
+
+
+                    for (int i = 0; i < filterLabels.length; i++) {
+                        filterLabels[i].setText("");
+
+                    }
+
+
+
+                    indexOfFilterBox = 0;
 
                 }
             }
@@ -253,7 +336,7 @@ public class StudiesPage {
     public JPanel getQfPanel(){
         return qfPanel;
     }
-    private Main main;
+
     public void setMain(Main main) {
         this.main = main;
     }
