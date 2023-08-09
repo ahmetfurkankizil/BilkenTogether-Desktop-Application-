@@ -157,7 +157,7 @@ public class Main extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         lessons.addLessonPost(tempPost);
         tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
@@ -399,7 +399,7 @@ public class Main extends JFrame {
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        requestExtended = new RequestMiddlePanelUnanswered();
+        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost());
         requestExtended.setMain(this);
         //profilePage.addL();
     }
