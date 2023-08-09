@@ -1,8 +1,6 @@
 package Posts;
 import UserRelated.*;
 import java.io.File;
-import java.io.InputStream;
-import java.util.Arrays;
 
 public class StudyPost extends Post {
     
@@ -34,6 +32,9 @@ public class StudyPost extends Post {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+    public File getStudyPost() {
+        return studyFile;
     }
 
     public String getStudyPostHeading() {
@@ -86,5 +87,17 @@ public class StudyPost extends Post {
         }
         return topicCollection.length;
     }
-    
+
+
+
+    public boolean matchesFilter(String filter) {
+        for (String topic : topicCollection)
+        {
+            if (topic != null && topic.equalsIgnoreCase(filter))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

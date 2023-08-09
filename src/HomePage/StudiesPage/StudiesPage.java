@@ -1,11 +1,11 @@
 package HomePage.StudiesPage;
-
+import PostComponents.StudiesPostViewer;
 import HomePage.Main.Main;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
-
+import Posts.StudyPost;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -110,6 +110,21 @@ public class StudiesPage {
 
 
 
+                    list1.addMouseListener(new MouseAdapter() 
+                    {
+                        public void mouseClicked(MouseEvent e) {
+                            super.mouseClicked(e);
+                            if (e.getClickCount() == 2) 
+                            {
+                                int selectedIndex = list1.getSelectedIndex();
+                                if (selectedIndex >= 0) 
+                                {
+                                    String selectedValue = list1.getSelectedValue();
+                                    filterStudies(selectedValue);
+                                }
+                            }
+                        }
+                    });
 
 
 
@@ -310,6 +325,30 @@ public class StudiesPage {
             }
         });
     }
+
+    private void filterStudies(String selectedValue) {
+        Component[] components = insideScrollPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof StudiesPostViewer) {
+                StudiesPostViewer posts = (StudiesPostViewer) component;
+                StudyPost post = posts.getStudyPost();
+
+                // Adjust the following line based on how you want to filter based on studyFile
+                boolean matchesFilter = post.getStudyFile().getName().contains(selectedValue);
+
+                if (matchesFilter) {
+                    posts.setVisible(true);
+                } else {
+                    posts.setVisible(false);
+                }
+            }
+        }
+        insideScrollPanel.revalidate();
+        insideScrollPanel.repaint();
+        main.update();
+    }
+
+
 
     public void setCurrentUser(User user) {
         currentUser = user;
