@@ -31,8 +31,8 @@ public class MessagesGUI extends JFrame {
     MessagesPanel m;
     MessagesPanel n;
     User currentUser;
-    public MessagesGUI(User currentUser){
 
+    public MessagesGUI(User currentUser){
         searchPanel.setBackground(searchPanelColor);
         searchLabel = new JLabel("Search Messages :");
         searchButton = new JButton(IconCreator.getIconWithSize(IconCreator.searchIcon,10,10));
@@ -64,11 +64,12 @@ public class MessagesGUI extends JFrame {
         });
         searchField.setColumns(20);
         conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
-        m = new MessagesPanel(currentUser);
-        n= new MessagesPanel(currentUser);
+        m = new MessagesPanel(currentUser,conversationPanel);
         //textInputArea.setMargin(new Insets(5,5,5,5));
         addablePanelLeft.add(m);
         addablePanelRight.add(conversationPanel);
+        //conversationPanel.setVisible(false);
+
         //setSize(1200,800);
         //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         //sendMessageButton.setFocusable(false);
