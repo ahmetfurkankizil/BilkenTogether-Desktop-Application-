@@ -700,7 +700,7 @@ public abstract class User{
         return notifications;
     }
 
-    /*public void addProfilePhotoToUserInformationTable(byte[] profilePhoto) {
+    public void addProfilePhotoToUserInformationTable(byte[] profilePhoto) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();) {
             // Replace with your image byte array
@@ -720,8 +720,6 @@ public abstract class User{
         }
     }
 
-     */
-
     private byte[] readBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
@@ -733,7 +731,7 @@ public abstract class User{
         return buffer.toByteArray();
     }
 
-    /*
+
     public byte[] pullTheProfilePhotoFromDB(int userId) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         byte[] profilePhoto = null;
@@ -782,10 +780,124 @@ public abstract class User{
         return profilePhoto;
     }
 
-     */
+    public ArrayList<LessonPost> pullFromLessonsPostTable() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "LessonsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<LessonPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("postId");
+                String postDescription = resultSet.getString("postDescription");
+                String typeFilter = resultSet.getString("typeFilter");
+                int dateBinaryBoolean = resultSet.getInt("dateBinaryBoolean");
+                int requestNum = resultSet.getInt("requestType");
+                boolean requestType;
+                if (requestNum == 0) {
+                    requestType = false;
+                } else {
+                    requestType = true;
+                }
+                String date = resultSet.getString("dateOfPost");
+
+                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date);
+                lessons.add(lp1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lessons;
+    }
+
+    public ArrayList<StudyPost> pullFromStudyPostTable() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "StudiesTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<StudyPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("postId");
+                String author = resultSet.getString("author");
+                String postHeading = resultSet.getString("postHeading");
+                String postDescription = resultSet.getString("postDescription");
+                String postDate = resultSet.getString("postDate");
+
+                byte[] file = new byte[5];
+
+                try {
+                    InputStream blobInputStream = resultSet.getBinaryStream("file");
+                    file = readInputStreamToByteArray(blobInputStream);
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                }
+
+                String[] topicCollection = new String[5];
+                topicCollection[0] = resultSet.getString("Topic1");
+                topicCollection[1] = resultSet.getString("Topic2");
+                topicCollection[2] = resultSet.getString("Topic3");
+                topicCollection[3] = resultSet.getString("Topic4");
+                topicCollection[4] = resultSet.getString("Topic5");
+
+                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection);
+                lessons.add(lp1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lessons;
+    }
+
+    public ArrayList<ActivityPost> pullFromActivitiesPostTable() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "ActivitiesTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<ActivityPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("postId");
+                String postDescription = resultSet.getString("postDescription");
+                int numberOfAttendants = resultSet.getInt("numberOfAttendants");
+                String dateOfPost = resultSet.getString("dateOfPost");
+                String typeFilter = resultSet.getString("typeFilter");
+                String activityDate = resultSet.getString("activityDate");
 
 
+                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate);
+                lessons.add(lp1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lessons;
+    }
 
+    public static byte[] readInputStreamToByteArray(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+        return byteArrayOutputStream.toByteArray();
+    }
 
 
 
