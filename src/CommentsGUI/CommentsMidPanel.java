@@ -30,17 +30,26 @@ public class CommentsMidPanel extends JFrame {
     private ArrayList<Comment> comments;
     private  Post REQUESTABLE_POST;
     private Main main;
+    private boolean isReview;
+    private ReviewPanel reviewPanel;
 
     public CommentsMidPanel(Post post, Main main) throws ParseException {
         REQUESTABLE_POST = post;
         setSize(700,700);
         this.main = main;
-        Student student1 = new Student("Erdem", "", 1, "", "", "", "");
-        Student student2 = new Student("Ufuk", "", 1, "", "", "", "");
-        Comment comment = new Comment(student1, "asdfasdfasdöfmsadgfnaksdfjgnşkjfsdglkqjflkjqvlksjdfvkqşjrkbjqkşjbfkja" +
-                "ksajfnlkajsfşdakjsdfnjkavnkdsjfnvajknsdflkavnlkjsdfnlavndlkfjvnalkjdfkavndkfvnakjdvakjndfkvnakdfnvjnad" +
-                "avsojvnasjnvakjsndvkajsnjkdvansljkdaljsfnvajnsfk0anksfjdvanlkjsfvnkajsfn0anfdlvanlkdfjvalkdjfvnlakjvlkn");
-        add(mP);
+        isReview = false;
+        reviewPanel =new ReviewPanel(main,(Student) main.getCurrentUser());
+        if (post instanceof LessonPost ){
+            LessonPost temp = (LessonPost) post;
+            Student acceptor= temp.getAccepter();
+            if (acceptor.getId() == main.getCurrentUser().getId()){
+                GridBagConstraints g2 = new GridBagConstraints();
+                g2.gridx = 0;
+                commentPosting.add(reviewPanel);
+                isReview= true;
+            }
+        }
+
         String pattern = "yyyy-MM-dd HH:mm:ss";
         DateFormat x = new SimpleDateFormat(pattern);
         GridBagConstraints g2 = new GridBagConstraints();
@@ -56,14 +65,11 @@ public class CommentsMidPanel extends JFrame {
             postDisplayPanel.add(new ActivitiesPostViewer((ActivityPost) REQUESTABLE_POST,null),g2);
         else
             postDisplayPanel.add(new StudiesPostViewer((StudyPost) REQUESTABLE_POST,null),g2);
-
-
         comments = post.getCommentCollection();
         for (Comment c :
                 comments) {
-            addCommentsPanel(new CommentsPanel(c,main.getCurrentUser()));
+            addCommentsPanel(new CommentsPanel(c,main.getCurrentUser(),isReview,reviewPanel));
         }
-        addCommentsPanel(new CommentsPanel(comment,main.getCurrentUser()));
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setVisible(true);
         postButton1.addActionListener(new ActionListener() {
@@ -72,11 +78,16 @@ public class CommentsMidPanel extends JFrame {
                 if (!textArea1.getText().isBlank()) {
                     Comment temp = new Comment(main.getCurrentUser(), textArea1.getText());
                     post.addComment(temp);
-                    addCommentsPanel(new CommentsPanel(temp,main.getCurrentUser()));
+                    if (isReview){
+                        add(new JLabel());
+                    }
+                    addCommentsPanel(new CommentsPanel(temp,main.getCurrentUser(),isReview,reviewPanel));
+                    textArea1.setText("");
                     main.update();
                 }
             }
         });
+        add(mP);
     }
 
     private void addCommentsPanel(CommentsPanel commentsPanel) {

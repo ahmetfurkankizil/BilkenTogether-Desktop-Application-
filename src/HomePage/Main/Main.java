@@ -121,7 +121,7 @@ public class Main extends JFrame {
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
-
+    private boolean canRate;
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
     private Server server;
@@ -134,6 +134,7 @@ public class Main extends JFrame {
         //Adding profile photo (photo to byte)
         ppHandler();
         //setUpPastMessages();
+        canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
         profileBox = new ProfileBox(currentUser);
