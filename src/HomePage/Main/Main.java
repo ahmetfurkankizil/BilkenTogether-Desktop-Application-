@@ -131,7 +131,7 @@ public class Main extends JFrame {
     private ProfileBox profileBox;
 
     public Main() {
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b", null, null);
         //Adding profile photo (photo to byte)
         //ppHandler();
         //setUpPastMessages();
@@ -253,7 +253,7 @@ public class Main extends JFrame {
             throw new RuntimeException(e);
         }
         byte[] bytes1 = so.toByteArray();
-        currentUser.setBackGroundPhoto(bytes1);
+        currentUser.setBackgroundPhoto(bytes1);
     }
 
     private void setUpLabelListeners() {
@@ -402,7 +402,7 @@ public class Main extends JFrame {
         //profilePage.addL();
     }
     public void setUpPastMessages(){
-        User otherUser = new Student("aba","a",22103566,"s","s","s","s");
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s", null, null);
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
         //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");

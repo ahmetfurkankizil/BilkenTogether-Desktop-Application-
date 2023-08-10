@@ -1,7 +1,10 @@
 package Posts;
 import UserRelated.*;
-import java.io.File;
-import java.io.InputStream;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class StudyPost extends Post {
@@ -25,8 +28,6 @@ public class StudyPost extends Post {
     public byte[] getStudyFile() {
         return this.pdfFile;
     }
-
-
 
     public String getAuthor() {
         return author;
