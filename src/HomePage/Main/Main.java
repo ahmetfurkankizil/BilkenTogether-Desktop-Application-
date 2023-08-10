@@ -12,7 +12,6 @@ import MessagesGUI.Server;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
-import Posts.LessonPost;
 import Posts.Post;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
@@ -133,12 +132,12 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
-        //ppHandler();
+        ppHandler();
         //setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        //profileBox = new ProfileBox(currentUser);
-        //profileBoxPanel.add(profileBox);
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -393,12 +392,12 @@ public class Main extends JFrame {
         lessons.setMain(this);
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
-        notificationHomePage = new NotificationHomePage(this);
+       // notificationHomePage = new NotificationHomePage(this);
 
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
-        requestsPage = new RequestMidPanel();
-        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
+       // requestsPage = new RequestMidPanel();
+        //requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
         //profilePage.addL();
     }
     public void setUpPastMessages(){

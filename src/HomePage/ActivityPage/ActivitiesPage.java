@@ -1,16 +1,19 @@
 package HomePage.ActivityPage;
 
-import PostComponents.ActivitiesPostViewer;
 import HomePage.Main.Main;
+import PostComponents.ActivitiesPostViewer;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ActivitiesPage {
@@ -50,7 +53,12 @@ public class ActivitiesPage {
     private JComboBox comboBox5;
     private JPanel quickFiltersPanel;
     private JPanel removableRight;
+    private JComboBox eventDaycomboBox;
+    private JComboBox eventMonthcomboBox;
+    private JComboBox eventYearcomboBox;
     User currentUser;
+
+    private ArrayList<ActivityPost> activityPostArrayList;
     private GridBagConstraints g;
     public ActivitiesPage() {
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
@@ -67,6 +75,13 @@ public class ActivitiesPage {
             }
         });
 
+        slider1.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int value = slider1.getValue();
+                numberOfPeople.setText("" + value);
+            }
+        });
     }
     public JPanel getInsideScrollPanePanel(){
         return insideScrollPanePanel;
@@ -108,9 +123,13 @@ public class ActivitiesPage {
                 Student tempStudent = (Student) currentUser;
                 Date date = new Date();
                 g.gridx = 0;
-                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type,"23/03/2023");
-                tempStudent.addToActivitiesTable(tempPost);
-                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempStudent.pullActivityPostFromDB(tempStudent.getId(),tempPost.getPostID()),main);
+                String activityDay = eventDaycomboBox.getSelectedItem() + "";
+                String activityMonth = eventMonthcomboBox.getSelectedItem() + "";
+                String activityYear = eventYearcomboBox.getSelectedItem() + "";
+                String activityDate = activityDay + "/" + activityMonth + "/" + activityYear;
+                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate);
+                //tempStudent.addToActivitiesTable(tempPost);
+                ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempPost,main);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();
             }
@@ -118,17 +137,38 @@ public class ActivitiesPage {
         }
         private boolean checkPost(){
             if (textArea1.getText().isBlank()){
+                errorLabel.setForeground(Color.RED);
                 errorLabel.setText("Please Enter A Description!");
                 return false;
             }
             if (activityTypeComboBox.getSelectedItem().equals("Select:")) {
+                errorLabel.setForeground(Color.RED);
                 errorLabel.setText("Please Select Activity Type!");
                 return false;
             }
             if (peopleCountComboBox.getSelectedItem().equals("Select:")){
+                errorLabel.setForeground(Color.RED);
                 errorLabel.setText("Please Select How Many People!");
                 return false;
             }
+            // Validating Date Start
+            if((eventDaycomboBox.getSelectedItem()).equals("Day:")) {
+                errorLabel.setForeground(Color.RED);
+                errorLabel.setText("Please Select Day!");
+                return false;
+            }
+            if((eventMonthcomboBox.getSelectedItem()).equals("Month:")) {
+                errorLabel.setForeground(Color.RED);
+                errorLabel.setText("Please Select Month!");
+                return false;
+            }
+
+            if((eventYearcomboBox.getSelectedItem()).equals("Year:")) {
+                errorLabel.setForeground(Color.RED);
+                errorLabel.setText("Please Select Year!");
+                return false;
+            }
+            // Validating Date End
             return true;
         }
     }
