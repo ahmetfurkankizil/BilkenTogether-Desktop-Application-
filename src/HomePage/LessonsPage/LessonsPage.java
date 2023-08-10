@@ -261,7 +261,9 @@ public class LessonsPage {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
+
                 addLessonPost(tempPost);
+
                 Student s = (Student) currentUser;
                 main.update();
                 s.addToLessonsTable(tempPost);

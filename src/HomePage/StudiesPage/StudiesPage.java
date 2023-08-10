@@ -10,16 +10,16 @@ import UserRelated.User;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class StudiesPage {
     private Main main;
-    private final String[] topics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
+    private String[] topics;
     private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
     int index;
     private JPanel mainPanel;
@@ -66,84 +66,58 @@ public class StudiesPage {
     private JLabel errorLabel2;
     private JTextField addAuthorsTextField;
     private JLabel errorLabel3;
-    private JButton ResetButton;
+    private JButton postingResetButton;
     private JButton uploadFileButton;
     private JLabel selectedTopic;
-    private JLabel filterBox1;
-    private JLabel filterBox2;
-    private JLabel filterBox3;
-    private JLabel filterBox4;
-    private JLabel filterBox5;
+    private JLabel filterLabel1;
+    private JLabel filterLabel2;
+    private JLabel filterLabel3;
+    private JLabel filterLabel4;
+    private JLabel filterLabel5;
     private JLabel topicFilterLabel;
     private JScrollPane filterboxScroll;
     private JButton resetButtonInBox;
+    private JTextField searchTopicField;
+    private JTextField filterChooserSearchField;
+    private JPanel top;
+    private JPanel bottom;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
 
     int indexOfFilterBox;
     private User currentUser;
     private ArrayList<String> options;
-  
-    private JLabel[] filterLabels ={topicLabel1,topicLabel2,topicLabel3,topicLabel4,topicLabel4,topicLabel5};
-    private String[] filteredTopics = {"LINEAR ALGEBRA","CALCULUS","COMPLEX ANALYSIS","ALGEBRA","RECURSION","TURING"};
-    private String[] updatedFilteredTopics = {"LINEAR ALGEBRA","CALCULUS","COMPLEX ANALYSIS","ALGEBRA","RECURSION","TURING"};
+    private JLabel[] postingTopicLabels = {topicLabel1,topicLabel2,topicLabel3,topicLabel4,topicLabel5};
+    private JLabel[] filterLabels ={filterLabel1,filterLabel2,filterLabel3,filterLabel4,filterLabel5};
+    private ArrayList<String> postingFilters;
+    private ArrayList<String> filterSideTopicFilters;
     public StudiesPage() {
+        postingFilters = new ArrayList<String>();
 
+        filterSideTopicFilters = new ArrayList<>();
+        initializeTopicArraylist();
+        String[] temp = new String[postingFilters.size()];
         index = 0;
         indexOfFilterBox = 0;
-        list2.setListData(topics);
-        list1.setListData(filteredTopics);
+        System.out.println(postingFilters.size());
+        list2.setListData(postingFilters.toArray(temp));
+        list1.setListData(postingFilters.toArray(temp));
         list2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-
                 if (e.getClickCount() == 2) {
                     int selectedIndex = list2.getSelectedIndex();
-
                     String selectedValue = list2.getSelectedValue();
                     //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
-
-                    topics[selectedIndex] = null;
-
-                    list2.setListData(topics);
+                    postingFilters.remove(selectedValue);
+                    refreshPostingtopicsList();
                     topicLabels[index].setText(selectedValue);
                     topicLabels[index].setVisible(true);
-
                     if (index < 4) {
                         index++;
-
                     }
-                    ArrayList<String> list = new ArrayList<String>(list2.getSelectedValuesList());
-                    System.out.println(list);
-
-
-
-                    list1.addMouseListener(new MouseAdapter() 
-                    {
-                        public void mouseClicked(MouseEvent e) {
-                            super.mouseClicked(e);
-                            if (e.getClickCount() == 2) 
-                            {
-                                int selectedIndex = list1.getSelectedIndex();
-                                if (selectedIndex >= 0) 
-                                {
-                                    String selectedValue = list1.getSelectedValue();
-                                    filterStudies(selectedValue);
-                                }
-                            }
-                        }
-                    });
-
-
-
-
-
                 }
-
-
             }
-
         });
 
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
@@ -217,61 +191,34 @@ public class StudiesPage {
                 listScroll.setVisible(!listScroll.isVisible());
             }
         });
-        listScroll.addMouseListener(new MouseAdapter() {
+
+
+        postingResetButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-            }
-
-
-        });
-
-
-        ResetButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                super.mouseClicked(e);
-                list2.setListData(updatedTopics);
-                for (int i = 0; i < updatedTopics.length; i++) {
-                    topics[0] = updatedTopics[0];
-                }
-                if (e.getClickCount() == 2) {
-
-
-                    for (int i = 0; i < topicLabels.length; i++) {
-                        topicLabels[i].setText("");
-
-                    }
-
-
-                    index = 0;
-
-                }
+                postingFilters = resetTopicArraylist();
+                refreshPostingtopicsList();
+                index = 0;
+                topicLabel1.setText(" ");
+                topicLabel2.setText(" ");
+                topicLabel3.setText(" ");
+                topicLabel4.setText(" ");
+                topicLabel5.setText(" ");
+                searchTopicField.setText("");
             }
         });
         list1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2) {
-                    int selectedIndex = list1.getSelectedIndex();
-
                     String selectedValue = list1.getSelectedValue();
                     //ArrayList<String> listOfSelected= new ArrayList<String>(list2.getSelectedValuesList());
-
-
-                    filteredTopics[selectedIndex] = null;
-
-                    list1.setListData(filteredTopics);
                     filterLabels[indexOfFilterBox].setText(selectedValue);
-                    filterLabels[indexOfFilterBox].setVisible(true);
-
+                    filterSideTopicFilters.remove(selectedValue);
+                    refreshFiltersTopicsList();
                     if (indexOfFilterBox<4) {
                         indexOfFilterBox++;
-
                     }
                     ArrayList<String> list = new ArrayList<String>(list1.getSelectedValuesList());
                     System.out.println(list);
@@ -296,31 +243,99 @@ public class StudiesPage {
                 super.mouseClicked(e);
             }
         });
-        resetButtonInBox.addMouseListener(new MouseAdapter() {
+        resetButtonInBox.addActionListener(new ActionListener() {
+
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                list1.setListData(updatedFilteredTopics);
-                for (int i = 0; i < updatedFilteredTopics.length; i++) {
-                    filteredTopics[0] = updatedFilteredTopics[0];
-                }
-                if (e.getClickCount() == 2) {
-
-
-                    for (int i = 0; i < filterLabels.length; i++) {
-                        filterLabels[i].setText("");
-
-                    }
-
-
-
-                    indexOfFilterBox = 0;
-
-                }
+            public void actionPerformed(ActionEvent e) {
+                filterSideTopicFilters = resetTopicArraylist();
+                refreshFiltersTopicsList();
+                resetFilterLabels();
+                filterLabel1.setText("");
+                filterLabel2.setText("");
+                filterLabel3.setText("");
+                filterLabel4.setText("");
+                filterLabel5.setText("");
+                filterChooserSearchField.setText("");
             }
         });
         setUpUploadButton();
+        searchTopicField.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!searchTopicField.getText().isBlank()){
+                    filterTopicChooser(searchTopicField.getText(),postingFilters);
+                }
+                else
+                    postingFilters =resetTopicArraylist();
+                refreshPostingtopicsList();
+            }
+        });
+        filterChooserSearchField.addComponentListener(new ComponentAdapter() {
+        });
+        filterChooserSearchField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (!filterChooserSearchField.getText().isBlank()){
+                    filterTopicChooser(filterChooserSearchField.getText(),filterSideTopicFilters);
+                }
+                else
+                    filterSideTopicFilters =resetTopicArraylist();
+                refreshFiltersTopicsList();
+            }
+
+        });
     }
+
+    private void resetFilterLabels() {
+    }
+
+
+    private void filterTopicChooser(String text,ArrayList<String> top) {
+        for (int i = 0; i < top.size(); i++) {
+            if (!(top.get(i).toLowerCase().contains(text.toLowerCase()))) {
+                top.remove(i);
+                i--;
+            }
+        }
+    }
+
+    private void refreshPostingtopicsList() {
+        String[] temp = new String[postingFilters.size()];
+        list2.setListData(postingFilters.toArray(temp));
+    }
+    private void refreshFiltersTopicsList() {
+        String[] temp = new String[postingFilters.size()];
+        list1.setListData(filterSideTopicFilters.toArray(temp));
+    }
+
+    private void initializeTopicArraylist() {
+
+            File file = new File("src/Other/topics.txt");
+
+            Scanner in = null;
+            try {
+                in = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            while (in.hasNextLine()){
+                String temp = in.nextLine();
+                postingFilters.add(temp);
+                filterSideTopicFilters.add(temp);
+            }
+            Collections.sort(postingFilters);
+            Collections.sort(filterSideTopicFilters);
+            topics = new String[postingFilters.size()];
+        for (int i = 0; i <topics.length; i++) {
+            topics[i] = postingFilters.get(i)+"";
+        }
+
+    }
+    private ArrayList<String> resetTopicArraylist() {
+        return new ArrayList<>(Arrays.asList(topics));
+    }
+
+
 
     private void setUpUploadButton() {
         uploadFileButton.addActionListener(new ActionListener() {
