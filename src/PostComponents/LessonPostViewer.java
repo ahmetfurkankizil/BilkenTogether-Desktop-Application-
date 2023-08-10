@@ -150,5 +150,7 @@ public class LessonPostViewer extends PostViewer {
 
     }
 
-
+    public LessonPost getLesPost() {
+        return lesPost;
+    }
 }
