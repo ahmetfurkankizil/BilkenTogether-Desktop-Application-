@@ -55,11 +55,13 @@ public class ActivitiesPage {
     private JComboBox eventMonthcomboBox;
     private JComboBox eventYearcomboBox;
     private JLabel filterErrorLabel;
+    private JButton resetButton;
     User currentUser;
 
     private ArrayList<ActivitiesPostViewer> activitiesPostViewerArrayList;
     private GridBagConstraints g;
     public ActivitiesPage() {
+        activitiesPostViewerArrayList = new ArrayList<ActivitiesPostViewer>();
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
@@ -118,9 +120,25 @@ public class ActivitiesPage {
                         }
                     }
                 }
-
-
-
+                if(!isTypeSelected && isZero && !isDaySelected && !isMonthSelected && !isYearSelected) {
+                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
+                        activitiesPostViewerArrayList.get(i).setVisible(true);
+                    }
+                }
+                main.repaint();
+            }
+        });
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
+                    activitiesPostViewerArrayList.get(i).setVisible(true);
+                }
+                typeComboBox.setSelectedIndex(0);
+                slider1.setValue(-1);
+                dayComboBox.setSelectedIndex(0);
+                monthComboBox.setSelectedIndex(0);
+                yearComboBox.setSelectedIndex(0);
             }
         });
     }
