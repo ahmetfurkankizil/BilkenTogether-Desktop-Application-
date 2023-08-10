@@ -45,6 +45,7 @@ public class VerificationFrame extends JFrame{
                             tempStudent.createNotificationsTable();
                             tempStudent.createActivitiesTable();
                             tempStudent.createLessonsTable();
+                            tempStudent.createNotificationsTable();
                         }
                     }
                 }

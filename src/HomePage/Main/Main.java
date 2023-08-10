@@ -393,7 +393,7 @@ public class Main extends JFrame {
         lessons.setMain(this);
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
-        notificationHomePage = new NotificationHomePage();
+        notificationHomePage = new NotificationHomePage(this);
 
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
