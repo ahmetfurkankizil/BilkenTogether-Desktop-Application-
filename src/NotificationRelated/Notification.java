@@ -17,6 +17,19 @@ public class Notification {
         setNotificationID();
         this.sender = sender;
         this.receiver = receiver;
+        //sender.readTheNotification()
+        this.isRead = false;
+        this.commentContent = commentContent;
+        this.dateOfNotificaiton = dateOfNotification;
+        // Assign a unique notificationID here
+        // ...
+    }
+    public Notification(User sender, User receiver, String commentContent, String dateOfNotification, int id) {
+        //setNotificationID();
+        this.notificationID = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        //sender.readTheNotification()
         this.isRead = false;
         this.commentContent = commentContent;
         this.dateOfNotificaiton = dateOfNotification;
@@ -66,4 +79,7 @@ public class Notification {
         this.isRead = isRead;
     }
 
+    public String getPostContent() {
+        return "";
+    }
 }

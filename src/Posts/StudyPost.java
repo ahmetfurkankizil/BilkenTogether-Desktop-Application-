@@ -22,6 +22,7 @@ public class StudyPost extends Post {
         this.studyPostHeading = heading;
         this.topicCollection = topicCollection;
         this.pdfFile = studyFile;
+        sender.addStudyPost(this);
     }
 
     public static byte[] readPDFToByteArray(String filePath) throws IOException {

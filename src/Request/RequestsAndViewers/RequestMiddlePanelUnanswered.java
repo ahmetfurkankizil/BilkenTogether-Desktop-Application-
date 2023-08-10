@@ -32,29 +32,16 @@ public class RequestMiddlePanelUnanswered {
     private RequestablePost requestablePost;
     private ArrayList<Request> unansweredRequests;
 
-    public RequestMiddlePanelUnanswered(RequestablePost requestablePost,Main main){
+    public RequestMiddlePanelUnanswered(RequestablePost requestablePost,Main main , JPanel prev){
         this.main = main;
         this.requestablePost = requestablePost;
-
-        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null,null,null);
-
-        Student student1 = new Student("Jack", null, 22203112, null, null, null, null,null,null);
-        Student student2 = new Student("Saul", null, 11, null, null, null, null,null,null);
-        Student student3 = new Student("Heisenberg", null, 12, null, null, null, null,null,null);
-
-        student1.setAverageRating(2);
-        student2.setAverageRating(3);
-        student3.setAverageRating(4);
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
         g2.anchor = GridBagConstraints.NORTHWEST;
         //g2.ipadx = 100;
         g2.ipady  = 10;
-
         requestablePost.addRequest(new UnansweredRequest(22103566));
         this.unansweredRequests = requestablePost.getRequestCollection();
-        System.out.println(unansweredRequests.size());
-        holdingPanel.add(new JLabel("ekleniyor"),g2);
         deniedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +62,12 @@ public class RequestMiddlePanelUnanswered {
                 insideScrollPanel.revalidate();
                 refresh();
                 main.update();
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.goBacTokRequests();
             }
         });
         acceptedButton.addActionListener(new ActionListener() {

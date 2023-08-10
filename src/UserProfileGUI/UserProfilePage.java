@@ -79,10 +79,10 @@ public class UserProfilePage extends JPanel {
     public void addL() {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
-        LessonsHistoryPanel.add(new JLabel("lol"));
-        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
-        StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
-        ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //LessonsHistoryPanel.add(new JLabel("lol"));
+        //LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
         repaint();
         revalidate();
     }
@@ -119,28 +119,39 @@ public class UserProfilePage extends JPanel {
      * If user don't have any just use default ones
      */
     private void setDefaultPhotos(){
+        if (user.getProfilePhoto() != null) {
+            InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
+            BufferedImage defaultProfilePhotoImg = null;
+            try {
+                defaultProfilePhotoImg = ImageIO.read(is);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon icon = new ImageIcon(defaultProfilePhotoImg);
+            profilePhotoLabel.setIcon(icon);
 
-        InputStream is = new ByteArrayInputStream(user.getProfilePhoto());
-        BufferedImage defaultProfilePhotoImg = null;
-        try {
-            defaultProfilePhotoImg = ImageIO.read(is);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            InputStream si = new ByteArrayInputStream(user.getBackgroundPhoto());
+            BufferedImage defaultBackGroundPhoto = null;
+            try {
+                defaultBackGroundPhoto = ImageIO.read(si);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon icon2 = new ImageIcon(defaultBackGroundPhoto);
+            backGroundPhotoLabel.setIcon(IconCreator.getIconWithSize(icon2, 800, 200));
         }
-        ImageIcon icon  = new ImageIcon(defaultProfilePhotoImg);
-        profilePhotoLabel.setIcon(icon);
-
-        InputStream si = new ByteArrayInputStream(user.getBackgroundPhoto());
-        BufferedImage defaultBackGroundPhoto = null;
-        try {
-            defaultBackGroundPhoto = ImageIO.read(si);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ImageIcon icon2 = new ImageIcon(defaultBackGroundPhoto);
-        backGroundPhotoLabel.setIcon(IconCreator.getIconWithSize(icon2, 800, 200));
     }
+    public static ImageIcon byteToImageIcon(byte[] image){
+        InputStream is = new ByteArrayInputStream(image);
+        BufferedImage handledImage = null;
+        try {
+            handledImage = ImageIO.read(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ImageIcon(handledImage);
 
+    }
 
     private void openEditProfilePage() {
         JFrame frame = new UserEditProfilePage(this, profileBox );

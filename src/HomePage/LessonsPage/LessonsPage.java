@@ -30,6 +30,8 @@ public class LessonsPage {
     private JButton studiesButton;
     private JButton activitiesButton;
     private JButton profileBoxButton;
+    private ArrayList<LessonPost> posts;
+    private ArrayList<Integer> userIds;
     private JButton filterBoxButton;
     private PPImageHandler profilePhoto;
     private GridBagConstraints g;
@@ -84,12 +86,17 @@ public class LessonsPage {
     public JPanel getQuickFiltersPanel() {
         return quickFiltersPanel;
     }
-    public LessonsPage() {
-
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
+    public LessonsPage(Main main) {
+        posts = new ArrayList<>();
+        userIds = new ArrayList<>();
+        this.main = main;
+        currentUser = main.getCurrentUser();
+        posts = currentUser.pullFromLessonsPostTable();
         generalSetup();
         lessonPostArrayList = new ArrayList<LessonPost>();
-
+        for (int i = 0; i < posts.size(); i++) {
+            addLessonPost(posts.get(i));
+        }
 
         filtersSubmitButton.addActionListener(new ActionListener() {
             @Override
@@ -291,6 +298,7 @@ public class LessonsPage {
     }
     public void setMain(Main main) {
         this.main =main;
+        setCurrentUser(main.getCurrentUser());
     }
 
     public RequestablePost getPost() {
@@ -319,8 +327,10 @@ public class LessonsPage {
             if (checkIfValid()) {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
-                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
 
+                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
+                Student temp = (Student) currentUser;
+                temp.addToLessonsTable(tempPost);
                 lessonPostArrayList.add(tempPost);
 
                 addLessonPost(tempPost);

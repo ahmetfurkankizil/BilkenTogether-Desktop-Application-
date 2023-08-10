@@ -49,6 +49,7 @@ public abstract class User{
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
         messageConnections = new ArrayList<>();
+
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -56,8 +57,12 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
-        setProfilePhoto(profilePhoto);
-        setBackgroundPhoto(backGroundPhoto);
+
+        if (profilePhoto != null)
+            setProfilePhoto(profilePhoto);
+        if (backGroundPhoto != null)
+            setBackgroundPhoto(backGroundPhoto);
+
     }
     public void addMessageConnection(MessageConnection connection){
         messageConnections.add(connection);
@@ -364,6 +369,7 @@ public abstract class User{
     }
 
     public void addBackgroundPhotoToUserInformationTable(byte[] profilePhoto) {
+        databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();) {
             // Replace with your image byte array
             byte[] imageBytes = profilePhoto;
@@ -375,7 +381,12 @@ public abstract class User{
             preparedStatement.setInt(2, this.getId());
 
             preparedStatement.executeUpdate();
-
+            System.out.println(profilePhoto.length);
+            try{
+            System.out.println(pullTheProfilePhotoFromDB(22103566).length);;}
+            catch (Exception e){
+                e.printStackTrace();
+            }
             System.out.println("Profile photo inserted successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -666,7 +677,7 @@ public abstract class User{
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setInt(1,1);
                     preparedStatement.setInt(2,notification.getNotificationID());
-
+                    System.out.println(notification.getNotificationID());
                     preparedStatement.executeUpdate();
                     System.out.println("Notification is read successfully.");
                     return true;
@@ -701,7 +712,8 @@ public abstract class User{
                 String commentContent = resultSet.getString("commentContent");
                 String date = resultSet.getString("dateTime");
 
-                Notification m1 = new Notification(sender,receiver,commentContent,date);
+                Notification m1 = new Notification(sender,receiver,commentContent,date,notificationId);
+                m1.setReadCondition(resultSet.getInt("isRead") == 1);
                 notifications.add(m1);
             }
         } catch (SQLException e) {
@@ -871,7 +883,7 @@ public abstract class User{
 
     public ArrayList<ActivityPost> pullFromActivitiesPostTable() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "ActivitiesTable";
+        String tableName = "" + getId() + "TableOfActivities";
         String selectQuery = "SELECT * FROM " + tableName;
 
         ArrayList<ActivityPost> lessons = new ArrayList<>();
@@ -889,7 +901,7 @@ public abstract class User{
                 String typeFilter = resultSet.getString("typeFilter");
                 String activityDate = resultSet.getString("activityDate");
 
-
+                System.out.println("Activity Post Returned Successfully");
                 ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate);
                 lessons.add(lp1);
             }

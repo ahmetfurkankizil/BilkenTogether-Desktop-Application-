@@ -30,7 +30,6 @@ public class NotificationHomePage extends JFrame {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         g = new GridBagConstraints();
         g.gridx = 0;
         g.fill = GridBagConstraints.VERTICAL;
@@ -100,14 +99,15 @@ public class NotificationHomePage extends JFrame {
             innerPanel2 = new JPanel();
             innerPanel2.setBackground(myColorTwo);
             innerPanel2.setLayout(new GridBagLayout());
+            ;
 
             innerPanel2.setBorder(new LineBorder(myBorderColor, 1));
 
-            label1 = new JTextArea("Gülferiz Made A Comment On Your Post:  Great perspective! ");
+            label1 = new JTextArea(notification.getPostContent());
 
             label1.setFont(myFont);
 
-            label2 = new JTextArea("Did you know that the world is turning around really fast. Is there a way we couldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcouldcould...");
+            label2 = new JTextArea(senderName + " just commented : "  +notification.getCommentContent());
             disableTextAreas();
             innerPanel1.add(label1);
 

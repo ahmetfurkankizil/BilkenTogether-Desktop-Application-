@@ -58,10 +58,11 @@ public class ActivitiesPage {
 
     private ArrayList<ActivityPost> activityPostArrayList;
     private GridBagConstraints g;
-    public ActivitiesPage() {
+    public ActivitiesPage(Main main) {
+        this.main = main;
+        this.currentUser = main.getCurrentUser();
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         generalSetup();
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
@@ -126,7 +127,7 @@ public class ActivitiesPage {
                 String activityYear = eventYearcomboBox.getSelectedItem() + "";
                 String activityDate = activityDay + "/" + activityMonth + "/" + activityYear;
                 ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate);
-                //tempStudent.addToActivitiesTable(tempPost);
+                tempStudent.addToActivitiesTable(tempPost);
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempPost,main);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();

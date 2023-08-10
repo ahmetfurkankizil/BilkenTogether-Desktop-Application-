@@ -43,6 +43,9 @@ public class ActivitiesPostViewer extends PostViewer {
         requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
         proName.setText(lesPost.getSender().getName());
+        if (main.getCurrentUser().getId() == sender.getId()) {
+            requestButton.setVisible(false);
+        }
     }
 
     @Override

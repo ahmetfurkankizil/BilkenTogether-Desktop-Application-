@@ -15,7 +15,6 @@ public class LessonPost extends RequestablePost {
         super(postID,sender, description, typeFilter, dateOfPost);
         this.requestType = requestType;
         setDateBinaryBoolean(dateBinaryBoolean);
-        ((Student) sender).addLessonPost(this);
     }
     public void setAccepter(Student student){
         this.accepter = student;

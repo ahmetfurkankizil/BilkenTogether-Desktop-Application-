@@ -42,9 +42,11 @@ public class LessonPostViewer extends PostViewer {
     public void setUp() {
         super.setUp();
         proPhoto = new PPImageHandler();
-        requestButton = new JButton("Send Request");
-        requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
+        requestButton = new JButton("Send Request");
+        if (main.getCurrentUser().getId() == sender.getId()) {
+            requestButton.setVisible(false);
+        }
 
     }
 
