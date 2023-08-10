@@ -329,7 +329,8 @@ public class StudiesPage {
     private void filterStudies(String selectedValue) {
         Component[] components = insideScrollPanel.getComponents();
         for (Component component : components) {
-            if (component instanceof StudiesPostViewer) {
+            if (component instanceof StudiesPostViewer)
+            {
                 StudiesPostViewer posts = (StudiesPostViewer) component;
                 StudyPost post = posts.getStudyPost();
 
