@@ -5,6 +5,9 @@ import UserRelated.FacultyMember;
 import UserRelated.Student;
 import UserRelated.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 
 public class DatabaseConnection {
@@ -25,6 +28,17 @@ public class DatabaseConnection {
     }
     public Connection getConnection() {
         return this.connection;
+    }
+
+    private byte[] readBytesFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        return buffer.toByteArray();
     }
 
     public User pullUserByIdFromDB(int userId) {
@@ -51,11 +65,30 @@ public class DatabaseConnection {
                 String department = resultSetOfUser.getString("department");
                 String password = resultSetOfUser.getString("password");
                 String dateOfBirth = resultSetOfUser.getString("dateOfBirth");
+                InputStream inputStreamProfilePhoto = resultSetOfUser.getBinaryStream("profilePhoto");
+                InputStream inputStreamBackgroundPhoto = resultSetOfUser.getBinaryStream("backgroundPhoto");
+                byte[] profilePhoto = null;
+                byte[] backgroundPhoto = null;
+                try {
+                    profilePhoto = readBytesFromInputStream(inputStreamProfilePhoto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    backgroundPhoto = readBytesFromInputStream(inputStreamBackgroundPhoto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 if (role.equals("Student")) {
-                    user = new Student(nameAndSurname,email,id,gender,department,password,dateOfBirth);
+                    if (profilePhoto != null) {
+                        user = new Student(nameAndSurname,email,id,gender,department,password,dateOfBirth, profilePhoto, backgroundPhoto);
+                    }
                 } else {
-                    user = new FacultyMember(nameAndSurname, email, id, gender, department, password, dateOfBirth);
+                    if (profilePhoto != null) {
+                        user = new FacultyMember(nameAndSurname, email, id, gender, department, password, dateOfBirth, profilePhoto, backgroundPhoto);
+                    }
                 }
             } else {
                 return null;

@@ -7,8 +7,8 @@ public class FacultyMember extends User{
     private String officeLocation;
     private String officeHours;
 
-    public FacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        super(name, email, id, gender, department, password, dateOfBirth);
+    public FacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
+        super(name, email, id, gender, department, password, dateOfBirth, profilePhoto, backGroundPhoto);
     }
 
     // Faculty Member methods
