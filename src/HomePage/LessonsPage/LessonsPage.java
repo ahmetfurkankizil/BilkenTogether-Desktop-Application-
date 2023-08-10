@@ -381,7 +381,34 @@ public class LessonsPage {
     }
     private void filterLessons(String selectedValue){
         if (isSubmitted) {
-        Component[]components = insideScrollPanePanel.getComponents();
+            Component[] components = insideScrollPanePanel.getComponents();
+
+            for (Component component : components) {
+                if (component instanceof LessonPostViewer) {
+                    LessonPostViewer postViewer = (LessonPostViewer) component;
+                    LessonPost post = postViewer.getLesPost();
+
+                    // Check filters based on buttons' states
+                    boolean matchesFilters = true;
+                    if (givenButton.isSelected() && !post.getRequestType()) {
+                        matchesFilters = false;
+                    } else if (requestedButton.isSelected() && post.getRequestType()) {
+                        matchesFilters = false;
+                    } else if (courseComboBox.getSelectedItem() != null &&
+                            !courseComboBox.getSelectedItem().equals("Select:") &&
+                            !post.getTypeFilter().equals(courseComboBox.getSelectedItem())) {
+                        matchesFilters = false;
+                    }
+                    // Similar checks for other day buttons...
+
+                    postViewer.setVisible(matchesFilters);
+                }
+            }
+
+            insideScrollPanePanel.revalidate();
+            insideScrollPanePanel.repaint();
+            main.update();
+        /*Component[]components = insideScrollPanePanel.getComponents();
         for(Component component: components){
             if( component instanceof LessonPostViewer) {
                 LessonPostViewer posts = (LessonPostViewer) component;
@@ -396,8 +423,8 @@ public class LessonsPage {
             }
         }insideScrollPanePanel.revalidate();
         insideScrollPanePanel.repaint();
-        main.update();
-    }}
+        main.update();*/
+        }}
 }
 
 

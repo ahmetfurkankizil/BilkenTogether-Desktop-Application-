@@ -18,8 +18,6 @@ import java.util.Date;
 
 public class ActivitiesPage {
     private Main main;
-
-
     private JPanel mainPanel;
     private JButton profileBoxButton;
     private JButton filterBoxButton;

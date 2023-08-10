@@ -19,13 +19,39 @@ public class CommentsPanel extends JPanel{
     private final ImageIcon solidLikeIcon = IconCreator.getIconWithSize(IconCreator.activeLikeIcon,40,30);
     private User user;
     JLabel likeCountLabel;
-    public CommentsPanel(Comment comment, User user) {
+    private static final int starwidth = 20;
+    private ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
+    private ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
+    private ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
+    public CommentsPanel(Comment comment, User user ,boolean isReview, ReviewPanel reviewPanel) {
         super();
         COMMENT = comment;
         setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        if (isReview)
+            addStars(reviewPanel);
         addComponents();
         this.user = user;
         liked = comment.checkIfUserAlreadyLiked(user);
+    }
+
+    private void addStars(ReviewPanel reviewPanel) {
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
+        c.gridx = 1;
+        JPanel starPanel = new JPanel(new FlowLayout());
+        String text = reviewPanel.getTextField().getText();
+        int review = Integer.parseInt(text);
+        System.out.println(review);
+        for (int i = 0; i < review; i++) {
+            starPanel.add(new JLabel(fullStar),c);
+
+        }
+        for (int i = 0; i < 5-review; i++) {
+            starPanel.add(new JLabel(emptyStar));
+        }
+        reviewPanel.getTextField().setText("");
+        add(starPanel,c);
     }
 
     private void addComponents() {

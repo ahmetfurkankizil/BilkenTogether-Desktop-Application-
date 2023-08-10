@@ -125,7 +125,7 @@ public class Main extends JFrame {
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
-
+    private boolean canRate;
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
     private Server server;
@@ -134,10 +134,11 @@ public class Main extends JFrame {
     private ProfileBox profileBox;
 
     public Main() {
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b", null, null);
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         //Adding profile photo (photo to byte)
         //ppHandler();
         //setUpPastMessages();
+        canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
         //profileBox = new ProfileBox(currentUser);
@@ -421,7 +422,7 @@ public class Main extends JFrame {
         //profilePage.addL();
     }
     public void setUpPastMessages(){
-        User otherUser = new Student("aba","a",22103566,"s","s","s","s", null, null);
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s",null,null);
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
         //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");

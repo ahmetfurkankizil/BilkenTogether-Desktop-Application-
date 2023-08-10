@@ -7,6 +7,7 @@ public class LessonPost extends RequestablePost {
     private int dateBinaryBoolean;
     private String [] topicCollection;
     private boolean requestType;
+    private Student accepter;
     private ArrayList<String> lessonPost;
 
     public LessonPost(int postID , User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
@@ -16,6 +17,14 @@ public class LessonPost extends RequestablePost {
         setDateBinaryBoolean(dateBinaryBoolean);
         ((Student) sender).addLessonPost(this);
     }
+    public void setAccepter(Student student){
+        this.accepter = student;
+    }
+
+    public Student getAccepter() {
+        return accepter;
+    }
+
     public ArrayList<String> getLessonPost(){
         return lessonPost;
     }
