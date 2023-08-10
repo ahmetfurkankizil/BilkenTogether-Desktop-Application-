@@ -8,7 +8,9 @@ import Posts.StudyPost;
 import NotificationRelated.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.*;
@@ -287,7 +289,7 @@ public abstract class User{
                         + "postHeading VARCHAR(150) NULL,"
                         + "postDescription  VARCHAR(250) NOT NULL,"
                         + "postDate  VARCHAR(250) NOT NULL,"
-                        + "file  VARCHAR(250) NOT NULL,"
+                        + "file LONGBLOB NOT NULL,"
                         + "Topic1 VARCHAR(50)  NULL,"
                         + "Topic2 VARCHAR(50)  NULL,"
                         + "Topic3 VARCHAR(50)  NULL,"
@@ -314,6 +316,7 @@ public abstract class User{
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
+            byte[] imageBytes = studyPost.getStudyFile();
             if (connection != null) {
                 String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file, ";
 
@@ -338,7 +341,8 @@ public abstract class User{
                     preparedStatement.setString(4, studyPost.getStudyPostHeading());
                     preparedStatement.setString(5, studyPost.getPostDescription());
                     preparedStatement.setString(6, studyPost.getDateOfPost());
-                    preparedStatement.setString(7, "File is not added yet");
+                    ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                    preparedStatement.setBinaryStream(7, bis, imageBytes.length);
 
                     for(int i=0; i<numberOfPostTopics; i++){
                         int columnNumber = i+8;
@@ -357,6 +361,25 @@ public abstract class User{
         }
         databaseConnection.closeConnection();
         return false;
+    }
+
+    public void addBackgroundPhotoToUserInformationTable(byte[] profilePhoto) {
+        try (Connection connection = databaseConnection.getConnection();) {
+            // Replace with your image byte array
+            byte[] imageBytes = profilePhoto;
+
+            String sql = "UPDATE userInformationTable SET backgroundPhoto = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+            preparedStatement.setBinaryStream(1, bis, imageBytes.length);
+            preparedStatement.setInt(2, this.getId());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("Profile photo inserted successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean removeFromStudiesTable(StudyPost studyPost) {
@@ -706,24 +729,66 @@ public abstract class User{
         }
     }
 
-    public void addBackgroundPhotoToUserInformationTable(byte[] profilePhoto) {
-        try (Connection connection = databaseConnection.getConnection();) {
-            // Replace with your image byte array
-            byte[] imageBytes = profilePhoto;
+    private byte[] readBytesFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        return buffer.toByteArray();
+    }
 
-            String sql = "UPDATE userInformationTable SET backgroundPhoto = ? WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-            preparedStatement.setBinaryStream(1, bis, imageBytes.length);
-            preparedStatement.setInt(2, this.getId());
+    public byte[] pullTheProfilePhotoFromDB(int userId) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        byte[] profilePhoto = null;
+        String tableName = "userInformationTable";
+        String selectQuery = "SELECT profilePhoto FROM " + tableName + " WHERE id = ?;";
 
-            preparedStatement.executeUpdate();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
-            System.out.println("Profile photo inserted successfully!");
-        } catch (SQLException e) {
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                InputStream inputStreamProfilePhoto = resultSet.getBinaryStream("profilePhoto");
+                profilePhoto = readBytesFromInputStream(inputStreamProfilePhoto);
+            }
+
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+
+        return profilePhoto;
     }
+
+    public byte[] pullTheBackgroundPhotoFromDB(int userId) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        byte[] profilePhoto = null;
+        String tableName = "userInformationTable";
+        String selectQuery = "SELECT backgroundPhoto FROM " + tableName + " WHERE id = ?;";
+
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                InputStream inputStreamProfilePhoto = resultSet.getBinaryStream("backgroundPhoto");
+                profilePhoto = readBytesFromInputStream(inputStreamProfilePhoto);
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return profilePhoto;
+    }
+
+
 
 
 
