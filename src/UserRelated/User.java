@@ -6,6 +6,9 @@ import Posts.Post;
 import Posts.StudyPost;
 
 import NotificationRelated.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.*;
@@ -32,14 +35,14 @@ public abstract class User{
     private String gender;
     private String dateOfBirth;
     private byte[] profilePhoto;
-    private byte[] backGroundPhoto;
+    private byte[] backgroundPhoto;
     private String biography;
     private ArrayList<String> researchInterests;
     private ArrayList<StudyPost> studyPostCollection;
     private ArrayList<Notification> notificationCollection;
     private ArrayList<MessageConnection> messageConnections;
 
-    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth) {
+    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
@@ -51,6 +54,8 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
+        setProfilePhoto(profilePhoto);
+        setBackgroundPhoto(backGroundPhoto);
     }
     public void addMessageConnection(MessageConnection connection){
         messageConnections.add(connection);
@@ -136,16 +141,18 @@ public abstract class User{
         return profilePhoto;
     }
 
-    public byte[] getBackGroundPhoto() {
-        return backGroundPhoto;
+    public byte[] getBackgroundPhoto() {
+        return backgroundPhoto;
     }
 
-    public void setBackGroundPhoto(byte[] backGroundPhoto) {
-        this.backGroundPhoto = backGroundPhoto;
+    public void setBackgroundPhoto(byte[] backGroundPhoto) {
+        this.backgroundPhoto = backGroundPhoto;
+        addBackgroundPhotoToUserInformationTable(backGroundPhoto);
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {
         this.profilePhoto = profilePhoto;
+        addProfilePhotoToUserInformationTable(profilePhoto);
     }
     public ArrayList<String> getResearchInterests() {
         return researchInterests;
@@ -412,7 +419,7 @@ public abstract class User{
                         }
                     }
                 }
-                User u = new Student(senderName,null,0,null,null,null,null);
+                User u = new Student(senderName,null,0,null,null,null,null, null, null);
                 studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection);
             } else {
                 return null;
@@ -679,4 +686,46 @@ public abstract class User{
         }
         return notifications;
     }
+
+    public void addProfilePhotoToUserInformationTable(byte[] profilePhoto) {
+        try (Connection connection = databaseConnection.getConnection();) {
+            // Replace with your image byte array
+            byte[] imageBytes = profilePhoto;
+
+            String sql = "UPDATE userInformationTable SET profilePhoto = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+            preparedStatement.setBinaryStream(1, bis, imageBytes.length);
+            preparedStatement.setInt(2, this.getId());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("Profile photo inserted successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBackgroundPhotoToUserInformationTable(byte[] profilePhoto) {
+        try (Connection connection = databaseConnection.getConnection();) {
+            // Replace with your image byte array
+            byte[] imageBytes = profilePhoto;
+
+            String sql = "UPDATE userInformationTable SET backgroundPhoto = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+            preparedStatement.setBinaryStream(1, bis, imageBytes.length);
+            preparedStatement.setInt(2, this.getId());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("Profile photo inserted successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 }

@@ -1,6 +1,9 @@
 package SignupAndLogin;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -190,12 +193,12 @@ public class SignUpHandler {
     }
 
     public Student createStudent(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        Student student = new Student(name, email, id, gender, department, password, dateOfBirth);
+        Student student = new Student(name, email, id, gender, department, password, dateOfBirth, null, null);
         return student;
     }
 
     public FacultyMember createFacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        FacultyMember facultyMember = new FacultyMember(name, email, id, gender, department, password, dateOfBirth);
+        FacultyMember facultyMember = new FacultyMember(name, email, id, gender, department, password, dateOfBirth, null, null);
         return facultyMember;
     }
 
@@ -359,6 +362,17 @@ public class SignUpHandler {
         }
     }
 
+    private byte[] readBytesFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        return buffer.toByteArray();
+    }
+
 
     public User getUserRegisteredFromDB(String email, String password) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -376,10 +390,26 @@ public class SignUpHandler {
             ResultSet resultSetOfUser = preparedStatement.executeQuery();
 
             if (resultSetOfUser.next()) {
+                InputStream inputStreamProfilePhoto = resultSetOfUser.getBinaryStream("profilePhoto");
+                InputStream inputStreamBackgroundPhoto = resultSetOfUser.getBinaryStream("backgroundPhoto");
+                byte[] profilePhoto = null;
+                byte[] backgroundPhoto = null;
+                try {
+                    profilePhoto = readBytesFromInputStream(inputStreamProfilePhoto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    backgroundPhoto = readBytesFromInputStream(inputStreamBackgroundPhoto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 //Checking the role
                 String role = resultSetOfUser.getString("role");
                 if ("Student".equals(role)) {
+
                     //create student
                     newUser = new Student(
                             resultSetOfUser.getString("nameAndSurname"),
@@ -388,7 +418,9 @@ public class SignUpHandler {
                             resultSetOfUser.getString("gender"),
                             resultSetOfUser.getString("department"),
                             resultSetOfUser.getString("password"),
-                            resultSetOfUser.getString("dateOfBirth"));
+                            resultSetOfUser.getString("dateOfBirth"),
+                            profilePhoto,
+                            backgroundPhoto);
                     //The other attributes must be added with set methods (like profile picture)
                 } else {
                     //create facultyMember
@@ -399,7 +431,9 @@ public class SignUpHandler {
                             resultSetOfUser.getString("gender"),
                             resultSetOfUser.getString("department"),
                             resultSetOfUser.getString("password"),
-                            resultSetOfUser.getString("dateOfBirth"));
+                            resultSetOfUser.getString("dateOfBirth"),
+                            profilePhoto,
+                            backgroundPhoto);
                     //The other attributes must be added with set methods (like profile picture)
                 }
             } else {
