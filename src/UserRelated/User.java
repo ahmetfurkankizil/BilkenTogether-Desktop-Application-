@@ -5,6 +5,8 @@ import DatabaseRelated.DatabaseConnection;
 import MessagesGUI.MessageConnection;
 import MessagesRelated.Message;
 import NotificationRelated.Notification;
+import Posts.ActivityPost;
+import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
 
@@ -897,6 +899,29 @@ public abstract class User{
             byteArrayOutputStream.write(buffer, 0, bytesRead);
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public ArrayList<Integer> pullIDsFromUserInformationTable() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "userInformationTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<Integer> ids = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+
+                ids.add(id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ids;
     }
 
 

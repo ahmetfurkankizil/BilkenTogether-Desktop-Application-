@@ -310,7 +310,7 @@ public class StudiesPage {
 
     private void initializeTopicArraylist() {
 
-            File file = new File("C:\\CS102_Project\\CS-Project-Repository\\src\\Other\\topics.txt");
+            File file = new File("src/Other/topics.txt");
 
             Scanner in = null;
             try {
