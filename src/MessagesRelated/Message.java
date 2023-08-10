@@ -9,9 +9,9 @@ public class Message
     private User sender;
     private User receiver;
     private String content;
-    private Date dateTime;
+    private String dateTime;
 
-    public Message(User sender, User receiver, String content, Date dateTime) {
+    public Message(User sender, User receiver, String content, String dateTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
@@ -30,7 +30,7 @@ public class Message
         return content;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return dateTime;
     }
 }

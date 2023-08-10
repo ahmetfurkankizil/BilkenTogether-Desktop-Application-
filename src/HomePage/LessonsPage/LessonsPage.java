@@ -3,6 +3,7 @@ import HomePage.Main.Main;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
+import Posts.RequestablePost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -232,6 +233,11 @@ public class LessonsPage {
     public void setMain(Main main) {
         this.main =main;
     }
+
+    public RequestablePost getPost() {
+        return new LessonPost(1,currentUser,"desc","a",1,false,"S");
+    }
+
     private class requestActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -255,7 +261,9 @@ public class LessonsPage {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
+
                 addLessonPost(tempPost);
+
                 Student s = (Student) currentUser;
                 main.update();
                 s.addToLessonsTable(tempPost);

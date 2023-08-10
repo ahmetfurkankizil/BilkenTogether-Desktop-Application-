@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Date;
+
 import HomePage.Main.Main;
 import Icons.IconCreator;
+import MessagesRelated.Message;
 import UserRelated.User;
 
 public class MessagesGUI extends JFrame {
@@ -63,19 +66,21 @@ public class MessagesGUI extends JFrame {
             }
         });
         searchField.setColumns(20);
-        conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
-        m = new MessagesPanel(currentUser,conversationPanel);
-        //textInputArea.setMargin(new Insets(5,5,5,5));
-        addablePanelLeft.add(m);
-        addablePanelRight.add(conversationPanel);
-        //conversationPanel.setVisible(false);
+        if (currentUser.getMessageConnections().size() > 0) {
+            conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
+            System.out.println(conversationPanel.getCurrentReceiver().getName());
+            m = new MessagesPanel(currentUser, conversationPanel);
+            //textInputArea.setMargin(new Insets(5,5,5,5));
+            addablePanelLeft.add(m);
+            addablePanelRight.add(conversationPanel);
+            //conversationPanel.setVisible(false);
 
-        //setSize(1200,800);
-        //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //sendMessageButton.setFocusable(false);
+            //setSize(1200,800);
+            //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            //sendMessageButton.setFocusable(false);
 
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+            //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
         add(panel1);
         //setVisible(true);
     }
@@ -92,10 +97,11 @@ public class MessagesGUI extends JFrame {
     }
 
 
-    public void sendMessage(User sender, String message) {
+    public void sendMessage(User sender, User receiver,String message) {
         conversationPanel.sendMessage(sender,message);
-        //main.repaint();
-        //main.revalidate();
+        sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
+        main.repaint();
+        main.revalidate();
     }
 
     public void setMain(Main main) {
@@ -130,6 +136,9 @@ public class MessagesGUI extends JFrame {
         scrollLeft.revalidate();
     }
 
+    public User getCurrentReceiver() {
+        return conversationPanel.getCurrentReceiver();
+    }
 }
 
 

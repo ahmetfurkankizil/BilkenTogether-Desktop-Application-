@@ -6,10 +6,11 @@ import Posts.RequestablePost;
 import UserRelated.Student;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class RequestConfirmationPanelViewer extends JPanel {
-    private static final int starwidth = 10;
+    private static final int starwidth = 20;
     public ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
     public ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
     public ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
@@ -24,6 +25,7 @@ public class RequestConfirmationPanelViewer extends JPanel {
     protected JLabel nameLabel = new JLabel();
     protected JButton tickButton, crossButton;
     private DatabaseConnection databaseConnection;
+    private final Font PROFILENAMEFONT = new Font("default",Font.BOLD,25);
     public RequestConfirmationPanelViewer(Request request) {
         this.databaseConnection = new DatabaseConnection();
         Student student = (Student) this.databaseConnection.pullUserByIdFromDB(request.getRequesterID());
@@ -31,12 +33,29 @@ public class RequestConfirmationPanelViewer extends JPanel {
         //This student can't be null because it is already added to the database
 
         nameLabel.setText(student.getName());
+        nameLabel.setFont(PROFILENAMEFONT);
         deniedPanel.add(nameLabel);
         addStars((int) student.getAverageRating());
         tickButton = new JButton(check);
         crossButton = new JButton(cross);
         buttonsPanel = new JPanel();
+        setBorder(new Border() {
+            @Override
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                g.setColor(Color.gray);
+                g.drawLine(x,y+height,x+width,y+height);
+            }
 
+            @Override
+            public Insets getBorderInsets(Component c) {
+                return new Insets(0,0,0,0);
+            }
+
+            @Override
+            public boolean isBorderOpaque() {
+                return false;
+            }
+        });
     }
 
     public void addStars(double rating) {

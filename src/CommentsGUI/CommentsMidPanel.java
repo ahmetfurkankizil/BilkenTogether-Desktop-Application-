@@ -12,7 +12,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CommentsMidPanel extends JFrame {
     private JButton postButton;
@@ -27,7 +31,7 @@ public class CommentsMidPanel extends JFrame {
     private  Post REQUESTABLE_POST;
     private Main main;
 
-    public CommentsMidPanel(Post post, Main main){
+    public CommentsMidPanel(Post post, Main main) throws ParseException {
         REQUESTABLE_POST = post;
         setSize(700,700);
         this.main = main;
@@ -37,6 +41,8 @@ public class CommentsMidPanel extends JFrame {
                 "ksajfnlkajsfşdakjsdfnjkavnkdsjfnvajknsdflkavnlkjsdfnlavndlkfjvnalkjdfkavndkfvnakjdvakjndfkvnakdfnvjnad" +
                 "avsojvnasjnvakjsndvkajsnjkdvansljkdaljsfnvajnsfk0anksfjdvanlkjsfvnkajsfn0anfdlvanlkdfjvalkdjfvnlakjvlkn");
         add(mP);
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateFormat x = new SimpleDateFormat(pattern);
         GridBagConstraints g2 = new GridBagConstraints();
         //g2.ipady = 200;
         //g2.ipadx = 100;
@@ -51,13 +57,13 @@ public class CommentsMidPanel extends JFrame {
         else
             postDisplayPanel.add(new StudiesPostViewer((StudyPost) REQUESTABLE_POST,null),g2);
 
-        commentPosting.setBackground(Color.GRAY);
+
         comments = post.getCommentCollection();
         for (Comment c :
                 comments) {
-            addCommentsPanel(new CommentsPanel(c));
+            addCommentsPanel(new CommentsPanel(c,main.getCurrentUser()));
         }
-        addCommentsPanel(new CommentsPanel(comment));
+        addCommentsPanel(new CommentsPanel(comment,main.getCurrentUser()));
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setVisible(true);
         postButton1.addActionListener(new ActionListener() {
@@ -66,7 +72,7 @@ public class CommentsMidPanel extends JFrame {
                 if (!textArea1.getText().isBlank()) {
                     Comment temp = new Comment(main.getCurrentUser(), textArea1.getText());
                     post.addComment(temp);
-                    addCommentsPanel(new CommentsPanel(temp));
+                    addCommentsPanel(new CommentsPanel(temp,main.getCurrentUser()));
                     main.update();
                 }
             }
@@ -75,11 +81,11 @@ public class CommentsMidPanel extends JFrame {
 
     private void addCommentsPanel(CommentsPanel commentsPanel) {
         JPanel panel = new JPanel();
-        panel.setBackground(Color.GRAY);
+
         panel.add(commentsPanel);
         GridBagConstraints g = new GridBagConstraints();
         g.gridx =0;
-        g.anchor = GridBagConstraints.LINE_START;
+        g.anchor = GridBagConstraints.NORTHWEST;
         insideScrollPanel.add(panel, g);
     }
     public JPanel getInnerPanel(){

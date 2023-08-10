@@ -1,7 +1,8 @@
 package NotificationRelated;
 
-import MessagesRelated.Notification;
+import HomePage.Main.Main;
 import UserRelated.Student;
+import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -9,10 +10,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NotificationHomePage extends JFrame {
     private JPanel mainPanel;
-    private Student currentUser;
+    private User currentUser;
     private GridBagConstraints g;
     private JPanel middlePanel;
     private JPanel insideScrollPanePanel;
@@ -20,33 +22,32 @@ public class NotificationHomePage extends JFrame {
     private JPanel TopLabel;
     private JPanel scrollBig;
     private ArrayList<JButton> sectionButtons;
+    private Main main;
 
-    public NotificationHomePage() {
+    public NotificationHomePage(Main main) {
+        this.main = main;
+        this.currentUser = main.getCurrentUser();
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
-        notification = new Notification(currentUser, currentUser, 1);
-        notification.setContent("Sample notification content");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         g = new GridBagConstraints();
         g.gridx = 0;
         g.fill = GridBagConstraints.VERTICAL;
         g.anchor = GridBagConstraints.NORTHWEST;
         g.insets = new Insets(0, 0, 10, 0);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+        addPastNotifications(currentUser);
     }
 
     public void addNotification(Notification notification) {
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+    }
+    public void addPastNotifications(User user){
+        ArrayList<Notification> notifications = user.pullTheNotifications();
+        for (int i = 0; i < notifications.size(); i++) {
+            addNotification(notifications.get(i));
+
+        }
     }
 
     public JPanel getMainPanel() {
@@ -57,7 +58,7 @@ public class NotificationHomePage extends JFrame {
         return TopLabel;
     }
 
-    private static class GeneralNotificationViewer extends JPanel {
+    private class GeneralNotificationViewer extends JPanel {
         // önce 1 panel
         // panel içinde 2 panel daha
         // her bir panelin içine birer label ekle
@@ -90,7 +91,7 @@ public class NotificationHomePage extends JFrame {
             boolean isRead = notification.getReadCondition();
             String senderName = notification.getSender().getName();
             String receiverName = notification.getReceiver().getName();
-            String notificationContent = notification.getContent();
+            String notificationContent = notification.getCommentContent();
 
             innerPanel1 = new JPanel();
 
@@ -166,13 +167,13 @@ public class NotificationHomePage extends JFrame {
 
         private class NotificationMouseListener extends MouseAdapter {
             public void mouseClicked(MouseEvent e) {
-                System.out.println("clicked!");
                 if (!notification.getReadCondition()) {
                     notification.setReadCondition(true);
                     setOpaque(false);
                     innerPanel1.removeAll();
                     innerPanel1.setOpaque(false);
                     innerPanel1.add(label1);
+                    currentUser.readTheNotification(notification);
                     revalidate();
                     repaint();
                 }

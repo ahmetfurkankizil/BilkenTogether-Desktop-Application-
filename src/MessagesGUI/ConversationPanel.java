@@ -31,6 +31,9 @@ public class ConversationPanel extends JPanel {
         mainPanel.setLayout(new GridBagLayout());
         this.currentUser = messageConnection.getCurrentUser();
         this.otherUser = messageConnection.getOtherUser();
+        System.out.println(currentUser.getId());
+        System.out.println(otherUser.getId());
+        this.temp = messageConnection;
         g = new GridBagConstraints();
         g.gridy = 0;
         g.gridx = 0;
@@ -62,18 +65,33 @@ public class ConversationPanel extends JPanel {
                 if (message.getSender() == currentUser)
                     sendMessage(currentUser,message.getContent());
                 else
-                    getMessage(message.getSender(),message.getContent());
+                    getMessage(message);
         }
     }
+    MessageConnection temp;
     public void addPastMessages(MessageConnection connection) {
-        MessageConnection temp = connection;
+        temp = connection;
         mainPanel.removeAll();
         pastMessages = connection.getMessages();
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
                 sendMessage(currentUser,message.getContent());
             else
-                getMessage(message.getSender(),message.getContent());
+                getMessage(message);
+        }
+        repaint();
+        revalidate();
+        mainPanel.setVisible(true);
+    }
+    public void addPastMessages(ArrayList<Message> messages) {
+
+        mainPanel.removeAll();
+        pastMessages = messages;
+        for (Message message : pastMessages) {
+            if (message.getSender().getId()== currentUser.getId())
+                sendMessage(currentUser,message.getContent());
+            else
+                getMessage(message);
         }
         repaint();
         revalidate();
@@ -83,19 +101,22 @@ public class ConversationPanel extends JPanel {
     public void sendMessage(User user, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        Message message1 = new Message(user, null, message, new Date());
+        Message message1 = new Message(user, null, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, true);
         g.gridx = 1;
         mainPanel.add(m, g);
     }
 
-    public void getMessage(User sender, String message) {
+    public void getMessage(Message message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        Message message1 = new Message(sender, null, message, new Date());
-        MessagesViewer m = new MessagesViewer(message1, false);
+        MessagesViewer m = new MessagesViewer(message, false);
         g.gridx = 0;
         mainPanel.add(m, g);
+    }
+
+    public User getCurrentReceiver() {
+        return temp.getOtherUser();
     }
 
     private class MessagesViewer extends JPanel {

@@ -1,11 +1,11 @@
 package UserProfileGUI;
 
 import HomePage.Main.Main;
+import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import PostComponents.StudiesPostViewer;
 import Posts.LessonPost;
 import Posts.StudyPost;
-import Icons.IconCreator;
 import ProfileBox.ProfileBox;
 import UserRelated.Student;
 import UserRelated.User;
@@ -66,7 +66,8 @@ public class UserProfilePage extends JPanel {
         this();
         this.user = user;
         this.profileBox = profileBox;
-        //setDefaultPhotos();
+        createActionListeners();
+        setDefaultPhotos();
         setPersonalInformation();
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
@@ -80,8 +81,8 @@ public class UserProfilePage extends JPanel {
         g2.gridx = 0;
         LessonsHistoryPanel.add(new JLabel("lol"));
         LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
-        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
-        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
         repaint();
         revalidate();
     }
@@ -143,7 +144,6 @@ public class UserProfilePage extends JPanel {
 
     private void openEditProfilePage() {
         JFrame frame = new UserEditProfilePage(this, profileBox );
-
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);

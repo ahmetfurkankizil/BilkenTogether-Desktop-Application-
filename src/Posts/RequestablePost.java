@@ -1,16 +1,14 @@
 package Posts;
-import CommentsRelated.Comment;
-import CommentsRelated.Review;
+
 import DatabaseRelated.DatabaseConnection;
 import Request.RequestsAndViewers.AcceptedRequest;
 import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
-import UserRelated.*;
+import UserRelated.User;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public abstract class RequestablePost extends Post {
     private String typeFilter;
@@ -21,6 +19,14 @@ public abstract class RequestablePost extends Post {
 
     public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost) {
         super(postId, sender, description, dateOfPost);
+        if (sender.getId() == 0){
+            try {
+                Exception e = new Exception();
+                e.printStackTrace();
+                throw e;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }}
         this.typeFilter = typeFilter;
         /*
          * Date filter LessonPost ve ActivityPost için ayrı ayrı uygulandı
@@ -196,13 +202,25 @@ public abstract class RequestablePost extends Post {
         // (This method will first check whether the request is in the requestCollection
         // or not. If it's there, then the passed Student will be added to the agreementCollection.)
         agreementCollection.add(request);
+        requestCollection.remove(request);
         acceptTheRequest(request);
 
     }
 
     public void denyRequest(Request request) {
         deniedCollection.add(request);
+        requestCollection.remove(request);
         denyTheRequest(request);
     }
 
+    public ArrayList<Request> getRequestCollection() {
+        return requestCollection;
+    }
+
+    public ArrayList<Request> getAgreementCollection() {
+        return agreementCollection;
+    }
+    public ArrayList<Request> getDeniedCollection() {
+        return deniedCollection;
+    }
 }

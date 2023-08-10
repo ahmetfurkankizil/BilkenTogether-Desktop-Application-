@@ -5,7 +5,7 @@ import DatabaseRelated.DatabaseConnection;
 import Posts.Post;
 import Posts.StudyPost;
 
-import javax.management.Notification;
+import NotificationRelated.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.*;
@@ -14,6 +14,12 @@ import MessagesRelated.Message;
 import MessagesGUI.MessageConnection;
 import Posts.*;
 import CommentsRelated.*;
+import Request.RequestsAndViewers.AcceptedRequest;
+import Request.RequestsAndViewers.DeniedRequest;
+import Request.RequestsAndViewers.Request;
+import Request.RequestsAndViewers.UnansweredRequest;
+
+import javax.management.NotificationFilter;
 
 public abstract class User{
     private String[] studyTopics;
@@ -260,12 +266,6 @@ public abstract class User{
         comment.incrementLikeCount(this);
     }
 
-    /**
-     * listens to notifications constantly until the app is closed
-     */
-    public void checkNotifications() {
-        // Don't know how to do
-    }
 
     // DatabaseHandler Methods
     public boolean createStudiesTable() {
@@ -433,11 +433,10 @@ public abstract class User{
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "notificationId INT PRIMARY KEY AUTO_INCREMENT,"
-                        + "notificationSender VARCHAR(50) NOT NULL,"
-                        + "notificationReceiver VARCHAR(50) NOT NULL,"
-                        + "content VARCHAR(150) NOT NULL,"
+                        + "senderId INT NOT NULL,"
+                        + "receiverId INT NOT NULL,"
+                        + "commentContent VARCHAR(350) NOT NULL,"
                         + "isRead TINYINT(1) DEFAULT 0,"
-                        + "isAccepted TINYINT(1) DEFAULT 0,"
                         + "dateTime  VARCHAR(250) NOT NULL"
                         + ");";
 
@@ -488,16 +487,13 @@ public abstract class User{
             if (connection != null) {
                 String insertQuery = "INSERT INTO " + tableName + " (senderId, receiverId, content, date) VALUES (?, ?, ?, ?)";
 
-                //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setInt(1, message.getSender().getId());
                     preparedStatement.setInt(2, message.getReceiver().getId());
                     preparedStatement.setString(3, message.getContent());
                     preparedStatement.setString(4, message.getTime().toString());
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
+                    preparedStatement.executeUpdate();
                     System.out.println("Inserted to message connection successfuly");
                     return true;
                 } catch (SQLException e) {
@@ -509,6 +505,35 @@ public abstract class User{
         }
         databaseConnection.closeConnection();
         return false;
+    }
+
+    public ArrayList<Message> pullMessageHistoryFromDB(int connectionId) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + connectionId + "MessageHistory";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<Message> messages = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int senderId = resultSet.getInt("senderId");
+                User sender = databaseConnection.pullUserByIdFromDB(senderId);
+                int receiverId = resultSet.getInt("receiverId");
+                User receiver = databaseConnection.pullUserByIdFromDB(receiverId);
+                String content = resultSet.getString("content");
+                String date = resultSet.getString("date");
+
+                Message m1 = new Message(sender,receiver,content,date);
+                messages.add(m1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return messages;
     }
 
     //Left
@@ -552,9 +577,7 @@ public abstract class User{
                     preparedStatement.setInt(3, user2.getId());
                     preparedStatement.setInt(4, port);
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
+                    preparedStatement.executeUpdate();
                     System.out.println("Inserted to message connection successfuly");
                     return true;
                 } catch (SQLException e) {
@@ -568,30 +591,28 @@ public abstract class User{
         return false;
     }
 
+    public void withDrawLike(Comment comment) {
+        comment.decrementLikeCount(this);
+    }
 
-    /*
-    @Override
-    public boolean addToNotificationsTable() {
+    public boolean addToNotificationsTable(Notification notification) {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "NotificationsTable";
             if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (notificationId, notificationSender, notificationReceiver, content, isRead, isAccepted, dateTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + tableName + " (notificationId, senderId, receiverId, commentContent, isRead, dateTime) VALUES (?, ?, ?, ?, ?, ?)";
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, );
-                    preparedStatement.setString(2, );
-                    preparedStatement.setString(3, );
-                    preparedStatement.setString(4, );
-                    preparedStatement.setBoolean(5, false);
-                    preparedStatement.setBoolean(6, false);
-                    preparedStatement.setString(7, );
+                    preparedStatement.setInt(1, notification.getNotificationID());
+                    preparedStatement.setInt(2, notification.getSender().getId());
+                    preparedStatement.setInt(3, notification.getReceiver().getId());
+                    preparedStatement.setString(4, notification.getCommentContent());
+                    preparedStatement.setInt(5, 0);
+                    preparedStatement.setString(6, notification.getDateOfNotificaiton());
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
-                    preparedStatement.executeUpdate(insertQuery);
-                    System.out.println("Message values inserted successfully.");
+                    preparedStatement.executeUpdate();
+                    System.out.println("Notification is inserted successfully.");
                     return true;
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -603,30 +624,59 @@ public abstract class User{
         databaseConnection.closeConnection();
         return false;
     }
-    */
 
-    /*
-    @Override
-    public boolean deleteFromNotificationsTable(int notificationId) {
+    public boolean readTheNotification(Notification notification) {
         databaseConnection = new DatabaseConnection();
-        String tableName = "" + getId() + "NotificationsTable";
-        String deleteQuery = "DELETE FROM " + tableName + " WHERE notificationId = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getId() + "NotificationsTable";
+            if (connection != null) {
+                String insertQuery = "UPDATE " + tableName + " SET isRead = ? WHERE notificationId = ?;";
 
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1,1);
+                    preparedStatement.setInt(2,notification.getNotificationID());
 
-            preparedStatement.setInt(1, notificationId);
-
-            int rowsAffected = preparedStatement.executeUpdate();
-            System.out.println("Rows affected: " + rowsAffected);
-            System.out.println("Notification deleted successfully");
-            return true;
-
+                    preparedStatement.executeUpdate();
+                    System.out.println("Notification is read successfully.");
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        databaseConnection.closeConnection();
         return false;
     }
+    public ArrayList<Notification> pullTheNotifications() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "NotificationsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
 
-     */
+        ArrayList<Notification> notifications = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int notificationId = resultSet.getInt("notificationId");
+                int senderId = resultSet.getInt("senderId");
+                User sender = databaseConnection.pullUserByIdFromDB(senderId);
+                int receiverId = resultSet.getInt("receiverId");
+                User receiver = databaseConnection.pullUserByIdFromDB(receiverId);
+                String commentContent = resultSet.getString("commentContent");
+                String date = resultSet.getString("dateTime");
+
+                Notification m1 = new Notification(sender,receiver,commentContent,date);
+                notifications.add(m1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return notifications;
+    }
 }

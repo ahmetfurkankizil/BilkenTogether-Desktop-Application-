@@ -20,12 +20,9 @@ public class RequestMidPanel extends JFrame {
         setSize(700,700);
         Student stu = new Student("Ali", "ali@gmial.com", 123, "Male", "cs", "1"
                 ,"1/1/2001");
-        RequestablePost post = new LessonPost(1, stu , "asdfasdfasdfasdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaf", "Requested",
-                61, true, "2/1/2001");
 
         add(mP);
+        /*
         addRequestPanel(new RequestPanel(post));
         addRequestPanel(new RequestPanel(post));
         addRequestPanel(new RequestPanel(post));
@@ -34,6 +31,8 @@ public class RequestMidPanel extends JFrame {
         addRequestPanel(new RequestPanel(post));
         addRequestPanel(new RequestPanel(post));
         addRequestPanel(new RequestPanel(post));
+
+         */
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setVisible(true);

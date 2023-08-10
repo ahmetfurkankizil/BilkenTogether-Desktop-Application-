@@ -2,6 +2,7 @@ package Posts;
 import CommentsRelated.Comment;
 import CommentsRelated.Review;
 import DatabaseRelated.DatabaseConnection;
+import NotificationRelated.Notification;
 import UserRelated.*;
 
 import java.sql.Connection;
@@ -31,7 +32,7 @@ public abstract class Post {
 
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        //createCommentsTable();
+        createCommentsTable();
     }
     public void addPastComents() {
         //ArrayListi commentCollectiona atıcak (=)
@@ -60,6 +61,13 @@ public abstract class Post {
     public void addComment(Comment comment) {
         commentCollection.add(comment);
         addToCommentsTable(comment);
+
+        User notificationReceiver = sender;
+        User notificationSender = comment.getCommenter();
+        String notificationContent = comment.getContent();
+        Notification notificationToBeAdded = new Notification(notificationSender, notificationReceiver, notificationContent, new Date().toString());
+        sender.addToNotificationsTable(notificationToBeAdded);
+
     }
 
     public ArrayList<Comment> getCommentCollection() {

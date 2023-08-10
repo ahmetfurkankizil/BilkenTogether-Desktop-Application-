@@ -6,12 +6,15 @@ import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
 import Icons.IconCreator;
 import MessagesGUI.Client;
-import MessagesGUI.*;
+import MessagesGUI.MessageConnection;
+import MessagesGUI.MessagesGUI;
+import MessagesGUI.Server;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
 import Posts.LessonPost;
 import Posts.Post;
+import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
 import UserProfileGUI.PPImageHandler;
@@ -30,10 +33,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
-import ProfileBox.ProfileBox;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -129,15 +132,13 @@ public class Main extends JFrame {
 
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
-
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
         //ppHandler();
-        setUpPastMessages();
+        //setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        profileBox = new ProfileBox(currentUser);
-        profileBoxPanel.add(profileBox);
+        //profileBox = new ProfileBox(currentUser);
+        //profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -155,7 +156,7 @@ public class Main extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        //LessonPost tempPost = new LessonPost(1, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        //LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         //lessons.addLessonPost(tempPost);
         //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
@@ -207,9 +208,11 @@ public class Main extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 if (!textInputArea.getText().isEmpty()){
+                    client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
-                    messagesGUI.sendMessage(currentUser,textInputArea.getText());
+                    messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
+
 
                 }
                 revalidate();
@@ -223,7 +226,7 @@ public class Main extends JFrame {
     private void ppHandler() {
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read( new File("CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
+            bi = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -317,8 +320,7 @@ public class Main extends JFrame {
                 resetPanels();
                 GridBagConstraints g2 = new GridBagConstraints();
 
-                g2.ipady = 800;
-                g2.ipadx = 600;
+
                 g2.anchor = GridBagConstraints.NORTHWEST;
                 g2.gridx = 0;
                 g2.gridy = 0;
@@ -391,34 +393,24 @@ public class Main extends JFrame {
         lessons.setMain(this);
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
-        notificationHomePage = new NotificationHomePage();
-        profilePage = new UserProfilePage(currentUser,profileBox);
-        profilePage.setMain(this);
+        notificationHomePage = new NotificationHomePage(this);
+
+        //profilePage = new UserProfilePage(currentUser,profileBox);
+        //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        requestExtended = new RequestMiddlePanelUnanswered();
-        requestExtended.setMain(this);
-        profilePage.addL();
+        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
+        //profilePage.addL();
     }
     public void setUpPastMessages(){
-        Student otherUser = new Student("aba","a",1,"s","s","s","s");
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s");
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
-        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
-        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
-        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
-        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
-        temp.addMessages(new Message(otherUser,currentUser,"LOLLLL",new Date()));
-        temp.addMessages(new Message(currentUser,otherUser,"LOLLLL",new Date()));
-        MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
-        Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+        //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
+        //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
+        temp.addMessages(new Message(currentUser,otherUser,"lol sent",new Date().toString()));
+        temp.addMessages(new Message(otherUser,currentUser,"lol got",new Date().toString()));
 
-        temp2.addMessages(new Message(currentUser,otherUser2,"IT WORKS",new Date()));
-        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
-        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
-        temp2.addMessages(new Message(currentUser,otherUser2,"WORKS",new Date()));
-        temp2.addMessages(new Message(otherUser2,currentUser,"WORKS",new Date()));
-        temp2.addMessages(new Message(currentUser,otherUser,"WORKS",new Date()));
         currentUser.addMessageConnection(temp);
-        currentUser.addMessageConnection(temp2);
+        //currentUser.addMessageConnection(temp2);
     }
 
     public void setCurrentUser(User user) {
@@ -484,9 +476,14 @@ public class Main extends JFrame {
     }
     public void expandPost(PostViewer p){
         Post tempPost = p.getPost();
-        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this);
+        CommentsMidPanel tempPanel = null;
+        try {
+            tempPanel = new CommentsMidPanel(tempPost,this);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         resetPanels();
-        invisibleAddablePanelLeft.setLayout(new FlowLayout());
+        invisibleAddablePanelLeft.setLayout(new GridLayout());
         invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
         invisibleAddablePanelLeft.setVisible(true);
         update();
