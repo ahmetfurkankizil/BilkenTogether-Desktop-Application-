@@ -30,7 +30,7 @@ public class NotificationHomePage extends JFrame {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         g = new GridBagConstraints();
         g.gridx = 0;
         g.fill = GridBagConstraints.VERTICAL;

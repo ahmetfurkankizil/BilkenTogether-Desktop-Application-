@@ -62,9 +62,9 @@ public class UserEditProfilePage extends JFrame {
                         throw new RuntimeException(exception);
                     }
                     byte[] bytes = os.toByteArray();
-                    userProfilePage.getUser().setBackGroundPhoto(bytes);
+                    userProfilePage.getUser().setBackgroundPhoto(bytes);
 
-                    InputStream is = new ByteArrayInputStream(userProfilePage.getUser().getBackGroundPhoto());
+                    InputStream is = new ByteArrayInputStream(userProfilePage.getUser().getBackgroundPhoto());
                     BufferedImage image;
                     try {
                         image = ImageIO.read(is);
