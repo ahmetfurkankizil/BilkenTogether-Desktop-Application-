@@ -1,4 +1,5 @@
 package HomePage.LessonsPage;
+
 import HomePage.Main.Main;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
@@ -16,8 +17,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
-import Posts.LessonPost;
-import PostComponents.LessonPostViewer;
 public class LessonsPage {
     private Main main;
 
@@ -86,7 +85,7 @@ public class LessonsPage {
     }
     public LessonsPage() {
 
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b", null, null);
         generalSetup();
         lessonPostArrayList = new ArrayList<LessonPost>();
 

@@ -46,17 +46,18 @@ public class ActivitiesPage {
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JButton submitButton;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
-    private JComboBox comboBox5;
+    private JComboBox dayComboBox;
+    private JComboBox monthComboBox;
+    private JComboBox yearComboBox;
     private JPanel quickFiltersPanel;
     private JPanel removableRight;
     private JComboBox eventDaycomboBox;
     private JComboBox eventMonthcomboBox;
     private JComboBox eventYearcomboBox;
+    private JLabel filterErrorLabel;
     User currentUser;
 
-    private ArrayList<ActivityPost> activityPostArrayList;
+    private ArrayList<ActivitiesPostViewer> activitiesPostViewerArrayList;
     private GridBagConstraints g;
     public ActivitiesPage() {
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
@@ -80,7 +81,50 @@ public class ActivitiesPage {
                 numberOfPeople.setText("" + value);
             }
         });
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isTypeSelected = !typeComboBox.getSelectedItem().equals("Select:");
+                boolean isZero = numberOfPeople.getText().equals("0");
+                boolean isDaySelected = !dayComboBox.getSelectedItem().equals("Day:");
+                boolean isMonthSelected = !monthComboBox.getSelectedItem().equals("Month:");
+                boolean isYearSelected = !yearComboBox.getSelectedItem().equals("Year:");
+                boolean isDateSelected = false;
+                String type = "";
+                int numOfPeople = 0;
+                String date = "";
+                if(isTypeSelected) {
+                    type = typeComboBox.getSelectedItem() +"";
+                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
+                        if(!activitiesPostViewerArrayList.get(i).getPost().getTypeFilter().equals(type)) {
+                            activitiesPostViewerArrayList.get(i).setVisible(false);
+                        }
+                    }
+                }
+                if (!isZero) {
+                    numOfPeople = Integer.parseInt(numberOfPeople.getText());
+                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
+                        if(activitiesPostViewerArrayList.get(i).getPost().getNumberOfAttendants() != numOfPeople) {
+                            activitiesPostViewerArrayList.get(i).setVisible(false);
+                        }
+                    }
+                }
+                if(isDaySelected && isMonthSelected && isMonthSelected) {
+                    isDateSelected = true;
+                    date = dayComboBox.getSelectedItem() +"/"+ monthComboBox.getSelectedItem() +"/"+ yearComboBox.getSelectedItem();
+                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
+                        if(!activitiesPostViewerArrayList.get(i).getPost().getActivityDate().equals(date)) {
+                            activitiesPostViewerArrayList.get(i).setVisible(false);
+                        }
+                    }
+                }
+
+
+
+            }
+        });
     }
+
     public JPanel getInsideScrollPanePanel(){
         return insideScrollPanePanel;
     }
@@ -128,6 +172,7 @@ public class ActivitiesPage {
                 ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate);
                 //tempStudent.addToActivitiesTable(tempPost);
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempPost,main);
+                activitiesPostViewerArrayList.add(viewer2);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();
             }

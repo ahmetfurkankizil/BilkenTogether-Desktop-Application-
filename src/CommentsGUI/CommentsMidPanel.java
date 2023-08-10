@@ -5,7 +5,10 @@ import HomePage.Main.Main;
 import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
 import PostComponents.StudiesPostViewer;
-import Posts.*;
+import Posts.ActivityPost;
+import Posts.LessonPost;
+import Posts.Post;
+import Posts.StudyPost;
 import UserRelated.Student;
 
 import javax.swing.*;
@@ -16,7 +19,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CommentsMidPanel extends JFrame {
     private JButton postButton;
