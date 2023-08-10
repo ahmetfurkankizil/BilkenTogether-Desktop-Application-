@@ -16,6 +16,7 @@ public class UnansweredViewer extends RequestConfirmationPanelViewer {
         this.requestablePost = requestablePost;
         this.request = request;
         tickButton.addActionListener(new TickButtonListener());
+        crossButton.addActionListener(new CrossButtonListener());
         buttonsPanel.add(tickButton);
         buttonsPanel.add(crossButton);
         deniedPanel.add(buttonsPanel);
@@ -28,8 +29,16 @@ public class UnansweredViewer extends RequestConfirmationPanelViewer {
         public void actionPerformed(ActionEvent e) {
             requestablePost.acceptRequest(request);
             setVisible(false);
-
         }
     }
+
+    private class CrossButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            requestablePost.denyRequest(request);
+            setVisible(false);
+        }
+    }
+
 
 }
