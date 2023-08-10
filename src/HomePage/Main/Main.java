@@ -156,20 +156,6 @@ public class Main extends JFrame {
         homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
-
-        String pdfFilePath = "src/Icons/Detailed Design.pdf"; // Replace with the actual path to your PDF file
-        byte[] pdfFile = new byte[2];
-
-        try {
-            pdfFile = readPDFToByteArray(pdfFilePath);
-            System.out.println("PDF file has been converted to a byte array of size: " + pdfFile.length);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
         generalSetup();
 
         setUpLabelListeners();
