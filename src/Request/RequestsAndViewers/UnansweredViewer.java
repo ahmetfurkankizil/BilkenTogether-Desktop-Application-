@@ -27,7 +27,7 @@ public class UnansweredViewer extends RequestConfirmationPanelViewer {
         @Override
         public void actionPerformed(ActionEvent e) {
             requestablePost.acceptRequest(request);
-            tickButton.setEnabled(false);
+            setVisible(false);
 
         }
     }

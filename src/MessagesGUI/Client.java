@@ -1,6 +1,7 @@
 package MessagesGUI;
 
 import HomePage.Main.Main;
+import MessagesRelated.Message;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -12,6 +13,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 public class Client implements Runnable {
     private Socket client;
@@ -101,11 +103,13 @@ public class Client implements Runnable {
         }
 
     }
+    private User recipient;
+    public void setCurrentRecipient(User recipient){this.recipient = recipient; }
 
 
     public void addAsASender(String message) {
-        User otherUser  = new Student("a","a",1,"d","s","d","d");
-        messagesPanel.getMessage(otherUser,message);
+        Message temp = new Message(null,recipient,message,new Date().toString());
+        messagesPanel.getMessage(temp);
         messagesPanel.repaint();
         messagesPanel.revalidate();
         System.out.println("pressed");

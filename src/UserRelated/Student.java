@@ -150,12 +150,12 @@ public class Student extends User{
 
 
     public boolean addToLessonsTable(LessonPost lessonPost) {
+        System.out.println(super.getEmail());
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getId() + "LessonsTable";
+            String tableName = super.getId() + "LessonsTable";
             if (connection != null) {
                 String insertQuery = "INSERT INTO " + tableName + " (postId, sender, postDescription, typeFilter, dateBinaryBoolean, requestType, dateOfPost) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setInt(1, lessonPost.getPostID());
@@ -207,7 +207,7 @@ public class Student extends User{
                 String postDate = resultSetOfUser.getString("dateOfPost");
 
 
-                Student u = new Student(senderName,null,0,null,null,null,null);
+                Student u = new Student(senderName,null,userId,null,null,null,null);
                 lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
             } else {
                 System.out.println("sent null");

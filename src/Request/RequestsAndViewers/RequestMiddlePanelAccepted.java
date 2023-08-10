@@ -38,7 +38,7 @@ public class RequestMiddlePanelAccepted {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
         g2.anchor = GridBagConstraints.NORTHWEST;
-        g2.ipadx = 100;
+        //g2.ipadx = 100;
         g2.ipady  = 10;
         refresh();
     }
@@ -47,17 +47,18 @@ public class RequestMiddlePanelAccepted {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
         g2.anchor = GridBagConstraints.NORTHWEST;
-        g2.ipadx = 100;
+        //g2.ipadx = 100;
         g2.ipady  = 10;
-        System.out.println("giriyor mu1");
-
+        g2.insets = new Insets(0,20,10,0);
+        insideScrollPanel.removeAll();
         for (int i = 0; i < requestablePost.pullTheRequestsFromDB().size(); i++) {
-            System.out.println("giriyor mu2");
             Request request = requestablePost.pullTheRequestsFromDB().get(i);
-            if (request instanceof AcceptedRequest && acceptedRequest.contains(request)) {
+            if (request instanceof AcceptedRequest) {
                 insideScrollPanel.add(new AcceptedViewer(request),g2);
             }
         }
+        insideScrollPanel.repaint();
+        insideScrollPanel.revalidate();
     }
 
     public JPanel getInsideScrollPanel() {

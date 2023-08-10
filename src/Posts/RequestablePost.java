@@ -19,6 +19,14 @@ public abstract class RequestablePost extends Post {
 
     public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost) {
         super(postId, sender, description, dateOfPost);
+        if (sender.getId() == 0){
+            try {
+                Exception e = new Exception();
+                e.printStackTrace();
+                throw e;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }}
         this.typeFilter = typeFilter;
         /*
          * Date filter LessonPost ve ActivityPost için ayrı ayrı uygulandı
@@ -181,7 +189,7 @@ public abstract class RequestablePost extends Post {
 
     public void addRequest(Request request) {
         requestCollection.add(request);
-        //addToRequestTable(request);
+        addToRequestTable(request);
 
         // (This method receives a student object and adds it to the requestCollection.
         // From this

@@ -235,8 +235,7 @@ public class LessonsPage {
     }
 
     public RequestablePost getPost() {
-        Student needed = new Student("a","a",22203112,"h","e","s","s");
-        return new LessonPost(1,needed,"desc","a",1,false,"S");
+        return new LessonPost(1,currentUser,"desc","a",1,false,"S");
     }
 
     private class requestActionListener implements ActionListener {

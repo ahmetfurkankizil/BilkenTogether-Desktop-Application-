@@ -66,19 +66,21 @@ public class MessagesGUI extends JFrame {
             }
         });
         searchField.setColumns(20);
-        conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
-        m = new MessagesPanel(currentUser,conversationPanel);
-        //textInputArea.setMargin(new Insets(5,5,5,5));
-        addablePanelLeft.add(m);
-        addablePanelRight.add(conversationPanel);
-        //conversationPanel.setVisible(false);
+        if (currentUser.getMessageConnections().size() > 0) {
+            conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
+            System.out.println(conversationPanel.getCurrentReceiver().getName());
+            m = new MessagesPanel(currentUser, conversationPanel);
+            //textInputArea.setMargin(new Insets(5,5,5,5));
+            addablePanelLeft.add(m);
+            addablePanelRight.add(conversationPanel);
+            //conversationPanel.setVisible(false);
 
-        //setSize(1200,800);
-        //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //sendMessageButton.setFocusable(false);
+            //setSize(1200,800);
+            //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            //sendMessageButton.setFocusable(false);
 
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+            //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
         add(panel1);
         //setVisible(true);
     }

@@ -9,6 +9,7 @@ import MessagesGUI.Client;
 import MessagesGUI.MessageConnection;
 import MessagesGUI.MessagesGUI;
 import MessagesGUI.Server;
+import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
 import Posts.LessonPost;
@@ -132,12 +133,12 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         //Adding profile photo (photo to byte)
-        ppHandler();
-        setUpPastMessages();
+        //ppHandler();
+        //setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        profileBox = new ProfileBox(currentUser);
-        profileBoxPanel.add(profileBox);
+        //profileBox = new ProfileBox(currentUser);
+        //profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -155,8 +156,8 @@ public class Main extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
-        lessons.addLessonPost(tempPost);
+        //LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
+        //lessons.addLessonPost(tempPost);
         //tempPost.addComment(new Comment(currentUser,"lol so cool"));
 
         setVisible(true);
@@ -207,6 +208,7 @@ public class Main extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 if (!textInputArea.getText().isEmpty()){
+                    client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
@@ -318,8 +320,7 @@ public class Main extends JFrame {
                 resetPanels();
                 GridBagConstraints g2 = new GridBagConstraints();
 
-                g2.ipady = 800;
-                g2.ipadx = 600;
+
                 g2.anchor = GridBagConstraints.NORTHWEST;
                 g2.gridx = 0;
                 g2.gridy = 0;
@@ -397,12 +398,11 @@ public class Main extends JFrame {
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
         requestsPage = new RequestMidPanel();
-        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost());
-        requestExtended.setMain(this);
+        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
         //profilePage.addL();
     }
     public void setUpPastMessages(){
-        Student otherUser = new Student("aba","a",1,"s","s","s","s");
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s");
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
         //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");

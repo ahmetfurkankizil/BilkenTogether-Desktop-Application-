@@ -39,7 +39,7 @@ public class RequestMiddlePanelDenied {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
         g2.anchor = GridBagConstraints.NORTHWEST;
-        g2.ipadx = 100;
+        //g2.ipadx = 100;
         g2.ipady  = 10;
 
 
@@ -50,16 +50,19 @@ public class RequestMiddlePanelDenied {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
         g2.anchor = GridBagConstraints.NORTHWEST;
-        g2.ipadx = 100;
+        //g2.ipadx = 100;
         g2.ipady  = 10;
-
+        g2.insets = new Insets(0,20,10,0);
+        insideScrollPanel.removeAll();
         for (int i = 0; i < requestablePost.pullTheRequestsFromDB().size(); i++) {
-
+            System.out.println("invalid" + i);
             Request request = requestablePost.pullTheRequestsFromDB().get(i);
-            if (request instanceof DeniedRequest && deniedRequests.contains(request)) {
+            if (request instanceof DeniedRequest) {
                 insideScrollPanel.add(new DeniedViewer(request),g2);
             }
         }
+        insideScrollPanel.repaint();
+        insideScrollPanel.revalidate();
     }
 
 

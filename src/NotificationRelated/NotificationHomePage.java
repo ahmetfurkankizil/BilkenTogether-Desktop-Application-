@@ -34,15 +34,7 @@ public class NotificationHomePage extends JFrame {
         g.anchor = GridBagConstraints.NORTHWEST;
         g.insets = new Insets(0, 0, 10, 0);
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
-        insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
+
     }
 
     public void addNotification(Notification notification) {
