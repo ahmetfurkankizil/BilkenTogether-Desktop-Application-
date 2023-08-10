@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class LessonPost extends RequestablePost {
     private int dateBinaryBoolean;
+    private String [] topicCollection;
     private boolean requestType;
     private ArrayList<String> lessonPost;
 
@@ -59,5 +60,13 @@ public class LessonPost extends RequestablePost {
     }
     public boolean getRequestType(){
         return requestType;
+    }
+    public boolean matchesFilter(String filter){
+        for(String topic: topicCollection){
+            if(topic!= null && topic.equalsIgnoreCase(filter)){
+                return true;
+            }
+        }
+        return false;
     }
 }

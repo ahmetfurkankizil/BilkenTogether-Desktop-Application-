@@ -392,10 +392,13 @@ public class Main extends JFrame {
         lessons.setMain(this);
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
+        //notificationHomePage = new NotificationHomePage(this);
        // notificationHomePage = new NotificationHomePage(this);
 
         //profilePage = new UserProfilePage(currentUser,profileBox);
         //profilePage.setMain(this);
+        requestsPage = new RequestMidPanel();
+        //requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
        // requestsPage = new RequestMidPanel();
         //requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
         //profilePage.addL();

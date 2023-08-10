@@ -20,6 +20,7 @@ import Posts.LessonPost;
 import PostComponents.LessonPostViewer;
 public class LessonsPage {
     private Main main;
+
     private JPanel mainPanel;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
@@ -75,6 +76,8 @@ public class LessonsPage {
     private JPanel quickFiltersPanel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JButton> dayButtons;
+
+    private boolean isSubmitted = false;
     public JPanel getInsideScrollPanePanel() {
         return insideScrollPanePanel;
     }
@@ -86,6 +89,14 @@ public class LessonsPage {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
         lessonPostArrayList = new ArrayList<LessonPost>();
+
+
+        filtersSubmitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSubmitted = true; // Set the flag to true after clicking the submit button
+            }
+        });
 
 
 
@@ -162,6 +173,40 @@ public class LessonsPage {
         };
         givenButton.addActionListener(listener1);
         requestedButton.addActionListener(listener1);
+        requestedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (requestedButton.isSelected() &&  isSubmitted) {
+                    filterLessons("Requested");
+                }
+            }
+        });
+        courseComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (requestGiveButtonCheckFilter() && isSubmitted) {
+                    String selectedValue = (String) courseComboBox.getSelectedItem();
+                    if (selectedValue != null && !selectedValue.equals("Select:")) {
+                        filterLessons(selectedValue);
+                    }
+                }
+            }
+        });
+
+
+
+
+
+        givenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (givenButton.isSelected() && isSubmitted) {
+                    filterLessons("Given");
+                }
+            }
+        });
+
+
 
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
@@ -335,6 +380,7 @@ public class LessonsPage {
         return returned;
     }
     private void filterLessons(String selectedValue){
+        if (isSubmitted) {
         Component[]components = insideScrollPanePanel.getComponents();
         for(Component component: components){
             if( component instanceof LessonPostViewer) {
@@ -351,5 +397,7 @@ public class LessonsPage {
         }insideScrollPanePanel.revalidate();
         insideScrollPanePanel.repaint();
         main.update();
-    }
+    }}
 }
+
+
