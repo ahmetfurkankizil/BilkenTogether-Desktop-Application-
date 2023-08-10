@@ -149,12 +149,12 @@ public abstract class User{
 
     public void setBackgroundPhoto(byte[] backGroundPhoto) {
         this.backgroundPhoto = backGroundPhoto;
-        addBackgroundPhotoToUserInformationTable(backGroundPhoto);
+        //addBackgroundPhotoToUserInformationTable(backGroundPhoto);
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {
         this.profilePhoto = profilePhoto;
-        addProfilePhotoToUserInformationTable(profilePhoto);
+        //addProfilePhotoToUserInformationTable(profilePhoto);
     }
     public ArrayList<String> getResearchInterests() {
         return researchInterests;
@@ -710,7 +710,8 @@ public abstract class User{
         return notifications;
     }
 
-    public void addProfilePhotoToUserInformationTable(byte[] profilePhoto) {
+    /*public void addProfilePhotoToUserInformationTable(byte[] profilePhoto) {
+        databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();) {
             // Replace with your image byte array
             byte[] imageBytes = profilePhoto;
@@ -729,6 +730,8 @@ public abstract class User{
         }
     }
 
+     */
+
     private byte[] readBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
@@ -740,6 +743,7 @@ public abstract class User{
         return buffer.toByteArray();
     }
 
+    /*
     public byte[] pullTheProfilePhotoFromDB(int userId) {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         byte[] profilePhoto = null;
@@ -787,6 +791,8 @@ public abstract class User{
 
         return profilePhoto;
     }
+
+     */
 
 
 

@@ -23,11 +23,11 @@ public class RequestMiddlePanelAccepted {
     public RequestMiddlePanelAccepted(RequestablePost requestablePost) {
         this.acceptedRequest = requestablePost.getAgreementCollection();
         this.requestablePost = requestablePost;
-        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null);
+        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null,null,null);
 
-        Student student1 = new Student("Jack", null, 10, null, null, null, null);
-        Student student2 = new Student("Saul", null, 11, null, null, null, null);
-        Student student3 = new Student("Heisenberg", null, 12, null, null, null, null);
+        Student student1 = new Student("Jack", null, 10, null, null, null, null,null,null);
+        Student student2 = new Student("Saul", null, 11, null, null, null, null,null,null);
+        Student student3 = new Student("Heisenberg", null, 12, null, null, null, null,null,null);
 
         student1.setAverageRating(2);
         student2.setAverageRating(3);

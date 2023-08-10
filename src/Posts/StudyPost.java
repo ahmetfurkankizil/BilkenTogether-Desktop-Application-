@@ -22,7 +22,31 @@ public class StudyPost extends Post {
         this.studyPostHeading = heading;
         this.topicCollection = topicCollection;
         this.pdfFile = studyFile;
-        sender.addStudyPost(this);
+    }
+
+    public static byte[] readPDFToByteArray(String filePath) throws IOException {
+        FileInputStream fileInputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(filePath);
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+
+            return byteArrayOutputStream.toByteArray();
+        } finally {
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
+            if (byteArrayOutputStream != null) {
+                byteArrayOutputStream.close();
+            }
+        }
     }
 
     public byte[] getStudyFile() {

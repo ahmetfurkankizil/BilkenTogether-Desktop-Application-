@@ -12,8 +12,8 @@ public class CommentsPanelTester {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 400);
 
-        Student student1 = new Student("Erdem", "", 1, "", "", "", "");
-        Student student2 = new Student("Ufuk", "", 1, "", "", "", "");
+        Student student1 = new Student("Erdem", "", 1, "", "", "", "",null,null);
+        Student student2 = new Student("Ufuk", "", 1, "", "", "", "",null,null);
         Comment comment = new Comment(student1, "asdfasdfasdöfmsadgfnaksdfjgnşkjfsdglkqjflkjqvlksjdfvkqşjrkbjqkşjbfkja" +
                 "ksajfnlkajsfşdakjsdfnjkavnkdsjfnvajknsdflkavnlkjsdfnlavndlkfjvnalkjdfkavndkfvnakjdvakjndfkvnakdfnvjnad" +
                 "avsojvnasjnvakjsndvkajsnjkdvansljkdaljsfnvajnsfk0anksfjdvanlkjsfvnkajsfn0anfdlvanlkdfjvalkdjfvnlakjvlkn");

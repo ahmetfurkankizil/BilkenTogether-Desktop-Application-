@@ -19,7 +19,7 @@ public class RequestMidPanel extends JFrame {
     public RequestMidPanel() {
         setSize(700,700);
         Student stu = new Student("Ali", "ali@gmial.com", 123, "Male", "cs", "1"
-                ,"1/1/2001");
+                ,"1/1/2001",null,null);
 
         add(mP);
         /*

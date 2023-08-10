@@ -13,6 +13,7 @@ import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
 import PostComponents.PostViewer;
 import Posts.Post;
+import Posts.StudyPost;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
@@ -32,10 +33,13 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static Posts.StudyPost.readPDFToByteArray;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -132,12 +136,12 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b", null, null);
         //Adding profile photo (photo to byte)
-        ppHandler();
+        //ppHandler();
         //setUpPastMessages();
         messageSendButtonPressed = false;
         resetLabelFonts();
-        profileBox = new ProfileBox(currentUser);
-        profileBoxPanel.add(profileBox);
+        //profileBox = new ProfileBox(currentUser);
+        //profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         server = new Server(22);
@@ -151,6 +155,19 @@ public class Main extends JFrame {
         homeLabel.setFont(new Font("default",Font.BOLD,22));
         lessonsButton.setSelected(true);
         setSize(1500, 800);
+
+        String pdfFilePath = "src/Icons/Detailed Design.pdf"; // Replace with the actual path to your PDF file
+        byte[] pdfFile = new byte[2];
+
+        try {
+            pdfFile = readPDFToByteArray(pdfFilePath);
+            System.out.println("PDF file has been converted to a byte array of size: " + pdfFile.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         generalSetup();
 
@@ -423,6 +440,31 @@ public class Main extends JFrame {
         g = new GridBagConstraints();
         setUpCursors();
         setUpSectionLabels();
+    }
+
+    public static byte[] readPDFToByteArray(String filePath) throws IOException {
+        FileInputStream fileInputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(filePath);
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+
+            return byteArrayOutputStream.toByteArray();
+        } finally {
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
+            if (byteArrayOutputStream != null) {
+                byteArrayOutputStream.close();
+            }
+        }
     }
 
 

@@ -54,7 +54,7 @@ public class RequestsWithHP extends JFrame {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 1, "l", "d", "p", "b",null,null);
         generalSetup();
 
 

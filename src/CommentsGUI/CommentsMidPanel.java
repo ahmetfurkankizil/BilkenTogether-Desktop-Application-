@@ -35,8 +35,8 @@ public class CommentsMidPanel extends JFrame {
         REQUESTABLE_POST = post;
         setSize(700,700);
         this.main = main;
-        Student student1 = new Student("Erdem", "", 1, "", "", "", "");
-        Student student2 = new Student("Ufuk", "", 1, "", "", "", "");
+        Student student1 = new Student("Erdem", "", 1, "", "", "", "",null,null);
+        Student student2 = new Student("Ufuk", "", 1, "", "", "", "",null,null);
         Comment comment = new Comment(student1, "asdfasdfasdöfmsadgfnaksdfjgnşkjfsdglkqjflkjqvlksjdfvkqşjrkbjqkşjbfkja" +
                 "ksajfnlkajsfşdakjsdfnjkavnkdsjfnvajknsdflkavnlkjsdfnlavndlkfjvnalkjdfkavndkfvnakjdvakjndfkvnakdfnvjnad" +
                 "avsojvnasjnvakjsndvkajsnjkdvansljkdaljsfnvajnsfk0anksfjdvanlkjsfvnkajsfn0anfdlvanlkdfjvalkdjfvnlakjvlkn");

@@ -86,7 +86,7 @@ public class LessonsPage {
     }
     public LessonsPage() {
 
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         generalSetup();
         lessonPostArrayList = new ArrayList<LessonPost>();
 

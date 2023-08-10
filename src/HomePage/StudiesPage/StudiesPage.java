@@ -120,7 +120,7 @@ public class StudiesPage {
             }
         });
 
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
 
 
         //setVisible(true);
@@ -310,7 +310,7 @@ public class StudiesPage {
 
     private void initializeTopicArraylist() {
 
-            File file = new File("C:\\Users\\Lenovo\\OneDrive\\Masaüstü\\PROJE GRUBU\\CS-Project-Repository\\src\\Other\\topics.txt");
+            File file = new File("src/Other/topics.txt");
 
             Scanner in = null;
             try {
