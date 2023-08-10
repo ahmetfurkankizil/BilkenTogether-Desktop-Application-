@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static Posts.StudyPost.readPDFToByteArray;
+
 public class Main extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
@@ -403,7 +405,7 @@ public class Main extends JFrame {
 
     }
     public void setUpPastMessages(){
-        User otherUser = new Student("aba","a",22103566,"s","s","s","s",null,null);
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s", null, null);
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
         //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");

@@ -1,13 +1,10 @@
 package Request.RequestsAndViewers;
 
-import Posts.LessonPost;
 import Posts.RequestablePost;
 import UserRelated.Student;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class RequestMiddlePanelDenied {
@@ -26,7 +23,7 @@ public class RequestMiddlePanelDenied {
     public RequestMiddlePanelDenied(RequestablePost requestablePost) {
         this.requestablePost = requestablePost;
         this.deniedRequests = requestablePost.getDeniedCollection();
-        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null,null,null);
+        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null, null,null);
 
         Student student1 = new Student("Jack", null, 10, null, null, null, null,null,null);
         Student student2 = new Student("Saul", null, 11, null, null, null, null,null,null);

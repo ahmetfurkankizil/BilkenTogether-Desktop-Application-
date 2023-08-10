@@ -1,6 +1,5 @@
 package Request.RequestsAndViewers;
 
-import Posts.LessonPost;
 import Posts.RequestablePost;
 import UserRelated.Student;
 
