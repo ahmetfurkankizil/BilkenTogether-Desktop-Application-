@@ -16,6 +16,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import Posts.LessonPost;
+import PostComponents.LessonPostViewer;
 public class LessonsPage {
     private Main main;
     private JPanel mainPanel;
@@ -23,6 +25,7 @@ public class LessonsPage {
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
     private JButton lessonsButton;
+    private ArrayList<LessonPost> lessonPostArrayList;
     private JButton studiesButton;
     private JButton activitiesButton;
     private JButton profileBoxButton;
@@ -82,6 +85,7 @@ public class LessonsPage {
 
         currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b");
         generalSetup();
+        lessonPostArrayList = new ArrayList<LessonPost>();
 
 
 
@@ -89,6 +93,16 @@ public class LessonsPage {
             @Override
             public void componentResized(ComponentEvent e) {
                 main.update();
+            }
+        });
+        filtersSubmitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+
+
+
             }
         });
     }
@@ -262,6 +276,8 @@ public class LessonsPage {
                 int postId = 0;
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
 
+                lessonPostArrayList.add(tempPost);
+
                 addLessonPost(tempPost);
 
                 Student s = (Student) currentUser;
@@ -317,5 +333,23 @@ public class LessonsPage {
             returned += 1;
         System.out.println(returned);
         return returned;
+    }
+    private void filterLessons(String selectedValue){
+        Component[]components = insideScrollPanePanel.getComponents();
+        for(Component component: components){
+            if( component instanceof LessonPostViewer) {
+                LessonPostViewer posts = (LessonPostViewer) component;
+                LessonPost post = posts.getLesPost();
+                boolean matchesFilter = post.getLessonPost().contains(selectedValue);
+                if (matchesFilter) {
+                    posts.setVisible(true);
+                } else {
+                    posts.setVisible(false);
+                }
+
+            }
+        }insideScrollPanePanel.revalidate();
+        insideScrollPanePanel.repaint();
+        main.update();
     }
 }

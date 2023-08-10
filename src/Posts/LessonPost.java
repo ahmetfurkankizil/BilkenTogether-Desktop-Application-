@@ -1,8 +1,12 @@
 package Posts;
 import UserRelated.*;
+
+import java.util.ArrayList;
+
 public class LessonPost extends RequestablePost {
     private int dateBinaryBoolean;
     private boolean requestType;
+    private ArrayList<String> lessonPost;
 
     public LessonPost(int postID , User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
 
@@ -11,7 +15,9 @@ public class LessonPost extends RequestablePost {
         setDateBinaryBoolean(dateBinaryBoolean);
         ((Student) sender).addLessonPost(this);
     }
-
+    public ArrayList<String> getLessonPost(){
+        return lessonPost;
+    }
     public int getDateBinaryBoolean() {
         return dateBinaryBoolean;
     }
