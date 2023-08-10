@@ -130,7 +130,7 @@ public class UserProfilePage extends JPanel {
         ImageIcon icon  = new ImageIcon(defaultProfilePhotoImg);
         profilePhotoLabel.setIcon(icon);
 
-        InputStream si = new ByteArrayInputStream(user.getBackGroundPhoto());
+        InputStream si = new ByteArrayInputStream(user.getBackgroundPhoto());
         BufferedImage defaultBackGroundPhoto = null;
         try {
             defaultBackGroundPhoto = ImageIO.read(si);
