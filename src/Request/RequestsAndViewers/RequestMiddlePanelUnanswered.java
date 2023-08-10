@@ -6,7 +6,6 @@ import PostComponents.LessonPostViewer;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.RequestablePost;
-import Posts.StudyPost;
 import UserRelated.Student;
 
 import javax.swing.*;
@@ -36,7 +35,7 @@ public class RequestMiddlePanelUnanswered {
         this.main = main;
         this.requestablePost = requestablePost;
 
-        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null,null,null);
+        Student tutor = new Student("Tutor", null, 22203112, null, null, null, null, null,null);
 
         Student student1 = new Student("Jack", null, 22203112, null, null, null, null,null,null);
         Student student2 = new Student("Saul", null, 11, null, null, null, null,null,null);

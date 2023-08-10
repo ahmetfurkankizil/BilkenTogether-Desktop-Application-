@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class NotificationHomePage extends JFrame {
     private JPanel mainPanel;
@@ -30,7 +29,6 @@ public class NotificationHomePage extends JFrame {
         setContentPane(mainPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(1500, 800);
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
         g = new GridBagConstraints();
         g.gridx = 0;
         g.fill = GridBagConstraints.VERTICAL;

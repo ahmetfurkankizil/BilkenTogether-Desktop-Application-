@@ -1,23 +1,36 @@
 package Request;
 
+import HomePage.Main.Main;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RequestPanel extends JPanel {
 
     private RequestablePost requestablePost;
+    private Main main;
 
-    public RequestPanel(RequestablePost requestablePost) {
-        super();
+    public RequestPanel(RequestablePost requestablePost, Main main) {
+
+        this.main = main;
         this.requestablePost = requestablePost;
         setLayout(new GridBagLayout());
         addComponents();
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                main.extendRequest(requestablePost);
+            }
+        });
     }
-
+    public JPanel getThis(){
+        return this;
+    }
     private void addComponents() {
         GridBagConstraints c = new GridBagConstraints();
 

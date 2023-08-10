@@ -11,9 +11,11 @@ import MessagesGUI.MessagesGUI;
 import MessagesGUI.Server;
 import MessagesRelated.Message;
 import NotificationRelated.NotificationHomePage;
+import PostComponents.ActivitiesPostViewer;
+import PostComponents.LessonPostViewer;
 import PostComponents.PostViewer;
 import Posts.Post;
-import Posts.StudyPost;
+import Posts.RequestablePost;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
@@ -38,8 +40,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static Posts.StudyPost.readPDFToByteArray;
 
 public class Main extends JFrame {
     private StudiesPage studies;
@@ -122,6 +122,7 @@ public class Main extends JFrame {
     private JPanel textAreaPanel;
     private JPanel bPanel;
     private JPanel profileBoxPanel;
+    private JPanel rightAndMiddle;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JLabel> leftPanelLabels;
     private MessagesGUI messagesGUI;
@@ -134,7 +135,7 @@ public class Main extends JFrame {
     private ProfileBox profileBox;
 
     public Main() {
-        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
+        currentUser = new Student("Erdem", "erdem.p", 22103566, "l", "d", "p", "b",null,null);
         //Adding profile photo (photo to byte)
         //ppHandler();
         //setUpPastMessages();
@@ -228,8 +229,9 @@ public class Main extends JFrame {
 
     private void ppHandler() {
         BufferedImage bi = null;
+        File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
         try {
-            bi = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\Tatice-Cristal-Intense-Java.64.png"));
+            bi = ImageIO.read(f);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -245,7 +247,7 @@ public class Main extends JFrame {
         // Adding Background Photo (photo to byte[])
         BufferedImage ib = null;
         try {
-            ib = ImageIO.read( new File("C:\\CS102_Project\\CS-Project-Repository\\src\\ProfilePictureTester\\trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
+            ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -327,7 +329,7 @@ public class Main extends JFrame {
                 g2.anchor = GridBagConstraints.NORTHWEST;
                 g2.gridx = 0;
                 g2.gridy = 0;
-                invisibleAddablePanelLeft.add(requestExtended.getMiddlePanel(),g2);
+                invisibleAddablePanelLeft.add(requestsPage.getInPanel(),g2);
                 invisibleAddablePanelLeft.setVisible(true);
                 rightPanel.setVisible(true);
                 resetLabelFonts();
@@ -396,19 +398,14 @@ public class Main extends JFrame {
         lessons.setMain(this);
         messagesGUI = new MessagesGUI(currentUser);
         messagesGUI.setMain(this);
-        //notificationHomePage = new NotificationHomePage(this);
-       // notificationHomePage = new NotificationHomePage(this);
+        notificationHomePage = new NotificationHomePage(this);
+        profilePage = new UserProfilePage(currentUser,profileBox);
+        profilePage.setMain(this);
+        requestsPage = new RequestMidPanel(this);
 
-        //profilePage = new UserProfilePage(currentUser,profileBox);
-        //profilePage.setMain(this);
-        requestsPage = new RequestMidPanel();
-        //requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
-       // requestsPage = new RequestMidPanel();
-        //requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
-        //profilePage.addL();
     }
     public void setUpPastMessages(){
-        User otherUser = new Student("aba","a",22103566,"s","s","s","s",null,null);
+        User otherUser = new Student("aba","a",22103566,"s","s","s","s", null, null);
         MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
         //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
         //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
@@ -505,14 +502,53 @@ public class Main extends JFrame {
         messagesLabelPanel.setBorder(new SectionItemBorder());
         notificationsLabelPanel.setBorder(new SectionItemBorder());
     }
+    public void goBack(PostViewer viewer){
+
+        resetPanels();
+        insideScrollPanePanel.setVisible(true);
+        flowScrollPane.setVisible(true);
+        topVisiblisty.setVisible(true);
+        String section = "";
+        if (viewer instanceof LessonPostViewer)
+            section = "lessons";
+        else if (viewer instanceof ActivitiesPostViewer)
+            section = "activities";
+        else
+            section = "studies";
+        switch (section.toLowerCase().charAt(0)) {
+                case 'a':
+                    insideScrollPanePanel.removeAll();
+                    insideScrollPanePanel.add(activities.getInsideScrollPanePanel());
+                    removableRight.removeAll();
+                    removableRight.add(activities.getQuickFiltersPanel());
+                    break;
+                case 's':
+                    insideScrollPanePanel.removeAll();
+                    insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
+                    removableRight.removeAll();
+                    removableRight.add(studies.getQfPanel());
+                    break;
+                case 'l':
+                    System.out.println("Lessons");
+                    insideScrollPanePanel.removeAll();
+                    insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                    removableRight.removeAll();
+                    removableRight.add(lessons.getQuickFiltersPanel());
+                    break;
+        }
+    }
     public void expandPost(PostViewer p){
         Post tempPost = p.getPost();
+        JPanel prev = (JPanel) insideScrollPanePanel.getComponents()[0];
+
         CommentsMidPanel tempPanel = null;
         try {
             tempPanel = new CommentsMidPanel(tempPost,this);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+
+
         resetPanels();
         invisibleAddablePanelLeft.setLayout(new GridLayout());
         invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
@@ -532,28 +568,28 @@ public class Main extends JFrame {
     }
 
     public User getCurrentUser() {
+
         return currentUser;
     }
 
+    public void extendRequest(RequestablePost panel) {
+        requestExtended = new RequestMiddlePanelUnanswered(lessons.getPost(),this);
+        resetPanels();
+        GridBagConstraints g2 = new GridBagConstraints();
 
-    private class SectionItemBorder implements Border {
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(0, 0, 10, 0);
-        }
 
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.gray);
-            g2d.drawLine(x, y + height, x + width + 10, y + height);
-        }
+        g2.anchor = GridBagConstraints.NORTHWEST;
+        g2.gridx = 0;
+        g2.gridy = 0;
+        invisibleAddablePanelLeft.add(requestExtended.getMiddlePanel(),g2);
+        invisibleAddablePanelLeft.setVisible(true);
+        rightPanel.setVisible(true);
+        resetLabelFonts();
+        requestsLabel.setFont(new Font("default",Font.BOLD,22));
+        update();}
     }
+
+
     public boolean getButtonPressed(){
         return messageSendButtonPressed;
     }
@@ -592,4 +628,23 @@ public class Main extends JFrame {
         JLabel label = (JLabel) e.getSource();
         return !label.getFont().isBold();
     }
+
+private class SectionItemBorder implements Border {
+    @Override
+    public Insets getBorderInsets(Component c) {
+        return new Insets(0, 0, 10, 0);
+    }
+
+    @Override
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    @Override
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.gray);
+        g2d.drawLine(x, y + height, x + width + 10, y + height);
+    }
+}
 }

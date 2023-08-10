@@ -2,7 +2,6 @@ package PostComponents;
 
 import HomePage.Main.Main;
 import Posts.ActivityPost;
-import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 
@@ -46,7 +45,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
 
     @Override
-    public Post getPost() {
+    public ActivityPost getPost() {
         return lesPost;
     }
 

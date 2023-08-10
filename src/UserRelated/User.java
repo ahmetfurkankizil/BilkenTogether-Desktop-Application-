@@ -2,10 +2,13 @@ package UserRelated;
 
 import CommentsRelated.Comment;
 import DatabaseRelated.DatabaseConnection;
+import MessagesGUI.MessageConnection;
+import MessagesRelated.Message;
+import NotificationRelated.Notification;
+import Posts.ActivityPost;
+import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
-
-import NotificationRelated.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,18 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.*;
-import DatabaseRelated.*;
-import MessagesRelated.Message;
-import MessagesGUI.MessageConnection;
-import Posts.*;
-import CommentsRelated.*;
-import Request.RequestsAndViewers.AcceptedRequest;
-import Request.RequestsAndViewers.DeniedRequest;
-import Request.RequestsAndViewers.Request;
-import Request.RequestsAndViewers.UnansweredRequest;
-
-import javax.management.NotificationFilter;
 
 public abstract class User{
     private String[] studyTopics;
@@ -45,10 +36,12 @@ public abstract class User{
     private ArrayList<MessageConnection> messageConnections;
 
     public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
+        databaseConnection = new DatabaseConnection();
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
         messageConnections = new ArrayList<>();
+
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -56,8 +49,12 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
-        setProfilePhoto(profilePhoto);
-        setBackgroundPhoto(backGroundPhoto);
+
+        if (profilePhoto != null)
+            setProfilePhoto(profilePhoto);
+        if (backGroundPhoto != null)
+            setBackgroundPhoto(backGroundPhoto);
+
     }
     public void addMessageConnection(MessageConnection connection){
         messageConnections.add(connection);
@@ -364,6 +361,7 @@ public abstract class User{
     }
 
     public void addBackgroundPhotoToUserInformationTable(byte[] profilePhoto) {
+        databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();) {
             // Replace with your image byte array
             byte[] imageBytes = profilePhoto;
@@ -375,7 +373,12 @@ public abstract class User{
             preparedStatement.setInt(2, this.getId());
 
             preparedStatement.executeUpdate();
-
+            System.out.println(profilePhoto.length);
+            try{
+            System.out.println(pullTheProfilePhotoFromDB(22103566).length);;}
+            catch (Exception e){
+                e.printStackTrace();
+            }
             System.out.println("Profile photo inserted successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -907,6 +910,29 @@ public abstract class User{
             byteArrayOutputStream.write(buffer, 0, bytesRead);
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public ArrayList<Integer> pullIDsFromUserInformationTable() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "userInformationTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<Integer> ids = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+
+                ids.add(id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ids;
     }
 
 

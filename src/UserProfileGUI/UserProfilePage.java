@@ -79,10 +79,10 @@ public class UserProfilePage extends JPanel {
     public void addL() {
         GridBagConstraints g2 = new GridBagConstraints();
         g2.gridx = 0;
-        LessonsHistoryPanel.add(new JLabel("lol"));
-        LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
-        StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
-        ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //LessonsHistoryPanel.add(new JLabel("lol"));
+        //LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
         repaint();
         revalidate();
     }

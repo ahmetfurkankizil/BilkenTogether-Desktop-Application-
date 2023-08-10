@@ -1,12 +1,14 @@
 package Request;
 
 import HomePage.Main.Main;
+import Posts.ActivityPost;
 import Posts.LessonPost;
-import Posts.RequestablePost;
+import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
 import UserRelated.Student;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RequestMidPanel extends JFrame {
     private JButton activitiesButton;
@@ -14,26 +16,24 @@ public class RequestMidPanel extends JFrame {
     private JPanel insideScrollPanel;
     private JPanel mP;
     private JPanel inPanel;
+    private JPanel lessonsPostss;
+    private JPanel activityPostss;
     private Main main;
+    private Student user;
+    private RequestMiddlePanelUnanswered requestsExtended;
+    private ArrayList<LessonPost> lessonPosts;
+    private ArrayList<ActivityPost> activityPosts;
 
-    public RequestMidPanel() {
+    public RequestMidPanel(Main main) {
+        this.main = main;
+        this.user = (Student) main.getCurrentUser();
         setSize(700,700);
-        Student stu = new Student("Ali", "ali@gmial.com", 123, "Male", "cs", "1"
-                ,"1/1/2001",null,null);
-
         add(mP);
-        /*
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
-        addRequestPanel(new RequestPanel(post));
 
-         */
-
+        lessonPosts = user.pullFromLessonsPostTable();
+        activityPosts = user.pullFromActivitiesPostTable();
+        if (lessonPosts != null && activityPosts != null)
+            initialize();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setVisible(true);
     }
@@ -41,23 +41,44 @@ public class RequestMidPanel extends JFrame {
     public JPanel getInPanel() {
         return inPanel;
     }
-    public void setMatin(Main main){
-        this.main = main;
-    }
 
-    private void addRequestPanel(RequestPanel requestPanel) {
+
+    private void addToLessonsPanel(RequestPanel requestPanel) {
         JPanel panel = new JPanel();
-        panel.setBackground(Color.GRAY);
         panel.add(requestPanel);
         GridBagConstraints g = new GridBagConstraints();
         g.gridx =0;
         g.anchor = GridBagConstraints.LINE_START;
-        insideScrollPanel.add(panel, g);
+        lessonsPostss.add(panel, g);
+    }
+    private void addToActivitiesPanel(RequestPanel requestPanel){
+        JPanel panel = new JPanel();
+        panel.add(requestPanel);
+        GridBagConstraints g = new GridBagConstraints();
+        g.gridx =0;
+        g.anchor = GridBagConstraints.LINE_START;
+        lessonsPostss.add(panel, g);
+    }
+    public void refresh(){
+        lessonsPostss.removeAll();
+        activityPostss.removeAll();
+        initialize();
+        lessonsPostss.repaint();
+        lessonsPostss.revalidate();
+        activityPostss.repaint();
+        activityPostss.revalidate();
+    }
+    private void initialize(){
+        for (int i = 0; i < lessonPosts.size(); i++) {
+            addToLessonsPanel(new RequestPanel(lessonPosts.get(i),main));
+        }
+        for (int i = 0; i < activityPosts.size(); i++) {
+            addToActivitiesPanel(new RequestPanel(activityPosts.get(i),main));
+        }
     }
 
 
-    public static void main(String[] args) {
-        new RequestMidPanel();
-    }
+
+
 
 }

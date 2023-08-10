@@ -116,8 +116,14 @@ public class StudiesPostViewer extends PostViewer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 byte data[] = lesPost.getStudyFile();
-                File destination = new File("test.pdf");
-
+                JFileChooser fileChooser= new JFileChooser();
+                // Some init code, if you need one, like setting title
+                int returnVal = fileChooser.showOpenDialog(new JFrame());
+                File destination;
+                if ( returnVal == JFileChooser.APPROVE_OPTION) {
+                    destination= fileChooser.getCurrentDirectory();
+                }else
+                    return;
                 FileOutputStream fos = null;
                 try {
                     fos = new FileOutputStream(destination);
@@ -126,6 +132,7 @@ public class StudiesPostViewer extends PostViewer {
                 }
                 try {
                     fos.write(data);
+                    JOptionPane.showMessageDialog(null, "PDF Saved");
                     fos.close();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
