@@ -57,11 +57,57 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
+        if (isItNew) {
+            System.out.println("got in to new");
+            setDefaultPhotos();
+            if (profilePhoto != null)
+                setProfilePhoto(profilePhoto,true);
+            if (backGroundPhoto != null)
+                setBackgroundPhoto(backGroundPhoto,true);
+        }
+        else {
+            setProfilePhoto(pullTheProfilePhotoFromDB(id),false);
+            setBackgroundPhoto(pullTheBackgroundPhotoFromDB(id),false);
+        }
 
         if (profilePhoto != null)
             setProfilePhoto(profilePhoto);
         if (backGroundPhoto != null)
             setBackgroundPhoto(backGroundPhoto);
+
+    public void setDefaultPhotos() {
+            BufferedImage bi = null;
+            File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
+            try {
+                bi = ImageIO.read(f);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(bi,"png",os);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] bytes = os.toByteArray();
+            setProfilePhoto(bytes,true);
+
+            // Adding Background Photo (photo to byte[])
+            BufferedImage ib = null;
+            try {
+                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ByteArrayOutputStream so = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(ib,"png",so);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] bytes1 = so.toByteArray();
+            setBackgroundPhoto(bytes1,true);
+
 
     }
     public void addMessageConnection(MessageConnection connection){

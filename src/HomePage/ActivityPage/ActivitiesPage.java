@@ -1,6 +1,8 @@
 package HomePage.ActivityPage;
 
-import HomePage.Main.Main;
+import DatabaseRelated.DatabaseConnection;
+import HomePage.LessonsPage.LessonsPage;
+import HomePage.Main.HomeMain;
 import PostComponents.ActivitiesPostViewer;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ActivitiesPage {
-    private Main main;
+    private HomeMain main;
     private JPanel mainPanel;
     private JButton profileBoxButton;
     private JButton filterBoxButton;
@@ -58,12 +60,16 @@ public class ActivitiesPage {
 
     private ArrayList<ActivityPost> activityPostArrayList;
     private GridBagConstraints g;
-    public ActivitiesPage(Main main) {
+    public ActivitiesPage(HomeMain main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
         generalSetup();
+        LessonsPage.makeButtonMoreBeautiful(submitButton);
+        LessonsPage.makeButtonMoreBeautiful(postButton);
+        LessonsPage.makeButtonMoreBeautiful(filterBoxButton);
+        LessonsPage.makeButtonMoreBeautiful(resetButton);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +115,59 @@ public class ActivitiesPage {
             peopleCountComboBox.addItem(i +"");
         }
     }
-    public void setMain(Main main) {
+    private void getRandomPosts() {
+        DatabaseConnection c = new DatabaseConnection();
+        allUsers = currentUser.pullIDsFromUserInformationTable();
+        ArrayList<ArrayList<ActivityPost>> userPostCollections = new ArrayList<>();
+        int totalNum = totalNumOfPosts(userPostCollections);
+        boolean exceed = true;
+        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
+            exceed = false;
+
+        for (int i = 0; i < allUsers.size(); i++) {
+            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromActivitiesPostTable());
+        }
+        int max1 = userPostCollections.size();
+        int rand1;
+        int max2;
+        int rand2;
+        Random rand = new Random();
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            System.out.println(max2);
+            System.out.println(rand1);
+            if (max2 != 0)
+                rand2= rand.nextInt(max2);
+            if (!userPostCollections.get(rand1).isEmpty() && !activityPosts.contains(userPostCollections.get(rand1).get(rand2))){
+                addActivityPost(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
+            }
+        }
+
+    }
+    private int totalNumOfPosts(ArrayList<ArrayList<ActivityPost>> userPostCollections){
+        int total = 0;
+        for (ArrayList<ActivityPost> userPostCollection : userPostCollections) {
+            total += userPostCollection.size();
+        }
+        System.out.println(total);
+        return total;
+    }
+
+    private void addActivityPost(ActivityPost activityPost) {
+        g.gridx = 0;
+        ActivitiesPostViewer viewer = new ActivitiesPostViewer(activityPost,main);
+        activitiesPostViewers.add(viewer);
+        insideScrollPanePanel.add(viewer, g);
+        activitiesPostViewerArrayList.add(viewer);
+    }
+    public void setMain(HomeMain main) {
         this.main = main;
     }
     private class postButtonListener implements ActionListener{

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import HomePage.Main.HomeMain;
 import UserRelated.*;
 
 public class LoginFrame extends JFrame{
@@ -53,6 +54,8 @@ public class LoginFrame extends JFrame{
                         loginErrorMesage.setForeground(Color.green);
                         System.out.println("Successful login");
                         //Home page pops up
+                        HomeMain main = new HomeMain(userWhichLogs);
+                        dispose();
                     }
                     else
                     {

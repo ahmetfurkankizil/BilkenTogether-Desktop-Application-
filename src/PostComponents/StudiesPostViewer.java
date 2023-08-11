@@ -1,8 +1,7 @@
 package PostComponents;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
-import Posts.Post;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.User;
@@ -27,7 +26,7 @@ public class StudiesPostViewer extends PostViewer {
     private JButton fileOpenerButton;
 
 
-    public StudiesPostViewer(StudyPost p, Main main) {
+    public StudiesPostViewer(StudyPost p, HomeMain main) {
         super(main);
         this.lesPost = p;
         setUp();

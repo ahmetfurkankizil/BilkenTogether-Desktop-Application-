@@ -1,5 +1,6 @@
 package HomePage.LessonsPage;
-import HomePage.Main.Main;
+import DatabaseRelated.DatabaseConnection;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
@@ -19,7 +20,8 @@ import java.util.Date;
 import Posts.LessonPost;
 import PostComponents.LessonPostViewer;
 public class LessonsPage {
-    private Main main;
+    private HomeMain main;
+    private static final Cursor HANDCURSOR = new Cursor(Cursor.HAND_CURSOR);
 
     private JPanel mainPanel;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -86,7 +88,7 @@ public class LessonsPage {
     public JPanel getQuickFiltersPanel() {
         return quickFiltersPanel;
     }
-    public LessonsPage(Main main) {
+    public LessonsPage(HomeMain main) {
         posts = new ArrayList<>();
         userIds = new ArrayList<>();
         this.main = main;
@@ -296,7 +298,7 @@ public class LessonsPage {
     public boolean requestGiveButtonCheckFilter() {
         return !(givenButton.isSelected()) && !requestedButton.isSelected();
     }
-    public void setMain(Main main) {
+    public void setMain(HomeMain main) {
         this.main =main;
         setCurrentUser(main.getCurrentUser());
     }

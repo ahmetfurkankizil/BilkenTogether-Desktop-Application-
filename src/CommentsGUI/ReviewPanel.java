@@ -1,6 +1,6 @@
 package CommentsGUI;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import UserRelated.Student;
 
@@ -17,7 +17,7 @@ public class ReviewPanel extends JPanel {
     private ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
     private JTextField textField;
     private int review;
-    public ReviewPanel(Main main, Student currentUser){
+    public ReviewPanel(HomeMain main, Student currentUser){
         setLayout(new FlowLayout());
         //add(new StarPanel());
         add(new JLabel("Enter Review: "));

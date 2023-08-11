@@ -1,13 +1,11 @@
 package Request.RequestsAndViewers;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.RequestablePost;
-import Posts.StudyPost;
-import UserRelated.Student;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +30,7 @@ public class RequestMiddlePanelUnanswered {
     private RequestablePost requestablePost;
     private ArrayList<Request> unansweredRequests;
 
-    public RequestMiddlePanelUnanswered(RequestablePost requestablePost,Main main , JPanel prev){
+    public RequestMiddlePanelUnanswered(RequestablePost requestablePost, HomeMain main , JPanel prev){
         this.main = main;
         this.requestablePost = requestablePost;
         GridBagConstraints g2 = new GridBagConstraints();
@@ -120,8 +118,8 @@ public class RequestMiddlePanelUnanswered {
     public JPanel getInsideScrollPanel() {
         return holdingPanel;
     }
-    private Main main;
-    public void setMain(Main main) {
+    private HomeMain main;
+    public void setMain(HomeMain main) {
         this.main = main;
     }
 }

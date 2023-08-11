@@ -1,6 +1,6 @@
 package PostComponents;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Posts.ActivityPost;
 import Posts.Post;
 import UserProfileGUI.PPImageHandler;
@@ -22,7 +22,7 @@ public class ActivitiesPostViewer extends PostViewer {
     private Student sender;
     private JButton requestButton;
 
-    public ActivitiesPostViewer(ActivityPost p, Main main){
+    public ActivitiesPostViewer(ActivityPost p, HomeMain main){
         super(main);
         this.lesPost = p;
         setUp();

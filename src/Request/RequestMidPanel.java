@@ -1,6 +1,6 @@
 package Request;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
@@ -20,13 +20,13 @@ public class RequestMidPanel extends JFrame {
     private JPanel inPanel;
     private JPanel lessonsPostss;
     private JPanel activityPostss;
-    private Main main;
+    private HomeMain main;
     private Student user;
     private RequestMiddlePanelUnanswered requestsExtended;
     private ArrayList<LessonPost> lessonPosts;
     private ArrayList<ActivityPost> activityPosts;
 
-    public RequestMidPanel(Main main) {
+    public RequestMidPanel(HomeMain main) {
         this.main = main;
         this.user = (Student) main.getCurrentUser();
         setSize(700,700);

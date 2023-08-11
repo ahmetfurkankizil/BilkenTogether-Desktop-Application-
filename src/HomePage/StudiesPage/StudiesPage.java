@@ -1,6 +1,8 @@
 package HomePage.StudiesPage;
 
-import HomePage.Main.Main;
+import DatabaseRelated.DatabaseConnection;
+import HomePage.LessonsPage.LessonsPage;
+import HomePage.Main.HomeMain;
 import PostComponents.StudiesPostViewer;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
@@ -18,7 +20,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class StudiesPage {
-    private Main main;
+    private HomeMain main;
     private String[] topics;
     private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
     int index;
@@ -91,7 +93,9 @@ public class StudiesPage {
     private JLabel[] filterLabels ={filterLabel1,filterLabel2,filterLabel3,filterLabel4,filterLabel5};
     private ArrayList<String> postingFilters;
     private ArrayList<String> filterSideTopicFilters;
-    public StudiesPage() {
+    public StudiesPage(HomeMain main) {
+        studyPosts = new ArrayList<>();
+        studiesPostViewers = new ArrayList<>();
         postingFilters = new ArrayList<String>();
 
         filterSideTopicFilters = new ArrayList<>();
@@ -166,9 +170,9 @@ public class StudiesPage {
                     collection[4] = topicLabel5.getText();
                     StudyPost temp;
                     if (uploadedPdf != null)
-                       temp = new StudyPost(2, currentUser, addAuthors, heading, postText, uploadedPdf, "2002", collection);
+                        temp = new StudyPost(0, currentUser, addAuthors, heading, postText, uploadedPdf, new Date().toString(), collection,true);
                     else
-                        temp = new StudyPost(2, currentUser, addAuthors, heading, postText, null, "2002", collection);
+                        temp = new StudyPost(0, currentUser, addAuthors, heading, postText, null, new Date().toString(), collection,true);
                     StudiesPostViewer viewer = new StudiesPostViewer(temp,main);
                     GridBagConstraints g2 = new GridBagConstraints();
                     g2.gridx = 0;
@@ -438,7 +442,7 @@ public class StudiesPage {
         return qfPanel;
     }
 
-    public void setMain(Main main) {
+    public void setMain(HomeMain main) {
         this.main = main;
     }
 }
