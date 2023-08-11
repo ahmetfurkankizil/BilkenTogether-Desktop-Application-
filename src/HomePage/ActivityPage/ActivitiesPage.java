@@ -2,7 +2,7 @@ package HomePage.ActivityPage;
 
 import DatabaseRelated.DatabaseConnection;
 import HomePage.LessonsPage.LessonsPage;
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import PostComponents.ActivitiesPostViewer;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Random;
 
 public class ActivitiesPage {
-    private Main main;
+    private HomeMain main;
     private JPanel mainPanel;
     private ArrayList<Integer> allUsers;
     private ArrayList<ActivitiesPostViewer> activitiesPostViewers;
@@ -66,7 +66,7 @@ public class ActivitiesPage {
 
     private ArrayList<ActivitiesPostViewer> activitiesPostViewerArrayList;
     private GridBagConstraints g;
-    public ActivitiesPage(Main main) {
+    public ActivitiesPage(HomeMain main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
         activityPosts = new ArrayList<>();
@@ -243,7 +243,7 @@ public class ActivitiesPage {
         insideScrollPanePanel.add(viewer, g);
         activitiesPostViewerArrayList.add(viewer);
     }
-    public void setMain(Main main) {
+    public void setMain(HomeMain main) {
         this.main = main;
     }
     private class postButtonListener implements ActionListener{

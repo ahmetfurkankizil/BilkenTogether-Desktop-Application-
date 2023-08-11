@@ -1,12 +1,8 @@
 package Request;
 
-import HomePage.Main.Main;
-import Icons.IconCreator;
-import HomePage.Main.Main;
-import Posts.ActivityPost;
+import HomePage.Main.HomeMain;
 import Posts.LessonPost;
 import Posts.RequestablePost;
-import UserProfileGUI.UserProfilePage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +12,9 @@ import java.awt.event.MouseEvent;
 public class RequestPanel extends JPanel {
 
     private RequestablePost requestablePost;
-    private Main main;
+    private HomeMain main;
 
-    public RequestPanel(RequestablePost requestablePost, Main main) {
+    public RequestPanel(RequestablePost requestablePost, HomeMain main) {
 
         this.main = main;
         this.requestablePost = requestablePost;

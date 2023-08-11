@@ -1,8 +1,7 @@
 package MessagesGUI;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import MessagesRelated.Message;
-import UserRelated.Student;
 import UserRelated.User;
 
 import java.io.BufferedReader;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -22,10 +20,10 @@ public class Client implements Runnable {
     private boolean done;
     private String inMessage;
     private ConversationPanel messagesPanel;
-    private Main frame;
+    private HomeMain frame;
     private Server server;
     
-    public Client(ConversationPanel mPanel, Main frame,Server server) {
+    public Client(ConversationPanel mPanel, HomeMain frame, Server server) {
         done = false;
         try {
             System.out.println(Inet4Address.getLocalHost());

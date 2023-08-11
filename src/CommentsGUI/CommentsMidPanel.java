@@ -1,7 +1,7 @@
 package CommentsGUI;
 
 import CommentsRelated.Comment;
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
 import PostComponents.PostViewer;
@@ -17,10 +17,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CommentsMidPanel extends JFrame {
     private JButton postButton;
@@ -33,12 +31,12 @@ public class CommentsMidPanel extends JFrame {
     private JPanel innerPanel;
     private ArrayList<Comment> comments;
     private  Post REQUESTABLE_POST;
-    private Main main;
+    private HomeMain main;
     private boolean isReview;
     private ReviewPanel reviewPanel;
     private JPanel previousPanel;
     PostViewer viewer;
-    public CommentsMidPanel(Post post, Main main,JPanel prev)  {
+    public CommentsMidPanel(Post post, HomeMain main, JPanel prev)  {
         REQUESTABLE_POST = post;
         previousPanel = prev;
         setSize(700,700);

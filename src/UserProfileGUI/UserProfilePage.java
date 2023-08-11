@@ -1,7 +1,7 @@
 package UserProfileGUI;
 
 import DatabaseRelated.DatabaseConnection;
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
@@ -53,7 +53,7 @@ public class UserProfilePage extends JPanel {
 
     private JPanel lolPane;
     private User user;
-    private Main main;
+    private HomeMain main;
     private ProfileBox profileBox;
 
     public UserProfilePage() {
@@ -63,7 +63,7 @@ public class UserProfilePage extends JPanel {
 
     }
 
-    public UserProfilePage(Main main, ProfileBox profileBox) {
+    public UserProfilePage(HomeMain main, ProfileBox profileBox) {
         this();
         this.main = main;
         this.user = main.getCurrentUser();

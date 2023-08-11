@@ -52,6 +52,7 @@ public abstract class User{
         setPassword(password);
         setDateOfBirth(dateOfBirth);
         if (isItNew) {
+            System.out.println("got in to new");
             setDefaultPhotos();
             if (profilePhoto != null)
                 setProfilePhoto(profilePhoto,true);
@@ -65,7 +66,7 @@ public abstract class User{
 
     }
 
-    private void setDefaultPhotos() {
+    public void setDefaultPhotos() {
             BufferedImage bi = null;
             File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
             try {
@@ -85,7 +86,7 @@ public abstract class User{
             // Adding Background Photo (photo to byte[])
             BufferedImage ib = null;
             try {
-                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
+                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

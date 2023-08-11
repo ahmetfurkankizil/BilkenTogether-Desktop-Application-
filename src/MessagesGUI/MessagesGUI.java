@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import MessagesRelated.Message;
 import UserRelated.User;
@@ -29,13 +29,13 @@ public class MessagesGUI extends JFrame {
     JButton searchButton;
     JLabel searchLabel;
     JTextField searchField;
-    private Main main;
+    private HomeMain main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
     MessagesPanel conversationViewers;
     User currentUser;
 
-    public MessagesGUI(Main main){
+    public MessagesGUI(HomeMain main){
         searchPanel.setBackground(searchPanelColor);
         searchLabel = new JLabel("Search Messages :");
         searchButton = new JButton(IconCreator.getIconWithSize(IconCreator.searchIcon,10,10));
@@ -70,22 +70,22 @@ public class MessagesGUI extends JFrame {
         });
         searchField.setColumns(20);
 
+            if (!currentUser.getMessageConnections().isEmpty()) {
+                conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0), this);
+                System.out.println(conversationPanel.getCurrentReceiver().getName());
+                m = new MessagesPanel(currentUser, conversationPanel);
+                conversationViewers = m;
+                //textInputArea.setMargin(new Insets(5,5,5,5));
+                addablePanelLeft.add(m);
+                addablePanelRight.add(conversationPanel);
+                conversationPanel.setVisible(false);
 
-            conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0),this);
-            System.out.println(conversationPanel.getCurrentReceiver().getName());
-            m = new MessagesPanel(currentUser, conversationPanel);
-            conversationViewers = m;
-            //textInputArea.setMargin(new Insets(5,5,5,5));
-            addablePanelLeft.add(m);
-            addablePanelRight.add(conversationPanel);
-            conversationPanel.setVisible(false);
+                //setSize(1200,800);
+                //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                //sendMessageButton.setFocusable(false);
 
-            //setSize(1200,800);
-            //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            //sendMessageButton.setFocusable(false);
-
-            //setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+                //setDefaultCloseOperation(EXIT_ON_CLOSE);
+            }
         add(panel1);
         //setVisible(true);
     }
@@ -109,7 +109,7 @@ public class MessagesGUI extends JFrame {
         main.revalidate();
     }
 
-    public void setMain(Main main) {
+    public void setMain(HomeMain main) {
         this.main = main;
     }
 

@@ -1,7 +1,6 @@
 package NotificationRelated;
 
-import HomePage.Main.Main;
-import UserRelated.Student;
+import HomePage.Main.HomeMain;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -21,9 +20,9 @@ public class NotificationHomePage extends JFrame {
     private JPanel TopLabel;
     private JPanel scrollBig;
     private ArrayList<JButton> sectionButtons;
-    private Main main;
+    private HomeMain main;
 
-    public NotificationHomePage(Main main) {
+    public NotificationHomePage(HomeMain main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
         setContentPane(mainPanel);

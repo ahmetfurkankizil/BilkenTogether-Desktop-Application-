@@ -20,6 +20,9 @@ import Posts.RequestablePost;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
+import SignupAndLogin.LoginFrame;
+import SignupAndLogin.Main;
+import SignupAndLogin.SignUpHandler;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
 import UserRelated.Student;
@@ -39,11 +42,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
-import static Posts.StudyPost.readPDFToByteArray;
-
-public class Main extends JFrame {
+public class HomeMain extends JFrame {
     private StudiesPage studies;
     private ActivitiesPage activities;
     private static final File LOGFILE= new File("src/HomePage/Main/logo.PNG");
@@ -134,7 +134,7 @@ public class Main extends JFrame {
     private Server server;
     private ProfileBox profileBox;
 
-    public Main(User user) {
+    public HomeMain(User user) {
         currentUser = user;//new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
         //Adding profile photo (photo to byte)
         //ppHandler();
@@ -151,8 +151,14 @@ public class Main extends JFrame {
         client = new Client(messagesGUI.getConversationPanel(),this,server);
 
         setContentPane(mainPanel);
+        if (currentUser instanceof Student){
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-        removableRight.add(lessons.getQuickFiltersPanel());
+        removableRight.add(lessons.getQuickFiltersPanel());}
+        else {
+            insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
+            removableRight.add(studies.getQfPanel());
+            requestsLabel.setVisible(false);
+        }
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         resetLabelFonts();
         homeLabel.setFont(new Font("default",Font.BOLD,22));
@@ -229,6 +235,21 @@ public class Main extends JFrame {
             }
         });
         client.run();
+        logOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(JOptionPane.showConfirmDialog(new JFrame(),"Are You Sure To Log Out?") == JOptionPane.YES_OPTION) {
+                    dispose();
+                    setVisible(false);
+                    SignUpHandler sh = new SignUpHandler();
+                    LoginFrame loginFrame = new LoginFrame(sh);
+                    loginFrame.setTitle("BilkenTogether");
+                    loginFrame.setSize(500,300);
+                    loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    loginFrame.setVisible(true);
+                }
+            }
+        });
     }
 
     private void ppHandler() {
@@ -397,7 +418,7 @@ public class Main extends JFrame {
     }
     private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
-        setUpPastMessages();
+        //setUpPastMessages();
         if (currentUser instanceof Student) {
             activities = new ActivitiesPage(this);
             lessons = new LessonsPage(this);

@@ -2,11 +2,8 @@ package HomePage.StudiesPage;
 
 import DatabaseRelated.DatabaseConnection;
 import HomePage.LessonsPage.LessonsPage;
-import HomePage.Main.Main;
-import PostComponents.LessonPostViewer;
+import HomePage.Main.HomeMain;
 import PostComponents.StudiesPostViewer;
-import Posts.ActivityPost;
-import Posts.LessonPost;
 import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -20,7 +17,7 @@ import java.io.*;
 import java.util.*;
 
 public class StudiesPage {
-    private Main main;
+    private HomeMain main;
     private String[] topics;
     private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
     int index;
@@ -98,7 +95,7 @@ public class StudiesPage {
     private JLabel[] filterLabels ={filterLabel1,filterLabel2,filterLabel3,filterLabel4,filterLabel5};
     private ArrayList<String> postingFilters;
     private ArrayList<String> filterSideTopicFilters;
-    public StudiesPage(Main main) {
+    public StudiesPage(HomeMain main) {
         studyPosts = new ArrayList<>();
         studiesPostViewers = new ArrayList<>();
         postingFilters = new ArrayList<String>();
@@ -495,7 +492,7 @@ public class StudiesPage {
         return qfPanel;
     }
 
-    public void setMain(Main main) {
+    public void setMain(HomeMain main) {
         this.main = main;
     }
     private void makeAllButtonsBeatiful(){

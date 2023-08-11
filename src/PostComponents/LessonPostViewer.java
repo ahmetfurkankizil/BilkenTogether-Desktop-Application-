@@ -1,16 +1,13 @@
 package PostComponents;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Posts.LessonPost;
-import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class LessonPostViewer extends PostViewer {
@@ -23,7 +20,7 @@ public class LessonPostViewer extends PostViewer {
 
 
 
-    public LessonPostViewer(LessonPost p, Main main) {
+    public LessonPostViewer(LessonPost p, HomeMain main) {
         super(main);
         this.lesPost = p;
         setUp();

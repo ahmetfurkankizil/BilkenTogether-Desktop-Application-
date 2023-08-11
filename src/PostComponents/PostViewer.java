@@ -1,6 +1,6 @@
 package PostComponents;
 
-import HomePage.Main.Main;
+import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import Posts.Post;
 import UserProfileGUI.PPImageHandler;
@@ -31,10 +31,10 @@ public abstract class PostViewer extends JPanel {
     protected JPanel bottomIformationPanel;
     protected JLabel messageLabel;
     protected JTextArea textArea2;
-    protected Main main;
+    protected HomeMain main;
     private User u1;
 
-    public PostViewer(Main main) {
+    public PostViewer(HomeMain main) {
         this.main = main;
         this.u1 = main.getCurrentUser();
     }
