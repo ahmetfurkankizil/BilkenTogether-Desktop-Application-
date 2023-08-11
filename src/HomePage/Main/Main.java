@@ -568,7 +568,7 @@ public class Main extends JFrame {
 
 
     public static void main(String[] args) {
-        Main lessonsPage = new Main();
+        //Main lessonsPage = new Main();
     }
 
     public String getTextFieldText() {

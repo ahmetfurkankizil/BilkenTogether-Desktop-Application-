@@ -75,6 +75,10 @@ public class ActivitiesPage {
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
         generalSetup();
+        LessonsPage.makeButtonMoreBeautiful(submitButton);
+        LessonsPage.makeButtonMoreBeautiful(postButton);
+        LessonsPage.makeButtonMoreBeautiful(filterBoxButton);
+        LessonsPage.makeButtonMoreBeautiful(resetButton);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

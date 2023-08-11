@@ -47,6 +47,11 @@ public class VerificationFrame extends JFrame{
                             tempStudent.createLessonsTable();
                             tempStudent.createNotificationsTable();
                         }
+                        else {
+                            FacultyMember member = (FacultyMember) tempUser;
+                            member.createStudiesTable();
+                        }
+
                     }
                 }
             //}

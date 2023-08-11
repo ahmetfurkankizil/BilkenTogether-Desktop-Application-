@@ -199,6 +199,7 @@ public class SignUpHandler {
 
     public FacultyMember createFacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
         FacultyMember facultyMember = new FacultyMember(name, email, id, gender, department, password, dateOfBirth, null, null,true);
+
         return facultyMember;
     }
 
@@ -421,7 +422,7 @@ public class SignUpHandler {
                             resultSetOfUser.getString("dateOfBirth"),
                             profilePhoto,
                             backgroundPhoto,
-                            true);
+                            false);
                     //The other attributes must be added with set methods (like profile picture)
                 } else {
                     //create facultyMember
@@ -435,7 +436,7 @@ public class SignUpHandler {
                             resultSetOfUser.getString("dateOfBirth"),
                             profilePhoto,
                             backgroundPhoto,
-                            true);
+                            false);
                     //The other attributes must be added with set methods (like profile picture)
                 }
             } else {
