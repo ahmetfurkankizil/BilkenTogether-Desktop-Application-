@@ -3,7 +3,6 @@ package PostComponents;
 import HomePage.Main.HomeMain;
 import Posts.LessonPost;
 import UserProfileGUI.PPImageHandler;
-import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -39,7 +38,7 @@ public class LessonPostViewer extends PostViewer {
 
     public void setUp() {
         super.setUp();
-        proPhoto = new PPImageHandler(lesPost.getSender());
+        proPhoto = new PPImageHandler();
         sender = lesPost.getSender();
         requestButton = new JButton("Send Request");
         if (main.getCurrentUser().getId() == sender.getId()) {
@@ -49,7 +48,7 @@ public class LessonPostViewer extends PostViewer {
     }
 
     @Override
-    public LessonPost getPost() {
+    public Post getPost() {
         return lesPost;
     }
 
@@ -94,7 +93,7 @@ public class LessonPostViewer extends PostViewer {
         addPadding(topicLabel);
         topicLabel.setOpaque(true);
         topInformationPanel.add(topicLabel, g);
-        requestButton.addActionListener(new RequestActionListener( lesPost, (Student) main.getCurrentUser()));
+        requestButton.addActionListener(new RequestActionListener());
         topInformationPanel.add(requestButton);
         add(topInformationPanel, g);
 

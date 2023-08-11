@@ -317,17 +317,23 @@ public class HomeMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (checkIfLabelAlreadySelected(e)){
-                resetPanels();
-                insideScrollPanePanel.removeAll();
-                flowScrollPane.setVisible(true);
-                insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-                rightPanel.setVisible(true);
-                removableRight.add(lessons.getQuickFiltersPanel());
-                topVisiblisty.setVisible(true);
-                resetLabelFonts();
-                homeLabel.setFont(new Font("default",Font.BOLD,22));
-                lessonsButton.setSelected(true);
-                update();}
+                    resetPanels();
+                    insideScrollPanePanel.removeAll();
+                    flowScrollPane.setVisible(true);
+                    if (currentUser instanceof Student){
+                        insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                        removableRight.add(lessons.getQuickFiltersPanel());}
+                    else {
+                        insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
+                        removableRight.add(studies.getQfPanel());
+                    }
+                    insideScrollPanePanel.setVisible(true);
+                    topVisiblisty.setVisible(true);
+                    resetLabelFonts();
+                    homeLabel.setFont(new Font("default",Font.BOLD,22));
+                    lessonsButton.setSelected(true);
+                    update();
+                }
             }
         });
         profileLabel.addMouseListener(new MouseAdapter() {

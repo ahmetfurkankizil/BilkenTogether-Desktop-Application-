@@ -14,15 +14,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class StudiesPage {
     private HomeMain main;
     private String[] topics;
     private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
     int index;
-    ArrayList<StudyPost> studyPosts;
-    ArrayList<StudiesPostViewer> studiesPostViewers;
     private JPanel mainPanel;
     private JPanel secondMainPanel;
     private JPanel rightPanel;
@@ -52,7 +53,6 @@ public class StudiesPage {
     private JPanel qfPanel;
     private JPanel insideScrollPanel;
     private JLabel errorLabel;
-    private ArrayList<Integer> allUsers;
     private byte[] uploadedPdf;
     private JList<String> list2;
     private DefaultListModel<String> listModel;
@@ -83,8 +83,6 @@ public class StudiesPage {
     private JTextField filterChooserSearchField;
     private JPanel top;
     private JPanel bottom;
-    private JLabel profilePhotoLabel;
-    private JPanel filtersTopicPanel;
     private JTextArea addAuthoursTextArea;
     private GridBagConstraints g;
 
@@ -99,45 +97,15 @@ public class StudiesPage {
         studyPosts = new ArrayList<>();
         studiesPostViewers = new ArrayList<>();
         postingFilters = new ArrayList<String>();
-        this.main = main;
-        this.currentUser = main.getCurrentUser();
 
         filterSideTopicFilters = new ArrayList<>();
         initializeTopicArraylist();
         String[] temp = new String[postingFilters.size()];
         index = 0;
         indexOfFilterBox = 0;
-
+        System.out.println(postingFilters.size());
         list2.setListData(postingFilters.toArray(temp));
         list1.setListData(postingFilters.toArray(temp));
-        generalSetup();
-
-        setUpUploadButton();
-        makeAllButtonsBeatiful();
-        addListeners();
-        getRandomPosts();
-
-        ActionListener listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton b = (JButton) e.getSource();
-                b.setSelected(!b.isSelected());
-                b.setBackground(b.isSelected() ? LessonsPage.SECONDARYBUTTONCOLOR : LessonsPage.PRIMARYBUTTONCOLOR);
-            }
-        };
-        instructorButton.addActionListener(listener);
-        studentButton.addActionListener(listener);
-    }
-
-    private void resetFilterLabels() {
-        filterLabel1.setText("");
-        filterLabel2.setText("");
-        filterLabel3.setText("");
-        filterLabel4.setText("");
-        filterLabel5.setText("");
-    }
-    private void addListeners(){
-        submitButton.addActionListener(new FilterListener());
         list2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -155,10 +123,19 @@ public class StudiesPage {
                 }
             }
         });
+
+        currentUser = new Student("Erdem", "erdem.p", 22203112, "l", "d", "p", "b",null,null);
+
+
+        //setVisible(true);
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JButton button = (JButton) e.getSource();
+
                 studiesQFPanel.setVisible(!studiesQFPanel.isVisible());
+
+
             }
         });
 
@@ -186,11 +163,11 @@ public class StudiesPage {
                     errorLabel2.setSize(30, 30);
                 }else {
                     String[] collection = new String[5];
-                    collection[0] = topicLabel1.getText().length() <2 ? null : topicLabel1.getText();
-                    collection[1] = topicLabel2.getText().length() <2 ? null : topicLabel2.getText();
-                    collection[2] = topicLabel3.getText().length() <2 ? null : topicLabel3.getText();
-                    collection[3] = topicLabel4.getText().length() <2 ? null : topicLabel4.getText();
-                    collection[4] = topicLabel5.getText().length() <2 ? null : topicLabel5.getText();
+                    collection[0] = topicLabel1.getText();
+                    collection[1] = topicLabel2.getText();
+                    collection[2] = topicLabel3.getText();
+                    collection[3] = topicLabel4.getText();
+                    collection[4] = topicLabel5.getText();
                     StudyPost temp;
                     if (uploadedPdf != null)
                         temp = new StudyPost(0, currentUser, addAuthors, heading, postText, uploadedPdf, new Date().toString(), collection,true);
@@ -199,12 +176,11 @@ public class StudiesPage {
                     StudiesPostViewer viewer = new StudiesPostViewer(temp,main);
                     GridBagConstraints g2 = new GridBagConstraints();
                     g2.gridx = 0;
-                    studiesPostViewers.add(viewer);
-                    studyPosts.add(temp);
-                    currentUser.addStudyPost(temp);
+
                     insideScrollPanel.add(viewer,g2);
                     insideScrollPanel.repaint();
                     insideScrollPanel.revalidate();
+                    main.update();
                 }
                 main.update();
             }
@@ -215,7 +191,7 @@ public class StudiesPage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                System.out.println("clicked!");
                 listScroll.setVisible(!listScroll.isVisible());
             }
         });
@@ -248,7 +224,9 @@ public class StudiesPage {
                     if (indexOfFilterBox<4) {
                         indexOfFilterBox++;
                     }
-                }}
+                    ArrayList<String> list = new ArrayList<String>(list1.getSelectedValuesList());
+                    System.out.println(list);
+            }}
         });
         topicFilterLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -263,6 +241,12 @@ public class StudiesPage {
                 }
             }
         });
+        filterboxScroll.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        });
         resetButtonInBox.addActionListener(new ActionListener() {
 
             @Override
@@ -270,10 +254,15 @@ public class StudiesPage {
                 filterSideTopicFilters = resetTopicArraylist();
                 refreshFiltersTopicsList();
                 resetFilterLabels();
+                filterLabel1.setText("");
+                filterLabel2.setText("");
+                filterLabel3.setText("");
+                filterLabel4.setText("");
+                filterLabel5.setText("");
                 filterChooserSearchField.setText("");
             }
         });
-
+        setUpUploadButton();
         searchTopicField.addKeyListener(new KeyAdapter() {
 
             @Override
@@ -286,6 +275,8 @@ public class StudiesPage {
                 refreshPostingtopicsList();
             }
         });
+        filterChooserSearchField.addComponentListener(new ComponentAdapter() {
+        });
         filterChooserSearchField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 if (!filterChooserSearchField.getText().isBlank()){
@@ -297,8 +288,9 @@ public class StudiesPage {
             }
 
         });
+    }
 
-
+    private void resetFilterLabels() {
     }
 
 
@@ -395,59 +387,6 @@ public class StudiesPage {
             }
         });
     }
-    private void getRandomPosts() {
-        DatabaseConnection c = new DatabaseConnection();
-        allUsers = currentUser.pullIDsFromUserInformationTable();
-        ArrayList<ArrayList<StudyPost>> userPostCollections = new ArrayList<>();
-        int totalNum = totalNumOfPosts(userPostCollections);
-        boolean exceed = true;
-        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
-            exceed = false;
-        if (totalNum == 0)
-            return;
-        for (int i = 0; i < allUsers.size(); i++) {
-            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromStudyPostTable());
-        }
-        int max1 = userPostCollections.size();
-        int rand1;
-        int max2;
-        int rand2;
-        Random rand = new Random();
-        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
-
-            rand1 = 0;
-            rand2 = 0;
-            if (max1 != 0)
-                rand1= rand.nextInt(max1);
-            max2= userPostCollections.get(rand1).size();
-            System.out.println(max2);
-            System.out.println(rand1);
-            if (max2 != 0)
-                rand2= rand.nextInt(max2);
-            if (!userPostCollections.get(rand1).isEmpty() && !studyPosts.contains(userPostCollections.get(rand1).get(rand2))){
-                addStudyPost(userPostCollections.get(rand1).get(rand2));
-                studyPosts.add(userPostCollections.get(rand1).get(rand2));
-
-            }else if (exceed){
-                i--;
-            }
-        }
-
-    }
-    private int totalNumOfPosts(ArrayList<ArrayList<StudyPost>> userPostCollections){
-        int total = 0;
-        for (ArrayList<StudyPost> userPostCollection : userPostCollections) {
-            total += userPostCollection.size();
-        }
-        return total;
-    }
-
-    private void addStudyPost(StudyPost studyPost) {
-        g.gridx = 0;
-        StudiesPostViewer viewer = new StudiesPostViewer(studyPost,main);
-        studiesPostViewers.add(viewer);
-        insideScrollPanel.add(viewer, g);
-    }
 
 
     private void filterStudies(String selectedValue) {
@@ -472,16 +411,27 @@ public class StudiesPage {
         insideScrollPanel.repaint();
         main.update();
     }
+
+
+
+
+    public static void main(String[] args) {
+        StudiesPage page = new StudiesPage();
+    }
+
     public void setCurrentUser(User user) {
         currentUser = user;
     }
 
     public void generalSetup() {
+        g = new GridBagConstraints();
         headingtextArea.setMargin(new Insets(5, 5, 5, 5));
         headingtextArea.setLineWrap(true);
         headingtextArea.setColumns(50);
-        headingtextArea.setRows(7);
-        profilePhotoLabel.setIcon(new PPImageHandler(currentUser).getIcon());
+        PPImageHandler profilePhoto = new PPImageHandler();
+        profilePhotoPanel.add(profilePhoto);
+
+
     }
 
     public JPanel getInsideScrollPanePanel() {

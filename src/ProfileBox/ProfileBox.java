@@ -18,7 +18,7 @@ public class ProfileBox extends  JPanel {
 
 
 
-    public ProfileBox(User user) {
+    /*public ProfileBox(User user) {
         add(panel1);
         nameSurnameLabel.setText(user.getName());
         emailLabel.setText(user.getEmail());
@@ -37,6 +37,6 @@ public class ProfileBox extends  JPanel {
         return profilePhotoLabel;
     }
 
-
+     */
 }
 

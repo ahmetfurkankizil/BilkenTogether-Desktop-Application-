@@ -31,7 +31,7 @@ public class VerificationFrame extends JFrame{
         verifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //if (signUpHandler.checkVerificationCodeTextField(codeTextField, errorMessage)) {
+                if (signUpHandler.checkVerificationCodeTextField(codeTextField, errorMessage)) {
                     System.out.println("Successful Verification");
                     setVisible(false);
                     LoginFrame loginFrame = new LoginFrame(signUpHandler);
@@ -57,7 +57,7 @@ public class VerificationFrame extends JFrame{
 
                     }
                 }
-            //}
+            }
         });
     }
 }
