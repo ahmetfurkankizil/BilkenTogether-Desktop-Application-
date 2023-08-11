@@ -55,6 +55,7 @@ public class LoginFrame extends JFrame{
                         System.out.println("Successful login");
                         //Home page pops up
                         Main main = new Main(userWhichLogs);
+                        dispose();
                     }
                     else
                     {
