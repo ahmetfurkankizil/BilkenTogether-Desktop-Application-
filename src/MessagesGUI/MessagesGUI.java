@@ -145,6 +145,7 @@ public class MessagesGUI extends JFrame {
     public User getCurrentReceiver() {
         return conversationPanel.getCurrentReceiver();
     }
+
 }
 
 

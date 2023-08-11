@@ -1,5 +1,6 @@
 package ProfileBox;
 
+import Icons.IconCreator;
 import UserRelated.User;
 
 import javax.imageio.ImageIO;
@@ -28,7 +29,7 @@ public class ProfileBox extends  JPanel {
         } catch (IOException e) {
            throw new RuntimeException(e);
         }
-        ImageIcon icon = new ImageIcon(image);
+        ImageIcon icon = IconCreator.getIconWithSize( new ImageIcon(image),100,100);
         profilePhotoLabel.setIcon(icon);
     }
 

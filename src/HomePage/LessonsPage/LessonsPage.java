@@ -127,11 +127,8 @@ public class LessonsPage {
         ArrayList<ArrayList<LessonPost>> userPostCollections = new ArrayList<>();
         int totalNum = totalNumOfPosts(userPostCollections);
 
-        boolean exceed = true;
-        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
-            exceed = false;
-        if (totalNum == 0)
-            return;
+        boolean exceed = false;
+
         for (int i = 0; i < allUsers.size(); i++) {
             userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromLessonsPostTable());
         }
@@ -143,10 +140,12 @@ public class LessonsPage {
         for (int i = 0; i < NUMOFPOSTSINAPAGE; i++) {
              rand1= rand.nextInt(max1);
              max2= userPostCollections.get(rand1).size();
-             rand2= rand.nextInt(max2);
+             rand2 = 0;
+
+             if (max2 != 0)
+                rand2= rand.nextInt(max2);
             if (!userPostCollections.get(rand1).isEmpty()  &&!posts.contains(userPostCollections.get(rand1).get(rand2))){
                 addLessonPost(userPostCollections.get(rand1).get(rand2));
-
             }
         }
 

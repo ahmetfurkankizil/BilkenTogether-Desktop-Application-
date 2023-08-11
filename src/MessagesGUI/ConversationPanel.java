@@ -70,6 +70,9 @@ public class ConversationPanel extends JPanel {
                     getMessage(message);
         }
     }
+    public void setCurrentReceiver(MessageConnection messageConnection){
+        this.temp = messageConnection;
+    }
     MessageConnection temp;
     public void addPastMessages(MessageConnection connection) {
         temp = connection;

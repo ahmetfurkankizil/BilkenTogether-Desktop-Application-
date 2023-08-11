@@ -94,7 +94,18 @@ public class LessonPostViewer extends PostViewer {
         addPadding(topicLabel);
         topicLabel.setOpaque(true);
         topInformationPanel.add(topicLabel, g);
-        requestButton.addActionListener(new RequestActionListener( lesPost, (Student) main.getCurrentUser()));
+
+        if (lesPost.getAgreementCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("ACCEPTED!");
+            requestButton.setEnabled(false);
+        }else if (lesPost.getDeniedCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("DENIED!");
+            requestButton.setEnabled(false);
+        }else if(lesPost.getRequestCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("Request Sent!");
+            requestButton.setEnabled(false);
+        } else {
+            requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));}
         topInformationPanel.add(requestButton);
         add(topInformationPanel, g);
 

@@ -399,13 +399,10 @@ public class StudiesPage {
         DatabaseConnection c = new DatabaseConnection();
         allUsers = currentUser.pullIDsFromUserInformationTable();
         ArrayList<ArrayList<StudyPost>> userPostCollections = new ArrayList<>();
-        int totalNum = totalNumOfPosts(userPostCollections);
-        boolean exceed = true;
-        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
-            exceed = false;
-        if (totalNum == 0)
-            return;
+
+        boolean exceed = false;
         for (int i = 0; i < allUsers.size(); i++) {
+            System.out.println("gone");
             userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromStudyPostTable());
         }
         int max1 = userPostCollections.size();
@@ -414,20 +411,16 @@ public class StudiesPage {
         int rand2;
         Random rand = new Random();
         for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
-
             rand1 = 0;
             rand2 = 0;
             if (max1 != 0)
                 rand1= rand.nextInt(max1);
             max2= userPostCollections.get(rand1).size();
-            System.out.println(max2);
-            System.out.println(rand1);
             if (max2 != 0)
                 rand2= rand.nextInt(max2);
             if (!userPostCollections.get(rand1).isEmpty() && !studyPosts.contains(userPostCollections.get(rand1).get(rand2))){
                 addStudyPost(userPostCollections.get(rand1).get(rand2));
                 studyPosts.add(userPostCollections.get(rand1).get(rand2));
-
             }else if (exceed){
                 i--;
             }
@@ -443,10 +436,11 @@ public class StudiesPage {
     }
 
     private void addStudyPost(StudyPost studyPost) {
-        g.gridx = 0;
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
         StudiesPostViewer viewer = new StudiesPostViewer(studyPost,main);
         studiesPostViewers.add(viewer);
-        insideScrollPanel.add(viewer, g);
+        insideScrollPanel.add(viewer, g2);
     }
 
 

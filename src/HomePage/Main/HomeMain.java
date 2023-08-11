@@ -223,15 +223,13 @@ public class HomeMain extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (!textInputArea.getText().isEmpty()){
                     client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
                 }
-                revalidate();
-                repaint();
+               update();
             }
         });
         client.run();
@@ -320,9 +318,15 @@ public class HomeMain extends JFrame {
                 resetPanels();
                 insideScrollPanePanel.removeAll();
                 flowScrollPane.setVisible(true);
-                insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                if (currentUser instanceof Student){
+                        insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                        removableRight.add(lessons.getQuickFiltersPanel());}
+                else {
+                        insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
+                        removableRight.add(studies.getQfPanel());
+                }
+                insideScrollPanePanel.setVisible(true);
                 rightPanel.setVisible(true);
-                removableRight.add(lessons.getQuickFiltersPanel());
                 topVisiblisty.setVisible(true);
                 resetLabelFonts();
                 homeLabel.setFont(new Font("default",Font.BOLD,22));
@@ -365,6 +369,21 @@ public class HomeMain extends JFrame {
                 }
             }
         });}
+        profileBoxPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!profileLabel.getFont().isBold()){
+                    resetPanels();
+                    GridBagConstraints g2 = new GridBagConstraints();
+                    invisibleAddablePanelLeft.add(profilePage.getInPanel(),g2);
+                    rightPanel.setVisible(true);
+                    invisibleAddablePanelLeft.setVisible(true);
+                    resetLabelFonts();
+                    profileLabel.setFont(new Font("default",Font.BOLD,22));
+                    update();}
+            }
+        });
+        profileBoxPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         notificationsLabel.addMouseListener(new MouseAdapter() {
 
             @Override

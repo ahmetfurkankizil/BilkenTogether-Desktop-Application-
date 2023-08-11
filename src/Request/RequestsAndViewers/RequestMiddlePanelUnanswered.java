@@ -38,7 +38,6 @@ public class RequestMiddlePanelUnanswered {
         g2.anchor = GridBagConstraints.NORTHWEST;
         //g2.ipadx = 100;
         g2.ipady  = 10;
-        requestablePost.addRequest(new UnansweredRequest(22103566));
         this.unansweredRequests = requestablePost.getRequestCollection();
         deniedButton.addActionListener(new ActionListener() {
             @Override

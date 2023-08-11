@@ -905,7 +905,10 @@ public abstract class User{
 
                 try {
                     InputStream blobInputStream = resultSet.getBinaryStream("file");
-                    file = readInputStreamToByteArray(blobInputStream);
+                    if (blobInputStream != null)
+                        file = readInputStreamToByteArray(blobInputStream);
+                    else
+                        file = null;
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }

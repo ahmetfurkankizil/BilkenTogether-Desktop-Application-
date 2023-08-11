@@ -92,7 +92,17 @@ public class ActivitiesPostViewer extends PostViewer {
         add(topInformationPanel,g);
 
         g.gridy +=1;
-        requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));
+        if (lesPost.getAgreementCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("ACCEPTED!");
+            requestButton.setEnabled(false);
+        }else if (lesPost.getDeniedCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("DENIED!");
+            requestButton.setEnabled(false);
+        }else if(lesPost.getRequestCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("Request Sent!");
+            requestButton.setEnabled(false);
+        } else {
+            requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));}
         topInformationPanel.add(requestButton);
         dateLabel = new JLabel("Date: "+lesPost.getActivityDate());
         dateLabel.setFont(dateFont);
