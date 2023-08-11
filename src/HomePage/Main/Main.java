@@ -134,8 +134,8 @@ public class Main extends JFrame {
     private Server server;
     private ProfileBox profileBox;
 
-    public Main() {
-        currentUser = new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
+    public Main(User user) {
+        currentUser = user;//new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
         //Adding profile photo (photo to byte)
         //ppHandler();
         //setUpPastMessages();
