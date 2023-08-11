@@ -6,10 +6,7 @@ import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
 import PostComponents.PostViewer;
 import PostComponents.StudiesPostViewer;
-import Posts.ActivityPost;
-import Posts.LessonPost;
-import Posts.Post;
-import Posts.StudyPost;
+import Posts.*;
 import UserRelated.Student;
 
 import javax.swing.*;

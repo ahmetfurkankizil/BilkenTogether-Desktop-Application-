@@ -32,7 +32,7 @@ public class MessagesGUI extends JFrame {
     private HomeMain main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
-    MessagesPanel conversationViewers;
+    MessagesPanel n;
     User currentUser;
 
     public MessagesGUI(HomeMain main){
@@ -47,10 +47,7 @@ public class MessagesGUI extends JFrame {
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
-
-        this.main = main;
-        this.currentUser = main.getCurrentUser();
-        //rightPanel.setVisible(false);
+        this.currentUser = currentUser;
         // Adding ActionListener to the search button
         searchButton.addActionListener(new ActionListener()
         {
@@ -124,7 +121,7 @@ public class MessagesGUI extends JFrame {
         {
             System.out.println("lolkl");
             String messageContent = m.getConversationViewers().get(i).getMessageContent().toLowerCase();
-            String senderName = conversationViewers.getConversationViewers().get(i).getName().toLowerCase();
+            String senderName = n.getConversationViewers().get(i).getName().toLowerCase();
             if (senderName.contains(searchTerm) || messageContent.contains(searchTerm))
             {
 

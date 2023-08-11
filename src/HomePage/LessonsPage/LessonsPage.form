@@ -63,7 +63,7 @@
                           <text value="filterBox"/>
                         </properties>
                       </component>
-                      <grid id="a897a" binding="lessonsQFpanel" layout-manager="GridLayoutManager" row-count="8" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="a897a" binding="lessonsQFpanel" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -162,17 +162,6 @@
                                     <item value="Spanish"/>
                                     <item value="French"/>
                                     <item value="Italian"/>
-                                    <item value="Literature"/>
-                                    <item value="Sociology"/>
-                                    <item value="Philosophy"/>
-                                    <item value="Marketing"/>
-                                    <item value="Law"/>
-                                    <item value="Anthropology"/>
-                                    <item value="Geography"/>
-                                    <item value="Astronomy"/>
-                                    <item value="Design"/>
-                                    <item value="Linguistics"/>
-                                    <item value="Psychology"/>
                                   </model>
                                 </properties>
                               </component>
@@ -198,38 +187,14 @@
                                 <constraints>
                                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
-                                <properties>
-                                  <model>
-                                    <item value="Select:"/>
-                                    <item value="Painting"/>
-                                    <item value="Sculpture"/>
-                                    <item value="Photography"/>
-                                    <item value="Dance"/>
-                                    <item value="Theater"/>
-                                    <item value="Music"/>
-                                    <item value="Pottery"/>
-                                    <item value="Drawing"/>
-                                    <item value="Ballet"/>
-                                    <item value="Football"/>
-                                    <item value="Tennis"/>
-                                    <item value="Swimming"/>
-                                    <item value="Gymnastics"/>
-                                    <item value="Martial Arts"/>
-                                    <item value="Yoga"/>
-                                    <item value="Basketball"/>
-                                    <item value="Soccer"/>
-                                    <item value="Archery"/>
-                                    <item value="Boxing"/>
-                                    <item value="Golf"/>
-                                  </model>
-                                </properties>
+                                <properties/>
                               </component>
                             </children>
                           </grid>
                           <grid id="cfea2" binding="daysButtonPanel" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
-                              <grid row="6" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties/>
                             <border type="none"/>
@@ -294,7 +259,7 @@
                           </grid>
                           <component id="4c489" class="javax.swing.JButton" binding="filtersSubmitButton">
                             <constraints>
-                              <grid row="7" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="6" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="Submit"/>
@@ -310,14 +275,6 @@
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                           </hspacer>
-                          <component id="bc0a1" class="javax.swing.JLabel" binding="filterErrorLabel">
-                            <constraints>
-                              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value=" "/>
-                            </properties>
-                          </component>
                         </children>
                       </grid>
                     </children>
@@ -480,49 +437,19 @@
                                 <properties>
                                   <model>
                                     <item value="Select:"/>
-                                    <item value="Anthropology"/>
-                                    <item value="Archery"/>
-                                    <item value="Astronomy"/>
-                                    <item value="Ballet"/>
-                                    <item value="Basketball"/>
-                                    <item value="Biology"/>
-                                    <item value="Boxing"/>
-                                    <item value="Chemistry"/>
-                                    <item value="Computer Science"/>
-                                    <item value="Dance"/>
-                                    <item value="Design"/>
-                                    <item value="Drawing"/>
-                                    <item value="Economics"/>
-                                    <item value="English"/>
-                                    <item value="Football"/>
-                                    <item value="French"/>
-                                    <item value="Geography"/>
-                                    <item value="German"/>
-                                    <item value="Golf"/>
-                                    <item value="Gymnastics"/>
-                                    <item value="History"/>
-                                    <item value="Italian"/>
-                                    <item value="Law"/>
-                                    <item value="Linguistics"/>
-                                    <item value="Literature"/>
-                                    <item value="Mаrkeтing"/>
-                                    <item value="Martial Arts"/>
                                     <item value="Mathematics"/>
-                                    <item value="Music"/>
-                                    <item value="Philosophy"/>
-                                    <item value="Photography"/>
+                                    <item value="Chemistry"/>
                                     <item value="Physics"/>
-                                    <item value="Pottery"/>
-                                    <item value="Psychology"/>
-                                    <item value="Sculpture"/>
-                                    <item value="Soccer"/>
-                                    <item value="Sociology"/>
-                                    <item value="Spanish"/>
-                                    <item value="Swimming"/>
-                                    <item value="Tennis"/>
-                                    <item value="Theater"/>
+                                    <item value="Biology"/>
+                                    <item value="Computer Science"/>
+                                    <item value="Economics"/>
+                                    <item value="History"/>
+                                    <item value="English"/>
                                     <item value="Turkish"/>
-                                    <item value="Yoga"/>
+                                    <item value="German"/>
+                                    <item value="Spanish"/>
+                                    <item value="French"/>
+                                    <item value="Italian"/>
                                   </model>
                                 </properties>
                               </component>
