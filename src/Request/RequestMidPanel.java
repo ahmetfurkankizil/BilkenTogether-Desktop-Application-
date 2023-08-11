@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.ArrayList;
 
 public class RequestMidPanel extends JFrame {
     private JButton activitiesButton;

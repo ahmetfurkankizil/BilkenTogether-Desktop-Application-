@@ -6,7 +6,6 @@ import ProfileBox.ProfileBox;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -53,13 +52,6 @@ public class UserEditProfilePage extends JFrame {
                     BufferedImage img = null;
                     try {
                         img = ImageIO.read( new File(selectedFile.getAbsolutePath()));
-                        BufferedImage resized = new BufferedImage(40, 40, img.getType());
-                        Graphics2D g = resized.createGraphics();
-                        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                        g.drawImage(img, 0, 0, 40, 40, 0, 0, img.getWidth(),
-                                img.getHeight(), null);
-                        g.dispose();
                     } catch (IOException exception) {
                         throw new RuntimeException(exception);
                     }
@@ -70,7 +62,7 @@ public class UserEditProfilePage extends JFrame {
                         throw new RuntimeException(exception);
                     }
                     byte[] bytes = os.toByteArray();
-                    userProfilePage.getUser().setBackgroundPhoto(bytes,true);
+                    userProfilePage.getUser().setBackgroundPhoto(bytes);
 
                     InputStream is = new ByteArrayInputStream(userProfilePage.getUser().getBackgroundPhoto());
                     BufferedImage image;
@@ -108,7 +100,7 @@ public class UserEditProfilePage extends JFrame {
                         throw new RuntimeException(exception);
                     }
                     byte[] bytes = os.toByteArray();
-                    userProfilePage.getUser().setProfilePhoto(bytes,true);
+                    userProfilePage.getUser().setProfilePhoto(bytes);
 
 
                     InputStream is = new ByteArrayInputStream(userProfilePage.getUser().getProfilePhoto());

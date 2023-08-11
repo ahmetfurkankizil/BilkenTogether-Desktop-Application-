@@ -4,19 +4,15 @@ import HomePage.Main.Main;
 import Icons.IconCreator;
 import Posts.Post;
 import UserProfileGUI.PPImageHandler;
-import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public abstract class PostViewer extends JPanel {
-    private  JButton deleteButton = new JButton(IconCreator.getIconWithSize(IconCreator.deleteIcon,22,25));
     public static final Font headerFont = new Font("Ariel",Font.BOLD,15);
     public static final Font profileNameFont = new Font("Ariel",Font.BOLD,18);
     public static final Font textFont = new Font("Ariel",Font.PLAIN,12);
@@ -32,22 +28,13 @@ public abstract class PostViewer extends JPanel {
     protected JLabel messageLabel;
     protected JTextArea textArea2;
     protected Main main;
-    private User u1;
 
     public PostViewer(Main main) {
         this.main = main;
-        this.u1 = main.getCurrentUser();
     }
     protected void setUp(){
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //u1.deleteStudyPost(this);
-                // TO BE IMPLEMENTED
-            }
-        });
         g = new GridBagConstraints();
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         setMinimumSize(new Dimension(300,30));
         setLayout(new GridBagLayout());
         setBorder(new SectionItemBorder());
@@ -56,7 +43,6 @@ public abstract class PostViewer extends JPanel {
         textArea2 = new JTextArea();
         proName = new JLabel();
         proName.setFont(profileNameFont);
-        deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         textArea2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         textArea2.setBackground(getBackground());
         textArea2.setEditable(false);

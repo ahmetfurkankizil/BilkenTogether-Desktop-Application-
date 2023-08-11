@@ -22,7 +22,7 @@ public abstract class Post {
     private ArrayList<Comment> commentCollection;
     private DatabaseConnection databaseConnection;
 
-    public Post(int postID, User sender, String description, String dateOfPost,boolean isItNew) {
+    public Post(int postID, User sender, String description, String dateOfPost) {
         /*
          * Post Id Oluşturma Nasıl Olacak? Database ile uyumlu olması gerekiyor.
          */
@@ -32,8 +32,7 @@ public abstract class Post {
 
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        if (isItNew)
-            createCommentsTable();
+        createCommentsTable();
     }
     public void addPastComents() {
         //ArrayListi commentCollectiona atıcak (=)
@@ -67,15 +66,6 @@ public abstract class Post {
         String notificationContent = comment.getContent();
         Notification notificationToBeAdded = new Notification(notificationSender, notificationReceiver, notificationContent, new Date().toString());
         sender.addToNotificationsTable(notificationToBeAdded);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Post){
-            Post temp = (Post) obj;
-            return getPostDescription().equals(temp.getPostDescription());
-        }
-        return false;
     }
 
     public ArrayList<Comment> getCommentCollection() {

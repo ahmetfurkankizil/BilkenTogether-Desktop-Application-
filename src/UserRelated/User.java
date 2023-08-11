@@ -2,21 +2,29 @@ package UserRelated;
 
 import CommentsRelated.Comment;
 import DatabaseRelated.DatabaseConnection;
-import MessagesGUI.MessageConnection;
-import MessagesRelated.Message;
-import NotificationRelated.Notification;
-import Posts.ActivityPost;
-import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.xdevapi.Type;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import NotificationRelated.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.*;
+import DatabaseRelated.*;
+import MessagesRelated.Message;
+import MessagesGUI.MessageConnection;
+import Posts.*;
+import CommentsRelated.*;
+import Request.RequestsAndViewers.AcceptedRequest;
+import Request.RequestsAndViewers.DeniedRequest;
+import Request.RequestsAndViewers.Request;
+import Request.RequestsAndViewers.UnansweredRequest;
+
+import javax.management.NotificationFilter;
 
 public abstract class User{
     private String[] studyTopics;
@@ -25,7 +33,6 @@ public abstract class User{
     private String nameAndSurname;
     private String password;
     private String email;
-    private boolean isnew;
     private String department;
     private String gender;
     private String dateOfBirth;
@@ -37,13 +44,12 @@ public abstract class User{
     private ArrayList<Notification> notificationCollection;
     private ArrayList<MessageConnection> messageConnections;
 
-    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto ,boolean isItNew) {
-        databaseConnection = new DatabaseConnection();
+    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
         messageConnections = new ArrayList<>();
-        this.isnew = isItNew;
+
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -51,56 +57,13 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
-        if (isItNew) {
-            //setDefaultPhotos();
-            if (profilePhoto != null)
-                setProfilePhoto(profilePhoto,true);
-            if (backGroundPhoto != null)
-                setBackgroundPhoto(backGroundPhoto,true);
-        }
-        else {
-            setProfilePhoto(pullTheProfilePhotoFromDB(id),false);
-            setBackgroundPhoto(pullTheBackgroundPhotoFromDB(id),false);
-        }
+
+        if (profilePhoto != null)
+            setProfilePhoto(profilePhoto);
+        if (backGroundPhoto != null)
+            setBackgroundPhoto(backGroundPhoto);
 
     }
-
-    private void setDefaultPhotos() {
-            BufferedImage bi = null;
-            File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
-            try {
-                bi = ImageIO.read(f);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(bi,"png",os);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            byte[] bytes = os.toByteArray();
-            setProfilePhoto(bytes,true);
-
-            // Adding Background Photo (photo to byte[])
-            BufferedImage ib = null;
-            try {
-                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            ByteArrayOutputStream so = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(ib,"png",so);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            byte[] bytes1 = so.toByteArray();
-            setBackgroundPhoto(bytes1,true);
-
-
-    }
-
     public void addMessageConnection(MessageConnection connection){
         messageConnections.add(connection);
     }
@@ -111,7 +74,6 @@ public abstract class User{
 
     public void addStudyPost(StudyPost studyPost) {
         studyPostCollection.add(studyPost);
-        addToStudiesTable(studyPost);
     }
 
     public int generateStudyPostId() {
@@ -183,27 +145,21 @@ public abstract class User{
     }
 
     public byte[] getProfilePhoto() {
-        if (!isnew)
-            return pullTheProfilePhotoFromDB(getId());
         return profilePhoto;
     }
 
     public byte[] getBackgroundPhoto() {
-        if (!isnew)
-            return pullTheBackgroundPhotoFromDB(getId());
         return backgroundPhoto;
     }
 
-    public void setBackgroundPhoto(byte[] backGroundPhoto, boolean isItNew) {
+    public void setBackgroundPhoto(byte[] backGroundPhoto) {
         this.backgroundPhoto = backGroundPhoto;
-        if (isItNew)
-            addBackgroundPhotoToUserInformationTable(backGroundPhoto);
+        //addBackgroundPhotoToUserInformationTable(backGroundPhoto);
     }
 
-    public void setProfilePhoto(byte[] profilePhoto , boolean isItNew) {
+    public void setProfilePhoto(byte[] profilePhoto) {
         this.profilePhoto = profilePhoto;
-        if(isItNew)
-            addProfilePhotoToUserInformationTable(profilePhoto);
+        //addProfilePhotoToUserInformationTable(profilePhoto);
     }
     public ArrayList<String> getResearchInterests() {
         return researchInterests;
@@ -338,7 +294,7 @@ public abstract class User{
                         + "postHeading VARCHAR(150) NULL,"
                         + "postDescription  VARCHAR(250) NOT NULL,"
                         + "postDate  VARCHAR(250) NOT NULL,"
-                        + "file LONGBLOB NULL,"
+                        + "file LONGBLOB NOT NULL,"
                         + "Topic1 VARCHAR(50)  NULL,"
                         + "Topic2 VARCHAR(50)  NULL,"
                         + "Topic3 VARCHAR(50)  NULL,"
@@ -356,17 +312,16 @@ public abstract class User{
         }
         databaseConnection.closeConnection();
         return false;
-
     }
+
+
     public boolean addToStudiesTable(StudyPost studyPost) {
         String[] topicsToBeAdded = studyPost.getTopicCollection();
         int numberOfPostTopics = topicsToBeAdded.length;
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
-            byte[] imageBytes = null;
-            if (studyPost.hasFile())
-                 imageBytes= studyPost.getStudyFile();
+            byte[] imageBytes = studyPost.getStudyFile();
             if (connection != null) {
                 String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file, ";
 
@@ -391,12 +346,9 @@ public abstract class User{
                     preparedStatement.setString(4, studyPost.getStudyPostHeading());
                     preparedStatement.setString(5, studyPost.getPostDescription());
                     preparedStatement.setString(6, studyPost.getDateOfPost());
-                    if ( imageBytes != null) {
-                        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-                        preparedStatement.setBinaryStream(7, bis, imageBytes.length);
-                    }else {
-                        preparedStatement.setNull(7, 0);
-                    }
+                    ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                    preparedStatement.setBinaryStream(7, bis, imageBytes.length);
+
                     for(int i=0; i<numberOfPostTopics; i++){
                         int columnNumber = i+8;
                         String topicToAdd = topicsToBeAdded[i];
@@ -404,7 +356,7 @@ public abstract class User{
                     }
 
                     int rowsAffected = preparedStatement.executeUpdate();
-
+                    System.out.println("Rows affected: " + rowsAffected);
                     return rowsAffected > 0;
                 }
 
@@ -430,7 +382,12 @@ public abstract class User{
 
             preparedStatement.executeUpdate();
             System.out.println(profilePhoto.length);
-
+            try{
+            System.out.println(pullTheProfilePhotoFromDB(22103566).length);;}
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            System.out.println("Profile photo inserted successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -496,8 +453,8 @@ public abstract class User{
                         }
                     }
                 }
-                User u = new Student(senderName,null,0,null,null,null,null, null, null,false);
-                studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection,false);
+                User u = new Student(senderName,null,0,null,null,null,null, null, null);
+                studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection);
             } else {
                 return null;
             }
@@ -871,7 +828,7 @@ public abstract class User{
                 }
                 String date = resultSet.getString("dateOfPost");
 
-                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date,false);
+                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -915,7 +872,7 @@ public abstract class User{
                 topicCollection[3] = resultSet.getString("Topic4");
                 topicCollection[4] = resultSet.getString("Topic5");
 
-                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection,false);
+                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -945,7 +902,7 @@ public abstract class User{
                 String activityDate = resultSet.getString("activityDate");
 
                 System.out.println("Activity Post Returned Successfully");
-                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate,false);
+                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -962,29 +919,6 @@ public abstract class User{
             byteArrayOutputStream.write(buffer, 0, bytesRead);
         }
         return byteArrayOutputStream.toByteArray();
-    }
-
-    public ArrayList<Integer> pullIDsFromUserInformationTable() {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String tableName = "userInformationTable";
-        String selectQuery = "SELECT * FROM " + tableName;
-
-        ArrayList<Integer> ids = new ArrayList<>();
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-
-                ids.add(id);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return ids;
     }
 
 

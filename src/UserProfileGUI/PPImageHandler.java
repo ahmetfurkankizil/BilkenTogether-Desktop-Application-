@@ -1,7 +1,6 @@
 package UserProfileGUI;
 
 import Icons.IconCreator;
-import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +11,9 @@ public class PPImageHandler extends JLabel {
     private Icon image;
     public static final File f = new File("src/UserProfileGUI/profile-phot.png");
 
-    public PPImageHandler(User user){
+    public PPImageHandler(){
         super();
-        setIcon((new ImageIcon(user.pullTheProfilePhotoFromDB(user.getId()))));
+        setIcon(IconCreator.getIconWithSize(new ImageIcon(f.getAbsolutePath()),60,60));
         image = getIcon();
     }
     public PPImageHandler(ImageIcon i){

@@ -1,16 +1,14 @@
 package HomePage.LessonsPage;
-import DatabaseRelated.DatabaseConnection;
 import HomePage.Main.Main;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
-import Posts.StudyPost;
+import Posts.RequestablePost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,24 +16,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
-import java.util.Random;
-
+import Posts.LessonPost;
+import PostComponents.LessonPostViewer;
 public class LessonsPage {
     private Main main;
-    private static final Cursor HANDCURSOR = new Cursor(Cursor.HAND_CURSOR);
-
-    public static final Color PRIMARYBUTTONCOLOR = new Color(181, 181, 234);
-    public static final Color SECONDARYBUTTONCOLOR = new Color(141,141,154);
-    private ArrayList<Integer> allUsers;
-    public static final int NUMOFPOSTSINAPAGE = 20;
 
     private JPanel mainPanel;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
     private JButton lessonsButton;
-    private ArrayList<LessonPostViewer> lessonPostViewers;
+    private ArrayList<LessonPost> lessonPostArrayList;
     private JButton studiesButton;
     private JButton activitiesButton;
     private JButton profileBoxButton;
@@ -55,7 +46,6 @@ public class LessonsPage {
     private JPanel buttonPanel;
     private JTextArea textArea1;
     private JComboBox courseTypeComboBox;
-
     private JButton postButton;
     private JButton mondayButton;
     private JButton tuesdayButton;
@@ -86,10 +76,8 @@ public class LessonsPage {
     private JButton saturdayFilterButton;
     private JButton sundayFilterButton;
     private JPanel quickFiltersPanel;
-    private JLabel filterErrorLabel;
     private ArrayList<JButton> sectionButtons;
     private ArrayList<JButton> dayButtons;
-    private JButton[] filterDayButtons = {mondayFilterButton,TuesdayFilterButton,WednesdayFilterButton,thursdayFilterButton,fridayFilterButton,saturdayFilterButton,sundayFilterButton};
 
     private boolean isSubmitted = false;
     public JPanel getInsideScrollPanePanel() {
@@ -103,56 +91,39 @@ public class LessonsPage {
         userIds = new ArrayList<>();
         this.main = main;
         currentUser = main.getCurrentUser();
-        lessonPostViewers = new ArrayList<>();
+        posts = currentUser.pullFromLessonsPostTable();
         generalSetup();
-        getRandomPosts();
+        lessonPostArrayList = new ArrayList<LessonPost>();
+        for (int i = 0; i < posts.size(); i++) {
+            addLessonPost(posts.get(i));
+        }
+
+        filtersSubmitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSubmitted = true; // Set the flag to true after clicking the submit button
+            }
+        });
+
+
+
         textArea1.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 main.update();
             }
         });
-        filtersSubmitButton.addActionListener(new FilterSubmitListener());
-    }
+        filtersSubmitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-    private int totalNumOfPosts(ArrayList<ArrayList< LessonPost >> userPostCollections){
-        int total = 0;
-        for (ArrayList<LessonPost> userPostCollection : userPostCollections) {
-            total += userPostCollection.size();
-        }
-        return total;
-    }
-    private void getRandomPosts() {
-        DatabaseConnection c = new DatabaseConnection();
-        allUsers = currentUser.pullIDsFromUserInformationTable();
-        ArrayList<ArrayList<LessonPost>> userPostCollections = new ArrayList<>();
-        int totalNum = totalNumOfPosts(userPostCollections);
 
-        boolean exceed = true;
-        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
-            exceed = false;
-        if (totalNum == 0)
-            return;
-        for (int i = 0; i < allUsers.size(); i++) {
-            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromLessonsPostTable());
-        }
-        int max1 = userPostCollections.size();
-        int rand1;
-        int max2;
-        int rand2;
-        Random rand = new Random();
-        for (int i = 0; i < NUMOFPOSTSINAPAGE; i++) {
-             rand1= rand.nextInt(max1);
-             max2= userPostCollections.get(rand1).size();
-             rand2= rand.nextInt(max2);
-            if (!userPostCollections.get(rand1).isEmpty()  &&!posts.contains(userPostCollections.get(rand1).get(rand2))){
-                addLessonPost(userPostCollections.get(rand1).get(rand2));
+
+
 
             }
-        }
-
+        });
     }
-
     public void setCurrentUser(User user) {
         currentUser = user;
     }
@@ -168,19 +139,24 @@ public class LessonsPage {
     private void setUpProfilePhoto() {
         errorLabel.setForeground(Color.red);
         errorLabel.setText(" ");
-        profilePhoto = new PPImageHandler(currentUser);
+        profilePhoto = new PPImageHandler();
         profilePhotoPanel.add(profilePhoto);
     }
     private void setUpActionListeners() {
         postButton.addActionListener(new LesssonPostPostingListener());
         postLessonButton.addActionListener(new requestActionListener());
         requestLessonButton.addActionListener(new requestActionListener());
+        filterBoxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton but = (JButton) e.getSource();
                 but.setSelected(!but.isSelected());
-                but.setBackground(but.isSelected() ? SECONDARYBUTTONCOLOR : PRIMARYBUTTONCOLOR);
             }
         };
 
@@ -191,8 +167,54 @@ public class LessonsPage {
         thursdayFilterButton.addActionListener(listener);
         saturdayFilterButton.addActionListener(listener);
         sundayFilterButton.addActionListener(listener);
-        givenButton.addActionListener(listener);
-        requestedButton.addActionListener(listener);
+        ActionListener listener1 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton) e.getSource();
+                if (requestGiveButtonCheckFilter()) {
+                    b.setSelected(true);
+                } else if (b.isSelected()) {
+                    b.setSelected(false);
+                }
+            }
+        };
+        givenButton.addActionListener(listener1);
+        requestedButton.addActionListener(listener1);
+        requestedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (requestedButton.isSelected() &&  isSubmitted) {
+                    filterLessons("Requested");
+                }
+            }
+        });
+        courseComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (requestGiveButtonCheckFilter() && isSubmitted) {
+                    String selectedValue = (String) courseComboBox.getSelectedItem();
+                    if (selectedValue != null && !selectedValue.equals("Select:")) {
+                        filterLessons(selectedValue);
+                    }
+                }
+            }
+        });
+
+
+
+
+
+        givenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (givenButton.isSelected() && isSubmitted) {
+                    filterLessons("Given");
+                }
+            }
+        });
+
+
+
         filterBoxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,42 +226,24 @@ public class LessonsPage {
         });
 
     }
-    public static void makeButtonMoreBeautiful(JButton button,Color primary){
-        button.setCursor(HANDCURSOR);
-        button.setFocusable(false);
-        button.setBorder(new EmptyBorder(5,5,5,5));
-        button.setOpaque(true);
-        button.setBackground(primary);
-    }
-    public static void makeButtonMoreBeautiful(JButton button){
-        button.setCursor(HANDCURSOR);
-        button.setFocusable(false);
-        button.setBorder(new EmptyBorder(5,5,5,5));
-        button.setBackground(PRIMARYBUTTONCOLOR);
-        button.setOpaque(true);
-    }
     private void setUpCursors() {
-        makeButtonMoreBeautiful(postLessonButton);
-        makeButtonMoreBeautiful(requestLessonButton);
-        makeButtonMoreBeautiful(filterBoxButton);
-        makeButtonMoreBeautiful(filtersSubmitButton);
-        makeButtonMoreBeautiful(mondayFilterButton);
-        makeButtonMoreBeautiful(saturdayFilterButton);
-        makeButtonMoreBeautiful(sundayFilterButton);
-        makeButtonMoreBeautiful(TuesdayFilterButton);
-        makeButtonMoreBeautiful(WednesdayFilterButton);
-        makeButtonMoreBeautiful(thursdayFilterButton);
-        makeButtonMoreBeautiful(fridayFilterButton);
-        makeButtonMoreBeautiful(givenButton);
-        makeButtonMoreBeautiful(requestedButton);
-        makeButtonMoreBeautiful(clearButton,new Color(210, 138, 138));
-        makeButtonMoreBeautiful(postButton,new Color(56, 161, 199));
-        filterErrorLabel.setForeground(Color.red);
+        postLessonButton.setFocusable(false);
+        requestLessonButton.setFocusable(false);
+        postLessonButton.setCursor(handCursor);
+        requestLessonButton.setCursor(handCursor);
+        filterBoxButton.setCursor(handCursor);
+        filtersSubmitButton.setCursor(handCursor);
+        mondayFilterButton.setCursor(handCursor);
+        saturdayFilterButton.setCursor(handCursor);
+        sundayFilterButton.setCursor(handCursor);
+        sundayFilterButton.setFocusable(false);
+
         setUpArrayLists();
         setUpDaysButtons();
         for (JButton j :
                 sectionButtons) {
-            makeButtonMoreBeautiful(j);
+            j.setFocusable(false);
+            j.setCursor(handCursor);
         }
 
 
@@ -257,7 +261,6 @@ public class LessonsPage {
             public void actionPerformed(ActionEvent e) {
                 JButton b = (JButton) e.getSource();
                 b.setSelected(!b.isSelected());
-                b.setBackground(b.isSelected() ? SECONDARYBUTTONCOLOR : PRIMARYBUTTONCOLOR);
             }
         };
         ActionListener resetButtonListener = new ActionListener() {
@@ -279,7 +282,6 @@ public class LessonsPage {
                 tempButton.setFocusable(false);
                 tempButton.setCursor(handCursor);
                 tempButton.addActionListener(dayButtonListener);
-                makeButtonMoreBeautiful(tempButton);
             }
         }
         clearButton.setFocusable(false);
@@ -299,28 +301,25 @@ public class LessonsPage {
         setCurrentUser(main.getCurrentUser());
     }
 
+    public RequestablePost getPost() {
+        return new LessonPost(1,currentUser,"desc","a",1,false,"S");
+    }
+
     private class requestActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton b = (JButton) e.getSource();
-            if (b.isSelected()) {
-                b.setSelected(false);
-                b.setBackground(PRIMARYBUTTONCOLOR);
-            }else{
-                postLessonButton.setSelected(false);
-                requestLessonButton.setSelected(false);
-                postLessonButton.setBackground(PRIMARYBUTTONCOLOR);
-                requestLessonButton.setBackground(PRIMARYBUTTONCOLOR);
+            if (requestGiveButtonCheck()) {
                 b.setSelected(true);
-                b.setBackground(SECONDARYBUTTONCOLOR);
+            } else if (b.isSelected()) {
+                b.setSelected(false);
             }
         }
     }
     public void addLessonPost(LessonPost post) {
         g.gridx = 0;
-        LessonPostViewer viewer = new LessonPostViewer(post,main);
-        lessonPostViewers.add(viewer);
-        insideScrollPanePanel.add(viewer, g);
+        LessonPostViewer viewer6 = new LessonPostViewer(post,main);
+        insideScrollPanePanel.add(viewer6, g);
     }
     public class LesssonPostPostingListener implements ActionListener {
         @Override
@@ -329,11 +328,13 @@ public class LessonsPage {
                 // int postId = Database.getNewPostID();
                 int postId = 0;
 
-                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString(),true);
+                LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString());
                 Student temp = (Student) currentUser;
                 temp.addToLessonsTable(tempPost);
-                posts.add(tempPost);
+                lessonPostArrayList.add(tempPost);
+
                 addLessonPost(tempPost);
+
                 Student s = (Student) currentUser;
                 main.update();
                 s.addToLessonsTable(tempPost);
@@ -389,78 +390,51 @@ public class LessonsPage {
         return returned;
     }
     private void filterLessons(String selectedValue){
-        for (int i = 0; i < lessonPostViewers.size(); i++) {
-            if (!lessonPostViewers.get(i).getPost().getTypeFilter().equals(selectedValue)){
-                lessonPostViewers.get(i).setVisible(false);
+        if (isSubmitted) {
+            Component[] components = insideScrollPanePanel.getComponents();
+
+            for (Component component : components) {
+                if (component instanceof LessonPostViewer) {
+                    LessonPostViewer postViewer = (LessonPostViewer) component;
+                    LessonPost post = postViewer.getLesPost();
+
+                    // Check filters based on buttons' states
+                    boolean matchesFilters = true;
+                    if (givenButton.isSelected() && !post.getRequestType()) {
+                        matchesFilters = false;
+                    } else if (requestedButton.isSelected() && post.getRequestType()) {
+                        matchesFilters = false;
+                    } else if (courseComboBox.getSelectedItem() != null &&
+                            !courseComboBox.getSelectedItem().equals("Select:") &&
+                            !post.getTypeFilter().equals(courseComboBox.getSelectedItem())) {
+                        matchesFilters = false;
+                    }
+                    // Similar checks for other day buttons...
+
+                    postViewer.setVisible(matchesFilters);
+                }
             }
-        }
+
             insideScrollPanePanel.revalidate();
             insideScrollPanePanel.repaint();
             main.update();
-
-
-    }
-        private class FilterSubmitListener implements ActionListener{
-            boolean[] filterDays;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!filterCheck()) {
-                    filterErrorLabel.setText(" ");
-                    refreshPosts();
-                    filterWithRequestType();
-                    if (!Objects.equals(courseComboBox.getSelectedItem(), "Select:")) {
-                        filterLessons((String) courseComboBox.getSelectedItem());
-                    } else if (!Objects.equals(artAndSportComboBox.getSelectedItem(), "Select:")) {
-                        filterLessons((String) artAndSportComboBox.getSelectedItem());
-                    }
-                    if (isDayFilterSelected()){
-                        for (LessonPostViewer viewer : lessonPostViewers) {
-                            if (!viewer.getPost().matchesFilter(filterDays)){
-                                viewer.setVisible(false);
-                            }
-                        }
-                    }
-                    main.update();
-                }
-                else {
-                    filterErrorLabel.setText("Invalid! Choose Art&Sports OR a Course!");
-                }
-            }
-
-            private boolean isDayFilterSelected() {
-                filterDays = new boolean[7];
-                boolean oneIsSelected = false;
-                for (int i = 0; i < filterDayButtons.length; i++) {
-                    filterDays[i] = filterDayButtons[i].isSelected();
-                    if (filterDays[i])
-                        oneIsSelected = true;
-                }
-                return oneIsSelected;
-            }
-
-            private boolean filterCheck(){
-                return !Objects.equals(courseComboBox.getSelectedItem(), "Select:")&&!Objects.equals(artAndSportComboBox.getSelectedItem(), "Select:");
-            }
-            private void filterWithRequestType() {
-                if (givenButton.isSelected() || requestedButton.isSelected()){
-                    for (LessonPostViewer lessonPostViewer : lessonPostViewers) {
-                        char posType = lessonPostViewer.getPost().getRequestType() ? 'R' : 'G';
-                        char filType = requestedButton.isSelected() ? 'R' : 'G';
-                        if (posType != filType)
-                            lessonPostViewer.setVisible(false);
-                    }
+        /*Component[]components = insideScrollPanePanel.getComponents();
+        for(Component component: components){
+            if( component instanceof LessonPostViewer) {
+                LessonPostViewer posts = (LessonPostViewer) component;
+                LessonPost post = posts.getLesPost();
+                boolean matchesFilter = post.getLessonPost().contains(selectedValue);
+                if (matchesFilter) {
+                    posts.setVisible(true);
+                } else {
+                    posts.setVisible(false);
                 }
 
             }
-            private void refreshPosts(){
-                for (LessonPostViewer lessonPostViewer : lessonPostViewers) {
-                    lessonPostViewer.setVisible(true);
-                }
-            }
-        }
-
-
-
+        }insideScrollPanePanel.revalidate();
+        insideScrollPanePanel.repaint();
+        main.update();*/
+        }}
 }
 
 

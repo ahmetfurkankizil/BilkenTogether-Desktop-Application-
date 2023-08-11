@@ -16,12 +16,11 @@ public class Student extends User{
     private ArrayList<Integer> ratingCollection;
     private ArrayList<LessonPost> lessonPostCollection;
     private ArrayList<ActivityPost> activityPostCollection;
-    public Student(String name, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto, boolean isItNew) {
-        super(name, email, id, gender, department, password, dateOfBirth, profilePhoto, backGroundPhoto ,isItNew);
+    public Student(String name, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
+        super(name, email, id, gender, department, password, dateOfBirth, profilePhoto, backGroundPhoto);
         this.ratingCollection = new ArrayList<>();
         this.lessonPostCollection = new ArrayList<>();
         this.activityPostCollection = new ArrayList<>();
-
     }
 
     public void addLessonPost(LessonPost lessonPost) {
@@ -208,8 +207,8 @@ public class Student extends User{
                 String postDate = resultSetOfUser.getString("dateOfPost");
 
 
-                Student u = new Student(senderName,null,userId,null,null,null,null, null, null,false);
-                lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate,false);
+                Student u = new Student(senderName,null,userId,null,null,null,null, null, null);
+                lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate);
             } else {
                 System.out.println("sent null");
                 return null;
@@ -318,8 +317,8 @@ public class Student extends User{
                 String activityDate = resultSetOfUser.getString("activityDate");
 
 
-                Student u = new Student(senderName,null,0,null,null,null,null, null, null,false);
-                activityPost = new ActivityPost(postId, u, postDescription, numberOfAttendants, dateOfPost, typeFilter, activityDate,false);
+                Student u = new Student(senderName,null,0,null,null,null,null, null, null);
+                activityPost = new ActivityPost(postId, u, postDescription, numberOfAttendants, dateOfPost, typeFilter, activityDate);
             } else {
                 return null;
             }

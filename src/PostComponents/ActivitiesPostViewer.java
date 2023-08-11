@@ -2,6 +2,7 @@ package PostComponents;
 
 import HomePage.Main.Main;
 import Posts.ActivityPost;
+import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 
@@ -37,7 +38,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
     public void setUp(){
         super.setUp();
-        proPhoto = new PPImageHandler(lesPost.getSender());
+        proPhoto = new PPImageHandler();
         requestButton = new JButton("Send Request");
         requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
@@ -48,7 +49,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
 
     @Override
-    public ActivityPost getPost() {
+    public Post getPost() {
         return lesPost;
     }
 
@@ -92,7 +93,7 @@ public class ActivitiesPostViewer extends PostViewer {
         add(topInformationPanel,g);
 
         g.gridy +=1;
-        requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));
+        requestButton.addActionListener(new RequestActionListener());
         topInformationPanel.add(requestButton);
         dateLabel = new JLabel("Date: "+lesPost.getActivityDate());
         dateLabel.setFont(dateFont);

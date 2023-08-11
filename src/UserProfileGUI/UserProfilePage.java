@@ -1,16 +1,12 @@
 package UserProfileGUI;
 
-import DatabaseRelated.DatabaseConnection;
 import HomePage.Main.Main;
 import Icons.IconCreator;
-import PostComponents.ActivitiesPostViewer;
 import PostComponents.LessonPostViewer;
 import PostComponents.StudiesPostViewer;
-import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.StudyPost;
 import ProfileBox.ProfileBox;
-import UserRelated.FacultyMember;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -23,7 +19,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class UserProfilePage extends JPanel {
 
@@ -46,9 +41,9 @@ public class UserProfilePage extends JPanel {
     private JLabel backGroundPhotoLabel;
     private JLabel profilePhotoLabel;
     private JPanel HistoryPanel;
-    private JPanel lessonsHistoryPanel;
-    private JPanel activitiesHistoryPanel;
-    private JPanel studiesHistoryPanel;
+    private JPanel LessonsHistoryPanel;
+    private JPanel ActivitiesHistoryPanel;
+    private JPanel StudiesHistoryPanel;
 
 
     private JPanel lolPane;
@@ -63,59 +58,33 @@ public class UserProfilePage extends JPanel {
 
     }
 
-    public UserProfilePage(Main main, ProfileBox profileBox) {
-        this();
+    public void setMain(Main main) {
         this.main = main;
-        this.user = main.getCurrentUser();
-        setUpHistory();
+    }
+
+    public UserProfilePage(User user, ProfileBox profileBox) {
+        this();
+        this.user = user;
         this.profileBox = profileBox;
         createActionListeners();
         setDefaultPhotos();
         setPersonalInformation();
-        if (user instanceof FacultyMember){
-            lessonsButton.setVisible(false);
-            activitiesButton.setVisible(false);
-        }
-        setUpHistory();
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        g2.ipadx = 300;
+        g2.ipady = 300;
+        addL();
     }
 
-    private void setUpHistory() {
-        if (user instanceof Student){
-            setUpLessonsHistory();
-            setUpActivitiesHistory();
-        }
-        //setUpStuiesHistory();
-    }
-
-    private void setUpLessonsHistory() {
-        ArrayList<LessonPost> lessonPosts= user.pullFromLessonsPostTable();
-        lessonsHistoryPanel.setLayout(new GridLayout(0,1));
-        for (int i = 0; i < lessonPosts.size(); i++) {
-            lessonsHistoryPanel.add(new LessonPostViewer(lessonPosts.get(i),main));
-        }
-    }
-    private void setUpActivitiesHistory() {
-
-        DatabaseConnection c = new DatabaseConnection();
-        ArrayList<ActivityPost> activityPosts= user.pullFromActivitiesPostTable();
-        activitiesHistoryPanel.setLayout(new GridLayout(0,1));
-        for (int i = 0; i < activityPosts.size(); i++) {
-            activitiesHistoryPanel.add(new ActivitiesPostViewer(activityPosts.get(i),main));
-        }
-    }
-    private void setUpStuiesHistory() {
-        DatabaseConnection c = new DatabaseConnection();
-        ArrayList<StudyPost> activityPosts= user.pullFromStudyPostTable();
-        studiesHistoryPanel.setLayout(new GridLayout(0,1));
-        for (int i = 0; i < activityPosts.size(); i++) {
-            studiesHistoryPanel.add(new StudiesPostViewer(activityPosts.get(i),main));
-        }
-    }
-    public void refresh(){
-        lessonsHistoryPanel.removeAll();
-        activitiesHistoryPanel.removeAll();
-        studiesHistoryPanel.removeAll();
-        setUpHistory();
+    public void addL() {
+        GridBagConstraints g2 = new GridBagConstraints();
+        g2.gridx = 0;
+        //LessonsHistoryPanel.add(new JLabel("lol"));
+        //LessonsHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        //StudiesHistoryPanel.add(new StudiesPostViewer(new StudyPost(1, user, "lol","l","aa",null ,"",null),main), g2);
+        //ActivitiesHistoryPanel.add(new LessonPostViewer(new LessonPost(1, user, "lol","l",1,true,"1"),main), g2);
+        repaint();
+        revalidate();
     }
 
 
@@ -158,7 +127,7 @@ public class UserProfilePage extends JPanel {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ImageIcon icon = IconCreator.getIconWithSize(new ImageIcon(defaultProfilePhotoImg),40,40);
+            ImageIcon icon = new ImageIcon(defaultProfilePhotoImg);
             profilePhotoLabel.setIcon(icon);
 
             InputStream si = new ByteArrayInputStream(user.getBackgroundPhoto());
@@ -195,6 +164,14 @@ public class UserProfilePage extends JPanel {
         return inPanel;
     }
 
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        f.add(new UserProfilePage());
+        f.setSize(800,800);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
     /**
      * This method creates action listeners for sufficient buttons
      */
@@ -218,9 +195,9 @@ public class UserProfilePage extends JPanel {
         lessonsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lessonsHistoryPanel.setVisible(true);
-                activitiesHistoryPanel.setVisible(false);
-                studiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                StudiesHistoryPanel.setVisible(false);
             }
         });
 
@@ -231,9 +208,9 @@ public class UserProfilePage extends JPanel {
         activitiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                activitiesHistoryPanel.setVisible(true);
-                studiesHistoryPanel.setVisible(false);
-                lessonsHistoryPanel.setVisible(false);
+                ActivitiesHistoryPanel.setVisible(true);
+                StudiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
 
@@ -244,9 +221,9 @@ public class UserProfilePage extends JPanel {
         studiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studiesHistoryPanel.setVisible(true);
-                activitiesHistoryPanel.setVisible(false);
-                lessonsHistoryPanel.setVisible(false);
+                StudiesHistoryPanel.setVisible(true);
+                ActivitiesHistoryPanel.setVisible(false);
+                LessonsHistoryPanel.setVisible(false);
             }
         });
     }

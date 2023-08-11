@@ -83,7 +83,7 @@
                     <children>
                       <component id="804b7" class="javax.swing.JLabel" binding="profilePhotoLabel">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value=""/>
@@ -224,7 +224,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="89f58" binding="lessonsHistoryPanel" layout-manager="GridBagLayout">
+                  <grid id="89f58" binding="LessonsHistoryPanel" layout-manager="GridBagLayout">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                         <minimum-size width="-1" height="600"/>
@@ -236,23 +236,19 @@
                     <border type="none"/>
                     <children/>
                   </grid>
-                  <grid id="f1bf0" binding="activitiesHistoryPanel" layout-manager="GridBagLayout">
+                  <grid id="f1bf0" binding="ActivitiesHistoryPanel" layout-manager="GridBagLayout">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties>
-                      <visible value="false"/>
-                    </properties>
+                    <properties/>
                     <border type="none"/>
                     <children/>
                   </grid>
-                  <grid id="80213" binding="studiesHistoryPanel" layout-manager="GridBagLayout">
+                  <grid id="80213" binding="StudiesHistoryPanel" layout-manager="GridBagLayout">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties>
-                      <visible value="false"/>
-                    </properties>
+                    <properties/>
                     <border type="none"/>
                     <children/>
                   </grid>
