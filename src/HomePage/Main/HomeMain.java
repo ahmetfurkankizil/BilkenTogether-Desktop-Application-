@@ -223,15 +223,13 @@ public class HomeMain extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (!textInputArea.getText().isEmpty()){
                     client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
                 }
-                revalidate();
-                repaint();
+               update();
             }
         });
         client.run();
@@ -317,23 +315,23 @@ public class HomeMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (checkIfLabelAlreadySelected(e)){
-                    resetPanels();
-                    insideScrollPanePanel.removeAll();
-                    flowScrollPane.setVisible(true);
-                    if (currentUser instanceof Student){
+                resetPanels();
+                insideScrollPanePanel.removeAll();
+                flowScrollPane.setVisible(true);
+                if (currentUser instanceof Student){
                         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
                         removableRight.add(lessons.getQuickFiltersPanel());}
-                    else {
+                else {
                         insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
                         removableRight.add(studies.getQfPanel());
-                    }
-                    insideScrollPanePanel.setVisible(true);
-                    topVisiblisty.setVisible(true);
-                    resetLabelFonts();
-                    homeLabel.setFont(new Font("default",Font.BOLD,22));
-                    lessonsButton.setSelected(true);
-                    update();
                 }
+                insideScrollPanePanel.setVisible(true);
+                rightPanel.setVisible(true);
+                topVisiblisty.setVisible(true);
+                resetLabelFonts();
+                homeLabel.setFont(new Font("default",Font.BOLD,22));
+                lessonsButton.setSelected(true);
+                update();}
             }
         });
         profileLabel.addMouseListener(new MouseAdapter() {
@@ -371,6 +369,21 @@ public class HomeMain extends JFrame {
                 }
             }
         });}
+        profileBoxPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!profileLabel.getFont().isBold()){
+                    resetPanels();
+                    GridBagConstraints g2 = new GridBagConstraints();
+                    invisibleAddablePanelLeft.add(profilePage.getInPanel(),g2);
+                    rightPanel.setVisible(true);
+                    invisibleAddablePanelLeft.setVisible(true);
+                    resetLabelFonts();
+                    profileLabel.setFont(new Font("default",Font.BOLD,22));
+                    update();}
+            }
+        });
+        profileBoxPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         notificationsLabel.addMouseListener(new MouseAdapter() {
 
             @Override

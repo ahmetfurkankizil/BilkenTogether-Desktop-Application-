@@ -19,4 +19,12 @@ public abstract class Request {
     public void setRequesterID(int requesterId) {
         this.requesterId = requesterId;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof  Integer){
+            return Integer.valueOf(requesterId).equals(((Integer) obj));
+        }
+        return false;
+    }
 }

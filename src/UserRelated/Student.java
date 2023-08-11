@@ -2,6 +2,8 @@ package UserRelated;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import DatabaseRelated.*;
 import Posts.*;
 import Request.RequestsAndViewers.AcceptedRequest;
@@ -14,6 +16,7 @@ public class Student extends User{
     // Properties (Instance Variables)
     private double averageRating;
     private ArrayList<Integer> ratingCollection;
+
     private ArrayList<LessonPost> lessonPostCollection;
     private ArrayList<ActivityPost> activityPostCollection;
     public Student(String name, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
@@ -332,6 +335,12 @@ public class Student extends User{
     }
 
 
+    public ArrayList<LessonPost> getLessonPostCollection() {
+        return lessonPostCollection;
+    }
+    public ArrayList<ActivityPost> getActivityPostCollection() {
+        return activityPostCollection;
+    }
 }
 
 

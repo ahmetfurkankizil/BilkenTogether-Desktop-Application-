@@ -5,6 +5,7 @@ import Request.RequestsAndViewers.AcceptedRequest;
 import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
+import UserRelated.Student;
 import UserRelated.User;
 
 import java.sql.*;
@@ -17,24 +18,41 @@ public abstract class RequestablePost extends Post {
     private ArrayList<Request> agreementCollection;
     private DatabaseConnection databaseConnection;
 
-    public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost) {
-        super(postId, sender, description, dateOfPost);
-        if (sender.getId() == 0){
-            try {
-                Exception e = new Exception();
-                e.printStackTrace();
-                throw e;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }}
+    public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost,boolean isItNew) {
+        super(postId, sender, description, dateOfPost,isItNew);
         this.typeFilter = typeFilter;
-        /*
-         * Date filter LessonPost ve ActivityPost için ayrı ayrı uygulandı
-         */
+        Student temp = (Student) sender;
+
+
+
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        createRequestsTable();
+        if (isItNew){
+            createRequestsTable();
+            if(this instanceof LessonPost)
+                super.setPostID(Math.min(temp.getLessonPostCollection().size(),5));
+            else
+                super.setPostID(Math.min(temp.getActivityPostCollection().size(),5));
+        }
+        else{
+            setPostID(postId-1);
+            //setUpCollections((Student)sender);
+            }
+
+    }
+
+    private void setUpCollections( Student user) {
+
+        ArrayList<Request> requests =  pullTheRequestsFromDB();
+        for (int i = 0; i < requests.size(); i++) {
+            if (requests.get(i) instanceof UnansweredRequest r)
+                requestCollection.add(r);
+            else if(requests.get(i) instanceof DeniedRequest r)
+                deniedCollection.add(r);
+            else if(requests.get(i) instanceof AcceptedRequest r)
+                agreementCollection.add(r);
+        }
     }
 
     public boolean createRequestsTable() {
@@ -219,6 +237,30 @@ public abstract class RequestablePost extends Post {
 
     public ArrayList<Request> getAgreementCollection() {
         return agreementCollection;
+    }
+    public ArrayList<Integer> getAgreementCollection( boolean isInteger) {
+        ArrayList<Integer> requesterIDs = new ArrayList<>();
+        for (int i = 0; i < agreementCollection.size(); i++) {
+            requesterIDs.add(agreementCollection.get(i).getRequesterID());
+            System.out.println("in");
+        }
+        return requesterIDs;
+    }
+    public ArrayList<Integer> getRequestCollection( boolean isInteger) {
+        ArrayList<Integer> requesterIDs = new ArrayList<>();
+        for (int i = 0; i < requestCollection.size(); i++) {
+            requesterIDs.add(requestCollection.get(i).getRequesterID());
+            System.out.println("in");
+        }
+        return requesterIDs;
+    }
+    public ArrayList<Integer> getDeniedCollection( boolean isInteger) {
+        ArrayList<Integer> requesterIDs = new ArrayList<>();
+        for (int i = 0; i < deniedCollection.size(); i++) {
+            requesterIDs.add(deniedCollection.get(i).getRequesterID());
+            System.out.println("in");
+        }
+        return requesterIDs;
     }
     public ArrayList<Request> getDeniedCollection() {
         return deniedCollection;

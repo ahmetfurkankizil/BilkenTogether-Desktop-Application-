@@ -2,7 +2,6 @@ package PostComponents;
 
 import HomePage.Main.HomeMain;
 import Posts.ActivityPost;
-import Posts.Post;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 
@@ -38,7 +37,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
     public void setUp(){
         super.setUp();
-        proPhoto = new PPImageHandler();
+        proPhoto = new PPImageHandler(lesPost.getSender());
         requestButton = new JButton("Send Request");
         requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
@@ -49,7 +48,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
 
     @Override
-    public Post getPost() {
+    public ActivityPost getPost() {
         return lesPost;
     }
 
@@ -93,7 +92,17 @@ public class ActivitiesPostViewer extends PostViewer {
         add(topInformationPanel,g);
 
         g.gridy +=1;
-        requestButton.addActionListener(new RequestActionListener());
+        if (lesPost.getAgreementCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("ACCEPTED!");
+            requestButton.setEnabled(false);
+        }else if (lesPost.getDeniedCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("DENIED!");
+            requestButton.setEnabled(false);
+        }else if(lesPost.getRequestCollection(true).contains(main.getCurrentUser().getId())){
+            requestButton.setText("Request Sent!");
+            requestButton.setEnabled(false);
+        } else {
+            requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));}
         topInformationPanel.add(requestButton);
         dateLabel = new JLabel("Date: "+lesPost.getActivityDate());
         dateLabel.setFont(dateFont);

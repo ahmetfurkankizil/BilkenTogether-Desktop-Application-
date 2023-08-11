@@ -163,6 +163,7 @@ public class MessagesPanel extends JPanel {
                 if (!getBackground().equals(new Color(239, 143, 143))) {
                     resetBackgrounds();
                     setBackground(new Color(239, 143, 143));
+                    panel.setCurrentReceiver(messageConnection);
                     createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
                 }
             }
