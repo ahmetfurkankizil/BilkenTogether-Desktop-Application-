@@ -9,11 +9,12 @@ import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
+import com.mysql.cj.protocol.Resultset;
+import com.mysql.cj.xdevapi.Type;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public abstract class User{
     private String nameAndSurname;
     private String password;
     private String email;
+    private boolean isnew;
     private String department;
     private String gender;
     private String dateOfBirth;
@@ -35,13 +37,13 @@ public abstract class User{
     private ArrayList<Notification> notificationCollection;
     private ArrayList<MessageConnection> messageConnections;
 
-    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto) {
+    public User(String nameAndSurname, String email, int id, String gender, String department, String password, String dateOfBirth, byte[] profilePhoto, byte[] backGroundPhoto ,boolean isItNew) {
         databaseConnection = new DatabaseConnection();
         studyPostCollection = new ArrayList<>();
         researchInterests = new ArrayList<>();
         notificationCollection = new ArrayList<>();
         messageConnections = new ArrayList<>();
-
+        this.isnew = isItNew;
         setName(nameAndSurname);
         setEmail(email);
         setId(id);
@@ -49,13 +51,56 @@ public abstract class User{
         setDepartment(department);
         setPassword(password);
         setDateOfBirth(dateOfBirth);
-
-        if (profilePhoto != null)
-            setProfilePhoto(profilePhoto);
-        if (backGroundPhoto != null)
-            setBackgroundPhoto(backGroundPhoto);
+        if (isItNew) {
+            setDefaultPhotos();
+            if (profilePhoto != null)
+                setProfilePhoto(profilePhoto,true);
+            if (backGroundPhoto != null)
+                setBackgroundPhoto(backGroundPhoto,true);
+        }
+        else {
+            setProfilePhoto(pullTheProfilePhotoFromDB(id),false);
+            setBackgroundPhoto(pullTheBackgroundPhotoFromDB(id),false);
+        }
 
     }
+
+    private void setDefaultPhotos() {
+            BufferedImage bi = null;
+            File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
+            try {
+                bi = ImageIO.read(f);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(bi,"png",os);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] bytes = os.toByteArray();
+            setProfilePhoto(bytes,true);
+
+            // Adding Background Photo (photo to byte[])
+            BufferedImage ib = null;
+            try {
+                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ByteArrayOutputStream so = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(ib,"png",so);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] bytes1 = so.toByteArray();
+            setBackgroundPhoto(bytes1,true);
+
+
+    }
+
     public void addMessageConnection(MessageConnection connection){
         messageConnections.add(connection);
     }
@@ -66,6 +111,7 @@ public abstract class User{
 
     public void addStudyPost(StudyPost studyPost) {
         studyPostCollection.add(studyPost);
+        addToStudiesTable(studyPost);
     }
 
     public int generateStudyPostId() {
@@ -137,21 +183,27 @@ public abstract class User{
     }
 
     public byte[] getProfilePhoto() {
+        if (!isnew)
+            return pullTheProfilePhotoFromDB(getId());
         return profilePhoto;
     }
 
     public byte[] getBackgroundPhoto() {
+        if (!isnew)
+            return pullTheBackgroundPhotoFromDB(getId());
         return backgroundPhoto;
     }
 
-    public void setBackgroundPhoto(byte[] backGroundPhoto) {
+    public void setBackgroundPhoto(byte[] backGroundPhoto, boolean isItNew) {
         this.backgroundPhoto = backGroundPhoto;
-        //addBackgroundPhotoToUserInformationTable(backGroundPhoto);
+        if (isItNew)
+            addBackgroundPhotoToUserInformationTable(backGroundPhoto);
     }
 
-    public void setProfilePhoto(byte[] profilePhoto) {
+    public void setProfilePhoto(byte[] profilePhoto , boolean isItNew) {
         this.profilePhoto = profilePhoto;
-        //addProfilePhotoToUserInformationTable(profilePhoto);
+        if(isItNew)
+            addProfilePhotoToUserInformationTable(profilePhoto);
     }
     public ArrayList<String> getResearchInterests() {
         return researchInterests;
@@ -286,7 +338,7 @@ public abstract class User{
                         + "postHeading VARCHAR(150) NULL,"
                         + "postDescription  VARCHAR(250) NOT NULL,"
                         + "postDate  VARCHAR(250) NOT NULL,"
-                        + "file LONGBLOB NOT NULL,"
+                        + "file LONGBLOB NULL,"
                         + "Topic1 VARCHAR(50)  NULL,"
                         + "Topic2 VARCHAR(50)  NULL,"
                         + "Topic3 VARCHAR(50)  NULL,"
@@ -304,16 +356,17 @@ public abstract class User{
         }
         databaseConnection.closeConnection();
         return false;
+
     }
-
-
     public boolean addToStudiesTable(StudyPost studyPost) {
         String[] topicsToBeAdded = studyPost.getTopicCollection();
         int numberOfPostTopics = topicsToBeAdded.length;
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
-            byte[] imageBytes = studyPost.getStudyFile();
+            byte[] imageBytes = null;
+            if (studyPost.hasFile())
+                 imageBytes= studyPost.getStudyFile();
             if (connection != null) {
                 String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file, ";
 
@@ -338,9 +391,12 @@ public abstract class User{
                     preparedStatement.setString(4, studyPost.getStudyPostHeading());
                     preparedStatement.setString(5, studyPost.getPostDescription());
                     preparedStatement.setString(6, studyPost.getDateOfPost());
-                    ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-                    preparedStatement.setBinaryStream(7, bis, imageBytes.length);
-
+                    if ( imageBytes != null) {
+                        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                        preparedStatement.setBinaryStream(7, bis, imageBytes.length);
+                    }else {
+                        preparedStatement.setNull(7, 0);
+                    }
                     for(int i=0; i<numberOfPostTopics; i++){
                         int columnNumber = i+8;
                         String topicToAdd = topicsToBeAdded[i];
@@ -348,7 +404,7 @@ public abstract class User{
                     }
 
                     int rowsAffected = preparedStatement.executeUpdate();
-                    System.out.println("Rows affected: " + rowsAffected);
+
                     return rowsAffected > 0;
                 }
 
@@ -374,12 +430,7 @@ public abstract class User{
 
             preparedStatement.executeUpdate();
             System.out.println(profilePhoto.length);
-            try{
-            System.out.println(pullTheProfilePhotoFromDB(22103566).length);;}
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            System.out.println("Profile photo inserted successfully!");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -445,8 +496,8 @@ public abstract class User{
                         }
                     }
                 }
-                User u = new Student(senderName,null,0,null,null,null,null, null, null);
-                studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection);
+                User u = new Student(senderName,null,0,null,null,null,null, null, null,false);
+                studyPost = new StudyPost(postId, u, author, postHeading, postDesctiption, null, postDate, topicCollection,false);
             } else {
                 return null;
             }
@@ -820,7 +871,7 @@ public abstract class User{
                 }
                 String date = resultSet.getString("dateOfPost");
 
-                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date);
+                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date,false);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -864,7 +915,7 @@ public abstract class User{
                 topicCollection[3] = resultSet.getString("Topic4");
                 topicCollection[4] = resultSet.getString("Topic5");
 
-                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection);
+                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection,false);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -894,7 +945,7 @@ public abstract class User{
                 String activityDate = resultSet.getString("activityDate");
 
                 System.out.println("Activity Post Returned Successfully");
-                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate);
+                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate,false);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {

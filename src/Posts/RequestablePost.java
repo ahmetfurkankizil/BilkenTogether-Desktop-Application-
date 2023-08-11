@@ -17,24 +17,15 @@ public abstract class RequestablePost extends Post {
     private ArrayList<Request> agreementCollection;
     private DatabaseConnection databaseConnection;
 
-    public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost) {
-        super(postId, sender, description, dateOfPost);
-        if (sender.getId() == 0){
-            try {
-                Exception e = new Exception();
-                e.printStackTrace();
-                throw e;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }}
+    public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost,boolean isItNew) {
+        super(postId, sender, description, dateOfPost,isItNew);
         this.typeFilter = typeFilter;
-        /*
-         * Date filter LessonPost ve ActivityPost için ayrı ayrı uygulandı
-         */
+
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        createRequestsTable();
+        if (isItNew)
+            createRequestsTable();
     }
 
     public boolean createRequestsTable() {

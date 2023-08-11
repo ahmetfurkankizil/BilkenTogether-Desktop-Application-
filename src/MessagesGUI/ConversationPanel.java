@@ -2,6 +2,7 @@ package MessagesGUI;
 
 import Icons.IconCreator;
 import MessagesRelated.Message;
+import UserProfileGUI.UserProfilePage;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -24,8 +25,9 @@ public class ConversationPanel extends JPanel {
     User currentUser;
     User otherUser;
     ArrayList<Message> pastMessages;
-
-    public ConversationPanel(MessageConnection messageConnection) {
+    private MessagesGUI messagesGUI;
+    public ConversationPanel(MessageConnection messageConnection , MessagesGUI messagesGUI) {
+        this.messagesGUI = messagesGUI;
         mainPanel = new JPanel();
         pastMessages = messageConnection.getMessages();
         mainPanel.setLayout(new GridBagLayout());
@@ -192,7 +194,7 @@ public class ConversationPanel extends JPanel {
                 profileNameLabel = new JLabel(message.getSender().getName());
                 profileNameLabel.setFont(profileNameFont);
                 profilePhotoLabel = new JLabel();
-                profilePhotoLabel.setIcon(IconCreator.getIconWithSize(IconCreator.instructorIcon, 30, 30));
+                profilePhotoLabel.setIcon(IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(message.getSender().getProfilePhoto()),30,30));
                 add(profilePhotoLabel, g);
                 g.insets = new Insets(0, 10, 0, 0);
                 rightPane.add(profileNameLabel, g);

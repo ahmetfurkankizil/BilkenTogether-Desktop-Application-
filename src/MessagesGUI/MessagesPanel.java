@@ -2,6 +2,7 @@ package MessagesGUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.Random;
 
 import Icons.IconCreator;
@@ -164,6 +165,8 @@ public class MessagesPanel extends JPanel {
                     resetBackgrounds();
                     setBackground(new Color(239, 143, 143));
                     createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
+                    panel.setVisible(true);
+
                 }
             }
         }

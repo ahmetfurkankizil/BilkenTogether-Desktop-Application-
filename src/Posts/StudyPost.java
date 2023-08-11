@@ -16,13 +16,12 @@ public class StudyPost extends Post {
     private int numOfTopics;
     private String dateOfPost;
     private byte[] pdfFile;
-    public StudyPost(int postId, User sender, String author, String heading, String description, byte[] studyFile, String dateOfPost, String[] topicCollection) {
-        super(postId, sender, description, dateOfPost);
+    public StudyPost(int postId, User sender, String author, String heading, String description, byte[] studyFile, String dateOfPost, String[] topicCollection,boolean isItNew) {
+        super(postId, sender, description, dateOfPost,isItNew);
         this.author = author;
         this.studyPostHeading = heading;
         this.topicCollection = topicCollection;
         this.pdfFile = studyFile;
-        sender.addStudyPost(this);
     }
 
     public static byte[] readPDFToByteArray(String filePath) throws IOException {
@@ -115,14 +114,21 @@ public class StudyPost extends Post {
 
 
 
-    public boolean matchesFilter(String filter) {
+    public boolean matchesFilter(String[] filter) {
         for (String topic : topicCollection)
         {
-            if (topic != null && topic.equalsIgnoreCase(filter))
-            {
-                return true;
+            for (String filt :filter) {
+                if (topic != null && topic.equalsIgnoreCase(filt))
+                {
+                    return true;
+                }
             }
+
         }
         return false;
+    }
+
+    public boolean hasFile() {
+        return this.pdfFile == null;
     }
 }

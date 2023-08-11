@@ -37,7 +37,7 @@ public class ActivitiesPostViewer extends PostViewer {
     }
     public void setUp(){
         super.setUp();
-        proPhoto = new PPImageHandler();
+        proPhoto = new PPImageHandler(lesPost.getSender());
         requestButton = new JButton("Send Request");
         requestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         sender = lesPost.getSender();
@@ -92,7 +92,7 @@ public class ActivitiesPostViewer extends PostViewer {
         add(topInformationPanel,g);
 
         g.gridy +=1;
-        requestButton.addActionListener(new RequestActionListener());
+        requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));
         topInformationPanel.add(requestButton);
         dateLabel = new JLabel("Date: "+lesPost.getActivityDate());
         dateLabel.setFont(dateFont);

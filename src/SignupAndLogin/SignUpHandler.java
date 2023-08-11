@@ -193,12 +193,12 @@ public class SignUpHandler {
     }
 
     public Student createStudent(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        Student student = new Student(name, email, id, gender, department, password, dateOfBirth, null, null);
+        Student student = new Student(name, email, id, gender, department, password, dateOfBirth, null, null,true);
         return student;
     }
 
     public FacultyMember createFacultyMember(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        FacultyMember facultyMember = new FacultyMember(name, email, id, gender, department, password, dateOfBirth, null, null);
+        FacultyMember facultyMember = new FacultyMember(name, email, id, gender, department, password, dateOfBirth, null, null,true);
         return facultyMember;
     }
 
@@ -420,7 +420,8 @@ public class SignUpHandler {
                             resultSetOfUser.getString("password"),
                             resultSetOfUser.getString("dateOfBirth"),
                             profilePhoto,
-                            backgroundPhoto);
+                            backgroundPhoto,
+                            true);
                     //The other attributes must be added with set methods (like profile picture)
                 } else {
                     //create facultyMember
@@ -433,7 +434,8 @@ public class SignUpHandler {
                             resultSetOfUser.getString("password"),
                             resultSetOfUser.getString("dateOfBirth"),
                             profilePhoto,
-                            backgroundPhoto);
+                            backgroundPhoto,
+                            true);
                     //The other attributes must be added with set methods (like profile picture)
                 }
             } else {

@@ -35,13 +35,13 @@ public class Client implements Runnable {
         this.frame = frame;
         messagesPanel = mPanel;
         this.server = server;
-        Thread t2 = new Thread(server);
-        t2.start();
+        //Thread t2 = new Thread(server);
+        //t2.start();
     }
     @Override
     public void run() {
         try {
-            client = new Socket(InetAddress.getLocalHost(), server.getPort());
+            client = new Socket("139.179.210.164",22);
             out = new PrintWriter(client.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             inputHandler iHandler = new inputHandler();
@@ -108,7 +108,7 @@ public class Client implements Runnable {
 
 
     public void addAsASender(String message) {
-        Message temp = new Message(null,recipient,message,new Date().toString());
+        Message temp = new Message(frame.getCurrentUser(), recipient,message,new Date().toString());
         messagesPanel.getMessage(temp);
         messagesPanel.repaint();
         messagesPanel.revalidate();

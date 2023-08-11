@@ -32,10 +32,10 @@ public class MessagesGUI extends JFrame {
     private Main main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
-    MessagesPanel n;
+    MessagesPanel conversationViewers;
     User currentUser;
 
-    public MessagesGUI(User currentUser){
+    public MessagesGUI(Main main){
         searchPanel.setBackground(searchPanelColor);
         searchLabel = new JLabel("Search Messages :");
         searchButton = new JButton(IconCreator.getIconWithSize(IconCreator.searchIcon,10,10));
@@ -47,7 +47,10 @@ public class MessagesGUI extends JFrame {
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
         searchPanel.add(new JLabel("    "));
-        this.currentUser = currentUser;
+
+        this.main = main;
+        this.currentUser = main.getCurrentUser();
+        //rightPanel.setVisible(false);
         // Adding ActionListener to the search button
         searchButton.addActionListener(new ActionListener()
         {
@@ -66,21 +69,23 @@ public class MessagesGUI extends JFrame {
             }
         });
         searchField.setColumns(20);
-        if (currentUser.getMessageConnections().size() > 0) {
-            conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0));
+
+
+            conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0),this);
             System.out.println(conversationPanel.getCurrentReceiver().getName());
             m = new MessagesPanel(currentUser, conversationPanel);
+            conversationViewers = m;
             //textInputArea.setMargin(new Insets(5,5,5,5));
             addablePanelLeft.add(m);
             addablePanelRight.add(conversationPanel);
-            //conversationPanel.setVisible(false);
+            conversationPanel.setVisible(false);
 
             //setSize(1200,800);
             //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             //sendMessageButton.setFocusable(false);
 
             //setDefaultCloseOperation(EXIT_ON_CLOSE);
-        }
+
         add(panel1);
         //setVisible(true);
     }
@@ -119,7 +124,7 @@ public class MessagesGUI extends JFrame {
         {
             System.out.println("lolkl");
             String messageContent = m.getConversationViewers().get(i).getMessageContent().toLowerCase();
-            String senderName = n.getConversationViewers().get(i).getName().toLowerCase();
+            String senderName = conversationViewers.getConversationViewers().get(i).getName().toLowerCase();
             if (senderName.contains(searchTerm) || messageContent.contains(searchTerm))
             {
 

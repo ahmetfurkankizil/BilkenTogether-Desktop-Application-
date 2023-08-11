@@ -46,14 +46,13 @@ public class StudiesPostViewer extends PostViewer {
         super.setUp();
         sender = lesPost.getSender();
         proName.setText(sender.getName());
-        //proPhoto = new JLabel(sender.getProfilePhoto());
-        proPhoto = new PPImageHandler();
+        proPhoto = new PPImageHandler(sender);
         header = new JLabel(lesPost.getStudyPostHeading());
         header.setFont(headerFont);
     }
 
     @Override
-    public Post getPost() {
+    public StudyPost getPost() {
         return lesPost;
     }
 
@@ -108,42 +107,42 @@ public class StudiesPostViewer extends PostViewer {
                 addPadding(topicLabel,3,5,3,5);
                 topicLabel.setOpaque(true);
                 topInformationPanel.add(topicLabel);
-                System.out.println("Not Empty");
             }
         }
-        fileOpenerButton = new JButton("File");
-        fileOpenerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                byte data[] = lesPost.getStudyFile();
-                JFileChooser fileChooser= new JFileChooser();
-                // Some init code, if you need one, like setting title
-                int returnVal = fileChooser.showOpenDialog(new JFrame());
-                File destination1;
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                if ( returnVal == JFileChooser.APPROVE_OPTION) {
-                    destination1= fileChooser.getCurrentDirectory();
-                }else
-                    return;
-                File destination = new File(destination1.getAbsolutePath() + "/downloaded.pdf");
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(destination);
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    fos.write(data);
-                    JOptionPane.showMessageDialog(null, "PDF Saved");
-                    fos.close();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+        if (lesPost.getStudyFile() != null) {
+            fileOpenerButton = new JButton("File");
+            fileOpenerButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    byte data[] = lesPost.getStudyFile();
+                    JFileChooser fileChooser = new JFileChooser();
+                    // Some init code, if you need one, like setting title
+                    int returnVal = fileChooser.showOpenDialog(new JFrame());
+                    File destination1;
+                    fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        destination1 = fileChooser.getCurrentDirectory();
+                    } else
+                        return;
+                    File destination = new File(destination1.getAbsolutePath() + "/downloaded.pdf");
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(destination);
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        fos.write(data);
+                        JOptionPane.showMessageDialog(null, "PDF Saved");
+                        fos.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
-            }
-        });
-        bottomIformationPanel.add(fileOpenerButton);
-
+                }
+            });
+            bottomIformationPanel.add(fileOpenerButton);
+        }
     }
 
     public StudyPost getStudyPost() {

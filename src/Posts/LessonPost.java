@@ -10,12 +10,14 @@ public class LessonPost extends RequestablePost {
     private Student accepter;
     private ArrayList<String> lessonPost;
 
-    public LessonPost(int postID , User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost) {
+    public LessonPost(int postID , User sender, String description, String typeFilter, int dateBinaryBoolean, boolean requestType, String dateOfPost,boolean isItNew) {
 
-        super(postID,sender, description, typeFilter, dateOfPost);
+        super(postID,sender, description, typeFilter, dateOfPost,isItNew);
         this.requestType = requestType;
+
         setDateBinaryBoolean(dateBinaryBoolean);
     }
+
     public void setAccepter(Student student){
         this.accepter = student;
     }
@@ -69,12 +71,12 @@ public class LessonPost extends RequestablePost {
     public boolean getRequestType(){
         return requestType;
     }
-    public boolean matchesFilter(String filter){
-        for(String topic: topicCollection){
-            if(topic!= null && topic.equalsIgnoreCase(filter)){
-                return true;
-            }
+    public boolean matchesFilter(boolean[] arr){
+        boolean[] ar2 = getDaysAvailable();
+        for (int i = 0; i < arr.length; i++) {
+            if ((arr[i] != ar2[i]))
+                return false;
         }
-        return false;
+        return true;
     }
 }

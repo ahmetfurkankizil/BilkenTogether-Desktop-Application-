@@ -74,7 +74,6 @@ public class DatabaseConnection {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 try {
                     backgroundPhoto = readBytesFromInputStream(inputStreamBackgroundPhoto);
                 } catch (IOException e) {
@@ -83,11 +82,11 @@ public class DatabaseConnection {
 
                 if (role.equals("Student")) {
                     if (profilePhoto != null) {
-                        user = new Student(nameAndSurname,email,id,gender,department,password,dateOfBirth, profilePhoto, backgroundPhoto);
+                        user = new Student(nameAndSurname,email,id,gender,department,password,dateOfBirth, profilePhoto, backgroundPhoto,false);
                     }
                 } else {
                     if (profilePhoto != null) {
-                        user = new FacultyMember(nameAndSurname, email, id, gender, department, password, dateOfBirth, profilePhoto, backgroundPhoto);
+                        user = new FacultyMember(nameAndSurname, email, id, gender, department, password, dateOfBirth, profilePhoto, backgroundPhoto,false);
                     }
                 }
             } else {

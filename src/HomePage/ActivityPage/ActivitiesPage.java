@@ -1,5 +1,7 @@
 package HomePage.ActivityPage;
 
+import DatabaseRelated.DatabaseConnection;
+import HomePage.LessonsPage.LessonsPage;
 import HomePage.Main.Main;
 import PostComponents.ActivitiesPostViewer;
 import Posts.ActivityPost;
@@ -15,10 +17,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public class ActivitiesPage {
     private Main main;
     private JPanel mainPanel;
+    private ArrayList<Integer> allUsers;
+    private ArrayList<ActivitiesPostViewer> activitiesPostViewers;
+    private ArrayList<ActivityPost> activityPosts;
     private JButton profileBoxButton;
     private JButton filterBoxButton;
     private JLabel bilkenTogetherLabel;
@@ -63,6 +69,8 @@ public class ActivitiesPage {
     public ActivitiesPage(Main main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
+        activityPosts = new ArrayList<>();
+        activitiesPostViewers = new ArrayList<>();
         activitiesPostViewerArrayList = new ArrayList<ActivitiesPostViewer>();
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
@@ -84,9 +92,11 @@ public class ActivitiesPage {
                 numberOfPeople.setText("" + value);
             }
         });
+
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                refreshPosts();
                 boolean isTypeSelected = !typeComboBox.getSelectedItem().equals("Select:");
                 boolean isZero = numberOfPeople.getText().equals("0");
                 boolean isDaySelected = !dayComboBox.getSelectedItem().equals("Day:");
@@ -126,7 +136,7 @@ public class ActivitiesPage {
                         activitiesPostViewerArrayList.get(i).setVisible(true);
                     }
                 }
-                main.repaint();
+                main.update();
             }
         });
         resetButton.addActionListener(new ActionListener() {
@@ -142,8 +152,14 @@ public class ActivitiesPage {
                 yearComboBox.setSelectedIndex(0);
             }
         });
+        getRandomPosts();
     }
-
+    private void refreshPosts(){
+        for (ActivitiesPostViewer a :
+                activitiesPostViewerArrayList) {
+            a.setVisible(true);
+        }
+    }
     public JPanel getInsideScrollPanePanel(){
         return insideScrollPanePanel;
     }
@@ -164,12 +180,64 @@ public class ActivitiesPage {
         textArea1.setMargin(new Insets(5, 5, 5, 5));
         textArea1.setLineWrap(true);
         textArea1.setColumns(50);
-        PPImageHandler profilePhoto = new PPImageHandler();
+        PPImageHandler profilePhoto = new PPImageHandler(currentUser);
         profilePhotoPanel.add(profilePhoto);
         peopleCountComboBox.addItem("Select:");
         for (int i = 1; i < 16; i++) {
             peopleCountComboBox.addItem(i +"");
         }
+    }
+    private void getRandomPosts() {
+        DatabaseConnection c = new DatabaseConnection();
+        allUsers = currentUser.pullIDsFromUserInformationTable();
+        ArrayList<ArrayList<ActivityPost>> userPostCollections = new ArrayList<>();
+        int totalNum = totalNumOfPosts(userPostCollections);
+        boolean exceed = true;
+        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
+            exceed = false;
+
+        for (int i = 0; i < allUsers.size(); i++) {
+            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromActivitiesPostTable());
+        }
+        int max1 = userPostCollections.size();
+        int rand1;
+        int max2;
+        int rand2;
+        Random rand = new Random();
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            System.out.println(max2);
+            System.out.println(rand1);
+            if (max2 != 0)
+                rand2= rand.nextInt(max2);
+            if (!userPostCollections.get(rand1).isEmpty() && !activityPosts.contains(userPostCollections.get(rand1).get(rand2))){
+                addActivityPost(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
+            }
+        }
+
+    }
+    private int totalNumOfPosts(ArrayList<ArrayList<ActivityPost>> userPostCollections){
+        int total = 0;
+        for (ArrayList<ActivityPost> userPostCollection : userPostCollections) {
+            total += userPostCollection.size();
+        }
+        System.out.println(total);
+        return total;
+    }
+
+    private void addActivityPost(ActivityPost activityPost) {
+        g.gridx = 0;
+        ActivitiesPostViewer viewer = new ActivitiesPostViewer(activityPost,main);
+        activitiesPostViewers.add(viewer);
+        insideScrollPanePanel.add(viewer, g);
+        activitiesPostViewerArrayList.add(viewer);
     }
     public void setMain(Main main) {
         this.main = main;
@@ -188,10 +256,12 @@ public class ActivitiesPage {
                 String activityMonth = eventMonthcomboBox.getSelectedItem() + "";
                 String activityYear = eventYearcomboBox.getSelectedItem() + "";
                 String activityDate = activityDay + "/" + activityMonth + "/" + activityYear;
-                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate);
+                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate,true);
                 tempStudent.addToActivitiesTable(tempPost);
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempPost,main);
                 activitiesPostViewerArrayList.add(viewer2);
+                activityPosts.add(tempPost);
+                activitiesPostViewers.add(viewer2);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();
             }

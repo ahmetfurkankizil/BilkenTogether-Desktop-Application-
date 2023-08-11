@@ -12,14 +12,16 @@ public class MessageConnection {
     int port;
     int id;
 
-    public MessageConnection(User currentUser, User otherUser,int port) {
+    public MessageConnection(User currentUser, User otherUser,int port , boolean isItNew) {
         this.otherUser = otherUser;
         this.currentUser = currentUser;
         this.messages = new ArrayList<>();
         this.id = currentUser.getId()+otherUser.getId();
         this.port = port;
-        //currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
-        //currentUser.createMessageHistory(this.id);
+        if (isItNew){
+        currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
+        currentUser.createMessageHistory(this.id);
+        }
     }
     public void setMessages(){
 
@@ -33,9 +35,10 @@ public class MessageConnection {
     public ArrayList<Message> getMessages() {
         return messages;
     }
-    public void addMessages(Message message) {
+    public void addMessages(Message message, boolean isItNew) {
         messages.add(message);
-        currentUser.insertToMessageHistoryTable(this.id,message);
+        if (isItNew)
+            currentUser.insertToMessageHistoryTable(this.id,message);
     }
 }
 

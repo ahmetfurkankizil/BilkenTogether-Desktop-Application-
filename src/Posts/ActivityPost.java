@@ -6,8 +6,8 @@ public class ActivityPost extends RequestablePost {
     private int numberOfAttendants;
     private String activityDate;
 
-    public ActivityPost(int postId, Student sender, String description, int numberOfAttendants, String dateOfPost, String typeFilter, String activityDate) {
-        super(postId,sender, description,typeFilter, dateOfPost);
+    public ActivityPost(int postId, Student sender, String description, int numberOfAttendants, String dateOfPost, String typeFilter, String activityDate,boolean isItNew) {
+        super(postId,sender, description,typeFilter, dateOfPost,isItNew);
         this.numberOfAttendants = numberOfAttendants;
         this.activityDate = activityDate;
         sender.addActivityPost(this);

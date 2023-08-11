@@ -1,6 +1,7 @@
 package HomePage.Main;
 
 import CommentsGUI.CommentsMidPanel;
+import DatabaseRelated.DatabaseConnection;
 import HomePage.ActivityPage.ActivitiesPage;
 import HomePage.LessonsPage.LessonsPage;
 import HomePage.StudiesPage.StudiesPage;
@@ -131,25 +132,24 @@ public class Main extends JFrame {
     private boolean messageSendButtonPressed;
     private RequestMidPanel requestsPage;
     private Server server;
-
-
     private ProfileBox profileBox;
 
     public Main() {
-        currentUser = new Student("Erdem", "erdem.p", 22103566, "l", "d", "p", "b",null,null);
+        currentUser = new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
         //Adding profile photo (photo to byte)
         ppHandler();
         //setUpPastMessages();
         canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
-        //profileBox = new ProfileBox(currentUser);
-        //profileBoxPanel.add(profileBox);
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
-        server = new Server(22);
+        //server = new Server(22);
 
         client = new Client(messagesGUI.getConversationPanel(),this,server);
+
         setContentPane(mainPanel);
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
         removableRight.add(lessons.getQuickFiltersPanel());
@@ -204,10 +204,16 @@ public class Main extends JFrame {
                 }
             }
         };
-        lessonsButton.addActionListener(sectionButtonListener);
         studiesButton.addActionListener(sectionButtonListener);
-        activitiesButton.addActionListener(sectionButtonListener);
 
+        if (currentUser instanceof Student) {
+            lessonsButton.addActionListener(sectionButtonListener);
+
+            activitiesButton.addActionListener(sectionButtonListener);
+        }else {
+            lessonsButton.setVisible(false);
+            activitiesButton.setVisible(false);
+        }
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,14 +223,11 @@ public class Main extends JFrame {
                     messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.getConversationPanel();
-
-
                 }
                 revalidate();
                 repaint();
             }
         });
-
         client.run();
     }
 
@@ -243,7 +246,7 @@ public class Main extends JFrame {
             throw new RuntimeException(e);
         }
         byte[] bytes = os.toByteArray();
-        currentUser.setProfilePhoto(bytes);
+        currentUser.setProfilePhoto(bytes,false);
 
         // Adding Background Photo (photo to byte[])
         BufferedImage ib = null;
@@ -259,7 +262,8 @@ public class Main extends JFrame {
             throw new RuntimeException(e);
         }
         byte[] bytes1 = so.toByteArray();
-        currentUser.setBackgroundPhoto(bytes1);
+        currentUser.setBackgroundPhoto(bytes1,false);
+
     }
 
     private void setUpLabelListeners() {
@@ -319,6 +323,7 @@ public class Main extends JFrame {
                 update();}
             }
         });
+        if (currentUser instanceof Student){
         requestsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -338,7 +343,7 @@ public class Main extends JFrame {
                     update();
                 }
             }
-        });
+        });}
         notificationsLabel.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -392,28 +397,32 @@ public class Main extends JFrame {
     }
     private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
-        activities = new ActivitiesPage(this);
-        studies = new StudiesPage();
-        studies.setMain(this);
-        lessons = new LessonsPage(this);
-        messagesGUI = new MessagesGUI(currentUser);
-        messagesGUI.setMain(this);
+        setUpPastMessages();
+        if (currentUser instanceof Student) {
+            activities = new ActivitiesPage(this);
+            lessons = new LessonsPage(this);
+            requestsPage = new RequestMidPanel(this);
+        }
         notificationHomePage = new NotificationHomePage(this);
-        profilePage = new UserProfilePage(currentUser,profileBox);
-        profilePage.setMain(this);
-        requestsPage = new RequestMidPanel(this);
-
+        messagesGUI = new MessagesGUI(this);
+        studies = new StudiesPage(this);
+        profilePage = new UserProfilePage(this, profileBox);
     }
     public void setUpPastMessages(){
-        User otherUser = new Student("aba","a",22103566,"s","s","s","s", null, null);
-        MessageConnection temp = new MessageConnection(currentUser,otherUser,22);
-        //MessageConnection temp2 = new MessageConnection(currentUser,otherUser,20);
-        //Student otherUser2 = new Student("abarrr","a",1,"s","s","s","s");
-        temp.addMessages(new Message(currentUser,otherUser,"lol sent",new Date().toString()));
-        temp.addMessages(new Message(otherUser,currentUser,"lol got",new Date().toString()));
+        ArrayList<Integer> otherUsers = currentUser.pullIDsFromUserInformationTable();
+        DatabaseConnection tempConnection = new DatabaseConnection();
+        System.out.println("IT WILL ENTER " + otherUsers.size() + "TIMES");
+        for (int i = 0; i < otherUsers.size(); i++) {
+            if (otherUsers.get(i) != currentUser.getId()){
+                MessageConnection temp = new MessageConnection(currentUser, tempConnection.pullUserByIdFromDB(otherUsers.get(i)),22 , false);
+                ArrayList<Message> messages = currentUser.pullMessageHistoryFromDB(otherUsers.get(i) +currentUser.getId());
+                for (int j = 0; j < messages.size(); j++) {
+                    temp.addMessages(messages.get(i),false);
+                }
+                currentUser.addMessageConnection(temp);
+            }
+        }
 
-        currentUser.addMessageConnection(temp);
-        //currentUser.addMessageConnection(temp2);
     }
 
     public void setCurrentUser(User user) {
@@ -490,9 +499,12 @@ public class Main extends JFrame {
         messagesLabel.setIcon(IconCreator.getIconWithSize(IconCreator.messageIcon, secPanelIconWidth, secPanelIconWidth));
         notificationsLabel.setIcon(IconCreator.getIconWithSize(IconCreator.notificationsIcon, secPanelIconWidth, (int) (secPanelIconWidth * 1.14)));
         profileLabel.setIcon(IconCreator.getIconWithSize(IconCreator.userIcon, secPanelIconWidth, (int) (secPanelIconWidth * 1.14)));
-        requestsLabel.setIcon(IconCreator.getIconWithSize(IconCreator.requestSecIcon, secPanelIconWidth, (int) (secPanelIconWidth * .88)));
         homeLabel.setIcon(IconCreator.getIconWithSize(IconCreator.houseIcon, secPanelIconWidth, (int) (secPanelIconWidth * .88)));
+
+        if (currentUser instanceof Student){
+        requestsLabel.setIcon(IconCreator.getIconWithSize(IconCreator.requestSecIcon, secPanelIconWidth, (int) (secPanelIconWidth * .88)));
         setUpBorders();
+        }
     }
 
     private void setUpBorders() {
