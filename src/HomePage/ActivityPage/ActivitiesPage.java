@@ -246,6 +246,18 @@ public class ActivitiesPage {
     public void setMain(HomeMain main) {
         this.main = main;
     }
+
+    public void refreshProfilePhotos() {
+
+            profilePhotoPanel.removeAll();
+            PPImageHandler profilePhoto = new PPImageHandler(currentUser);
+            profilePhotoPanel.add(profilePhoto);
+            profilePhotoPanel.revalidate();
+            profilePhotoPanel.repaint();
+
+
+    }
+
     private class postButtonListener implements ActionListener{
 
         @Override

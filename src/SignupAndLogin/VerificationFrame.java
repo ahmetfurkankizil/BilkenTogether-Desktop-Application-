@@ -53,6 +53,7 @@ public class VerificationFrame extends JFrame{
                             member.createNotificationsTable();
                             member.setDefaultPhotos();
                         }
+                        tempUser.createMessageConnections();
 
                     }
                 }

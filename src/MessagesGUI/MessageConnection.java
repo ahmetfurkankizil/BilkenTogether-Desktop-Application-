@@ -4,6 +4,7 @@ import MessagesRelated.Message;
 import UserRelated.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MessageConnection {
     private User otherUser;
@@ -21,6 +22,7 @@ public class MessageConnection {
         if (isItNew){
         currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
         currentUser.createMessageHistory(this.id);
+
         }
     }
     public void setMessages(){

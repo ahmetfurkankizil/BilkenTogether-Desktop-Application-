@@ -185,7 +185,7 @@ public class UserProfilePage extends JPanel {
     }
 
     private void openEditProfilePage() {
-        JFrame frame = new UserEditProfilePage(this, profileBox );
+        JFrame frame = new UserEditProfilePage(this, profileBox,main );
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);

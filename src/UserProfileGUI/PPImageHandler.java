@@ -14,7 +14,7 @@ public class PPImageHandler extends JLabel {
 
     public PPImageHandler(User user){
         super();
-        setIcon((new ImageIcon(user.pullTheProfilePhotoFromDB(user.getId()))));
+        setIcon(IconCreator.getIconWithSize((new ImageIcon(user.pullTheProfilePhotoFromDB(user.getId()))),70,70));
         image = getIcon();
     }
     public PPImageHandler(ImageIcon i){

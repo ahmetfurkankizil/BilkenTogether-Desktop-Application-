@@ -142,8 +142,8 @@ public class HomeMain extends JFrame {
         canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
-        //profileBox = new ProfileBox(currentUser);
-        //profileBoxPanel.add(profileBox);
+        profileBox = new ProfileBox(currentUser);
+        profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         //server = new Server(22);
@@ -418,7 +418,7 @@ public class HomeMain extends JFrame {
     }
     private RequestMiddlePanelUnanswered requestExtended;
     private void setUpPages() {
-        //setUpPastMessages();
+        setUpPastMessages();
         if (currentUser instanceof Student) {
             activities = new ActivitiesPage(this);
             lessons = new LessonsPage(this);
@@ -438,11 +438,20 @@ public class HomeMain extends JFrame {
                 MessageConnection temp = new MessageConnection(currentUser, tempConnection.pullUserByIdFromDB(otherUsers.get(i)),22 , false);
                 ArrayList<Message> messages = currentUser.pullMessageHistoryFromDB(otherUsers.get(i) +currentUser.getId());
                 for (int j = 0; j < messages.size(); j++) {
-                    temp.addMessages(messages.get(i),false);
+                    temp.addMessages(messages.get(j),false);
                 }
                 currentUser.addMessageConnection(temp);
             }
         }
+
+    }
+    public void refreshProfilePhotos(){
+        if (currentUser instanceof Student){
+            lessons.refreshProfilePhotos();
+            activities.refreshProfilePhotos();
+
+        }
+        studies.refreshProfilePhotos();
 
     }
 

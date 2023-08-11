@@ -298,6 +298,15 @@ public class LessonsPage {
         setCurrentUser(main.getCurrentUser());
     }
 
+    public void refreshProfilePhotos() {
+        profilePhotoPanel.removeAll();
+        profilePhoto = new PPImageHandler(currentUser);
+        profilePhotoPanel.add(profilePhoto);
+        profilePhotoPanel.revalidate();
+        profilePhotoPanel.repaint();
+
+    }
+
     private class requestActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

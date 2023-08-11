@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class User{
     private String[] studyTopics;
@@ -989,5 +990,13 @@ public abstract class User{
     }
 
 
-
+    public void createMessageConnections() {
+        ArrayList<Integer> allUsers = pullIDsFromUserInformationTable();
+        if (allUsers.size()>1){
+            for (Integer i : allUsers) {
+                messageConnections.add(new MessageConnection(this,databaseConnection.pullUserByIdFromDB(i),22,true));
+                getMessageConnections().get(this.getMessageConnections().size()-1).addMessages(new Message(this,databaseConnection.pullUserByIdFromDB(i),"             ",new Date().toString()),true);
+            }
+        }
+    }
 }

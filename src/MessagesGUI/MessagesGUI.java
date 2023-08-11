@@ -120,6 +120,7 @@ public class MessagesGUI extends JFrame {
     private void performSearch() {
         String searchTerm = searchField.getText().toLowerCase();
         System.out.println(searchTerm);
+        if (m != null){
         for (int i = 0; i < m.getConversationViewers().size(); i++)
         {
             System.out.println("lolkl");
@@ -138,7 +139,7 @@ public class MessagesGUI extends JFrame {
         m.repaint();
         m.revalidate();
         scrollLeft.repaint();
-        scrollLeft.revalidate();
+        scrollLeft.revalidate();}
     }
 
     public User getCurrentReceiver() {
