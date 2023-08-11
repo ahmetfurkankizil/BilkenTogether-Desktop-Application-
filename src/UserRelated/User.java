@@ -52,7 +52,7 @@ public abstract class User{
         setPassword(password);
         setDateOfBirth(dateOfBirth);
         if (isItNew) {
-            setDefaultPhotos();
+            //setDefaultPhotos();
             if (profilePhoto != null)
                 setProfilePhoto(profilePhoto,true);
             if (backGroundPhoto != null)

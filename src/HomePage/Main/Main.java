@@ -137,13 +137,13 @@ public class Main extends JFrame {
     public Main() {
         currentUser = new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
         //Adding profile photo (photo to byte)
-        ppHandler();
+        //ppHandler();
         //setUpPastMessages();
         canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
-        profileBox = new ProfileBox(currentUser);
-        profileBoxPanel.add(profileBox);
+        //profileBox = new ProfileBox(currentUser);
+        //profileBoxPanel.add(profileBox);
         setUpPages();
         logoLabel.setIcon(LOGO);
         //server = new Server(22);

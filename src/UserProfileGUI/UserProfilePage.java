@@ -84,7 +84,7 @@ public class UserProfilePage extends JPanel {
             setUpLessonsHistory();
             setUpActivitiesHistory();
         }
-        setUpStuiesHistory();
+        //setUpStuiesHistory();
     }
 
     private void setUpLessonsHistory() {

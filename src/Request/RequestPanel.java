@@ -38,7 +38,7 @@ public class RequestPanel extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
 
         // Profile Photo Label
-        JLabel profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(main.getCurrentUser().getProfilePhoto()),40,40));
+        JLabel profilePhotoLabel = new JLabel("");//IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(main.getCurrentUser().getProfilePhoto()),40,40));
         c.gridx = 0;
         c.gridy = 0;
         c.insets = new Insets(5,5,5,5);
