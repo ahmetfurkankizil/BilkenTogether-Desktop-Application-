@@ -17,14 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 public class ActivitiesPage {
     private HomeMain main;
     private JPanel mainPanel;
-    private ArrayList<Integer> allUsers;
-    private ArrayList<ActivitiesPostViewer> activitiesPostViewers;
-    private ArrayList<ActivityPost> activityPosts;
     private JButton profileBoxButton;
     private JButton filterBoxButton;
     private JLabel bilkenTogetherLabel;
@@ -52,26 +48,21 @@ public class ActivitiesPage {
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JButton submitButton;
-    private JComboBox dayComboBox;
-    private JComboBox monthComboBox;
-    private JComboBox yearComboBox;
+    private JComboBox comboBox3;
+    private JComboBox comboBox4;
+    private JComboBox comboBox5;
     private JPanel quickFiltersPanel;
     private JPanel removableRight;
     private JComboBox eventDaycomboBox;
     private JComboBox eventMonthcomboBox;
     private JComboBox eventYearcomboBox;
-    private JLabel filterErrorLabel;
-    private JButton resetButton;
     User currentUser;
 
-    private ArrayList<ActivitiesPostViewer> activitiesPostViewerArrayList;
+    private ArrayList<ActivityPost> activityPostArrayList;
     private GridBagConstraints g;
     public ActivitiesPage(HomeMain main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
-        activityPosts = new ArrayList<>();
-        activitiesPostViewers = new ArrayList<>();
-        activitiesPostViewerArrayList = new ArrayList<ActivitiesPostViewer>();
         JScrollBar bar = flowScrollPane.getVerticalScrollBar();
         errorLabel.setText(" ");
         generalSetup();
@@ -96,73 +87,6 @@ public class ActivitiesPage {
                 numberOfPeople.setText("" + value);
             }
         });
-
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                refreshPosts();
-                boolean isTypeSelected = !typeComboBox.getSelectedItem().equals("Select:");
-                boolean isZero = numberOfPeople.getText().equals("0");
-                boolean isDaySelected = !dayComboBox.getSelectedItem().equals("Day:");
-                boolean isMonthSelected = !monthComboBox.getSelectedItem().equals("Month:");
-                boolean isYearSelected = !yearComboBox.getSelectedItem().equals("Year:");
-                boolean isDateSelected = false;
-                String type = "";
-                int numOfPeople = 0;
-                String date = "";
-                if(isTypeSelected) {
-                    type = typeComboBox.getSelectedItem() +"";
-                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
-                        if(!activitiesPostViewerArrayList.get(i).getPost().getTypeFilter().equals(type)) {
-                            activitiesPostViewerArrayList.get(i).setVisible(false);
-                        }
-                    }
-                }
-                if (!isZero) {
-                    numOfPeople = Integer.parseInt(numberOfPeople.getText());
-                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
-                        if(activitiesPostViewerArrayList.get(i).getPost().getNumberOfAttendants() != numOfPeople) {
-                            activitiesPostViewerArrayList.get(i).setVisible(false);
-                        }
-                    }
-                }
-                if(isDaySelected && isMonthSelected && isMonthSelected) {
-                    isDateSelected = true;
-                    date = dayComboBox.getSelectedItem() +"/"+ monthComboBox.getSelectedItem() +"/"+ yearComboBox.getSelectedItem();
-                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
-                        if(!activitiesPostViewerArrayList.get(i).getPost().getActivityDate().equals(date)) {
-                            activitiesPostViewerArrayList.get(i).setVisible(false);
-                        }
-                    }
-                }
-                if(!isTypeSelected && isZero && !isDaySelected && !isMonthSelected && !isYearSelected) {
-                    for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
-                        activitiesPostViewerArrayList.get(i).setVisible(true);
-                    }
-                }
-                main.update();
-            }
-        });
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < activitiesPostViewerArrayList.size(); i++) {
-                    activitiesPostViewerArrayList.get(i).setVisible(true);
-                }
-                typeComboBox.setSelectedIndex(0);
-                slider1.setValue(-1);
-                dayComboBox.setSelectedIndex(0);
-                monthComboBox.setSelectedIndex(0);
-                yearComboBox.setSelectedIndex(0);
-            }
-        });
-        getRandomPosts();
-    }
-    private void refreshPosts(){
-        for (ActivitiesPostViewer a :
-                activitiesPostViewerArrayList) {
-            a.setVisible(true);
-        }
     }
     public JPanel getInsideScrollPanePanel(){
         return insideScrollPanePanel;
@@ -184,7 +108,7 @@ public class ActivitiesPage {
         textArea1.setMargin(new Insets(5, 5, 5, 5));
         textArea1.setLineWrap(true);
         textArea1.setColumns(50);
-        PPImageHandler profilePhoto = new PPImageHandler(currentUser);
+        PPImageHandler profilePhoto = new PPImageHandler();
         profilePhotoPanel.add(profilePhoto);
         peopleCountComboBox.addItem("Select:");
         for (int i = 1; i < 16; i++) {
@@ -272,12 +196,9 @@ public class ActivitiesPage {
                 String activityMonth = eventMonthcomboBox.getSelectedItem() + "";
                 String activityYear = eventYearcomboBox.getSelectedItem() + "";
                 String activityDate = activityDay + "/" + activityMonth + "/" + activityYear;
-                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate,true);
+                ActivityPost tempPost = new ActivityPost(0,tempStudent,textArea1.getText().strip(),peopleCount,date.toString(),type, activityDate);
                 tempStudent.addToActivitiesTable(tempPost);
                 ActivitiesPostViewer viewer2 = new ActivitiesPostViewer(tempPost,main);
-                activitiesPostViewerArrayList.add(viewer2);
-                activityPosts.add(tempPost);
-                activitiesPostViewers.add(viewer2);
                 insideScrollPanePanel.add(viewer2,g);
                 main.update();
             }

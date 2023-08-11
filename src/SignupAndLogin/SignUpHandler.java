@@ -193,7 +193,7 @@ public class SignUpHandler {
     }
 
     public Student createStudent(String name, String email, int id, String gender, String department, String password, String dateOfBirth) {
-        Student student = new Student(name, email, id, gender, department, password, dateOfBirth, null, null,true);
+        Student student = new Student(name, email, id, gender, department, password, dateOfBirth, null, null);
         return student;
     }
 

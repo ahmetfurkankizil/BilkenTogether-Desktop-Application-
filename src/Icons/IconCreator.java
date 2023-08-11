@@ -27,8 +27,7 @@ public class IconCreator extends JFrame {
     public static final ImageIcon halfStarIcon = new ImageIcon(f.getAbsolutePath().replace("house", "star-half-stroke"));
     public static final ImageIcon starIcon = new ImageIcon(f.getAbsolutePath().replace("house", "star"));
     public static final ImageIcon emptyStarIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "star-regular"));
-    public static final ImageIcon emptyLikeIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "heart-regular"));
-    public static final ImageIcon deleteIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "delete"));
+    public static final ImageIcon emptyLikeIcon = new ImageIcon(f.getAbsolutePath().replace("house-solid", "heart-regular"));;
 
     public IconCreator() {
         System.out.println(f.getAbsolutePath());
@@ -65,7 +64,6 @@ public class IconCreator extends JFrame {
     }
 
     public static ImageIcon getIconWithSize(ImageIcon imageIcon, int width, int height) {
-
         return new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING));
     }
 }
