@@ -26,6 +26,12 @@ public class Student extends User{
         this.activityPostCollection = new ArrayList<>();
 
     }
+    public int getLessonPostId(){
+        return pullFromLessonsPostTable().size();
+    }
+    public int getActivityPostId(){
+        return pullFromActivitiesPostTable().size();
+    }
 
     public void addLessonPost(LessonPost lessonPost) {
         lessonPostCollection.add(lessonPost);
@@ -154,7 +160,6 @@ public class Student extends User{
 
 
     public boolean addToLessonsTable(LessonPost lessonPost) {
-        System.out.println(super.getEmail());
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = super.getId() + "LessonsTable";
@@ -214,7 +219,6 @@ public class Student extends User{
                 Student u = new Student(senderName,null,userId,null,null,null,null, null, null,false);
                 lessonPost = new LessonPost(postId, u, postDescription, typeFilter, dateBinaryBoolean, requestType, postDate,false);
             } else {
-                System.out.println("sent null");
                 return null;
             }
 

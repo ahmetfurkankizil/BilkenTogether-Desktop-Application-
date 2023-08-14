@@ -385,7 +385,6 @@ public class StudiesPage {
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    System.out.println(uploadedPdf==null);
 
                 }
 
@@ -400,7 +399,6 @@ public class StudiesPage {
 
         boolean exceed = false;
         for (int i = 0; i < allUsers.size(); i++) {
-            System.out.println("gone");
             userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromStudyPostTable());
         }
         int max1 = userPostCollections.size();
@@ -546,13 +544,9 @@ public class StudiesPage {
 
     }
     public void refreshProfilePhotos() {
-
-        profilePhotoPanel.removeAll();
         PPImageHandler profilePhoto = new PPImageHandler(currentUser);
         profilePhotoPanel.add(profilePhoto);
         profilePhotoPanel.revalidate();
         profilePhotoPanel.repaint();
-
-
     }
 }

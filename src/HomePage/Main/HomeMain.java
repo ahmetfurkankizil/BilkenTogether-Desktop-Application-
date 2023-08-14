@@ -170,7 +170,7 @@ public class HomeMain extends JFrame {
         //LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
         //lessons.addLessonPost(tempPost);
         //tempPost.addComment(new Comment(currentUser,"lol so cool"));
-
+        goTop();
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
 
@@ -186,19 +186,21 @@ public class HomeMain extends JFrame {
                             insideScrollPanePanel.add(activities.getInsideScrollPanePanel());
                             removableRight.removeAll();
                             removableRight.add(activities.getQuickFiltersPanel());
+                            goTop();
                             break;
                         case 's':
                             insideScrollPanePanel.removeAll();
                             insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
                             removableRight.removeAll();
                             removableRight.add(studies.getQfPanel());
+                            goTop();
                             break;
                         case 'l':
-                            System.out.println("Lessons");
                             insideScrollPanePanel.removeAll();
                             insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
                             removableRight.removeAll();
                             removableRight.add(lessons.getQuickFiltersPanel());
+                            goTop();
                             break;
                     }
                     lessonsButton.setSelected(false);
@@ -228,7 +230,7 @@ public class HomeMain extends JFrame {
                     messageSendButtonPressed = true;
 
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
-                    setUpPastMessages();
+
                     messagesGUI.refreshLeft();
                 }
                update();
@@ -239,8 +241,8 @@ public class HomeMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(JOptionPane.showConfirmDialog(new JFrame(),"Are You Sure To Log Out?") == JOptionPane.YES_OPTION) {
-                    dispose();
                     setVisible(false);
+                    dispose();
                     SignUpHandler sh = new SignUpHandler();
                     LoginFrame loginFrame = new LoginFrame(sh);
                     loginFrame.setTitle("BilkenTogether");
@@ -250,6 +252,11 @@ public class HomeMain extends JFrame {
                 }
             }
         });
+    }
+
+    private void goTop() {
+        JScrollBar verBar = flowScrollPane.getVerticalScrollBar();
+        verBar.setValue(0);
     }
 
     private void ppHandler() {
@@ -428,6 +435,7 @@ public class HomeMain extends JFrame {
         removableRight.removeAll();
         insideScrollPanePanel.removeAll();
         flowScrollPane.setVisible(false);
+        goTop();
     }
 
     private void resetLabelFonts() {
@@ -579,19 +587,21 @@ public class HomeMain extends JFrame {
             section = "studies";
         switch (section.toLowerCase().charAt(0)) {
                 case 'a':
+                    goTop();
                     insideScrollPanePanel.removeAll();
                     insideScrollPanePanel.add(activities.getInsideScrollPanePanel());
                     removableRight.removeAll();
                     removableRight.add(activities.getQuickFiltersPanel());
                     break;
                 case 's':
+                    goTop();
                     insideScrollPanePanel.removeAll();
                     insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
                     removableRight.removeAll();
                     removableRight.add(studies.getQfPanel());
                     break;
                 case 'l':
-                    System.out.println("Lessons");
+                    goTop();
                     insideScrollPanePanel.removeAll();
                     insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
                     removableRight.removeAll();

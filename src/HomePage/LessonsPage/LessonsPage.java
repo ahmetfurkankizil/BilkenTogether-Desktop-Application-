@@ -4,6 +4,7 @@ import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
+import Posts.StudyPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -125,31 +126,32 @@ public class LessonsPage {
         DatabaseConnection c = new DatabaseConnection();
         allUsers = currentUser.pullIDsFromUserInformationTable();
         ArrayList<ArrayList<LessonPost>> userPostCollections = new ArrayList<>();
-        int totalNum = totalNumOfPosts(userPostCollections);
 
         boolean exceed = false;
-
         for (int i = 0; i < allUsers.size(); i++) {
-            User temp13 = c.pullUserByIdFromDB(allUsers.get(i));
-            if (temp13 instanceof Student student)
-                userPostCollections.add(student.pullFromLessonsPostTable());
+            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromLessonsPostTable());
         }
         int max1 = userPostCollections.size();
         int rand1;
         int max2;
         int rand2;
         Random rand = new Random();
-        for (int i = 0; i < NUMOFPOSTSINAPAGE; i++) {
-             rand1= rand.nextInt(max1);
-             max2= userPostCollections.get(rand1).size();
-             rand2 = 0;
-
-             if (max2 != 0)
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            if (max2 != 0)
                 rand2= rand.nextInt(max2);
-            if (!userPostCollections.get(rand1).isEmpty()  &&!posts.contains(userPostCollections.get(rand1).get(rand2))){
+            if (!userPostCollections.get(rand1).isEmpty() && !posts.contains(userPostCollections.get(rand1).get(rand2))){
                 addLessonPost(userPostCollections.get(rand1).get(rand2));
+                posts.add(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
             }
         }
+
 
     }
 
@@ -345,7 +347,6 @@ public class LessonsPage {
                 addLessonPost(tempPost);
                 Student s = (Student) currentUser;
                 main.update();
-                s.addToLessonsTable(tempPost);
             }
 
         }
@@ -394,7 +395,6 @@ public class LessonsPage {
             returned += 10;
         if (sundayButton.isSelected())
             returned += 1;
-        System.out.println(returned);
         return returned;
     }
     private void filterLessons(String selectedValue){

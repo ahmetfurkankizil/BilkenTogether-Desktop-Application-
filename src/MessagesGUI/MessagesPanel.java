@@ -19,21 +19,21 @@ public class MessagesPanel extends JPanel {
     ArrayList<ConversationViewer> conversationViewers;
     JPanel mainPanel;
     User currentUser;
+    private int currentReceiverID;
     ArrayList<MessageConnection> pastMessageConnections;
+    private User currentReceiver;
 
     public MessagesPanel(User currentUser,ConversationPanel panel) {
-
+        currentReceiverID = 0;
         this.currentUser = currentUser;
         setLayout(new GridBagLayout());
         mainPanel = new JPanel(new GridLayout(0, 1));
         conversationViewers = new ArrayList<>();
-        refresh(currentUser, panel);
-    }
-
-    public void refresh(User currentUser, ConversationPanel panel) {
+        resetBackgrounds();
         g = new GridBagConstraints();
         g.gridx = 0;
         g.fill = GridBagConstraints.HORIZONTAL;
+
         pastMessageConnections = new ArrayList<>();
         pastMessageConnections = currentUser.getMessageConnections();
         conversationViewers = new ArrayList<>();
@@ -41,8 +41,23 @@ public class MessagesPanel extends JPanel {
             ConversationViewer temp = new ConversationViewer(m, panel);
             conversationViewers.add(temp);
         }
-        removeViewers();
         for (ConversationViewer conversationViewer : conversationViewers) add(conversationViewer, g);
+    }
+
+    public void refresh(User currentUser, ConversationPanel panel) {
+        g = new GridBagConstraints();
+        g.gridx = 0;
+        g.fill = GridBagConstraints.HORIZONTAL;
+        ArrayList<MessageConnection> pastMessageConnections2 = currentUser.getMessageConnections();
+        MessageConnection currentMConnection = null;
+        for (MessageConnection m : pastMessageConnections) {
+            if (m.getOtherUser().getId() == currentReceiverID)
+                currentMConnection = m;
+        }
+        for (ConversationViewer viewer: conversationViewers) {
+            if (viewer.getOtherUserId() == currentReceiverID && currentMConnection != null)
+                viewer.setMessageContent(currentMConnection.getMessages().get(currentMConnection.getMessages().size()-1).getContent());
+        }
         repaint();
         revalidate();
     }
@@ -51,12 +66,13 @@ public class MessagesPanel extends JPanel {
         for (Component c :
                 getComponents()) {
             if (c instanceof ConversationViewer viewer){
-
+                remove(viewer);
             }
         }
         repaint();
         revalidate();
     }
+
 
 
     public ArrayList<ConversationViewer> getConversationViewers() {
@@ -85,27 +101,32 @@ public class MessagesPanel extends JPanel {
             this.panel = panel;
             addListener();
         }
+        public int getOtherUserId(){
+            return messageConnection.getOtherUser().getId();
+        }
+
 
 
 
 
 
         private void setUp(boolean b) {
+            profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(new ImageIcon(messageConnection.getOtherUser().getProfilePhoto()), 20, 20));
+            profileNameLabel = new JLabel(messageConnection.getOtherUser().getName());
+            profileNameLabel.setFont(profileNameFont);
+            messageContent = new JTextArea();
+            messageContent.setMargin(new Insets(7, 7, 7, 7));
+            messageContent.setEditable(false);
+            messageContent.setFocusable(false);
+            messageContent.setColumns(32);
+            messageContent.setRows(1);
+            messageContent.setLineWrap(true);
+            messageContent.setOpaque(false);
             if (!messageConnection.getMessages().isEmpty()) {
-                profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(new ImageIcon(messageConnection.getOtherUser().getProfilePhoto()), 20, 20));
-                profileNameLabel = new JLabel(messageConnection.getOtherUser().getName());
-                profileNameLabel.setFont(profileNameFont);
-                messageContent = new JTextArea();
-
                 messageContent.setText(messageConnection.getMessages().get(messageConnection.getMessages().size() - 1).getContent());
-                messageContent.setMargin(new Insets(7, 7, 7, 7));
-                messageContent.setEditable(false);
-                messageContent.setFocusable(false);
-                messageContent.setColumns(32);
-                messageContent.setRows(1);
-                messageContent.setLineWrap(true);
-                messageContent.setOpaque(false);
-
+            } else {
+                messageContent.setText("");
+            }
                 g.gridy = 0;
                 g.gridx = 0;
                 g.insets = new Insets(8, 8, 5, 8);
@@ -120,7 +141,7 @@ public class MessagesPanel extends JPanel {
                 g.fill = GridBagConstraints.BOTH;
                 g.insets = new Insets(3, 8, 3, 3);
                 add(messageContent, g);
-            }
+
         }
 
         public void setMessageContent(String str) {
@@ -155,6 +176,7 @@ public class MessagesPanel extends JPanel {
                     resetBackgrounds();
                     setBackground(new Color(239, 143, 143));
                     panel.setCurrentReceiver(messageConnection);
+                    currentReceiverID = messageConnection.getOtherUser().getId();
                     createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
                     panel.setVisible(true);
 

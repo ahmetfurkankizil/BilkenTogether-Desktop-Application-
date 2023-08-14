@@ -1,6 +1,8 @@
 package Request;
 
 import HomePage.Main.HomeMain;
+import Icons.IconCreator;
+import PostComponents.LessonPostViewer;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 
@@ -34,7 +36,7 @@ public class RequestPanel extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
 
         // Profile Photo Label
-        JLabel profilePhotoLabel = new JLabel("");//IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(main.getCurrentUser().getProfilePhoto()),40,40));
+        JLabel profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(new ImageIcon(requestablePost.getSender().getProfilePhoto()),40,40));//IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(main.getCurrentUser().getProfilePhoto()),40,40));
         c.gridx = 0;
         c.gridy = 0;
         c.insets = new Insets(5,5,5,5);
@@ -54,6 +56,8 @@ public class RequestPanel extends JPanel {
         requestTextArea.setLineWrap(true);
         requestTextArea.setEditable(false);
         requestTextArea.setFocusable(false);
+        LessonPostViewer.addPadding(requestTextArea);
+        requestTextArea.setMargin(new Insets(5,5,5,5));
         c.gridx = 1;
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -73,18 +77,25 @@ public class RequestPanel extends JPanel {
         if (requestablePost instanceof LessonPost) {
             LessonPost lesPost = (LessonPost) requestablePost;
             requestStatusLabel.setText(lesPost.getRequestType() ? "LESSON REQUEST" : "LESSON GIVE");
+            LessonPostViewer.addPadding(requestStatusLabel);
             c.gridx += 1;
 
             add(requestStatusLabel, c);
         }
+        LessonPostViewer.addPadding(typeFiletLabel);
         add(typeFiletLabel,c);
         c.gridx += 1;
         c.gridy = 2;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.NONE;
 
+
+
+
+
         // Type Name Label
         JLabel typeNameLabel = new JLabel(requestablePost.getTypeFilter());
+        LessonPostViewer.addPadding(typeNameLabel);
         typeNameLabel.setBackground(Color.LIGHT_GRAY);
         c.gridx = 2;
         add(typeNameLabel, c);
@@ -93,6 +104,7 @@ public class RequestPanel extends JPanel {
         JLabel requestNumberLabel = new JLabel(requestablePost.getRequestCollection().size()+"");
         requestNumberLabel.setBackground(Color.RED);
         requestNumberLabel.setOpaque(true);
+        LessonPostViewer.addPadding(requestNumberLabel);
         c.gridx = 3;
         add(requestNumberLabel, c);
     }

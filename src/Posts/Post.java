@@ -26,14 +26,18 @@ public abstract class Post {
         /*
          * Post Id Oluşturma Nasıl Olacak? Database ile uyumlu olması gerekiyor.
          */
-        this.postID = postID;
         this.sender = sender;
         commentCollection = new ArrayList<>();
-
         this.dateOfPost = dateOfPost;
         this.postDescription = description;
-        if (isItNew)
+
+
+        if (isItNew){
+            this.postID = setPostID();
             createCommentsTable();
+        }else {
+            this.postID = postID;
+        }
     }
     public void addPastComents() {
         //ArrayListi commentCollectiona atıcak (=)
@@ -85,11 +89,12 @@ public abstract class Post {
     public User getSender() {
         return sender;
     }
+    public abstract int setPostID();
 
     public boolean createCommentsTable() {
         databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection()) {
-            String tableName = "" + getSender().getId() + "x" + getPostID() + "CommentsTable";
+            String tableName = "" + getSender().getId() + "x" + postID + "CommentsTable";
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
                         + "commenterId INT AUTO_INCREMENT PRIMARY KEY,"

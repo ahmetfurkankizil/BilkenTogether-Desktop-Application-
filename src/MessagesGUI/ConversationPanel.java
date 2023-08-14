@@ -30,11 +30,9 @@ public class ConversationPanel extends JPanel {
         this.messagesGUI = messagesGUI;
         mainPanel = new JPanel();
         pastMessages = messageConnection.getMessages();
-        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setLayout(new GridLayout(0,2));
         this.currentUser = messageConnection.getCurrentUser();
         this.otherUser = messageConnection.getOtherUser();
-        System.out.println(currentUser.getId());
-        System.out.println(otherUser.getId());
         this.temp = messageConnection;
         g = new GridBagConstraints();
         g.gridy = 0;
@@ -65,7 +63,7 @@ public class ConversationPanel extends JPanel {
     private void addPastMessages() {
         for (Message message : pastMessages) {
                 if (message.getSender() == currentUser)
-                    sendMessage(currentUser,message.getContent());
+                    sendMessage(currentUser,otherUser,message.getContent());
                 else
                     getMessage(message);
         }
@@ -80,7 +78,7 @@ public class ConversationPanel extends JPanel {
         pastMessages = connection.getMessages();
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
-                sendMessage(currentUser,message.getContent());
+                sendMessage(currentUser,otherUser,message.getContent());
             else
                 getMessage(message);
         }
@@ -94,7 +92,7 @@ public class ConversationPanel extends JPanel {
         pastMessages = messages;
         for (Message message : pastMessages) {
             if (message.getSender().getId()== currentUser.getId())
-                sendMessage(currentUser,message.getContent());
+                sendMessage(currentUser,otherUser,message.getContent());
             else
                 getMessage(message);
         }
@@ -103,12 +101,14 @@ public class ConversationPanel extends JPanel {
         mainPanel.setVisible(true);
     }
 
-    public void sendMessage(User user, String message) {
+    public void sendMessage(User user,User receiver, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
+        user.addMessageToMessageConnection(receiver,message);
         Message message1 = new Message(user, null, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, true);
         g.gridx = 1;
+        mainPanel.add(new JLabel(" "));
         mainPanel.add(m, g);
     }
 
@@ -118,6 +118,8 @@ public class ConversationPanel extends JPanel {
         MessagesViewer m = new MessagesViewer(message, false);
         g.gridx = 0;
         mainPanel.add(m, g);
+        mainPanel.add(new JLabel(" "));
+
     }
 
     public User getCurrentReceiver() {

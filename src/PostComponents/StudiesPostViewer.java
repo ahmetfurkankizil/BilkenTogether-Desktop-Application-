@@ -116,11 +116,12 @@ public class StudiesPostViewer extends PostViewer {
                     byte data[] = lesPost.getStudyFile();
                     JFileChooser fileChooser = new JFileChooser();
                     // Some init code, if you need one, like setting title
+                    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
                     int returnVal = fileChooser.showOpenDialog(new JFrame());
                     File destination1;
-                    fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        destination1 = fileChooser.getCurrentDirectory();
+                        destination1 = fileChooser.getSelectedFile();
                     } else
                         return;
                     File destination = new File(destination1.getAbsolutePath() + "/downloaded.pdf");

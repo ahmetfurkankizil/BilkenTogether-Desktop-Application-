@@ -34,6 +34,7 @@ public class MessageConnection {
     public User getOtherUser() {
         return otherUser;
     }
+
     public ArrayList<Message> getMessages() {
         return messages;
     }
@@ -41,6 +42,15 @@ public class MessageConnection {
         messages.add(message);
         if (isItNew)
             currentUser.insertToMessageHistoryTable(this.id,message);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MessageConnection connection){
+            return connection.getOtherUser().getId() == otherUser.getId();
+        }
+        return false;
+
     }
 }
 

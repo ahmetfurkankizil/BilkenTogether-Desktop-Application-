@@ -131,4 +131,9 @@ public class StudyPost extends Post {
     public boolean hasFile() {
         return this.pdfFile != null;
     }
+
+    @Override
+    public int setPostID() {
+        return getSender().getStudiesPostId()+1;
+    }
 }

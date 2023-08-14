@@ -17,11 +17,12 @@ public abstract class RequestablePost extends Post {
     private ArrayList<Request> deniedCollection;
     private ArrayList<Request> agreementCollection;
     private DatabaseConnection databaseConnection;
+    Student realSender;
 
     public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost,boolean isItNew) {
         super(postId, sender, description, dateOfPost,isItNew);
         this.typeFilter = typeFilter;
-        Student temp = (Student) sender;
+        realSender = (Student) sender;
 
 
 
@@ -30,15 +31,15 @@ public abstract class RequestablePost extends Post {
         agreementCollection = new ArrayList<Request>();
         if (isItNew){
             createRequestsTable();
-            if(this instanceof LessonPost)
-                super.setPostID(Math.min(temp.getLessonPostCollection().size(),5));
-            else
-                super.setPostID(Math.min(temp.getActivityPostCollection().size(),5));
+            //if(this instanceof LessonPost)
+              //  super.setPostID(Math.min(temp.getLessonPostCollection().size(),5));
+            //else
+              //  super.setPostID(Math.min(temp.getActivityPostCollection().size(),5));
         }
-        else{
-            setPostID(postId-1);
+        //else{
+          //  setPostID(postId-1);
             //setUpCollections((Student)sender);
-            }
+            //}
 
     }
 
@@ -232,6 +233,7 @@ public abstract class RequestablePost extends Post {
     }
 
     public ArrayList<Request> getRequestCollection() {
+        requestCollection = pullTheRequestsFromDB();
         return requestCollection;
     }
 
@@ -242,7 +244,6 @@ public abstract class RequestablePost extends Post {
         ArrayList<Integer> requesterIDs = new ArrayList<>();
         for (int i = 0; i < agreementCollection.size(); i++) {
             requesterIDs.add(agreementCollection.get(i).getRequesterID());
-            System.out.println("in");
         }
         return requesterIDs;
     }
@@ -250,7 +251,6 @@ public abstract class RequestablePost extends Post {
         ArrayList<Integer> requesterIDs = new ArrayList<>();
         for (int i = 0; i < requestCollection.size(); i++) {
             requesterIDs.add(requestCollection.get(i).getRequesterID());
-            System.out.println("in");
         }
         return requesterIDs;
     }
@@ -258,7 +258,6 @@ public abstract class RequestablePost extends Post {
         ArrayList<Integer> requesterIDs = new ArrayList<>();
         for (int i = 0; i < deniedCollection.size(); i++) {
             requesterIDs.add(deniedCollection.get(i).getRequesterID());
-            System.out.println("in");
         }
         return requesterIDs;
     }

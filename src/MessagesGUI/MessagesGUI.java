@@ -72,7 +72,6 @@ public class MessagesGUI extends JFrame {
 
             if (!currentUser.getMessageConnections().isEmpty()) {
                 conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0), this);
-                System.out.println(conversationPanel.getCurrentReceiver().getName());
                 m = new MessagesPanel(currentUser, conversationPanel);
                 conversationViewers = m;
                 //textInputArea.setMargin(new Insets(5,5,5,5));
@@ -103,7 +102,7 @@ public class MessagesGUI extends JFrame {
 
 
     public void sendMessage(User sender, User receiver,String message) {
-        conversationPanel.sendMessage(sender,message);
+        conversationPanel.sendMessage(sender,receiver,message);
         sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
         main.update();
     }
@@ -113,7 +112,6 @@ public class MessagesGUI extends JFrame {
     }
     private void performSearch() {
         String searchTerm = searchField.getText().toLowerCase();
-        System.out.println(searchTerm);
         if (m != null){
         for (int i = 0; i < m.getConversationViewers().size(); i++)
         {

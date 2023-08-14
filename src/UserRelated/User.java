@@ -53,7 +53,6 @@ public abstract class User{
         setPassword(password);
         setDateOfBirth(dateOfBirth);
         if (isItNew) {
-            System.out.println("got in to new");
             setDefaultPhotos();
             if (profilePhoto != null)
                 setProfilePhoto(profilePhoto,true);
@@ -396,7 +395,6 @@ public abstract class User{
                     preparedStatement.setString(6, studyPost.getDateOfPost());
                     if ( imageBytes != null) {
                         ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-                        System.out.println("wtfff");
                         preparedStatement.setBinaryStream(7, bis, imageBytes.length);
                     }else {
                         preparedStatement.setNull(7, 0);
@@ -416,7 +414,6 @@ public abstract class User{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        databaseConnection.closeConnection();
         return false;
     }
 
@@ -433,7 +430,6 @@ public abstract class User{
             preparedStatement.setInt(2, this.getId());
 
             preparedStatement.executeUpdate();
-            System.out.println(profilePhoto.length);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -724,7 +720,6 @@ public abstract class User{
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setInt(1,1);
                     preparedStatement.setInt(2,notification.getNotificationID());
-                    System.out.println(notification.getNotificationID());
                     preparedStatement.executeUpdate();
                     System.out.println("Notification is read successfully.");
                     return true;
@@ -922,7 +917,7 @@ public abstract class User{
                 topicCollection[3] = resultSet.getString("Topic4");
                 topicCollection[4] = resultSet.getString("Topic5");
 
-                StudyPost lp1 = new StudyPost(postId, (Student) this,author, postHeading,postDescription,file,postDate,topicCollection,false);
+                StudyPost lp1 = new StudyPost(postId, this,author, postHeading,postDescription,file,postDate,topicCollection,false);
                 lessons.add(lp1);
             }
         } catch (SQLException e) {
@@ -932,10 +927,9 @@ public abstract class User{
     }
 
     public ArrayList<ActivityPost> pullFromActivitiesPostTable() {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
         String tableName = "" + getId() + "TableOfActivities";
         String selectQuery = "SELECT * FROM " + tableName;
-
+        DatabaseConnection databaseConnection = new DatabaseConnection();
         ArrayList<ActivityPost> lessons = new ArrayList<>();
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(selectQuery)) {
@@ -960,7 +954,64 @@ public abstract class User{
         }
         return lessons;
     }
+    public int getActivityCollectionSize() {
+        String tableName = "" + getId() + "TableOfActivities";
+        String selectQuery = "SELECT * FROM " + tableName;
+        int count = 0;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ArrayList<ActivityPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
 
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public int getLessonCollectionSize() {
+        String tableName = "" + getId() + "LessonsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+        int count = 0;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ArrayList<ActivityPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public int getStudyCollectionSize() {
+        String tableName = "" + getId() + "StudiesTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+        int count = 0;
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
     public static byte[] readInputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -1000,12 +1051,23 @@ public abstract class User{
         if (allUsers.size()>1){
             for (Integer i : allUsers) {
                 messageConnections.add(new MessageConnection(this,databaseConnection.pullUserByIdFromDB(i),22,true));
-                getMessageConnections().get(this.getMessageConnections().size()-1).addMessages(new Message(this,databaseConnection.pullUserByIdFromDB(i),"             ",new Date().toString()),true);
             }
         }
     }
 
     public void resetMessageConnections() {
         messageConnections = new ArrayList<>();
+    }
+
+    public void addMessageToMessageConnection(User receiver, String message) {
+        Message temp = new Message(this,receiver,message,new Date().toString());
+        for (MessageConnection connection :
+                messageConnections) {
+            if (connection.getOtherUser().getId() == receiver.getId())
+                connection.addMessages(temp,false);
+        }
+    }
+    public int getStudiesPostId(){
+        return pullFromStudyPostTable().size();
     }
 }

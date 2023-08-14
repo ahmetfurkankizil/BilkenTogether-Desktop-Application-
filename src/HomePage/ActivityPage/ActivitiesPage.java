@@ -217,8 +217,6 @@ public class ActivitiesPage {
             if (max1 != 0)
                 rand1= rand.nextInt(max1);
             max2= userPostCollections.get(rand1).size();
-            System.out.println(max2);
-            System.out.println(rand1);
             if (max2 != 0)
                 rand2= rand.nextInt(max2);
             if (!userPostCollections.get(rand1).isEmpty() && !activityPosts.contains(userPostCollections.get(rand1).get(rand2))){
@@ -234,7 +232,6 @@ public class ActivitiesPage {
         for (ArrayList<ActivityPost> userPostCollection : userPostCollections) {
             total += userPostCollection.size();
         }
-        System.out.println(total);
         return total;
     }
 

@@ -120,8 +120,6 @@ public class NotificationHomePage extends JFrame {
             gridBagConstraints.insets = new Insets(5, 10, 3, 10);
             if (!isRead) {
                 innerPanel1.add(new CircleNotificationIcon(8));
-            } else {
-                innerPanel1.setBackground(myColorRead);
             }
 
             add(innerPanel1, gridBagConstraints);
