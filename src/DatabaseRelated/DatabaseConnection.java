@@ -13,7 +13,7 @@ import java.sql.*;
 public class DatabaseConnection {
 
     private Connection connection;
-    private String url = "jdbc:mysql://localhost:3306/projectDatabase";
+    private String url = "jdbc:mysql://localhost:3306/projectDatabase?allowPublicKeyRetrieval=true&useSSL=False";
     private String username = "root";   
     private String password = "mkA23.jfk";
 
