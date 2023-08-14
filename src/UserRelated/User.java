@@ -367,8 +367,9 @@ public abstract class User{
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getId() + "StudiesTable";
             byte[] imageBytes = null;
-            if (studyPost.hasFile())
+            if (studyPost.hasFile()){
                  imageBytes= studyPost.getStudyFile();
+            }
             if (connection != null) {
                 String insertTableQuery = "INSERT INTO " + tableName + " (postId, sender, author, postHeading, postDescription, postDate, file, ";
 
@@ -395,6 +396,7 @@ public abstract class User{
                     preparedStatement.setString(6, studyPost.getDateOfPost());
                     if ( imageBytes != null) {
                         ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                        System.out.println("wtfff");
                         preparedStatement.setBinaryStream(7, bis, imageBytes.length);
                     }else {
                         preparedStatement.setNull(7, 0);
@@ -1001,5 +1003,9 @@ public abstract class User{
                 getMessageConnections().get(this.getMessageConnections().size()-1).addMessages(new Message(this,databaseConnection.pullUserByIdFromDB(i),"             ",new Date().toString()),true);
             }
         }
+    }
+
+    public void resetMessageConnections() {
+        messageConnections = new ArrayList<>();
     }
 }

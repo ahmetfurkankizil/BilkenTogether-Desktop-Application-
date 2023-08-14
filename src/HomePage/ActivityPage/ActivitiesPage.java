@@ -201,7 +201,9 @@ public class ActivitiesPage {
             exceed = false;
 
         for (int i = 0; i < allUsers.size(); i++) {
-            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromActivitiesPostTable());
+            User temp13 = c.pullUserByIdFromDB(allUsers.get(i));
+            if (temp13 instanceof Student student)
+                userPostCollections.add(student.pullFromActivitiesPostTable());
         }
         int max1 = userPostCollections.size();
         int rand1;

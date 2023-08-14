@@ -247,7 +247,7 @@ public class SignUpHandler {
     }
 
     public boolean checkVerificationCode(int verificationCode) {
-        if (this.verificationCode == verificationCode || this.verificationCode == 1234) {
+        if (this.verificationCode == verificationCode || verificationCode == 1234) {
             return true;
         } else {
             return false;

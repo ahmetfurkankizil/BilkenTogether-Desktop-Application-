@@ -226,8 +226,10 @@ public class HomeMain extends JFrame {
                 if (!textInputArea.getText().isEmpty()){
                     client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
+
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
-                    messagesGUI.getConversationPanel();
+                    setUpPastMessages();
+                    messagesGUI.refreshLeft();
                 }
                update();
             }
@@ -292,12 +294,9 @@ public class HomeMain extends JFrame {
                 if (checkIfLabelAlreadySelected(e)){
                 resetPanels();
                 GridBagConstraints g2 = new GridBagConstraints();
-                //g2.anchor = GridBagConstraints.NORTHWEST;
-                //g2.gridx = 0;
-                //g2.gridy = 0;
+                    messagesGUI.refreshLeft();
                 JPanel left = messagesGUI.getLeftPanel();
                 JPanel right = messagesGUI.getRightPanel();
-                //g2.fill = GridBagConstraints.VERTICAL;
                 invisibleAddablePanelLeft.add(left,g);
                 setUpRightPanelLayout();
                 right.setBounds(0,0,640,600);
@@ -344,6 +343,7 @@ public class HomeMain extends JFrame {
                 rightPanel.setVisible(true);
                 invisibleAddablePanelLeft.setVisible(true);
                 resetLabelFonts();
+                profilePage.setUpHistory();
                 profileLabel.setFont(new Font("default",Font.BOLD,22));
                 update();}
             }
@@ -380,6 +380,7 @@ public class HomeMain extends JFrame {
                     invisibleAddablePanelLeft.setVisible(true);
                     resetLabelFonts();
                     profileLabel.setFont(new Font("default",Font.BOLD,22));
+                    profilePage.setUpHistory();
                     update();}
             }
         });
@@ -396,6 +397,7 @@ public class HomeMain extends JFrame {
                 GridBagConstraints g2 = new GridBagConstraints();
                 //tempP.setBounds(0,0,600,600);
                 g2.gridx = 0;
+                notificationHomePage.addPastNotifications(currentUser);
                 invisibleAddablePanelLeft.add(tempP,g2);
                 //invisibleAddablePanelRight.setVisible(true);
                 //flowScrollPane.setVisible(true);
@@ -451,7 +453,7 @@ public class HomeMain extends JFrame {
     public void setUpPastMessages(){
         ArrayList<Integer> otherUsers = currentUser.pullIDsFromUserInformationTable();
         DatabaseConnection tempConnection = new DatabaseConnection();
-        System.out.println("IT WILL ENTER " + otherUsers.size() + "TIMES");
+        currentUser.resetMessageConnections();
         for (int i = 0; i < otherUsers.size(); i++) {
             if (otherUsers.get(i) != currentUser.getId()){
                 MessageConnection temp = new MessageConnection(currentUser, tempConnection.pullUserByIdFromDB(otherUsers.get(i)),22 , false);
@@ -462,7 +464,6 @@ public class HomeMain extends JFrame {
                 currentUser.addMessageConnection(temp);
             }
         }
-
     }
     public void refreshProfilePhotos(){
         if (currentUser instanceof Student){

@@ -130,7 +130,9 @@ public class LessonsPage {
         boolean exceed = false;
 
         for (int i = 0; i < allUsers.size(); i++) {
-            userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromLessonsPostTable());
+            User temp13 = c.pullUserByIdFromDB(allUsers.get(i));
+            if (temp13 instanceof Student student)
+                userPostCollections.add(student.pullFromLessonsPostTable());
         }
         int max1 = userPostCollections.size();
         int rand1;

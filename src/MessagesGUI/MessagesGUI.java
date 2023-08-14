@@ -105,33 +105,24 @@ public class MessagesGUI extends JFrame {
     public void sendMessage(User sender, User receiver,String message) {
         conversationPanel.sendMessage(sender,message);
         sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
-        main.repaint();
-        main.revalidate();
+        main.update();
     }
-
-    public void setMain(HomeMain main) {
-        this.main = main;
-    }
-
+    public void setMain(HomeMain main) { this.main = main; }
     public ConversationPanel getConversationPanel() {
         return conversationPanel;
     }
-
     private void performSearch() {
         String searchTerm = searchField.getText().toLowerCase();
         System.out.println(searchTerm);
         if (m != null){
         for (int i = 0; i < m.getConversationViewers().size(); i++)
         {
-            System.out.println("lolkl");
             String messageContent = m.getConversationViewers().get(i).getMessageContent().toLowerCase();
             String senderName = conversationViewers.getConversationViewers().get(i).getName().toLowerCase();
             if (senderName.contains(searchTerm) || messageContent.contains(searchTerm))
             {
-
                 m.getConversationViewers().get(i).setVisible(true);
             } else {
-                System.out.println("lol");
                 m.getConversationViewers().get(i).setVisible(false);
             }
 
@@ -140,6 +131,11 @@ public class MessagesGUI extends JFrame {
         m.revalidate();
         scrollLeft.repaint();
         scrollLeft.revalidate();}
+    }
+    public void refreshLeft(){
+        m.refresh(currentUser,conversationPanel);
+        repaint();
+        revalidate();
     }
 
     public User getCurrentReceiver() {

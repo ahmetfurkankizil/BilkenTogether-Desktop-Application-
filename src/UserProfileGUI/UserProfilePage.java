@@ -67,7 +67,6 @@ public class UserProfilePage extends JPanel {
         this();
         this.main = main;
         this.user = main.getCurrentUser();
-        setUpHistory();
         this.profileBox = profileBox;
         createActionListeners();
         setDefaultPhotos();
@@ -76,15 +75,24 @@ public class UserProfilePage extends JPanel {
             lessonsButton.setVisible(false);
             activitiesButton.setVisible(false);
         }
-        setUpHistory();
+
     }
 
-    private void setUpHistory() {
+    public void setUpHistory() {
+        resetPanels();
         if (user instanceof Student){
             setUpLessonsHistory();
             setUpActivitiesHistory();
         }
         setUpStuiesHistory();
+    }
+
+    private void resetPanels() {
+        lessonsHistoryPanel.removeAll();
+        activitiesHistoryPanel.removeAll();
+        studiesHistoryPanel.removeAll();
+        repaint();
+        revalidate();
     }
 
     private void setUpLessonsHistory() {
@@ -96,7 +104,6 @@ public class UserProfilePage extends JPanel {
     }
     private void setUpActivitiesHistory() {
 
-        DatabaseConnection c = new DatabaseConnection();
         ArrayList<ActivityPost> activityPosts= user.pullFromActivitiesPostTable();
         activitiesHistoryPanel.setLayout(new GridLayout(0,1));
         for (int i = 0; i < activityPosts.size(); i++) {

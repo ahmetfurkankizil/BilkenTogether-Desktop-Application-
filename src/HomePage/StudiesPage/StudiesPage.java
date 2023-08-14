@@ -192,10 +192,8 @@ public class StudiesPage {
                     collection[3] = topicLabel4.getText().length() <2 ? null : topicLabel4.getText();
                     collection[4] = topicLabel5.getText().length() <2 ? null : topicLabel5.getText();
                     StudyPost temp;
-                    if (uploadedPdf != null)
-                        temp = new StudyPost(0, currentUser, addAuthors, heading, postText, uploadedPdf, new Date().toString(), collection,true);
-                    else
-                        temp = new StudyPost(0, currentUser, addAuthors, heading, postText, null, new Date().toString(), collection,true);
+
+                    temp = new StudyPost(0, currentUser, addAuthors, heading, postText, uploadedPdf, new Date().toString(), collection,true);
                     StudiesPostViewer viewer = new StudiesPostViewer(temp,main);
                     GridBagConstraints g2 = new GridBagConstraints();
                     g2.gridx = 0;
@@ -387,7 +385,7 @@ public class StudiesPage {
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-
+                    System.out.println(uploadedPdf==null);
 
                 }
 

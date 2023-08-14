@@ -129,6 +129,6 @@ public class StudyPost extends Post {
     }
 
     public boolean hasFile() {
-        return this.pdfFile == null;
+        return this.pdfFile != null;
     }
 }

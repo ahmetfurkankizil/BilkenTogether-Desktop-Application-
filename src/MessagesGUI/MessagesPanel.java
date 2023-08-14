@@ -25,48 +25,38 @@ public class MessagesPanel extends JPanel {
 
         this.currentUser = currentUser;
         setLayout(new GridBagLayout());
-        g = new GridBagConstraints();
         mainPanel = new JPanel(new GridLayout(0, 1));
-        g.gridx = 0;
-        pastMessageConnections = currentUser.getMessageConnections();
-        g.fill = GridBagConstraints.HORIZONTAL;
         conversationViewers = new ArrayList<>();
-        for (MessageConnection m : pastMessageConnections) {
-            ConversationViewer temp = new ConversationViewer(m,panel);
-            conversationViewers.add(temp);
-        }
-        resetBackgrounds();
-/*
-        for (int i = 0; i < 8; i++) {
-            conversationViewers.add(new ConversationViewer());
-        }
-        for (int i = 0; i < conversationViewers.size(); i++) {
-
-            Random random = new Random();
-            String[] randomMessages = {
-                    "Hello there!",
-                    "How's your day going?",
-                    "Which classes are you taking this semester?",
-                    "Do you like to travel?",
-                    "What activities did you choose?",
-                    "Are you free tomorrow?"
-            };
-
-            for (int j = 0; j < conversationViewers.size(); j++) {
-                int randomIndex = random.nextInt(randomMessages.length);
-                String randomMessage = randomMessages[randomIndex];
-
-                conversationViewers.get(j).setMessageContent(randomMessage);
-            }
-
-            add(conversationViewers.get(i), g);
-
-        }
-*/
-        for (int i = 0; i < conversationViewers.size(); i++)
-            add(conversationViewers.get(i), g);
+        refresh(currentUser, panel);
     }
 
+    public void refresh(User currentUser, ConversationPanel panel) {
+        g = new GridBagConstraints();
+        g.gridx = 0;
+        g.fill = GridBagConstraints.HORIZONTAL;
+        pastMessageConnections = new ArrayList<>();
+        pastMessageConnections = currentUser.getMessageConnections();
+        conversationViewers = new ArrayList<>();
+        for (MessageConnection m : pastMessageConnections) {
+            ConversationViewer temp = new ConversationViewer(m, panel);
+            conversationViewers.add(temp);
+        }
+        removeViewers();
+        for (ConversationViewer conversationViewer : conversationViewers) add(conversationViewer, g);
+        repaint();
+        revalidate();
+    }
+
+    private void removeViewers() {
+        for (Component c :
+                getComponents()) {
+            if (c instanceof ConversationViewer viewer){
+
+            }
+        }
+        repaint();
+        revalidate();
+    }
 
 
     public ArrayList<ConversationViewer> getConversationViewers() {
@@ -96,13 +86,13 @@ public class MessagesPanel extends JPanel {
             addListener();
         }
 
-        ;
+
 
 
 
         private void setUp(boolean b) {
             if (!messageConnection.getMessages().isEmpty()) {
-                profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(IconCreator.starIcon, 20, 20));
+                profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(new ImageIcon(messageConnection.getOtherUser().getProfilePhoto()), 20, 20));
                 profileNameLabel = new JLabel(messageConnection.getOtherUser().getName());
                 profileNameLabel.setFont(profileNameFont);
                 messageContent = new JTextArea();

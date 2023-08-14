@@ -33,18 +33,19 @@ public class NotificationHomePage extends JFrame {
         g.fill = GridBagConstraints.VERTICAL;
         g.anchor = GridBagConstraints.NORTHWEST;
         g.insets = new Insets(0, 0, 10, 0);
-        addPastNotifications(currentUser);
     }
 
     public void addNotification(Notification notification) {
         insideScrollPanePanel.add(new GeneralNotificationViewer(notification), g);
     }
     public void addPastNotifications(User user){
+        insideScrollPanePanel.removeAll();
         ArrayList<Notification> notifications = user.pullTheNotifications();
         for (int i = 0; i < notifications.size(); i++) {
             addNotification(notifications.get(i));
-
         }
+        insideScrollPanePanel.repaint();
+        insideScrollPanePanel.revalidate();
     }
 
     public JPanel getMainPanel() {
