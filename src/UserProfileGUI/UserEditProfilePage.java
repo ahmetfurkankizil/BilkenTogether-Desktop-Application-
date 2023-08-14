@@ -3,7 +3,6 @@ package UserProfileGUI;
 import HomePage.Main.HomeMain;
 import Icons.IconCreator;
 import ProfileBox.ProfileBox;
-import SignupAndLogin.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

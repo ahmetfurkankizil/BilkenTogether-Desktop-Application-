@@ -1,4 +1,4 @@
-package SignupAndLogin;
+package Main;
 
 import SignupAndLogin.LoginFrame;
 import SignupAndLogin.SignUpHandler;

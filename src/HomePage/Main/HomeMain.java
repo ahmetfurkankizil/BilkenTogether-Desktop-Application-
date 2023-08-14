@@ -21,7 +21,6 @@ import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
 import SignupAndLogin.LoginFrame;
-import SignupAndLogin.Main;
 import SignupAndLogin.SignUpHandler;
 import UserProfileGUI.PPImageHandler;
 import UserProfileGUI.UserProfilePage;
