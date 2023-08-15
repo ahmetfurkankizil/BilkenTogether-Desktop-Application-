@@ -1,27 +1,23 @@
 package CommentsGUI;
 
-import CommentsRelated.Comment;
-import HomePage.Main.HomeMain;
-import PostComponents.ActivitiesPostViewer;
-import PostComponents.LessonPostViewer;
-import PostComponents.PostViewer;
-import PostComponents.StudiesPostViewer;
+import HomePages.HomeMain.HomeMain;
+import Other.Icons.IconCreator;
+import PostsGUI.ActivitiesPostViewer;
+import PostsGUI.LessonPostViewer;
+import PostsGUI.PostViewer;
+import PostsGUI.StudiesPostViewer;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
-import UserRelated.Student;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class CommentsMidPanel extends JFrame {
-    private JButton postButton;
+    private JButton backButton;
     private JPanel postDisplayPanel;
     private JPanel commentPosting;
     private JButton postButton1;
@@ -39,11 +35,10 @@ public class CommentsMidPanel extends JFrame {
     public CommentsMidPanel(Post post, HomeMain main, JPanel prev)  {
         REQUESTABLE_POST = post;
         previousPanel = prev;
-        setSize(700,700);
         this.main = main;
         isReview = false;
-        reviewPanel =new ReviewPanel(main,(Student) main.getCurrentUser());
-        if (post instanceof LessonPost ){
+        //reviewPanel =new ReviewPanel(main,(Student) main.getCurrentUser());
+     /*   if (post instanceof LessonPost ){
             LessonPost temp = (LessonPost) post;
             Student acceptor= temp.getAccepter();
             if (acceptor!= null && acceptor.getId() == main.getCurrentUser().getId()){
@@ -53,9 +48,8 @@ public class CommentsMidPanel extends JFrame {
                 isReview= true;
             }
         }
-
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        DateFormat x = new SimpleDateFormat(pattern);
+      */
+        backButton.setIcon(IconCreator.getIconWithSize(IconCreator.backIcon,50,50));
         GridBagConstraints g2 = new GridBagConstraints();
         //g2.ipady = 200;
         //g2.ipadx = 100;
@@ -63,6 +57,7 @@ public class CommentsMidPanel extends JFrame {
         g2.anchor = GridBagConstraints.LINE_START;
         g2.fill = GridBagConstraints.HORIZONTAL;
         g2.gridwidth =2;
+        REQUESTABLE_POST.setUpPastCommentCollection();
         if (REQUESTABLE_POST instanceof LessonPost){
             viewer = new LessonPostViewer((LessonPost) REQUESTABLE_POST,main);
             postDisplayPanel.add(viewer,g2);}
@@ -96,7 +91,7 @@ public class CommentsMidPanel extends JFrame {
             }
         });
         add(mP);
-        postButton.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 main.goBack(viewer);
@@ -116,4 +111,5 @@ public class CommentsMidPanel extends JFrame {
     public JPanel getInnerPanel(){
         return innerPanel;
     }
+
 }

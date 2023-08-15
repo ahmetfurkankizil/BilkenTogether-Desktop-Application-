@@ -69,10 +69,7 @@ public class LessonPost extends RequestablePost {
         return (Student) super.getSender();
     }
 
-    @Override
-    public int setPostID() {
-        return getSender().getLessonCollectionSize()+1;
-    }
+
 
     public boolean getRequestType(){
         return requestType;

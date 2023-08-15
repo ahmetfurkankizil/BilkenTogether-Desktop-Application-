@@ -1,11 +1,11 @@
 package UserProfileGUI;
 
 import DatabaseRelated.DatabaseConnection;
-import HomePage.Main.HomeMain;
-import Icons.IconCreator;
-import PostComponents.ActivitiesPostViewer;
-import PostComponents.LessonPostViewer;
-import PostComponents.StudiesPostViewer;
+import HomePages.HomeMain.HomeMain;
+import Other.Icons.IconCreator;
+import PostsGUI.ActivitiesPostViewer;
+import PostsGUI.LessonPostViewer;
+import PostsGUI.StudiesPostViewer;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.StudyPost;

@@ -1,13 +1,14 @@
 package Request.RequestsAndViewers;
 
 import DatabaseRelated.DatabaseConnection;
-import Icons.IconCreator;
+import Other.Icons.IconCreator;
 import Posts.RequestablePost;
 import UserRelated.Student;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Random;
 
 public class RequestConfirmationPanelViewer extends JPanel {
     private static final int starwidth = 20;
@@ -35,6 +36,10 @@ public class RequestConfirmationPanelViewer extends JPanel {
         nameLabel.setText(student.getName());
         nameLabel.setFont(PROFILENAMEFONT);
         deniedPanel.add(nameLabel);
+        Random rand = new Random();
+        for (int i = 0; i < 10; i++) {
+            student.addRating(rand.nextInt(6));
+        }
         addStars((int) student.getAverageRating());
         tickButton = new JButton(check);
         crossButton = new JButton(cross);
@@ -58,10 +63,10 @@ public class RequestConfirmationPanelViewer extends JPanel {
         });
     }
 
-    public void addStars(double rating) {
-        double temp = rating % 2;
-        double star = rating / 2;
-        double empty = (10 - rating) / 2;
+    public void addStars(int rating) {
+        int temp = rating % 2;
+        int star = rating / 2;
+        int empty = (10 - rating) / 2;
         if (rating == 0) {
             for (int i = 0; i < 5; i++) {
                 deniedPanel.add(new JLabel(emptyStar));
@@ -69,7 +74,6 @@ public class RequestConfirmationPanelViewer extends JPanel {
             return;
         }
         for (int i = 0; i < star; i++) {
-
             deniedPanel.add(new JLabel(fullStar));
 
         }

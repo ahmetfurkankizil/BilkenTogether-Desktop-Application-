@@ -1,7 +1,7 @@
 package UserProfileGUI;
 
-import HomePage.Main.HomeMain;
-import Icons.IconCreator;
+import HomePages.HomeMain.HomeMain;
+import Other.Icons.IconCreator;
 import ProfileBox.ProfileBox;
 
 import javax.imageio.ImageIO;

@@ -1,8 +1,8 @@
 package Request.RequestsAndViewers;
 
-import HomePage.Main.HomeMain;
-import PostComponents.ActivitiesPostViewer;
-import PostComponents.LessonPostViewer;
+import HomePages.HomeMain.HomeMain;
+import PostsGUI.ActivitiesPostViewer;
+import PostsGUI.LessonPostViewer;
 import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.RequestablePost;

@@ -1,6 +1,6 @@
 package Request;
 
-import Icons.IconCreator;
+import Other.Icons.IconCreator;
 import UserRelated.Student;
 
 import javax.swing.*;

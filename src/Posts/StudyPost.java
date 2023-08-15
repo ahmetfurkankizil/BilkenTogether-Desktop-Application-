@@ -132,8 +132,4 @@ public class StudyPost extends Post {
         return this.pdfFile != null;
     }
 
-    @Override
-    public int setPostID() {
-        return getSender().getStudiesPostId()+1;
-    }
 }

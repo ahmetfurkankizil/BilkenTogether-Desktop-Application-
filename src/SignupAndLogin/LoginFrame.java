@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import HomePage.Main.HomeMain;
+import HomePages.HomeMain.HomeMain;
 import UserRelated.*;
 
 public class LoginFrame extends JFrame{

@@ -1,15 +1,13 @@
 package Posts;
-import CommentsRelated.Comment;
-import CommentsRelated.Review;
+import CommentsGUI.Comment;
+import CommentsGUI.Review;
 import DatabaseRelated.DatabaseConnection;
 import NotificationRelated.Notification;
 import UserRelated.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Post
@@ -89,7 +87,9 @@ public abstract class Post {
     public User getSender() {
         return sender;
     }
-    public abstract int setPostID();
+    public  int setPostID(){
+        return sender.generateNewPostID();
+    };
 
     public boolean createCommentsTable() {
         databaseConnection = new DatabaseConnection();
@@ -144,5 +144,30 @@ public abstract class Post {
         }
         databaseConnection.closeConnection();
         return false;
+    }
+
+    public void setUpPastCommentCollection() {
+        commentCollection = getCommentsFromTable();
+    }
+    public ArrayList<Comment> getCommentsFromTable(){
+        ArrayList<Comment> commentArrayList = new ArrayList<>();
+        String tableName = "" + getSender().getId() + "x" + getPostID() + "CommentsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("commenterId");
+                String postDescription = resultSet.getString("content");
+                boolean reviewId = resultSet.getBoolean("reviewBoolean");
+                Comment temp = new Comment(databaseConnection.pullUserByIdFromDB(userId),postDescription);
+                commentArrayList.add(temp);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return commentArrayList;
     }
 }

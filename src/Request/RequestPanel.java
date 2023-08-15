@@ -1,8 +1,8 @@
 package Request;
 
-import HomePage.Main.HomeMain;
-import Icons.IconCreator;
-import PostComponents.LessonPostViewer;
+import HomePages.HomeMain.HomeMain;
+import Other.Icons.IconCreator;
+import PostsGUI.LessonPostViewer;
 import Posts.LessonPost;
 import Posts.RequestablePost;
 

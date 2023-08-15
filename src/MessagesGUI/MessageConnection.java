@@ -1,10 +1,8 @@
 package MessagesGUI;
 
-import MessagesRelated.Message;
 import UserRelated.User;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MessageConnection {
     private User otherUser;

@@ -1,6 +1,6 @@
 package UserProfileGUI;
 
-import Icons.IconCreator;
+import Other.Icons.IconCreator;
 import UserRelated.User;
 
 import javax.swing.*;

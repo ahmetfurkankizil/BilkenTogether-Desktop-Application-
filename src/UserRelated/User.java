@@ -1,9 +1,9 @@
 package UserRelated;
 
-import CommentsRelated.Comment;
+
 import DatabaseRelated.DatabaseConnection;
-import MessagesGUI.MessageConnection;
-import MessagesRelated.Message;
+import MessagesGUI.*;
+import CommentsGUI.*;
 import NotificationRelated.Notification;
 import Posts.ActivityPost;
 import Posts.LessonPost;
@@ -116,7 +116,23 @@ public abstract class User{
     }
 
     public int generateStudyPostId() {
-        return studyPostCollection.size() +1;
+        int count = 0;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "StudiesTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     // Getters and Setters
@@ -1069,5 +1085,16 @@ public abstract class User{
     }
     public int getStudiesPostId(){
         return pullFromStudyPostTable().size();
+    }
+
+    public int generateNewPostID() {
+        int count = 0;
+        count+= generateStudyPostId();
+        if(this instanceof Student s){
+            count += s.generateActivityPostId();
+            count += s.generateLessonPostId();
+            s.pullFromLessonsPostTable();
+        }
+        return count+1;
     }
 }

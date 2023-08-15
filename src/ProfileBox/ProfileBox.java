@@ -1,6 +1,6 @@
 package ProfileBox;
 
-import Icons.IconCreator;
+import Other.Icons.IconCreator;
 import UserRelated.User;
 
 import javax.imageio.ImageIO;

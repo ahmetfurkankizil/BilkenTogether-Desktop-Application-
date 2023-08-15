@@ -1,7 +1,5 @@
 package Request;
 
-import MessagesGUI.ConversationPanel;
-
 import javax.swing.*;
 
 public class RequestMiddlePanel {

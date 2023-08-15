@@ -1,23 +1,26 @@
 package CommentsGUI;
 
-import HomePage.Main.HomeMain;
-import Icons.IconCreator;
+import HomePages.HomeMain.HomeMain;
+import Other.Icons.IconCreator;
 import UserRelated.Student;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-
-public class ReviewPanel extends JPanel {
+class ReviewPanel extends JPanel {
     private static final int starwidth = 20;
     private ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
     private ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
     private ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
     private JTextField textField;
     private int review;
-    public ReviewPanel(HomeMain main, Student currentUser){
+
+    public ReviewPanel(HomeMain main, Student currentUser) {
         setLayout(new FlowLayout());
         //add(new StarPanel());
         add(new JLabel("Enter Review: "));
@@ -26,7 +29,7 @@ public class ReviewPanel extends JPanel {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (!textField.getText().isBlank()){
+                if (!textField.getText().isBlank()) {
                     try {
                         if (Integer.parseInt(textField.getText()) < 6) {
                             review = Integer.parseInt(textField.getText());
@@ -49,9 +52,10 @@ public class ReviewPanel extends JPanel {
         return review;
     }
 
-    private class StarPanel extends JPanel{
+    private class StarPanel extends JPanel {
         private ArrayList<JLabel> stars;
-        public StarPanel(){
+
+        public StarPanel() {
             stars = new ArrayList<>();
             stars.add(new Star());
             stars.add(new Star());
@@ -65,12 +69,12 @@ public class ReviewPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent e) {
 
-                    int num = e.getX()/(starwidth);
+                    int num = e.getX() / (starwidth);
                     System.out.println(num);
-                    for (int i = 0; (i < num+1 && i< stars.size()) ; i++) {
+                    for (int i = 0; (i < num + 1 && i < stars.size()); i++) {
                         stars.get(i).setIcon(fullStar);
                     }
-                    for (int i = (stars.size() -num -1); i >-1 ; i--) {
+                    for (int i = (stars.size() - num - 1); i > -1; i--) {
                         stars.get(i).setIcon(emptyStar);
                     }
 
@@ -98,18 +102,12 @@ public class ReviewPanel extends JPanel {
             });
         }
     }
-    private class Star extends JLabel{
-        public Star(){
+
+    private class Star extends JLabel {
+        public Star() {
             super(emptyStar);
             setOpaque(false);
         }
 
-    }
-    public static void main(String[] args) {
-        JFrame frame= new JFrame();
-        frame.setSize(new Dimension(500,500));
-        frame.add(new ReviewPanel(null,null));
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
     }
 }

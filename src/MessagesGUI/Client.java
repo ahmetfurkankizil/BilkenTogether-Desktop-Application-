@@ -1,7 +1,6 @@
 package MessagesGUI;
 
-import HomePage.Main.HomeMain;
-import MessagesRelated.Message;
+import HomePages.HomeMain.HomeMain;
 import UserRelated.User;
 
 import java.io.BufferedReader;

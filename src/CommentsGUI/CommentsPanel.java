@@ -1,7 +1,6 @@
 package CommentsGUI;
 
-import CommentsRelated.Comment;
-import Icons.IconCreator;
+import Other.Icons.IconCreator;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -10,20 +9,21 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class CommentsPanel extends JPanel{
+class CommentsPanel extends JPanel {
 
     private final Comment COMMENT;
     JLabel hearthLabel;
     boolean liked;
-    private final ImageIcon likeIcon = IconCreator.getIconWithSize(IconCreator.emptyLikeIcon,40,30);
-    private final ImageIcon solidLikeIcon = IconCreator.getIconWithSize(IconCreator.activeLikeIcon,40,30);
+    private final ImageIcon likeIcon = IconCreator.getIconWithSize(IconCreator.emptyLikeIcon, 40, 30);
+    private final ImageIcon solidLikeIcon = IconCreator.getIconWithSize(IconCreator.activeLikeIcon, 40, 30);
     private User user;
     JLabel likeCountLabel;
     private static final int starwidth = 20;
     private ImageIcon emptyStar = IconCreator.getIconWithSize(IconCreator.emptyStarIcon, starwidth, starwidth);
     private ImageIcon halfStar = IconCreator.getIconWithSize(IconCreator.halfStarIcon, starwidth, starwidth);
     private ImageIcon fullStar = IconCreator.getIconWithSize(IconCreator.starIcon, starwidth, starwidth);
-    public CommentsPanel(Comment comment, User user ,boolean isReview, ReviewPanel reviewPanel) {
+
+    public CommentsPanel(Comment comment, User user, boolean isReview, ReviewPanel reviewPanel) {
         super();
         COMMENT = comment;
         setLayout(new GridBagLayout());
@@ -44,14 +44,14 @@ public class CommentsPanel extends JPanel{
         int review = Integer.parseInt(text);
         System.out.println(review);
         for (int i = 0; i < review; i++) {
-            starPanel.add(new JLabel(fullStar),c);
+            starPanel.add(new JLabel(fullStar), c);
 
         }
-        for (int i = 0; i < 5-review; i++) {
+        for (int i = 0; i < 5 - review; i++) {
             starPanel.add(new JLabel(emptyStar));
         }
         reviewPanel.getTextField().setText("");
-        add(starPanel,c);
+        add(starPanel, c);
     }
 
     private void addComponents() {
@@ -61,7 +61,7 @@ public class CommentsPanel extends JPanel{
         JLabel profilePhotoLabel = new JLabel("Profile Photo");
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(5,5,5,5);
+        c.insets = new Insets(5, 5, 5, 5);
         add(profilePhotoLabel, c);
 
         // Name and Surname Label
@@ -78,7 +78,7 @@ public class CommentsPanel extends JPanel{
         commentTextArea.setLineWrap(true);
         commentTextArea.setEditable(false);
         commentTextArea.setFocusable(false);
-        commentTextArea.setMargin(new Insets(5,5,5,5));
+        commentTextArea.setMargin(new Insets(5, 5, 5, 5));
         c.gridx = 1;
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -87,7 +87,7 @@ public class CommentsPanel extends JPanel{
 
         // Like Label
         if (liked)
-            hearthLabel= new JLabel(solidLikeIcon);
+            hearthLabel = new JLabel(solidLikeIcon);
         else
             hearthLabel = new JLabel(likeIcon);
         c.gridx = 1;
@@ -104,12 +104,12 @@ public class CommentsPanel extends JPanel{
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 g.setColor(Color.gray);
-                g.drawLine(x,y+height,x+width,y+height);
+                g.drawLine(x, y + height, x + width, y + height);
             }
 
             @Override
             public Insets getBorderInsets(Component c) {
-                return new Insets(5,5,5,5);
+                return new Insets(5, 5, 5, 5);
             }
 
             @Override
@@ -124,13 +124,13 @@ public class CommentsPanel extends JPanel{
         hearthLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!liked){
+                if (!liked) {
                     user.likeComment(COMMENT);
                     liked = true;
                     hearthLabel.setIcon(solidLikeIcon);
                     likeCountLabel.setText(COMMENT.getLikeCount() + "");
 
-                }else{
+                } else {
                     user.withDrawLike(COMMENT);
                     hearthLabel.setIcon(likeIcon);
                     liked = false;
@@ -138,7 +138,6 @@ public class CommentsPanel extends JPanel{
                 }
             }
         });
-
 
 
     }

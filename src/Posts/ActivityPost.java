@@ -16,11 +16,6 @@ public class ActivityPost extends RequestablePost {
         return (Student) super.getSender();
     }
 
-    @Override
-    public int setPostID() {
-        Student a = (Student) super.getSender();
-        return a.getActivityCollectionSize() +1;
-    }
 
     public int getNumberOfAttendants() {
         return numberOfAttendants;

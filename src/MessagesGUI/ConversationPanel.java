@@ -1,14 +1,11 @@
 package MessagesGUI;
 
-import Icons.IconCreator;
-import MessagesRelated.Message;
+import Other.Icons.IconCreator;
 import UserProfileGUI.UserProfilePage;
 import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,11 +23,12 @@ public class ConversationPanel extends JPanel {
     User otherUser;
     ArrayList<Message> pastMessages;
     private MessagesGUI messagesGUI;
-    public ConversationPanel(MessageConnection messageConnection , MessagesGUI messagesGUI) {
+
+    public ConversationPanel(MessageConnection messageConnection, MessagesGUI messagesGUI) {
         this.messagesGUI = messagesGUI;
         mainPanel = new JPanel();
         pastMessages = messageConnection.getMessages();
-        mainPanel.setLayout(new GridLayout(0,2));
+        mainPanel.setLayout(new GridLayout(0, 2));
         this.currentUser = messageConnection.getCurrentUser();
         this.otherUser = messageConnection.getOtherUser();
         this.temp = messageConnection;
@@ -62,23 +60,26 @@ public class ConversationPanel extends JPanel {
 
     private void addPastMessages() {
         for (Message message : pastMessages) {
-                if (message.getSender() == currentUser)
-                    sendMessage(currentUser,otherUser,message.getContent());
-                else
-                    getMessage(message);
+            if (message.getSender() == currentUser)
+                sendMessage(currentUser, otherUser, message.getContent());
+            else
+                getMessage(message);
         }
     }
-    public void setCurrentReceiver(MessageConnection messageConnection){
+
+    public void setCurrentReceiver(MessageConnection messageConnection) {
         this.temp = messageConnection;
     }
+
     MessageConnection temp;
+
     public void addPastMessages(MessageConnection connection) {
         temp = connection;
         mainPanel.removeAll();
         pastMessages = connection.getMessages();
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
-                sendMessage(currentUser,otherUser,message.getContent());
+                sendMessage(currentUser, otherUser, message.getContent());
             else
                 getMessage(message);
         }
@@ -86,13 +87,14 @@ public class ConversationPanel extends JPanel {
         revalidate();
         mainPanel.setVisible(true);
     }
+
     public void addPastMessages(ArrayList<Message> messages) {
 
         mainPanel.removeAll();
         pastMessages = messages;
         for (Message message : pastMessages) {
-            if (message.getSender().getId()== currentUser.getId())
-                sendMessage(currentUser,otherUser,message.getContent());
+            if (message.getSender().getId() == currentUser.getId())
+                sendMessage(currentUser, otherUser, message.getContent());
             else
                 getMessage(message);
         }
@@ -101,10 +103,10 @@ public class ConversationPanel extends JPanel {
         mainPanel.setVisible(true);
     }
 
-    public void sendMessage(User user,User receiver, String message) {
+    public void sendMessage(User user, User receiver, String message) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        user.addMessageToMessageConnection(receiver,message);
+        user.addMessageToMessageConnection(receiver, message);
         Message message1 = new Message(user, null, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, true);
         g.gridx = 1;
@@ -193,13 +195,12 @@ public class ConversationPanel extends JPanel {
         }
 
 
-
         private void setUpNameLabel(boolean isItCurrentUser) {
             if (!isItCurrentUser) {
                 profileNameLabel = new JLabel(message.getSender().getName());
                 profileNameLabel.setFont(profileNameFont);
                 profilePhotoLabel = new JLabel();
-                profilePhotoLabel.setIcon(IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(message.getSender().getProfilePhoto()),30,30));
+                profilePhotoLabel.setIcon(IconCreator.getIconWithSize(UserProfilePage.byteToImageIcon(message.getSender().getProfilePhoto()), 30, 30));
                 add(profilePhotoLabel, g);
                 g.insets = new Insets(0, 10, 0, 0);
                 rightPane.add(profileNameLabel, g);
@@ -210,8 +211,3 @@ public class ConversationPanel extends JPanel {
 
     }
 }
-
-
-
-
-

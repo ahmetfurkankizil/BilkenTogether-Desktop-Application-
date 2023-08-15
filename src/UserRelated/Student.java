@@ -24,7 +24,7 @@ public class Student extends User{
         this.ratingCollection = new ArrayList<>();
         this.lessonPostCollection = new ArrayList<>();
         this.activityPostCollection = new ArrayList<>();
-
+        ratingCollection.add(5);
     }
     public int getLessonPostId(){
         return pullFromLessonsPostTable().size();
@@ -38,11 +38,32 @@ public class Student extends User{
         addToLessonsTable(lessonPost);
     }
 
+    public ArrayList<Integer> getRatingCollection() {
+        return ratingCollection;
+    }
+
     public int generateLessonPostId() {
-        return lessonPostCollection.size() + 1;
+        int count = 0;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "LessonsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     public double getAverageRating() {
+        averageRating = calculateAverageRating();
         return averageRating;
     }
 
@@ -55,7 +76,23 @@ public class Student extends User{
     }
 
     public int generateActivityPostId() {
-        return activityPostCollection.size() + 1;
+        int count = 0;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "TableOfActivities";
+        String selectQuery = "SELECT * FROM " + tableName;
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     // Student Methods
@@ -130,6 +167,7 @@ public class Student extends User{
         databaseConnection.closeConnection();
         return false;
     }
+
 
     public boolean createActivitiesTable() {
         super.databaseConnection = new DatabaseConnection();
@@ -259,7 +297,6 @@ public class Student extends User{
 
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    activityPost.setPostID(generateActivityPostId());
                     preparedStatement.setInt(1, activityPost.getPostID());
                     preparedStatement.setString(2, activityPost.getSender().getName());
                     preparedStatement.setString(3, activityPost.getPostDescription());

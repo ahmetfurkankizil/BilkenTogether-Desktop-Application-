@@ -1,6 +1,6 @@
 package NotificationRelated;
 
-import HomePage.Main.HomeMain;
+import HomePages.HomeMain.HomeMain;
 import UserRelated.User;
 
 import javax.swing.*;
