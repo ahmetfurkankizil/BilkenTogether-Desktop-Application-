@@ -68,7 +68,7 @@ public abstract class User{
 
     public void setDefaultPhotos() {
             BufferedImage bi = null;
-            File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
+            File f = new File("src/Other/DefaultProfilePictures/Tatice-Cristal-Intense-Java.64.png");
             try {
                 bi = ImageIO.read(f);
             } catch (IOException e) {
@@ -86,7 +86,7 @@ public abstract class User{
             // Adding Background Photo (photo to byte[])
             BufferedImage ib = null;
             try {
-                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
+                ib = ImageIO.read( new File("src/Other/DefaultProfilePictures/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
