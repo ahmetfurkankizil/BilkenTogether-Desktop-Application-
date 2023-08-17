@@ -26,12 +26,13 @@ class CommentsPanel extends JPanel {
     public CommentsPanel(Comment comment, User user, boolean isReview, ReviewPanel reviewPanel) {
         super();
         COMMENT = comment;
+        this.user = user;
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         if (isReview)
             addStars(reviewPanel);
         addComponents();
-        this.user = user;
+
         liked = comment.checkIfUserAlreadyLiked(user);
     }
 
@@ -58,7 +59,7 @@ class CommentsPanel extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
 
         // Profile Photo Label
-        JLabel profilePhotoLabel = new JLabel("Profile Photo");
+        JLabel profilePhotoLabel = new JLabel(IconCreator.getIconWithSize(new ImageIcon(user.getProfilePhoto()),40,40));
         c.gridx = 0;
         c.gridy = 0;
         c.insets = new Insets(5, 5, 5, 5);

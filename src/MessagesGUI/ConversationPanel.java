@@ -61,7 +61,7 @@ public class ConversationPanel extends JPanel {
     private void addPastMessages() {
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
-                sendMessage(currentUser, otherUser, message.getContent());
+                sendMessage(currentUser, otherUser, message.getContent(),false);
             else
                 getMessage(message);
         }
@@ -73,28 +73,15 @@ public class ConversationPanel extends JPanel {
 
     MessageConnection temp;
 
-    public void addPastMessages(MessageConnection connection) {
-        temp = connection;
-        mainPanel.removeAll();
-        pastMessages = connection.getMessages();
-        for (Message message : pastMessages) {
-            if (message.getSender() == currentUser)
-                sendMessage(currentUser, otherUser, message.getContent());
-            else
-                getMessage(message);
-        }
-        repaint();
-        revalidate();
-        mainPanel.setVisible(true);
-    }
 
     public void addPastMessages(ArrayList<Message> messages) {
 
         mainPanel.removeAll();
         pastMessages = messages;
-        for (Message message : pastMessages) {
+        for (int i = 0; i<pastMessages.size();i++) {
+            Message message =messages.get(i);
             if (message.getSender().getId() == currentUser.getId())
-                sendMessage(currentUser, otherUser, message.getContent());
+                sendMessage(currentUser, otherUser, message.getContent(),false);
             else
                 getMessage(message);
         }
@@ -103,11 +90,12 @@ public class ConversationPanel extends JPanel {
         mainPanel.setVisible(true);
     }
 
-    public void sendMessage(User user, User receiver, String message) {
+    public void sendMessage(User user, User receiver, String message,boolean isItnew) {
         g.insets = new Insets(3, 10, 10, 10);
         g.gridy += 1;
-        user.addMessageToMessageConnection(receiver, message);
-        Message message1 = new Message(user, null, message, new Date().toString());
+        if (isItnew)
+            user.addMessageToMessageConnection(receiver, message);
+        Message message1 = new Message(user, receiver, message, new Date().toString());
         MessagesViewer m = new MessagesViewer(message1, true);
         g.gridx = 1;
         mainPanel.add(new JLabel(" "));

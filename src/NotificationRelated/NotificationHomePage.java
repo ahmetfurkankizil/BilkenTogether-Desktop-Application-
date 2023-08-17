@@ -73,6 +73,7 @@ public class NotificationHomePage extends JFrame {
         private Notification notification;
         private JTextArea label2;
         private GridBagConstraints gridBagConstraints;
+        protected CircleNotificationIcon circle;
 
         public GeneralNotificationViewer(Notification notification) {
             this.notification = notification;
@@ -118,8 +119,11 @@ public class NotificationHomePage extends JFrame {
 
             gridBagConstraints.weightx = 2;
             gridBagConstraints.insets = new Insets(5, 10, 3, 10);
+            circle = new CircleNotificationIcon(8);
             if (!isRead) {
-                innerPanel1.add(new CircleNotificationIcon(8));
+                innerPanel1.add(circle);
+            } else {
+                innerPanel1.setOpaque(false);
             }
 
             add(innerPanel1, gridBagConstraints);
@@ -145,6 +149,10 @@ public class NotificationHomePage extends JFrame {
             label2.setRows(1);
             label1.setMargin(new Insets(5, 5, 5, 5));
             label2.setMargin(new Insets(5, 5, 5, 5));
+            for (Component c :
+                    getComponents()) {
+                c.addMouseListener(new NotificationMouseListener());
+            }
         }
         private class CircleNotificationIcon extends JComponent {
             int perimeter;
@@ -167,7 +175,7 @@ public class NotificationHomePage extends JFrame {
                 if (!notification.getReadCondition()) {
                     notification.setReadCondition(true);
                     setOpaque(false);
-                    innerPanel1.removeAll();
+                    innerPanel1.remove(circle);
                     innerPanel1.setOpaque(false);
                     innerPanel1.add(label1);
                     currentUser.readTheNotification(notification);

@@ -1,5 +1,6 @@
 package MessagesGUI;
 
+import SignupAndLogin.LoginFrame;
 import UserRelated.User;
 
 import java.util.ArrayList;
@@ -18,9 +19,8 @@ public class MessageConnection {
         this.id = currentUser.getId()+otherUser.getId();
         this.port = port;
         if (isItNew){
-        currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
-        currentUser.createMessageHistory(this.id);
-
+            currentUser.insertToMessageConnectionTable(this.id,currentUser,otherUser,port);
+            currentUser.createMessageHistory(this.id);
         }
     }
     public void setMessages(){
@@ -38,7 +38,7 @@ public class MessageConnection {
     }
     public void addMessages(Message message, boolean isItNew) {
         messages.add(message);
-        if (isItNew)
+        if (isItNew && !(LoginFrame.isTrial))
             currentUser.insertToMessageHistoryTable(this.id,message);
     }
 

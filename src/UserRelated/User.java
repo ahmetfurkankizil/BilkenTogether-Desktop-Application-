@@ -9,6 +9,8 @@ import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
+import SignupAndLogin.LoginFrame;
+import com.mysql.cj.log.Log;
 import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.xdevapi.Type;
 
@@ -18,6 +20,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public abstract class User{
     private String[] studyTopics;
@@ -66,9 +69,13 @@ public abstract class User{
 
     }
 
+    public ArrayList<StudyPost> getStudyPostCollection() {
+        return studyPostCollection;
+    }
+
     public void setDefaultPhotos() {
             BufferedImage bi = null;
-            File f = new File("src/ProfilePictureTester/Tatice-Cristal-Intense-Java.64.png");
+            File f = new File("src/Other/DefaultProfilePictures/Tatice-Cristal-Intense-Java.64.png");
             try {
                 bi = ImageIO.read(f);
             } catch (IOException e) {
@@ -86,7 +93,7 @@ public abstract class User{
             // Adding Background Photo (photo to byte[])
             BufferedImage ib = null;
             try {
-                ib = ImageIO.read( new File("src/ProfilePictureTester/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
+                ib = ImageIO.read( new File("src/Other/DefaultProfilePictures/trava-pole-polya-kholmy-nebo-oblako-oblaka.png"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -112,7 +119,8 @@ public abstract class User{
 
     public void addStudyPost(StudyPost studyPost) {
         studyPostCollection.add(studyPost);
-        addToStudiesTable(studyPost);
+        if (!LoginFrame.isTrial)
+            addToStudiesTable(studyPost);
     }
 
     public int generateStudyPostId() {
@@ -213,13 +221,13 @@ public abstract class User{
 
     public void setBackgroundPhoto(byte[] backGroundPhoto, boolean isItNew) {
         this.backgroundPhoto = backGroundPhoto;
-        if (isItNew)
+        if (isItNew && !LoginFrame.isTrial)
             addBackgroundPhotoToUserInformationTable(backGroundPhoto);
     }
 
     public void setProfilePhoto(byte[] profilePhoto , boolean isItNew) {
         this.profilePhoto = profilePhoto;
-        if(isItNew)
+        if(isItNew && !LoginFrame.isTrial)
             addProfilePhotoToUserInformationTable(profilePhoto);
     }
     public ArrayList<String> getResearchInterests() {
@@ -896,6 +904,8 @@ public abstract class User{
     }
 
     public ArrayList<StudyPost> pullFromStudyPostTable() {
+        if (LoginFrame.isTrial)
+            return studyPostCollection;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String tableName = "" + getId() + "StudiesTable";
         String selectQuery = "SELECT * FROM " + tableName;
@@ -1097,4 +1107,6 @@ public abstract class User{
         }
         return count+1;
     }
+
+
 }

@@ -3,8 +3,11 @@ package HomePages.StudiesPage;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.LessonsPage.LessonsPage;
 import HomePages.HomeMain.HomeMain;
+import Posts.ActivityPost;
 import PostsGUI.StudiesPostViewer;
 import Posts.StudyPost;
+import SignupAndLogin.LoginFrame;
+import TrialMain.TrialMain;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -115,8 +118,10 @@ public class StudiesPage {
         setUpUploadButton();
         makeAllButtonsBeatiful();
         addListeners();
-        getRandomPosts();
-
+        if (!LoginFrame.isTrial)
+            getRandomPosts();
+        else
+            getRandomPosts(true);
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -423,6 +428,38 @@ public class StudiesPage {
         }
 
     }
+    private void getRandomPosts(boolean isItTrial) {
+        TrialMain trial = (TrialMain) main;
+        User[] allUsers2 = trial.getAllUsers();
+        ArrayList<ArrayList<StudyPost>> userPostCollections = new ArrayList<>();
+        int totalNum = totalNumOfPosts(userPostCollections);
+        boolean exceed = true;
+        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
+            exceed = false;
+        for (int i = 0; i < allUsers2.length; i++) {
+            User temp13 = allUsers2[i];
+            userPostCollections.add(temp13.getStudyPostCollection());
+        }
+        int max1 = userPostCollections.size();
+        int rand1;
+        int max2;
+        int rand2;
+        Random rand = new Random();
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            if (max2 != 0)
+                rand2= rand.nextInt(max2);
+            if (!userPostCollections.get(rand1).isEmpty() && !studyPosts.contains(userPostCollections.get(rand1).get(rand2))){
+                addStudyPost(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
+            }
+        }
+    }
     private int totalNumOfPosts(ArrayList<ArrayList<StudyPost>> userPostCollections){
         int total = 0;
         for (ArrayList<StudyPost> userPostCollection : userPostCollections) {
@@ -545,8 +582,10 @@ public class StudiesPage {
     }
     public void refreshProfilePhotos() {
         PPImageHandler profilePhoto = new PPImageHandler(currentUser);
+        if (profilePhotoPanel != null){
         profilePhotoPanel.add(profilePhoto);
         profilePhotoPanel.revalidate();
         profilePhotoPanel.repaint();
+        }
     }
 }

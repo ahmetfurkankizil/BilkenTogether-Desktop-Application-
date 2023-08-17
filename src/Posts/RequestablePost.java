@@ -5,6 +5,7 @@ import Request.RequestsAndViewers.AcceptedRequest;
 import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
+import SignupAndLogin.LoginFrame;
 import UserRelated.Student;
 import UserRelated.User;
 
@@ -17,19 +18,19 @@ public abstract class RequestablePost extends Post {
     private ArrayList<Request> deniedCollection;
     private ArrayList<Request> agreementCollection;
     private DatabaseConnection databaseConnection;
-    Student realSender;
+    private Student realSender;
 
     public RequestablePost(int postId, User sender, String description, String typeFilter, String dateOfPost,boolean isItNew) {
         super(postId, sender, description, dateOfPost,isItNew);
         this.typeFilter = typeFilter;
-        realSender = (Student) sender;
+        this.realSender = (Student) sender;
 
 
 
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
-        if (isItNew){
+        if (isItNew && !LoginFrame.isTrial){
             createRequestsTable();
             //if(this instanceof LessonPost)
               //  super.setPostID(Math.min(temp.getLessonPostCollection().size(),5));
@@ -168,6 +169,8 @@ public abstract class RequestablePost extends Post {
     }
 
     public ArrayList<Request> pullTheRequestsFromDB() {
+        if (LoginFrame.isTrial)
+            return new ArrayList<Request>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String tableName = "" + super.getSender().getId() + "x" + super.getPostID() + "RequestsTable";
         String selectQuery = "SELECT * FROM " + tableName;
@@ -208,7 +211,8 @@ public abstract class RequestablePost extends Post {
 
     public void addRequest(Request request) {
         requestCollection.add(request);
-        addToRequestTable(request);
+        if (!LoginFrame.isTrial)
+            addToRequestTable(request);
 
         // (This method receives a student object and adds it to the requestCollection.
         // From this

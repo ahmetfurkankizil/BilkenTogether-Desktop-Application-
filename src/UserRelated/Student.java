@@ -3,6 +3,8 @@ package UserRelated;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import DatabaseRelated.*;
 import Posts.*;
@@ -10,6 +12,7 @@ import Request.RequestsAndViewers.AcceptedRequest;
 import Request.RequestsAndViewers.DeniedRequest;
 import Request.RequestsAndViewers.Request;
 import Request.RequestsAndViewers.UnansweredRequest;
+import SignupAndLogin.LoginFrame;
 
 public class Student extends User{
 
@@ -35,7 +38,8 @@ public class Student extends User{
 
     public void addLessonPost(LessonPost lessonPost) {
         lessonPostCollection.add(lessonPost);
-        addToLessonsTable(lessonPost);
+        if (!LoginFrame.isTrial)
+            addToLessonsTable(lessonPost);
     }
 
     public ArrayList<Integer> getRatingCollection() {
@@ -73,6 +77,7 @@ public class Student extends User{
 
     public void addActivityPost(ActivityPost activityPost) {
         activityPostCollection.add(activityPost);
+
     }
 
     public int generateActivityPostId() {
@@ -382,6 +387,104 @@ public class Student extends User{
     }
     public ArrayList<ActivityPost> getActivityPostCollection() {
         return activityPostCollection;
+    }
+    public void initalizeRandomPosts() {
+        Random random = new Random();
+        LessonPost[] posts = {
+                new LessonPost(0,this,"Custom Description1","MATH",1001010,true,new java.util.Date().toString(),false),
+                new LessonPost(1,this,"Custom Description2","PHYSICS",101000,true,new java.util.Date().toString(),false),
+                new LessonPost(2,this,"Custom Description3","BIOLOGY",1101010,true,new java.util.Date().toString(),false),
+                new LessonPost(3,this,"Custom Description4","TENNIS",1110,true,new java.util.Date().toString(),false),
+                new LessonPost(4,this,"Custom Description5","CHEMISTRY",1111,true,new java.util.Date().toString(),false),
+                new LessonPost(5,this,"Custom Description6","MATH",10010,true,new java.util.Date().toString(),false),
+                new LessonPost(6,this,"Custom Description7","PHYSICS",10110,true,new java.util.Date().toString(),false),
+                new LessonPost(7,this,"Custom Description8","BIOLOGY",11010,true,new java.util.Date().toString(),false),
+                new LessonPost(8,this,"Custom Description9","MATH",111110,true,new java.util.Date().toString(),false),
+                new LessonPost(9,this,"Custom Description10","MATH",1110100,true,new Date().toString(),false)
+        };
+        ActivityPost[] activityPosts = {
+                new ActivityPost(0,this,"Custom Description1",2,new Date().toString(),"Concert","23/07/2023",false),
+                new ActivityPost(1,this,"Custom Description1",3,new Date().toString(),"Basketball","23/07/2023",false),
+                new ActivityPost(2,this,"Custom Description1",4,new Date().toString(),"Reading","23/07/2023",false),
+                new ActivityPost(3,this,"Custom Description1",5,new Date().toString(),"Cooking","16/08/2023",false),
+                new ActivityPost(4,this,"Custom Description1",6,new Date().toString(),"Volleyball","17/07/2023",false),
+                new ActivityPost(5,this,"Custom Description1",7,new Date().toString(),"Yoga","18/07/2023",false),
+                new ActivityPost(6,this,"Custom Description1",8,new Date().toString(),"Cinema","19/07/2023",false),
+                new ActivityPost(7,this,"Custom Description1",9,new Date().toString(),"Camping","20/07/2023",false),
+                new ActivityPost(8,this,"Custom Description1",10,new Date().toString(),"Tennis","21/07/2023",false),
+                new ActivityPost(9,this,"Custom Description1",11,new Date().toString(),"Yoga","22/07/2023",false),
+        };
+        for (int i = 0; i < 3; i++) {
+            lessonPostCollection.add(posts[random.nextInt(10)]);
+        }
+    }
+    @Override
+    public ArrayList<LessonPost> pullFromLessonsPostTable() {
+        if (LoginFrame.isTrial)
+            return lessonPostCollection;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String tableName = "" + getId() + "LessonsTable";
+        String selectQuery = "SELECT * FROM " + tableName;
+
+        ArrayList<LessonPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("postId");
+                String postDescription = resultSet.getString("postDescription");
+                String typeFilter = resultSet.getString("typeFilter");
+                int dateBinaryBoolean = resultSet.getInt("dateBinaryBoolean");
+                int requestNum = resultSet.getInt("requestType");
+                boolean requestType;
+                if (requestNum == 0) {
+                    requestType = false;
+                } else {
+                    requestType = true;
+                }
+                String date = resultSet.getString("dateOfPost");
+
+                LessonPost lp1 = new LessonPost(postId, (Student) this,postDescription,typeFilter,dateBinaryBoolean,requestType,date,false);
+                lessons.add(lp1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lessons;
+    }
+    @Override
+    public ArrayList<ActivityPost> pullFromActivitiesPostTable() {
+        if (LoginFrame.isTrial)
+            return activityPostCollection;
+        String tableName = "" + getId() + "TableOfActivities";
+        String selectQuery = "SELECT * FROM " + tableName;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ArrayList<ActivityPost> lessons = new ArrayList<>();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("postId");
+                String postDescription = resultSet.getString("postDescription");
+                int numberOfAttendants = resultSet.getInt("numberOfAttendants");
+                String dateOfPost = resultSet.getString("dateOfPost");
+                String typeFilter = resultSet.getString("typeFilter");
+                String activityDate = resultSet.getString("activityDate");
+
+                System.out.println("Activity Post Returned Successfully");
+                ActivityPost lp1 = new ActivityPost(postId, (Student) this,postDescription,numberOfAttendants,dateOfPost,typeFilter,activityDate,false);
+                lessons.add(lp1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lessons;
     }
 }
 

@@ -3,6 +3,7 @@ import CommentsGUI.Comment;
 import CommentsGUI.Review;
 import DatabaseRelated.DatabaseConnection;
 import NotificationRelated.Notification;
+import SignupAndLogin.LoginFrame;
 import UserRelated.*;
 
 import java.sql.*;
@@ -30,7 +31,7 @@ public abstract class Post {
         this.postDescription = description;
 
 
-        if (isItNew){
+        if (isItNew && !LoginFrame.isTrial){
             this.postID = setPostID();
             createCommentsTable();
         }else {

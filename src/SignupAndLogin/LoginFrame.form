@@ -89,6 +89,12 @@
               <text value="Log In"/>
             </properties>
           </component>
+          <component id="509aa" class="javax.swing.JButton" binding="tryAppButton">
+            <constraints/>
+            <properties>
+              <text value="Try App"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <vspacer id="da3d5">

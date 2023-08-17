@@ -32,6 +32,7 @@ public class RequestMidPanel extends JFrame {
         setSize(700,700);
         add(mP);
         activityPostss.setVisible(false);
+
         lessonPosts = user.pullFromLessonsPostTable();
         activityPosts = user.pullFromActivitiesPostTable();
         if (lessonPosts != null && activityPosts != null)

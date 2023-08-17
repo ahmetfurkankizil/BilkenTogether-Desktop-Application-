@@ -1,22 +1,19 @@
-package HomePages.HomeMain;
+package TrialMain;
 
-import CommentsGUI.CommentsMidPanel;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.ActivityPage.ActivitiesPage;
+import HomePages.HomeMain.HomeMain;
 import HomePages.LessonsPage.LessonsPage;
 import HomePages.StudiesPage.StudiesPage;
-import Other.Icons.IconCreator;
-import MessagesGUI.Client;
-import MessagesGUI.MessageConnection;
-import MessagesGUI.MessagesGUI;
-import MessagesGUI.Server;
-import MessagesGUI.Message;
+import Main.Main;
+import MessagesGUI.*;
 import NotificationRelated.NotificationHomePage;
+import Other.Icons.IconCreator;
+import Posts.Post;
+import Posts.RequestablePost;
 import PostsGUI.ActivitiesPostViewer;
 import PostsGUI.LessonPostViewer;
 import PostsGUI.PostViewer;
-import Posts.Post;
-import Posts.RequestablePost;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
 import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
@@ -42,8 +39,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class HomeMain extends JFrame {
+public class TrialMain extends HomeMain {
     private StudiesPage studies;
+    private User[] otherUsers;
     private ActivitiesPage activities;
     private static final File LOGFILE= new File("src/HomePages/HomeMain/logo.PNG");
     private static final ImageIcon  LOGO = IconCreator.getIconWithSize(new ImageIcon(LOGFILE.getAbsolutePath()),60,60);;
@@ -132,30 +130,27 @@ public class HomeMain extends JFrame {
     private RequestMidPanel requestsPage;
     private Server server;
     private ProfileBox profileBox;
-    public HomeMain(){
-    }
+    private Student[] userCollection;
 
-    public HomeMain(User user) {
-        currentUser = user;//new Student("Erdem Pülat", "erdem.pulat@ug.bilkent.edu.tr", 22103566, "l", "d", "p", "b",null,null,true);
-        //Adding profile photo (photo to byte)
-        //ppHandler();
-        //setUpPastMessages();
+    public TrialMain(Student[] users) {
+        currentUser = users[0];
+        this.userCollection = users;
+        setUpOtherUsers();
         canRate = false;
         messageSendButtonPressed = false;
         resetLabelFonts();
         profileBox = new ProfileBox(currentUser);
         profileBoxPanel.add(profileBox);
+        addRandomPosts();
+
         setUpPages();
         logoLabel.setIcon(LOGO);
-        //server = new Server(22);
 
-        client = new Client(messagesGUI.getConversationPanel(),this,server);
 
         setContentPane(mainPanel);
         if (currentUser instanceof Student){
         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-        removableRight.add(lessons.getQuickFiltersPanel());
-        }
+        removableRight.add(lessons.getQuickFiltersPanel());}
         else {
             insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
             removableRight.add(studies.getQfPanel());
@@ -169,13 +164,9 @@ public class HomeMain extends JFrame {
         generalSetup();
 
         setUpLabelListeners();
-        //LessonPost tempPost = new LessonPost(8, currentUser, "textArea1.getText().strip()", "(String) courseTypeComboBox.getSelectedItem()", 1, true, new Date().toString());
-        //lessons.addLessonPost(tempPost);
-        //tempPost.addComment(new Comment(currentUser,"lol so cool"));
         goTop();
         setVisible(true);
         ActionListener sectionButtonListener = new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton tempButton = (JButton) e.getSource();
@@ -215,10 +206,8 @@ public class HomeMain extends JFrame {
             }
         };
         studiesButton.addActionListener(sectionButtonListener);
-
         if (currentUser instanceof Student) {
             lessonsButton.addActionListener(sectionButtonListener);
-
             activitiesButton.addActionListener(sectionButtonListener);
         }else {
             lessonsButton.setVisible(false);
@@ -228,17 +217,14 @@ public class HomeMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!textInputArea.getText().isEmpty()){
-                    client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
+                    //client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
-
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
-
                     messagesGUI.refreshLeft();
                 }
                update();
             }
         });
-        client.run();
         logOutLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -256,46 +242,33 @@ public class HomeMain extends JFrame {
         });
     }
 
+    private void setUpOtherUsers() {
+        otherUsers = new User[userCollection.length-1];
+        System.arraycopy(userCollection, 1, otherUsers, 0, userCollection.length - 1);
+    }
+
+    private void addRandomPosts() {
+        for (User user : userCollection) {
+            RandomPostGenerator generator = new RandomPostGenerator(user);
+            for (int i = 0; i < 5; i++) {
+                user.addStudyPost(generator.generateRandomStudyPost());
+            }
+            if (user instanceof Student student){
+                for (int i = 0; i < 5; i++) {
+                    student.addLessonPost(generator.generateRandomLessonPost());
+                }
+                for (int i = 0; i < 5; i++) {
+                    student.addActivityPost(generator.generateRandomActivityPost());
+                }
+            }
+
+        }
+    }
+
     private void goTop() {
         JScrollBar verBar = flowScrollPane.getVerticalScrollBar();
         verBar.setValue(0);
     }
-
-    private void ppHandler() {
-        BufferedImage bi = null;
-        File f = new File("src/DefaultProfilePictures/Tatice-Cristal-Intense-Java.64.png");
-        try {
-            bi = ImageIO.read(f);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(bi,"png",os);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes = os.toByteArray();
-        currentUser.setProfilePhoto(bytes,false);
-
-        // Adding Background Photo (photo to byte[])
-        BufferedImage ib = null;
-        try {
-            ib = ImageIO.read( new File("src/DefaultProfilePictures/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ByteArrayOutputStream so = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(ib,"png",so);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes1 = so.toByteArray();
-        currentUser.setBackgroundPhoto(bytes1,false);
-
-    }
-
     private void setUpLabelListeners() {
         messagesLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -448,6 +421,7 @@ public class HomeMain extends JFrame {
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
     private RequestMiddlePanelUnanswered requestExtended;
+
     private void setUpPages() {
         setUpPastMessages();
         if (currentUser instanceof Student) {
@@ -460,17 +434,13 @@ public class HomeMain extends JFrame {
         studies = new StudiesPage(this);
         profilePage = new UserProfilePage(this, profileBox);
     }
+
+    @Override
     public void setUpPastMessages(){
-        ArrayList<Integer> otherUsers = currentUser.pullIDsFromUserInformationTable();
-        DatabaseConnection tempConnection = new DatabaseConnection();
         currentUser.resetMessageConnections();
-        for (int i = 0; i < otherUsers.size(); i++) {
-            if (otherUsers.get(i) != currentUser.getId()){
-                MessageConnection temp = new MessageConnection(currentUser, tempConnection.pullUserByIdFromDB(otherUsers.get(i)),22 , false);
-                ArrayList<Message> messages = currentUser.pullMessageHistoryFromDB(otherUsers.get(i) +currentUser.getId());
-                for (int j = 0; j < messages.size(); j++) {
-                    temp.addMessages(messages.get(j),false);
-                }
+        for (int i = 0; i < otherUsers.length; i++) {
+            if (otherUsers[i].getId() != currentUser.getId()){
+                MessageConnection temp = new MessageConnection(currentUser, otherUsers[i],22 , false);
                 currentUser.addMessageConnection(temp);
             }
         }
@@ -479,10 +449,8 @@ public class HomeMain extends JFrame {
         if (currentUser instanceof Student){
             lessons.refreshProfilePhotos();
             activities.refreshProfilePhotos();
-
         }
         studies.refreshProfilePhotos();
-
     }
 
     public void setCurrentUser(User user) {
@@ -619,10 +587,10 @@ public class HomeMain extends JFrame {
         else
             prev = (JPanel) insideScrollPanePanel.getComponents()[0];
         rightPanel.setVisible(true);
-        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this,prev);
+        //CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this,prev);
         resetPanels();
         invisibleAddablePanelLeft.setLayout(new GridLayout());
-        invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
+        //invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
         invisibleAddablePanelLeft.setVisible(true);
         update();
 
@@ -657,11 +625,9 @@ public class HomeMain extends JFrame {
         update();
     }
     public void extendRequest(RequestablePost panel) {
-        requestExtended = new RequestMiddlePanelUnanswered(panel,this, requestsPage.getInPanel());
+        //requestExtended = new RequestMiddlePanelUnanswered(panel,this, requestsPage.getInPanel());
         resetPanels();
         GridBagConstraints g2 = new GridBagConstraints();
-
-
         g2.anchor = GridBagConstraints.NORTHWEST;
         g2.gridx = 0;
         g2.gridy = 0;
@@ -672,6 +638,11 @@ public class HomeMain extends JFrame {
         requestsLabel.setFont(new Font("default",Font.BOLD,22));
         resetLabelFonts();
         update();}
+
+    public User[] getAllUsers() {
+        return userCollection;
+    }
+
     private class SectionItemBorder implements Border {
         @Override
         public Insets getBorderInsets(Component c) {

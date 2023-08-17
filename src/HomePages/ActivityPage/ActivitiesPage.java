@@ -5,6 +5,7 @@ import HomePages.LessonsPage.LessonsPage;
 import HomePages.HomeMain.HomeMain;
 import PostsGUI.ActivitiesPostViewer;
 import Posts.ActivityPost;
+import TrialMain.TrialMain;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -156,7 +157,10 @@ public class ActivitiesPage {
                 yearComboBox.setSelectedIndex(0);
             }
         });
-        getRandomPosts();
+        if (!(this.main instanceof TrialMain))
+            getRandomPosts();
+        else
+            getRandomPosts(true);
     }
     private void refreshPosts(){
         for (ActivitiesPostViewer a :
@@ -226,6 +230,40 @@ public class ActivitiesPage {
             }
         }
 
+    }
+    private void getRandomPosts(boolean isItTrial) {
+        TrialMain trial = (TrialMain) main;
+        User[] allUsers2 = trial.getAllUsers();
+        ArrayList<ArrayList<ActivityPost>> userPostCollections = new ArrayList<>();
+        int totalNum = totalNumOfPosts(userPostCollections);
+        boolean exceed = true;
+        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
+            exceed = false;
+
+        for (int i = 0; i < allUsers2.length; i++) {
+            User temp13 = allUsers2[i];
+            if (temp13 instanceof Student student)
+                userPostCollections.add(student.getActivityPostCollection());
+        }
+        int max1 = userPostCollections.size();
+        int rand1;
+        int max2;
+        int rand2;
+        Random rand = new Random();
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            if (max2 != 0)
+                rand2= rand.nextInt(max2);
+            if (!userPostCollections.get(rand1).isEmpty() && !activityPosts.contains(userPostCollections.get(rand1).get(rand2))){
+                addActivityPost(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
+            }
+        }
     }
     private int totalNumOfPosts(ArrayList<ArrayList<ActivityPost>> userPostCollections){
         int total = 0;

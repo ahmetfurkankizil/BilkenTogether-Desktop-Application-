@@ -1,6 +1,7 @@
 package UserProfileGUI;
 
 import Other.Icons.IconCreator;
+import SignupAndLogin.LoginFrame;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -14,7 +15,11 @@ public class PPImageHandler extends JLabel {
 
     public PPImageHandler(User user){
         super();
-        setIcon(IconCreator.getIconWithSize((new ImageIcon(user.pullTheProfilePhotoFromDB(user.getId()))),70,70));
+        if (!LoginFrame.isTrial)
+            setIcon(IconCreator.getIconWithSize((new ImageIcon(user.pullTheProfilePhotoFromDB(user.getId()))),70,70));
+        else
+            setIcon(IconCreator.getIconWithSize((new ImageIcon(user.getProfilePhoto())),70,70));
+
         image = getIcon();
     }
     public PPImageHandler(ImageIcon i){

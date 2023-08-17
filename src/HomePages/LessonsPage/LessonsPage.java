@@ -2,8 +2,11 @@ package HomePages.LessonsPage;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.HomeMain.HomeMain;
 import Other.Icons.IconCreator;
+import Posts.ActivityPost;
 import PostsGUI.LessonPostViewer;
 import Posts.LessonPost;
+import SignupAndLogin.LoginFrame;
+import TrialMain.TrialMain;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
@@ -104,7 +107,10 @@ public class LessonsPage {
         currentUser = main.getCurrentUser();
         lessonPostViewers = new ArrayList<>();
         generalSetup();
-        getRandomPosts();
+        if (!(this.main instanceof TrialMain))
+            getRandomPosts();
+        else
+            getRandomPosts(true);
         textArea1.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -152,6 +158,40 @@ public class LessonsPage {
         }
 
 
+    }
+    private void getRandomPosts(boolean isItTrial) {
+        TrialMain trial = (TrialMain) main;
+        User[] allUsers2 = trial.getAllUsers();
+        ArrayList<ArrayList<LessonPost>> userPostCollections = new ArrayList<>();
+        int totalNum = totalNumOfPosts(userPostCollections);
+        boolean exceed = true;
+        if (totalNum < LessonsPage.NUMOFPOSTSINAPAGE)
+            exceed = false;
+
+        for (int i = 0; i < allUsers2.length; i++) {
+            User temp13 = allUsers2[i];
+            if (temp13 instanceof Student student)
+                userPostCollections.add(student.getLessonPostCollection());
+        }
+        int max1 = userPostCollections.size();
+        int rand1;
+        int max2;
+        int rand2;
+        Random rand = new Random();
+        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
+            rand1 = 0;
+            rand2 = 0;
+            if (max1 != 0)
+                rand1= rand.nextInt(max1);
+            max2= userPostCollections.get(rand1).size();
+            if (max2 != 0)
+                rand2= rand.nextInt(max2);
+            if (!userPostCollections.get(rand1).isEmpty() && !posts.contains(userPostCollections.get(rand1).get(rand2))){
+                addLessonPost(userPostCollections.get(rand1).get(rand2));
+            }else if (exceed){
+                i--;
+            }
+        }
     }
 
     public void setCurrentUser(User user) {
@@ -341,7 +381,8 @@ public class LessonsPage {
 
                 LessonPost tempPost = new LessonPost(postId, currentUser, textArea1.getText().strip(), (String) courseTypeComboBox.getSelectedItem(), getSelectedDaysBinary(), !postLessonButton.isSelected(), new Date().toString(),true);
                 Student temp = (Student) currentUser;
-                temp.addToLessonsTable(tempPost);
+                if (!LoginFrame.isTrial)
+                    temp.addToLessonsTable(tempPost);
                 posts.add(tempPost);
                 addLessonPost(tempPost);
                 main.update();

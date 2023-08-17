@@ -8,6 +8,7 @@ import java.util.Date;
 
 import HomePages.HomeMain.HomeMain;
 import Other.Icons.IconCreator;
+import SignupAndLogin.LoginFrame;
 import UserRelated.User;
 
 public class MessagesGUI extends JFrame {
@@ -48,7 +49,6 @@ public class MessagesGUI extends JFrame {
 
         this.main = main;
         this.currentUser = main.getCurrentUser();
-        //rightPanel.setVisible(false);
         // Adding ActionListener to the search button
         searchButton.addActionListener(new ActionListener()
         {
@@ -72,19 +72,12 @@ public class MessagesGUI extends JFrame {
                 conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0), this);
                 m = new MessagesPanel(currentUser, conversationPanel);
                 conversationViewers = m;
-                //textInputArea.setMargin(new Insets(5,5,5,5));
                 addablePanelLeft.add(m);
                 addablePanelRight.add(conversationPanel);
                 conversationPanel.setVisible(false);
-
-                //setSize(1200,800);
-                //sendMessageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                //sendMessageButton.setFocusable(false);
-
-                //setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
         add(panel1);
-        //setVisible(true);
+
     }
     public JPanel getPanel(){
         return contentMessages;
@@ -100,8 +93,9 @@ public class MessagesGUI extends JFrame {
 
 
     public void sendMessage(User sender, User receiver,String message) {
-        conversationPanel.sendMessage(sender,receiver,message);
-        sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
+        conversationPanel.sendMessage(sender,receiver,message,true);
+        if (!LoginFrame.isTrial)
+            sender.insertToMessageHistoryTable(sender.getId()+receiver.getId(),new Message(sender,receiver,message,new Date().toString()));
         main.update();
     }
     public void setMain(HomeMain main) { this.main = main; }
@@ -129,7 +123,8 @@ public class MessagesGUI extends JFrame {
         scrollLeft.revalidate();}
     }
     public void refreshLeft(){
-        m.refresh(currentUser,conversationPanel);
+        if (m != null)
+            m.refresh(currentUser,conversationPanel);
         repaint();
         revalidate();
     }
@@ -281,12 +276,13 @@ public class MessagesGUI extends JFrame {
             }
 
             private void addListener() {
+                mouseList list = new mouseList();
                 for (Component c :
                         getComponents()) {
                     c.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    c.addMouseListener(new mouseList());
+                    c.addMouseListener(list);
                 }
-                addMouseListener(new mouseList());
+                addMouseListener(list);
             }
             private void createContent(ArrayList<Message> messages){
                 panel.addPastMessages(messages);
@@ -301,7 +297,10 @@ public class MessagesGUI extends JFrame {
                         setBackground(new Color(239, 143, 143));
                         panel.setCurrentReceiver(messageConnection);
                         currentReceiverID = messageConnection.getOtherUser().getId();
-                        createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
+                        if (!LoginFrame.isTrial)
+                            createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));
+                        else
+                            createContent(messageConnection.getMessages());
                         panel.setVisible(true);
 
                     }
