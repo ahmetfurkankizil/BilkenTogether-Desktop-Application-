@@ -10,11 +10,14 @@ import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
+import TrialMain.TrialMain;
+import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CommentsMidPanel extends JFrame {
     private JButton backButton;
@@ -31,6 +34,7 @@ public class CommentsMidPanel extends JFrame {
     private boolean isReview;
     private ReviewPanel reviewPanel;
     private JPanel previousPanel;
+    private User[] otherUsers;
     PostViewer viewer;
     public CommentsMidPanel(Post post, HomeMain main, JPanel prev)  {
         REQUESTABLE_POST = post;
@@ -57,7 +61,12 @@ public class CommentsMidPanel extends JFrame {
         g2.anchor = GridBagConstraints.LINE_START;
         g2.fill = GridBagConstraints.HORIZONTAL;
         g2.gridwidth =2;
-        REQUESTABLE_POST.setUpPastCommentCollection();
+        if (main instanceof TrialMain trialMain) {
+            Random random = new Random();
+            otherUsers = trialMain.getOtherUsers();
+            REQUESTABLE_POST.addComment(new Comment(otherUsers[random.nextInt(otherUsers.length)]," Example Content"));
+        }else
+            REQUESTABLE_POST.setUpPastCommentCollection();
         if (REQUESTABLE_POST instanceof LessonPost){
             viewer = new LessonPostViewer((LessonPost) REQUESTABLE_POST,main);
             postDisplayPanel.add(viewer,g2);}
@@ -68,13 +77,11 @@ public class CommentsMidPanel extends JFrame {
             viewer = new StudiesPostViewer((StudyPost) REQUESTABLE_POST,main);
             postDisplayPanel.add(viewer,g2);
         }
+
         comments = post.getCommentCollection();
-        for (Comment c :
-                comments) {
+        for (Comment c : comments) {
             addCommentsPanel(new CommentsPanel(c,main.getCurrentUser(),isReview,reviewPanel));
         }
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setVisible(true);
         postButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -1,5 +1,6 @@
 package TrialMain;
 
+import CommentsGUI.CommentsMidPanel;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.ActivityPage.ActivitiesPage;
 import HomePages.HomeMain.HomeMain;
@@ -299,19 +300,25 @@ public class TrialMain extends HomeMain {
                 resetPanels();
                 insideScrollPanePanel.removeAll();
                 flowScrollPane.setVisible(true);
+                lessonsButton.setSelected(false);
+                studiesButton.setSelected(false);
+                activitiesButton.setSelected(false);
                 if (currentUser instanceof Student){
                         insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-                        removableRight.add(lessons.getQuickFiltersPanel());}
+                        removableRight.add(lessons.getQuickFiltersPanel());
+                        lessonsButton.setSelected(true);
+                }
                 else {
                         insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
                         removableRight.add(studies.getQfPanel());
+                        studiesButton.setSelected(true);
                 }
                 insideScrollPanePanel.setVisible(true);
                 rightPanel.setVisible(true);
                 topVisiblisty.setVisible(true);
                 resetLabelFonts();
                 homeLabel.setFont(new Font("default",Font.BOLD,22));
-                lessonsButton.setSelected(true);
+
                 update();}
             }
         });
@@ -410,6 +417,7 @@ public class TrialMain extends HomeMain {
         removableRight.removeAll();
         insideScrollPanePanel.removeAll();
         flowScrollPane.setVisible(false);
+        resetLabelFonts();
         goTop();
     }
 
@@ -587,10 +595,10 @@ public class TrialMain extends HomeMain {
         else
             prev = (JPanel) insideScrollPanePanel.getComponents()[0];
         rightPanel.setVisible(true);
-        //CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this,prev);
+        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this,prev);
         resetPanels();
         invisibleAddablePanelLeft.setLayout(new GridLayout());
-        //invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
+        invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
         invisibleAddablePanelLeft.setVisible(true);
         update();
 
@@ -660,6 +668,9 @@ public class TrialMain extends HomeMain {
             g2d.setColor(Color.gray);
             g2d.drawLine(x, y + height, x + width + 10, y + height);
         }
+    }
+    public User[] getOtherUsers(){
+        return otherUsers;
     }
     public boolean getButtonPressed(){
         return messageSendButtonPressed;

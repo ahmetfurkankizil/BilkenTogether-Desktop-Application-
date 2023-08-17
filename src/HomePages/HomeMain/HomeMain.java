@@ -326,19 +326,24 @@ public class HomeMain extends JFrame {
                 resetPanels();
                 insideScrollPanePanel.removeAll();
                 flowScrollPane.setVisible(true);
+                lessonsButton.setSelected(false);
+                studiesButton.setSelected(false);
+                activitiesButton.setSelected(false);
                 if (currentUser instanceof Student){
-                        insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
-                        removableRight.add(lessons.getQuickFiltersPanel());}
+                    insideScrollPanePanel.add(lessons.getInsideScrollPanePanel());
+                    removableRight.add(lessons.getQuickFiltersPanel());
+                    lessonsButton.setSelected(true);
+                }
                 else {
-                        insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
-                        removableRight.add(studies.getQfPanel());
+                    insideScrollPanePanel.add(studies.getInsideScrollPanePanel());
+                    removableRight.add(studies.getQfPanel());
+                    studiesButton.setSelected(true);
                 }
                 insideScrollPanePanel.setVisible(true);
                 rightPanel.setVisible(true);
                 topVisiblisty.setVisible(true);
                 resetLabelFonts();
                 homeLabel.setFont(new Font("default",Font.BOLD,22));
-                lessonsButton.setSelected(true);
                 update();}
             }
         });
@@ -437,6 +442,7 @@ public class HomeMain extends JFrame {
         removableRight.removeAll();
         insideScrollPanePanel.removeAll();
         flowScrollPane.setVisible(false);
+        resetLabelFonts();
         goTop();
     }
 

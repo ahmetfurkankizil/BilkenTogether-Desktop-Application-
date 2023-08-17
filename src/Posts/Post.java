@@ -64,12 +64,15 @@ public abstract class Post {
 
     public void addComment(Comment comment) {
         commentCollection.add(comment);
-        addToCommentsTable(comment);
+
         User notificationReceiver = sender;
         User notificationSender = comment.getCommenter();
         String notificationContent = comment.getContent();
         Notification notificationToBeAdded = new Notification(notificationSender, notificationReceiver, notificationContent, new Date().toString());
-        sender.addToNotificationsTable(notificationToBeAdded);
+        if (!LoginFrame.isTrial){
+            addToCommentsTable(comment);
+            sender.addToNotificationsTable(notificationToBeAdded);
+        }
     }
 
     @Override
