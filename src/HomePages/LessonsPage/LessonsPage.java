@@ -307,9 +307,13 @@ public class LessonsPage {
                 for (JButton button :
                         dayButtons) {
                     button.setSelected(false);
+                    button.setBackground(PRIMARYBUTTONCOLOR);
                 }
+                courseComboBox.setSelectedItem(0);
                 postLessonButton.setSelected(false);
+                postLessonButton.setBackground(PRIMARYBUTTONCOLOR);
                 requestLessonButton.setSelected(false);
+                requestLessonButton.setBackground(PRIMARYBUTTONCOLOR);
             }
         };
         for (Component c :
