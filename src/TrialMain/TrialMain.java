@@ -1,5 +1,6 @@
 package TrialMain;
 
+import CommentsGUI.Comment;
 import CommentsGUI.CommentsMidPanel;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.ActivityPage.ActivitiesPage;
@@ -8,6 +9,7 @@ import HomePages.LessonsPage.LessonsPage;
 import HomePages.StudiesPage.StudiesPage;
 import Main.Main;
 import MessagesGUI.*;
+import NotificationRelated.Notification;
 import NotificationRelated.NotificationHomePage;
 import Other.Icons.IconCreator;
 import Posts.Post;
@@ -39,6 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TrialMain extends HomeMain {
     private StudiesPage studies;
@@ -217,8 +220,7 @@ public class TrialMain extends HomeMain {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textInputArea.getText().isEmpty()){
-                    //client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
+                if (!textInputArea.getText().isEmpty() && messagesGUI.getCurrentReceiver() !=null){
                     messageSendButtonPressed = true;
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
                     messagesGUI.refreshLeft();
@@ -386,7 +388,6 @@ public class TrialMain extends HomeMain {
                 GridBagConstraints g2 = new GridBagConstraints();
                 //tempP.setBounds(0,0,600,600);
                 g2.gridx = 0;
-                notificationHomePage.addPastNotifications(currentUser);
                 invisibleAddablePanelLeft.add(tempP,g2);
                 //invisibleAddablePanelRight.setVisible(true);
                 //flowScrollPane.setVisible(true);
@@ -649,6 +650,14 @@ public class TrialMain extends HomeMain {
 
     public User[] getAllUsers() {
         return userCollection;
+    }
+
+    public void addNotification(Comment comment, User sender) {
+        User notificationReceiver = sender;
+        User notificationSender = comment.getCommenter();
+        String notificationContent = comment.getContent();
+        Notification notificationToBeAdded = new Notification(notificationSender, notificationReceiver, notificationContent, new Date().toString());
+        notificationHomePage.addNotification(notificationToBeAdded);
     }
 
     private class SectionItemBorder implements Border {

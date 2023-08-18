@@ -69,7 +69,7 @@ public class MessagesGUI extends JFrame {
         searchField.setColumns(20);
 
             if (!currentUser.getMessageConnections().isEmpty()) {
-                conversationPanel = new ConversationPanel(currentUser.getMessageConnections().get(0), this);
+                conversationPanel = new ConversationPanel(null, this);
                 m = new MessagesPanel(currentUser, conversationPanel);
                 conversationViewers = m;
                 addablePanelLeft.add(m);
@@ -130,7 +130,9 @@ public class MessagesGUI extends JFrame {
     }
 
     public User getCurrentReceiver() {
-        return conversationPanel.getCurrentReceiver();
+        if (conversationPanel != null)
+            return conversationPanel.getCurrentReceiver();
+        return null;
     }
 
     public static class MessagesPanel extends JPanel {
@@ -295,7 +297,7 @@ public class MessagesGUI extends JFrame {
                     if (!getBackground().equals(new Color(239, 143, 143))) {
                         resetBackgrounds();
                         setBackground(new Color(239, 143, 143));
-                        panel.setCurrentReceiver(messageConnection);
+                        panel.setCurrentConnection(messageConnection);
                         currentReceiverID = messageConnection.getOtherUser().getId();
                         if (!LoginFrame.isTrial)
                             createContent(currentUser.pullMessageHistoryFromDB(messageConnection.id));

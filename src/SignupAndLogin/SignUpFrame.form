@@ -482,7 +482,6 @@
                 <properties>
                   <background color="-2104603"/>
                   <hideActionText value="false"/>
-                  <icon value="Icons/backIcon.png"/>
                   <text value=""/>
                 </properties>
               </component>

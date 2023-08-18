@@ -227,13 +227,15 @@ public class HomeMain extends JFrame {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textInputArea.getText().isEmpty()){
-                    client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
+                if (!textInputArea.getText().isEmpty() && messagesGUI.getCurrentReceiver() != null){
+
+                        client.setCurrentRecipient(messagesGUI.getCurrentReceiver());
                     messageSendButtonPressed = true;
 
                     messagesGUI.sendMessage(currentUser,messagesGUI.getCurrentReceiver(),textInputArea.getText());
 
                     messagesGUI.refreshLeft();
+
                 }
                update();
             }

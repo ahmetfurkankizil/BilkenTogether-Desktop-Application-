@@ -27,11 +27,14 @@ public class ConversationPanel extends JPanel {
     public ConversationPanel(MessageConnection messageConnection, MessagesGUI messagesGUI) {
         this.messagesGUI = messagesGUI;
         mainPanel = new JPanel();
-        pastMessages = messageConnection.getMessages();
+        if (messageConnection != null) {
+            pastMessages = messageConnection.getMessages();
+
+            this.currentUser = messageConnection.getCurrentUser();
+            this.otherUser = messageConnection.getOtherUser();
+            this.temp = messageConnection;
+        }
         mainPanel.setLayout(new GridLayout(0, 2));
-        this.currentUser = messageConnection.getCurrentUser();
-        this.otherUser = messageConnection.getOtherUser();
-        this.temp = messageConnection;
         g = new GridBagConstraints();
         g.gridy = 0;
         g.gridx = 0;
@@ -55,19 +58,21 @@ public class ConversationPanel extends JPanel {
         //addMessage(new MessagesViewer(null, true), true);
         g.gridx = 0;
         add(mainPanel);
-        addPastMessages();
+
     }
 
     private void addPastMessages() {
+
         for (Message message : pastMessages) {
             if (message.getSender() == currentUser)
                 sendMessage(currentUser, otherUser, message.getContent(),false);
             else
                 getMessage(message);
         }
+
     }
 
-    public void setCurrentReceiver(MessageConnection messageConnection) {
+    public void setCurrentConnection(MessageConnection messageConnection) {
         this.temp = messageConnection;
     }
 
@@ -113,7 +118,9 @@ public class ConversationPanel extends JPanel {
     }
 
     public User getCurrentReceiver() {
-        return temp.getOtherUser();
+        if (temp != null)
+            return temp.getOtherUser();
+        return null;
     }
 
     private class MessagesViewer extends JPanel {

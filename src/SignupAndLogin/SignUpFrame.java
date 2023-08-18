@@ -1,6 +1,7 @@
 package SignupAndLogin;
 
 import DatabaseRelated.*;
+import Other.Icons.IconCreator;
 import UserRelated.*;
 
 import javax.swing.*;
@@ -46,6 +47,7 @@ public class SignUpFrame extends JFrame{
 
     public SignUpFrame(SignUpHandler signUpHandler){
         this.signUpHandler = signUpHandler;
+        backButton.setIcon(IconCreator.getIconWithSize(IconCreator.backIcon,40,40));
         add(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         signupButton.addActionListener(new ActionListener() {

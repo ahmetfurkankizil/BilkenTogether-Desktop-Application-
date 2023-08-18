@@ -1,6 +1,7 @@
 package NotificationRelated;
 
 import HomePages.HomeMain.HomeMain;
+import TrialMain.TrialMain;
 import UserRelated.User;
 
 import javax.swing.*;
@@ -178,7 +179,8 @@ public class NotificationHomePage extends JFrame {
                     innerPanel1.remove(circle);
                     innerPanel1.setOpaque(false);
                     innerPanel1.add(label1);
-                    currentUser.readTheNotification(notification);
+                    if (!(main instanceof TrialMain))
+                        currentUser.readTheNotification(notification);
                     revalidate();
                     repaint();
                 }

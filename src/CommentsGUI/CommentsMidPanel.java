@@ -10,6 +10,7 @@ import Posts.ActivityPost;
 import Posts.LessonPost;
 import Posts.Post;
 import Posts.StudyPost;
+import SignupAndLogin.LoginFrame;
 import TrialMain.TrialMain;
 import UserRelated.User;
 
@@ -91,6 +92,8 @@ public class CommentsMidPanel extends JFrame {
                     if (isReview){
                         add(new JLabel());
                     }
+                    if (main instanceof TrialMain mm && main.getCurrentUser().getId() == post.getSender().getId())
+                        mm.addNotification(temp,post.getSender());
                     addCommentsPanel(new CommentsPanel(temp,main.getCurrentUser(),isReview,reviewPanel));
                     textArea1.setText("");
                     main.update();
