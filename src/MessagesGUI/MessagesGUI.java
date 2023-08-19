@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Other.Icons.IconCreator;
 import SignupAndLogin.LoginFrame;
 import UserRelated.User;
@@ -28,13 +29,13 @@ public class MessagesGUI extends JFrame {
     JButton searchButton;
     JLabel searchLabel;
     JTextField searchField;
-    private HomeMain main;
+    private MainInterface main;
     ConversationPanel conversationPanel;
     MessagesPanel m;
     MessagesPanel conversationViewers;
     User currentUser;
 
-    public MessagesGUI(HomeMain main){
+    public MessagesGUI(MainInterface main){
         searchPanel.setBackground(searchPanelColor);
         searchLabel = new JLabel("Search Messages :");
         searchButton = new JButton(IconCreator.getIconWithSize(IconCreator.searchIcon,10,10));

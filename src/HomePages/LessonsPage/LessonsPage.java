@@ -1,6 +1,7 @@
 package HomePages.LessonsPage;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Other.Icons.IconCreator;
 import Posts.ActivityPost;
 import PostsGUI.LessonPostViewer;
@@ -24,7 +25,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class LessonsPage {
-    private HomeMain main;
+    private MainInterface main;
     private static final Cursor HANDCURSOR = new Cursor(Cursor.HAND_CURSOR);
 
     public static final Color PRIMARYBUTTONCOLOR = new Color(181, 181, 234);
@@ -100,7 +101,7 @@ public class LessonsPage {
     public JPanel getQuickFiltersPanel() {
         return quickFiltersPanel;
     }
-    public LessonsPage(HomeMain main) {
+    public LessonsPage(MainInterface main) {
         posts = new ArrayList<>();
         userIds = new ArrayList<>();
         this.main = main;

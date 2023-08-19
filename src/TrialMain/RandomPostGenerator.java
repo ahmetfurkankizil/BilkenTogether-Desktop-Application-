@@ -105,7 +105,7 @@ public class RandomPostGenerator {
     }
     public ActivityPost generateRandomActivityPost(){
         String topic = selectRandomActivityTypeFilter();
-        return new ActivityPost(0,studentUser,generateRandomDescription() + "  " +topic,random.nextInt(16),new Date().toString(),topic,getRandomDate(),false);
+        return new ActivityPost(0,studentUser,generateRandomDescription() + "  " +topic,random.nextInt(1,16),new Date().toString(),topic,getRandomDate(),false);
     }
     public String generateRandomDescription(){
         return postDescriptions[random.nextInt(postDescriptions.length)];

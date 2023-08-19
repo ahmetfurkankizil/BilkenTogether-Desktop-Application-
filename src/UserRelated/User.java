@@ -288,7 +288,6 @@ public abstract class User{
      */
     public void addNotification(Notification notification) {
         notificationCollection.add(notification);
-        // Cannot  adding it Notification Table of the SQL Database
     }
 
     /**
@@ -1109,4 +1108,7 @@ public abstract class User{
     }
 
 
+    public ArrayList<Notification> getNotifiactions() {
+        return notificationCollection;
+    }
 }

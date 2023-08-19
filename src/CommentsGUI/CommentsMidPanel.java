@@ -1,6 +1,7 @@
 package CommentsGUI;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Other.Icons.IconCreator;
 import PostsGUI.ActivitiesPostViewer;
 import PostsGUI.LessonPostViewer;
@@ -31,29 +32,17 @@ public class CommentsMidPanel extends JFrame {
     private JPanel innerPanel;
     private ArrayList<Comment> comments;
     private  Post REQUESTABLE_POST;
-    private HomeMain main;
+    private MainInterface main;
     private boolean isReview;
     private ReviewPanel reviewPanel;
     private JPanel previousPanel;
     private User[] otherUsers;
     PostViewer viewer;
-    public CommentsMidPanel(Post post, HomeMain main, JPanel prev)  {
+    public CommentsMidPanel(Post post, MainInterface main, JPanel prev)  {
         REQUESTABLE_POST = post;
         previousPanel = prev;
         this.main = main;
         isReview = false;
-        //reviewPanel =new ReviewPanel(main,(Student) main.getCurrentUser());
-     /*   if (post instanceof LessonPost ){
-            LessonPost temp = (LessonPost) post;
-            Student acceptor= temp.getAccepter();
-            if (acceptor!= null && acceptor.getId() == main.getCurrentUser().getId()){
-                GridBagConstraints g2 = new GridBagConstraints();
-                g2.gridx = 0;
-                commentPosting.add(reviewPanel);
-                isReview= true;
-            }
-        }
-      */
         backButton.setIcon(IconCreator.getIconWithSize(IconCreator.backIcon,50,50));
         GridBagConstraints g2 = new GridBagConstraints();
         //g2.ipady = 200;
@@ -63,9 +52,8 @@ public class CommentsMidPanel extends JFrame {
         g2.fill = GridBagConstraints.HORIZONTAL;
         g2.gridwidth =2;
         if (main instanceof TrialMain trialMain) {
-            Random random = new Random();
+
             otherUsers = trialMain.getOtherUsers();
-            REQUESTABLE_POST.addComment(new Comment(otherUsers[random.nextInt(otherUsers.length)]," Example Content"));
         }else
             REQUESTABLE_POST.setUpPastCommentCollection();
         if (REQUESTABLE_POST instanceof LessonPost){

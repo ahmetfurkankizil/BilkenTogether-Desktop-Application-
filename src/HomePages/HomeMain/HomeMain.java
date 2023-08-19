@@ -42,7 +42,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class HomeMain extends JFrame {
+public class HomeMain extends JFrame implements MainInterface {
     private StudiesPage studies;
     private ActivitiesPage activities;
     private static final File LOGFILE= new File("src/HomePages/HomeMain/logo.PNG");
@@ -52,7 +52,6 @@ public class HomeMain extends JFrame {
     private JPanel mainPanel;
     private Client client;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
-    public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
     private JButton lessonsButton;
     private JButton studiesButton;
@@ -258,47 +257,16 @@ public class HomeMain extends JFrame {
         });
     }
 
-    private void goTop() {
+
+    public void goTop() {
         JScrollBar verBar = flowScrollPane.getVerticalScrollBar();
         verBar.setValue(0);
     }
 
-    private void ppHandler() {
-        BufferedImage bi = null;
-        File f = new File("src/DefaultProfilePictures/Tatice-Cristal-Intense-Java.64.png");
-        try {
-            bi = ImageIO.read(f);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(bi,"png",os);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes = os.toByteArray();
-        currentUser.setProfilePhoto(bytes,false);
 
-        // Adding Background Photo (photo to byte[])
-        BufferedImage ib = null;
-        try {
-            ib = ImageIO.read( new File("src/DefaultProfilePictures/trava-pole-polya-kholmy-nebo-oblako-oblaka.jpg"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ByteArrayOutputStream so = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(ib,"png",so);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes1 = so.toByteArray();
-        currentUser.setBackgroundPhoto(bytes1,false);
 
-    }
 
-    private void setUpLabelListeners() {
+    public void setUpLabelListeners() {
         messagesLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -427,13 +395,15 @@ public class HomeMain extends JFrame {
     }
 
 
+    @Override
     public void update(){
         repaint();
         revalidate();
     }
 
 
-    private void resetPanels() {
+
+    public void resetPanels() {
         invisibleAddablePanelLeft.setLayout(new GridBagLayout());
         textAreaPanel.setVisible(false);
         topVisiblisty.setVisible(false);
@@ -448,7 +418,8 @@ public class HomeMain extends JFrame {
         goTop();
     }
 
-    private void resetLabelFonts() {
+
+    public void resetLabelFonts() {
         homeLabel.setFont(new Font("default",Font.PLAIN,22));
         notificationsLabel.setFont(new Font("default",Font.PLAIN,22));
         messagesLabel.setFont(new Font("default",Font.PLAIN,22));
@@ -456,7 +427,8 @@ public class HomeMain extends JFrame {
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
     private RequestMiddlePanelUnanswered requestExtended;
-    private void setUpPages() {
+
+    public void setUpPages() {
         setUpPastMessages();
         if (currentUser instanceof Student) {
             activities = new ActivitiesPage(this);
@@ -468,6 +440,7 @@ public class HomeMain extends JFrame {
         studies = new StudiesPage(this);
         profilePage = new UserProfilePage(this, profileBox);
     }
+    @Override
     public void setUpPastMessages(){
         ArrayList<Integer> otherUsers = currentUser.pullIDsFromUserInformationTable();
         DatabaseConnection tempConnection = new DatabaseConnection();
@@ -483,6 +456,7 @@ public class HomeMain extends JFrame {
             }
         }
     }
+    @Override
     public void refreshProfilePhotos(){
         if (currentUser instanceof Student){
             lessons.refreshProfilePhotos();
@@ -493,43 +467,21 @@ public class HomeMain extends JFrame {
 
     }
 
+    @Override
     public void setCurrentUser(User user) {
         currentUser = user;
     }
 
+    @Override
     public void generalSetup() {
         g = new GridBagConstraints();
         setUpCursors();
         setUpSectionLabels();
     }
 
-    public static byte[] readPDFToByteArray(String filePath) throws IOException {
-        FileInputStream fileInputStream = null;
-        ByteArrayOutputStream byteArrayOutputStream = null;
-
-        try {
-            fileInputStream = new FileInputStream(filePath);
-            byteArrayOutputStream = new ByteArrayOutputStream();
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-            }
-
-            return byteArrayOutputStream.toByteArray();
-        } finally {
-            if (fileInputStream != null) {
-                fileInputStream.close();
-            }
-            if (byteArrayOutputStream != null) {
-                byteArrayOutputStream.close();
-            }
-        }
-    }
 
 
-    private void setUpCursors() {
+    public void setUpCursors() {
         logoLabel.setCursor(handCursor);
         sectionButtons = new ArrayList<>();
         sectionButtons.add(lessonsButton);
@@ -558,7 +510,8 @@ public class HomeMain extends JFrame {
     }
 
 
-    private void setUpSectionLabels() {
+
+    public void setUpSectionLabels() {
         int secPanelIconWidth = 30;
         leftPanel.setBackground(new Color(203, 205, 208));
 
@@ -575,13 +528,15 @@ public class HomeMain extends JFrame {
         }
     }
 
-    private void setUpBorders() {
+
+    public void setUpBorders() {
         homeLabelPanel.setBorder(new SectionItemBorder());
         requestLabelPanel.setBorder(new SectionItemBorder());
         profileLabelPanel.setBorder(new SectionItemBorder());
         messagesLabelPanel.setBorder(new SectionItemBorder());
         notificationsLabelPanel.setBorder(new SectionItemBorder());
     }
+    @Override
     public void goBack(PostViewer viewer){
 
         resetPanels();
@@ -619,6 +574,7 @@ public class HomeMain extends JFrame {
                     break;
         }
     }
+    @Override
     public void expandPost(PostViewer p){
         Post tempPost = p.getPost();
         JPanel prev;
@@ -637,19 +593,17 @@ public class HomeMain extends JFrame {
     }
 
 
-
-    public static void main(String[] args) {
-        //Main lessonsPage = new Main();
-    }
-
+    @Override
     public String getTextFieldText() {
         return textInputArea.getText();
     }
 
+    @Override
     public User getCurrentUser() {
 
         return currentUser;
     }
+    @Override
     public void goBacTokRequests(){
         resetPanels();
         GridBagConstraints g2 = new GridBagConstraints();
@@ -664,9 +618,11 @@ public class HomeMain extends JFrame {
         update();
         update();
     }
+    @Override
     public void extendRequest(RequestablePost panel) {
-        requestExtended = new RequestMiddlePanelUnanswered(panel,this, requestsPage.getInPanel());
         resetPanels();
+        requestExtended = new RequestMiddlePanelUnanswered(panel,this, requestsPage.getInPanel());
+
         GridBagConstraints g2 = new GridBagConstraints();
 
 
@@ -698,13 +654,16 @@ public class HomeMain extends JFrame {
             g2d.drawLine(x, y + height, x + width + 10, y + height);
         }
     }
+    @Override
     public boolean getButtonPressed(){
         return messageSendButtonPressed;
     }
+    @Override
     public void setButtonPressed(boolean b){
         messageSendButtonPressed = b;
     }
-    private void setUpRightPanelLayout() {
+
+    public void setUpRightPanelLayout() {
         invisibleAddablePanelRight.setLayout(new LayoutManager() {
             @Override
             public void addLayoutComponent(String name, Component comp) {
@@ -732,7 +691,8 @@ public class HomeMain extends JFrame {
             }
         });
     }
-    private boolean checkIfLabelAlreadySelected(MouseEvent e){
+
+    public boolean checkIfLabelAlreadySelected(MouseEvent e){
         JLabel label = (JLabel) e.getSource();
         return !label.getFont().isBold();
     }

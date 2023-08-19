@@ -64,7 +64,6 @@ public abstract class Post {
 
     public void addComment(Comment comment) {
         commentCollection.add(comment);
-
         User notificationReceiver = sender;
         User notificationSender = comment.getCommenter();
         String notificationContent = comment.getContent();
@@ -72,6 +71,8 @@ public abstract class Post {
         if (!LoginFrame.isTrial){
             addToCommentsTable(comment);
             sender.addToNotificationsTable(notificationToBeAdded);
+        }else{
+            sender.addNotification(notificationToBeAdded);
         }
     }
 

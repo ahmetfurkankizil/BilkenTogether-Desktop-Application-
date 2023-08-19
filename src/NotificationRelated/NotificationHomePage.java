@@ -1,6 +1,7 @@
 package NotificationRelated;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import TrialMain.TrialMain;
 import UserRelated.User;
 
@@ -21,9 +22,9 @@ public class NotificationHomePage extends JFrame {
     private JPanel TopLabel;
     private JPanel scrollBig;
     private ArrayList<JButton> sectionButtons;
-    private HomeMain main;
+    private MainInterface main;
 
-    public NotificationHomePage(HomeMain main) {
+    public NotificationHomePage(MainInterface main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
         setContentPane(mainPanel);
@@ -44,6 +45,14 @@ public class NotificationHomePage extends JFrame {
         ArrayList<Notification> notifications = user.pullTheNotifications();
         for (int i = 0; i < notifications.size(); i++) {
             addNotification(notifications.get(i));
+        }
+        insideScrollPanePanel.repaint();
+        insideScrollPanePanel.revalidate();
+    }
+    public void addTrialNotifications(User user){
+        ArrayList<Notification> notifications = user.getNotifiactions();
+        for (Notification value : notifications) {
+            addNotification(value);
         }
         insideScrollPanePanel.repaint();
         insideScrollPanePanel.revalidate();

@@ -1,6 +1,7 @@
 package HomePages.StudiesPage;
 
 import DatabaseRelated.DatabaseConnection;
+import HomePages.HomeMain.MainInterface;
 import HomePages.LessonsPage.LessonsPage;
 import HomePages.HomeMain.HomeMain;
 import Posts.ActivityPost;
@@ -20,7 +21,7 @@ import java.io.*;
 import java.util.*;
 
 public class StudiesPage {
-    private HomeMain main;
+    private MainInterface main;
     private String[] topics;
     private final String[] updatedTopics = {"MATH", "CS", "LINEAR ALGEBRA", "DEDIKODU", "PHYSICS", "CS BUT CURSED"};
     int index;
@@ -98,7 +99,7 @@ public class StudiesPage {
     private JLabel[] filterLabels ={filterLabel1,filterLabel2,filterLabel3,filterLabel4,filterLabel5};
     private ArrayList<String> postingFilters;
     private ArrayList<String> filterSideTopicFilters;
-    public StudiesPage(HomeMain main) {
+    public StudiesPage(MainInterface main) {
         studyPosts = new ArrayList<>();
         studiesPostViewers = new ArrayList<>();
         postingFilters = new ArrayList<String>();

@@ -1,16 +1,20 @@
 package Request;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Posts.ActivityPost;
 import Posts.LessonPost;
-import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
+import Request.RequestsAndViewers.*;
+import TrialMain.TrialMain;
 import UserRelated.Student;
+import UserRelated.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RequestMidPanel extends JFrame {
     private JButton activitiesButton;
@@ -20,13 +24,13 @@ public class RequestMidPanel extends JFrame {
     private JPanel inPanel;
     private JPanel lessonsPostss;
     private JPanel activityPostss;
-    private HomeMain main;
+    private MainInterface main;
     private Student user;
     private RequestMiddlePanelUnanswered requestsExtended;
     private ArrayList<LessonPost> lessonPosts;
     private ArrayList<ActivityPost> activityPosts;
 
-    public RequestMidPanel(HomeMain main) {
+    public RequestMidPanel(MainInterface main) {
         this.main = main;
         this.user = (Student) main.getCurrentUser();
         setSize(700,700);
@@ -86,16 +90,25 @@ public class RequestMidPanel extends JFrame {
         activityPostss.revalidate();
     }
     private void initialize(){
+        Random random = new Random();
         for (int i = 0; i < lessonPosts.size(); i++) {
+            if (lessonPosts.get(i).getRequestCollection().isEmpty()&& main instanceof TrialMain trialMain)
+                lessonPosts.get(i).addRequest(getRandomRequest(trialMain.getAllUsers()[random.nextInt(1,trialMain.getAllUsers().length)]));
             addToLessonsPanel(new RequestPanel(lessonPosts.get(i),main));
         }
         for (int i = 0; i < activityPosts.size(); i++) {
+            if (activityPosts.get(i).getRequestCollection().isEmpty() && main instanceof TrialMain trialMain)
+                activityPosts.get(i).addRequest(getRandomRequest(trialMain.getAllUsers()[random.nextInt(1,trialMain.getAllUsers().length)]));
             addToActivitiesPanel(new RequestPanel(activityPosts.get(i),main));
         }
     }
-
-
-
-
-
+    public Request getRandomRequest(User user){
+        Random random = new Random();
+        if (random.nextBoolean())
+            return new UnansweredRequest(user);
+        else if (random.nextBoolean()) {
+            return new DeniedRequest(user);
+        }else
+            return new AcceptedRequest(user);
+    }
 }

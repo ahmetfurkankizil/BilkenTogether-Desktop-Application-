@@ -3,7 +3,9 @@ package Request.RequestsAndViewers;
 import DatabaseRelated.DatabaseConnection;
 import Other.Icons.IconCreator;
 import Posts.RequestablePost;
+import SignupAndLogin.LoginFrame;
 import UserRelated.Student;
+import UserRelated.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,13 +28,27 @@ public class RequestConfirmationPanelViewer extends JPanel {
     protected JLabel nameLabel = new JLabel();
     protected JButton tickButton, crossButton;
     private DatabaseConnection databaseConnection;
+    private Student student;
     private final Font PROFILENAMEFONT = new Font("default",Font.BOLD,25);
+    public RequestConfirmationPanelViewer(Request request, User requester){
+        student = (Student) requester;
+        setUp();
+    }
     public RequestConfirmationPanelViewer(Request request) {
-        this.databaseConnection = new DatabaseConnection();
-        Student student = (Student) this.databaseConnection.pullUserByIdFromDB(request.getRequesterID());
+        if (!LoginFrame.isTrial) {
+            this.databaseConnection = new DatabaseConnection();
+            student = (Student) this.databaseConnection.pullUserByIdFromDB(request.getRequesterID());
+        }else
+        {
+            this.student = (Student) request.getRequester();
+        }
         //student = new Student("1","1",45,"1","1","1","1");
         //This student can't be null because it is already added to the database
 
+        setUp();
+    }
+
+    private void setUp() {
         nameLabel.setText(student.getName());
         nameLabel.setFont(PROFILENAMEFONT);
         deniedPanel.add(nameLabel);

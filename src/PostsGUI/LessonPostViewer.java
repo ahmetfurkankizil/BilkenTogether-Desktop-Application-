@@ -1,6 +1,7 @@
 package PostsGUI;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Posts.LessonPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -22,7 +23,7 @@ public class LessonPostViewer extends PostViewer {
 
 
 
-    public LessonPostViewer(LessonPost p, HomeMain main) {
+    public LessonPostViewer(LessonPost p, MainInterface main) {
         super(main);
         this.lesPost = p;
         setUp();

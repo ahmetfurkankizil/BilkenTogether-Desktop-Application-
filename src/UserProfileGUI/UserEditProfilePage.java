@@ -1,6 +1,7 @@
 package UserProfileGUI;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Other.Icons.IconCreator;
 import ProfileBox.ProfileBox;
 
@@ -20,7 +21,7 @@ public class UserEditProfilePage extends JFrame {
     private JPanel mainPanel;
     private JComboBox dayComboBox;
     private JComboBox monthComboBox;
-    private HomeMain main;
+    private MainInterface main;
     private JComboBox yearComboBox;
     private JButton profilePictureChangeButton;
     private JTextPane bioTextPane;
@@ -31,14 +32,15 @@ public class UserEditProfilePage extends JFrame {
     private UserProfilePage userProfilePage;
     private ProfileBox profileBox;
 
-    public UserEditProfilePage(UserProfilePage userProfilePage, ProfileBox profileBox, HomeMain main) {
+    public UserEditProfilePage(UserProfilePage userProfilePage, ProfileBox profileBox, MainInterface main) {
+        this.main = main;
         this.userProfilePage = userProfilePage;
         this.profileBox = profileBox;
         setTitle("Edit User Profile");
         setSize(900,600);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainPanel);
-        this.main = main;
+
         createListeners();
 
     }

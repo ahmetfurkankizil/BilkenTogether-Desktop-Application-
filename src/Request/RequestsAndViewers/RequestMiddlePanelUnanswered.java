@@ -1,6 +1,8 @@
 package Request.RequestsAndViewers;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
+import Other.Icons.IconCreator;
 import PostsGUI.ActivitiesPostViewer;
 import PostsGUI.LessonPostViewer;
 import Posts.ActivityPost;
@@ -29,8 +31,11 @@ public class RequestMiddlePanelUnanswered {
     private RequestMiddlePanelAccepted acceptedPanel;
     private RequestablePost requestablePost;
     private ArrayList<Request> unansweredRequests;
+    private MainInterface main;
 
-    public RequestMiddlePanelUnanswered(RequestablePost requestablePost, HomeMain main , JPanel prev){
+
+    public RequestMiddlePanelUnanswered(RequestablePost requestablePost, MainInterface main , JPanel prev){
+        backButton.setIcon(IconCreator.getIconWithSize(IconCreator.backIcon,40,40));
         this.main = main;
         this.requestablePost = requestablePost;
         GridBagConstraints g2 = new GridBagConstraints();
@@ -117,8 +122,5 @@ public class RequestMiddlePanelUnanswered {
     public JPanel getInsideScrollPanel() {
         return holdingPanel;
     }
-    private HomeMain main;
-    public void setMain(HomeMain main) {
-        this.main = main;
-    }
+
 }

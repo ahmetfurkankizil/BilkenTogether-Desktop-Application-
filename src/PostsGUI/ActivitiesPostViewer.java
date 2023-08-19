@@ -1,6 +1,7 @@
 package PostsGUI;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Posts.ActivityPost;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
@@ -21,7 +22,7 @@ public class ActivitiesPostViewer extends PostViewer {
     private Student sender;
     private JButton requestButton;
 
-    public ActivitiesPostViewer(ActivityPost p, HomeMain main){
+    public ActivitiesPostViewer(ActivityPost p, MainInterface main){
         super(main);
         this.lesPost = p;
         setUp();

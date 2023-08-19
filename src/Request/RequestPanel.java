@@ -1,6 +1,7 @@
 package Request;
 
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import Other.Icons.IconCreator;
 import PostsGUI.LessonPostViewer;
 import Posts.LessonPost;
@@ -14,9 +15,9 @@ import java.awt.event.MouseEvent;
 public class RequestPanel extends JPanel {
 
     private RequestablePost requestablePost;
-    private HomeMain main;
+    private MainInterface main;
 
-    public RequestPanel(RequestablePost requestablePost, HomeMain main) {
+    public RequestPanel(RequestablePost requestablePost, MainInterface main) {
 
         this.main = main;
         this.requestablePost = requestablePost;
@@ -28,6 +29,16 @@ public class RequestPanel extends JPanel {
                 main.extendRequest(requestablePost);
             }
         });
+        for (Component c : getComponents()){
+            c.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            c.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    main.extendRequest(requestablePost);
+                }
+            });
+        }
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     public JPanel getThis(){
         return this;
@@ -101,8 +112,8 @@ public class RequestPanel extends JPanel {
         add(typeNameLabel, c);
 
         // Request Number Label
-        JLabel requestNumberLabel = new JLabel(requestablePost.getRequestCollection().size()+"");
-        requestNumberLabel.setBackground(Color.RED);
+        JLabel requestNumberLabel = new JLabel(requestablePost.getNumOfUnansweredRequests()+"");
+        requestNumberLabel.setBackground(new Color(159, 227, 227));
         requestNumberLabel.setOpaque(true);
         LessonPostViewer.addPadding(requestNumberLabel);
         c.gridx = 3;

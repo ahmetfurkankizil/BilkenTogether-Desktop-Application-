@@ -8,6 +8,7 @@ import Request.RequestsAndViewers.UnansweredRequest;
 import SignupAndLogin.LoginFrame;
 import UserRelated.Student;
 import UserRelated.User;
+import com.mysql.cj.log.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -170,7 +171,7 @@ public abstract class RequestablePost extends Post {
 
     public ArrayList<Request> pullTheRequestsFromDB() {
         if (LoginFrame.isTrial)
-            return new ArrayList<Request>();
+            return requestCollection;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String tableName = "" + super.getSender().getId() + "x" + super.getPostID() + "RequestsTable";
         String selectQuery = "SELECT * FROM " + tableName;
@@ -226,18 +227,27 @@ public abstract class RequestablePost extends Post {
         // or not. If it's there, then the passed Student will be added to the agreementCollection.)
         agreementCollection.add(request);
         requestCollection.remove(request);
-        acceptTheRequest(request);
 
+        if (!LoginFrame.isTrial)
+            acceptTheRequest(request);
+        else
+            request = new AcceptedRequest(request.getRequester());
+        requestCollection.add(request);
     }
 
     public void denyRequest(Request request) {
         deniedCollection.add(request);
         requestCollection.remove(request);
-        denyTheRequest(request);
+        if (!LoginFrame.isTrial)
+            denyTheRequest(request);
+        else
+            request = new DeniedRequest(request.getRequester());
     }
 
     public ArrayList<Request> getRequestCollection() {
-        requestCollection = pullTheRequestsFromDB();
+        if (!LoginFrame.isTrial)
+            requestCollection = pullTheRequestsFromDB();
+
         return requestCollection;
     }
 
@@ -267,5 +277,14 @@ public abstract class RequestablePost extends Post {
     }
     public ArrayList<Request> getDeniedCollection() {
         return deniedCollection;
+    }
+
+    public int getNumOfUnansweredRequests() {
+        int count = 0;
+        for (Request request : requestCollection) {
+            if (request instanceof UnansweredRequest)
+                count++;
+        }
+        return count;
     }
 }

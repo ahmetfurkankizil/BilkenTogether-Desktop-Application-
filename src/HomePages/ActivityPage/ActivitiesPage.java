@@ -1,6 +1,7 @@
 package HomePages.ActivityPage;
 
 import DatabaseRelated.DatabaseConnection;
+import HomePages.HomeMain.MainInterface;
 import HomePages.LessonsPage.LessonsPage;
 import HomePages.HomeMain.HomeMain;
 import PostsGUI.ActivitiesPostViewer;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.Random;
 
 public class ActivitiesPage {
-    private HomeMain main;
+    private MainInterface main;
     private JPanel mainPanel;
     private ArrayList<Integer> allUsers;
     private ArrayList<ActivitiesPostViewer> activitiesPostViewers;
@@ -67,7 +68,7 @@ public class ActivitiesPage {
 
     private ArrayList<ActivitiesPostViewer> activitiesPostViewerArrayList;
     private GridBagConstraints g;
-    public ActivitiesPage(HomeMain main) {
+    public ActivitiesPage(MainInterface main) {
         this.main = main;
         this.currentUser = main.getCurrentUser();
         activityPosts = new ArrayList<>();

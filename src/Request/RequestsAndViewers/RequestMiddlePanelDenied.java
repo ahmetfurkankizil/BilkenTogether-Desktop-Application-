@@ -43,7 +43,6 @@ public class RequestMiddlePanelDenied {
         g2.insets = new Insets(0,20,10,0);
         insideScrollPanel.removeAll();
         for (int i = 0; i < requestablePost.pullTheRequestsFromDB().size(); i++) {
-            System.out.println("invalid" + i);
             Request request = requestablePost.pullTheRequestsFromDB().get(i);
             if (request instanceof DeniedRequest) {
                 insideScrollPanel.add(new DeniedViewer(request),g2);

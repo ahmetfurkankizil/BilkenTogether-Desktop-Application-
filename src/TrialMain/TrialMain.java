@@ -5,6 +5,7 @@ import CommentsGUI.CommentsMidPanel;
 import DatabaseRelated.DatabaseConnection;
 import HomePages.ActivityPage.ActivitiesPage;
 import HomePages.HomeMain.HomeMain;
+import HomePages.HomeMain.MainInterface;
 import HomePages.LessonsPage.LessonsPage;
 import HomePages.StudiesPage.StudiesPage;
 import Main.Main;
@@ -12,14 +13,13 @@ import MessagesGUI.*;
 import NotificationRelated.Notification;
 import NotificationRelated.NotificationHomePage;
 import Other.Icons.IconCreator;
-import Posts.Post;
-import Posts.RequestablePost;
+import Posts.*;
 import PostsGUI.ActivitiesPostViewer;
 import PostsGUI.LessonPostViewer;
 import PostsGUI.PostViewer;
 import ProfileBox.ProfileBox;
 import Request.RequestMidPanel;
-import Request.RequestsAndViewers.RequestMiddlePanelUnanswered;
+import Request.RequestsAndViewers.*;
 import SignupAndLogin.LoginFrame;
 import SignupAndLogin.SignUpHandler;
 import UserProfileGUI.PPImageHandler;
@@ -42,8 +42,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
-public class TrialMain extends HomeMain {
+public class TrialMain extends JFrame implements MainInterface {
     private StudiesPage studies;
     private User[] otherUsers;
     private ActivitiesPage activities;
@@ -52,7 +53,7 @@ public class TrialMain extends HomeMain {
     private NotificationHomePage notificationHomePage;
     private LessonsPage lessons;
     private JPanel mainPanel;
-    private Client client;
+    private RequestMiddlePanelUnanswered requestExtended;
     private final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     public static final ImageIcon back = IconCreator.getIconWithSize(IconCreator.backIcon, 30, 30);
     private User currentUser;
@@ -148,6 +149,7 @@ public class TrialMain extends HomeMain {
         addRandomPosts();
 
         setUpPages();
+
         logoLabel.setIcon(LOGO);
 
 
@@ -254,15 +256,25 @@ public class TrialMain extends HomeMain {
         for (User user : userCollection) {
             RandomPostGenerator generator = new RandomPostGenerator(user);
             for (int i = 0; i < 5; i++) {
-                user.addStudyPost(generator.generateRandomStudyPost());
+                StudyPost tempPost = generator.generateRandomStudyPost();
+                Random random = new Random();
+                tempPost.addComment(new Comment(otherUsers[random.nextInt(otherUsers.length)]," Example Comment" + ((int) (Math.random()*100))));
+                user.addStudyPost(tempPost);
             }
             if (user instanceof Student student){
                 for (int i = 0; i < 5; i++) {
-                    student.addLessonPost(generator.generateRandomLessonPost());
+                    LessonPost tempPost = generator.generateRandomLessonPost();
+                    Random random = new Random();
+                    tempPost.addComment(new Comment(otherUsers[random.nextInt(otherUsers.length)]," Example Comment"+ ((int) (Math.random()*100))));
+                    student.addLessonPost(tempPost);
                 }
                 for (int i = 0; i < 5; i++) {
+                    ActivityPost tempPost = generator.generateRandomActivityPost();
+                    Random random = new Random();
+                    tempPost.addComment(new Comment(otherUsers[random.nextInt(otherUsers.length)]," Example Comment"+ ((int) (Math.random()*100))));
                     student.addActivityPost(generator.generateRandomActivityPost());
                 }
+
             }
 
         }
@@ -271,6 +283,7 @@ public class TrialMain extends HomeMain {
     private void goTop() {
         JScrollBar verBar = flowScrollPane.getVerticalScrollBar();
         verBar.setValue(0);
+        update();
     }
     private void setUpLabelListeners() {
         messagesLabel.addMouseListener(new MouseAdapter() {
@@ -346,8 +359,6 @@ public class TrialMain extends HomeMain {
                 if (checkIfLabelAlreadySelected(e)){
                     resetPanels();
                     GridBagConstraints g2 = new GridBagConstraints();
-
-
                     g2.anchor = GridBagConstraints.NORTHWEST;
                     g2.gridx = 0;
                     g2.gridy = 0;
@@ -386,11 +397,8 @@ public class TrialMain extends HomeMain {
                 invisibleAddablePanelLeft.setVisible(true);
                 JPanel tempP = notificationHomePage.getMainPanel();
                 GridBagConstraints g2 = new GridBagConstraints();
-                //tempP.setBounds(0,0,600,600);
                 g2.gridx = 0;
                 invisibleAddablePanelLeft.add(tempP,g2);
-                //invisibleAddablePanelRight.setVisible(true);
-                //flowScrollPane.setVisible(true);
                 rightPanel.setVisible(true);
                 resetLabelFonts();
                 notificationsLabel.setFont(new Font("default",Font.BOLD,22));
@@ -429,7 +437,7 @@ public class TrialMain extends HomeMain {
         requestsLabel.setFont(new Font("default",Font.PLAIN,22));
         profileLabel.setFont(new Font("default",Font.PLAIN,22));
     }
-    private RequestMiddlePanelUnanswered requestExtended;
+
 
     private void setUpPages() {
         setUpPastMessages();
@@ -439,6 +447,7 @@ public class TrialMain extends HomeMain {
             requestsPage = new RequestMidPanel(this);
         }
         notificationHomePage = new NotificationHomePage(this);
+        notificationHomePage.addTrialNotifications(currentUser);
         messagesGUI = new MessagesGUI(this);
         studies = new StudiesPage(this);
         profilePage = new UserProfilePage(this, profileBox);
@@ -589,14 +598,14 @@ public class TrialMain extends HomeMain {
         }
     }
     public void expandPost(PostViewer p){
-        Post tempPost = p.getPost();
+
         JPanel prev;
         if (profileLabel.getFont().isBold())
             prev = (JPanel) invisibleAddablePanelLeft.getComponents()[0];
         else
             prev = (JPanel) insideScrollPanePanel.getComponents()[0];
         rightPanel.setVisible(true);
-        CommentsMidPanel tempPanel = new CommentsMidPanel(tempPost,this,prev);
+        CommentsMidPanel tempPanel = new CommentsMidPanel(p.getPost(),this,prev);
         resetPanels();
         invisibleAddablePanelLeft.setLayout(new GridLayout());
         invisibleAddablePanelLeft.add(tempPanel.getInnerPanel());
@@ -616,7 +625,6 @@ public class TrialMain extends HomeMain {
     }
 
     public User getCurrentUser() {
-
         return currentUser;
     }
     public void goBacTokRequests(){
@@ -633,8 +641,9 @@ public class TrialMain extends HomeMain {
         update();
         update();
     }
-    public void extendRequest(RequestablePost panel) {
-        //requestExtended = new RequestMiddlePanelUnanswered(panel,this, requestsPage.getInPanel());
+    public void extendRequest(RequestablePost requestablePost) {
+
+        requestExtended = new RequestMiddlePanelUnanswered(requestablePost,this, requestsPage.getInPanel());
         resetPanels();
         GridBagConstraints g2 = new GridBagConstraints();
         g2.anchor = GridBagConstraints.NORTHWEST;
@@ -646,7 +655,9 @@ public class TrialMain extends HomeMain {
         resetLabelFonts();
         requestsLabel.setFont(new Font("default",Font.BOLD,22));
         resetLabelFonts();
-        update();}
+        update();
+    }
+
 
     public User[] getAllUsers() {
         return userCollection;
