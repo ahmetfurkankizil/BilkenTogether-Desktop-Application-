@@ -3,11 +3,16 @@ package PostsGUI;
 import HomePages.HomeMain.HomeMain;
 import HomePages.HomeMain.MainInterface;
 import Posts.LessonPost;
+import Request.RequestsAndViewers.AcceptedRequest;
+import Request.RequestsAndViewers.DeniedRequest;
+import Request.RequestsAndViewers.Request;
+import Request.RequestsAndViewers.UnansweredRequest;
 import UserProfileGUI.PPImageHandler;
 import UserRelated.Student;
 import UserRelated.User;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,6 +80,30 @@ public class LessonPostViewer extends PostViewer {
         g.fill = GridBagConstraints.BOTH;
         textArea2.setText(lesPost.getPostDescription());
         add(textArea2, g);
+        Request userRequest = lesPost.isUserInRequests((Student) main.getCurrentUser());
+        if ( userRequest != null){
+            if (userRequest instanceof UnansweredRequest){
+                requestButton.setText("Request Sent!");
+                requestButton.setBackground(new Color(228, 232, 183));
+                requestButton.setOpaque(true);
+                requestButton.setBorder(new EmptyBorder(5,5,5,5));
+                requestButton.setEnabled(false);
+            }else if (userRequest instanceof DeniedRequest){
+                requestButton.setText("Request Denied!");
+                requestButton.setEnabled(false);
+                requestButton.setBackground(new Color(200,130,130));
+                requestButton.setOpaque(true);
+                requestButton.setBorder(new EmptyBorder(5,5,5,5));
+            } else if (userRequest instanceof AcceptedRequest){
+                requestButton.setText("Request Accepted!");
+                requestButton.setEnabled(false);
+                requestButton.setBackground(new Color(129, 161, 231));
+                requestButton.setOpaque(true);
+                requestButton.setBorder(new EmptyBorder(5,5,5,5));
+            }
+        } else {
+            requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));
+        }
     }
 
     public void setUpInformationPanel() {
@@ -98,17 +127,7 @@ public class LessonPostViewer extends PostViewer {
         topicLabel.setOpaque(true);
         topInformationPanel.add(topicLabel, g);
 
-        if (lesPost.getAgreementCollection(true).contains(main.getCurrentUser().getId())){
-            requestButton.setText("ACCEPTED!");
-            requestButton.setEnabled(false);
-        }else if (lesPost.getDeniedCollection(true).contains(main.getCurrentUser().getId())){
-            requestButton.setText("DENIED!");
-            requestButton.setEnabled(false);
-        }else if(lesPost.getRequestCollection(true).contains(main.getCurrentUser().getId())){
-            requestButton.setText("Request Sent!");
-            requestButton.setEnabled(false);
-        } else {
-            requestButton.addActionListener(new RequestActionListener(lesPost,(Student) main.getCurrentUser()));}
+
         topInformationPanel.add(requestButton);
         add(topInformationPanel, g);
 

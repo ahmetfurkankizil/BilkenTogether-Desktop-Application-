@@ -80,10 +80,11 @@ public abstract class Post {
     public boolean equals(Object obj) {
         if (obj instanceof Post){
             Post temp = (Post) obj;
-            return getPostDescription().equals(temp.getPostDescription());
+            return getPostDescription().equals(temp.getPostDescription()) && getDateOfPost().equals(temp.getDateOfPost());
         }
         return false;
     }
+
 
     public ArrayList<Comment> getCommentCollection() {
         return commentCollection;
@@ -102,9 +103,11 @@ public abstract class Post {
             String tableName = "" + getSender().getId() + "x" + postID + "CommentsTable";
             if (connection != null) {
                 String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
-                        + "commenterId INT AUTO_INCREMENT PRIMARY KEY,"
+                        + "commentId INT AUTO_INCREMENT PRIMARY KEY,"
+                        + "commenterId INT,"
                         + "reviewBoolean BOOLEAN,"
-                        + "content VARCHAR(350) NOT NULL"
+                        + "content VARCHAR(350) NOT NULL,"
+                        + "review INT"
                         + ");";
 
                 try (Statement statement = connection.createStatement()) {
@@ -124,19 +127,19 @@ public abstract class Post {
         try (Connection connection = databaseConnection.getConnection()) {
             String tableName = "" + getSender().getId() + "x" + getPostID() + "CommentsTable";
             if (connection != null) {
-                String insertQuery = "INSERT INTO " + tableName + " (commenterId, reviewBoolean, content) VALUES (?, ?, ?)";
-
+                String insertQuery = "INSERT INTO " + tableName + " (commentId,commenterId, reviewBoolean, content, review) VALUES (?, ?, ?, ?, ?)";
                 //The information will be taken from message class getters
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                    preparedStatement.setInt(1, comment.getCommenter().getId());
-                    if (comment instanceof Review) {
-                        preparedStatement.setInt(2, 1);
+                    preparedStatement.setInt(1,0);
+                    preparedStatement.setInt(2, comment.getCommenter().getId());
+                    if (comment instanceof Review review) {
+                        preparedStatement.setInt(3, 1);
+                        preparedStatement.setInt(5,review.getSenderReview());
                     } else {
-                        preparedStatement.setInt(2, 0);
+                        preparedStatement.setInt(3, 0);
+                        preparedStatement.setNull(5,0);
                     }
-                    preparedStatement.setString(3,comment.getContent());
-
-
+                    preparedStatement.setString(4,comment.getContent());
                     int rowsAffected = preparedStatement.executeUpdate();
                     System.out.println("Inserted to Comments Table successfully.");
                     return true;
@@ -149,6 +152,26 @@ public abstract class Post {
         }
         databaseConnection.closeConnection();
         return false;
+    }
+
+    private void addReviewToTable(Review review1) {
+        databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String tableName = "" + getSender().getId() + "x" + getPostID() + "CommentsTable";
+            if (connection != null) {
+                String insertQuery = "INSERT INTO " + tableName + " (review) VALUES (?)";
+                //The information will be taken from message class getters
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setInt(1,review1.getSenderReview());
+                    int rowsAffected = preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        databaseConnection.closeConnection();
     }
 
     public void setUpPastCommentCollection() {
@@ -168,6 +191,10 @@ public abstract class Post {
                 String postDescription = resultSet.getString("content");
                 boolean reviewId = resultSet.getBoolean("reviewBoolean");
                 Comment temp = new Comment(databaseConnection.pullUserByIdFromDB(userId),postDescription);
+                if (reviewId){
+                    int review = resultSet.getInt("review");
+                    temp = new Review(databaseConnection.pullUserByIdFromDB(userId),postDescription,review,0);
+                }
                 commentArrayList.add(temp);
             }
         } catch (SQLException e) {

@@ -30,28 +30,35 @@ class CommentsPanel extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         if (isReview)
-            addStars(reviewPanel);
+            addStars(reviewPanel.getRating());
         addComponents();
+        liked = comment.checkIfUserAlreadyLiked(user);
+    }
+    public CommentsPanel(Comment comment, User user) {
+        super();
+        COMMENT = comment;
 
+        this.user = user;
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        if (COMMENT instanceof Review review)
+            addStars(review.getSenderReview());
+        addComponents();
         liked = comment.checkIfUserAlreadyLiked(user);
     }
 
-    private void addStars(ReviewPanel reviewPanel) {
+    private void addStars(int review) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = 0;
         c.gridx = 1;
         JPanel starPanel = new JPanel(new FlowLayout());
-        String text = reviewPanel.getTextField().getText();
-        int review = Integer.parseInt(text);
-        System.out.println(review);
+
         for (int i = 0; i < review; i++) {
             starPanel.add(new JLabel(fullStar), c);
-
         }
         for (int i = 0; i < 5 - review; i++) {
             starPanel.add(new JLabel(emptyStar));
         }
-        reviewPanel.getTextField().setText("");
         add(starPanel, c);
     }
 

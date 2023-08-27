@@ -177,26 +177,12 @@ public class MessagesGUI extends JFrame {
                     currentMConnection = m;
             }
             for (ConversationViewer viewer: conversationViewers) {
-                if (viewer.getOtherUserId() == currentReceiverID && currentMConnection != null)
+                if (viewer.getOtherUserId() == currentReceiverID && currentMConnection != null&& !currentMConnection.getMessages().isEmpty())
                     viewer.setMessageContent(currentMConnection.getMessages().get(currentMConnection.getMessages().size()-1).getContent());
             }
             repaint();
             revalidate();
         }
-
-        private void removeViewers() {
-            for (Component c :
-                    getComponents()) {
-                if (c instanceof ConversationViewer viewer){
-                    remove(viewer);
-                }
-            }
-            repaint();
-            revalidate();
-        }
-
-
-
         public ArrayList<ConversationViewer> getConversationViewers() {
             return conversationViewers;
         }

@@ -25,28 +25,20 @@ public abstract class RequestablePost extends Post {
         super(postId, sender, description, dateOfPost,isItNew);
         this.typeFilter = typeFilter;
         this.realSender = (Student) sender;
-
-
-
         requestCollection = new ArrayList<Request>();
         deniedCollection = new ArrayList<Request>();
         agreementCollection = new ArrayList<Request>();
         if (isItNew && !LoginFrame.isTrial){
             createRequestsTable();
-            //if(this instanceof LessonPost)
-              //  super.setPostID(Math.min(temp.getLessonPostCollection().size(),5));
-            //else
-              //  super.setPostID(Math.min(temp.getActivityPostCollection().size(),5));
+        } else if (!LoginFrame.isTrial) {
+            setUpCollections((Student) sender);
         }
-        //else{
-          //  setPostID(postId-1);
-            //setUpCollections((Student)sender);
-            //}
-
     }
 
     private void setUpCollections( Student user) {
-
+        requestCollection = new ArrayList<Request>();
+        deniedCollection = new ArrayList<Request>();
+        agreementCollection = new ArrayList<Request>();
         ArrayList<Request> requests =  pullTheRequestsFromDB();
         for (int i = 0; i < requests.size(); i++) {
             if (requests.get(i) instanceof UnansweredRequest r)
@@ -168,6 +160,13 @@ public abstract class RequestablePost extends Post {
         databaseConnection.closeConnection();
         return false;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RequestablePost temp){
+            return super.equals(obj) && temp.getTypeFilter().equals(getTypeFilter());
+        }
+        return false;
+    }
 
     public ArrayList<Request> pullTheRequestsFromDB() {
         if (LoginFrame.isTrial)
@@ -246,8 +245,7 @@ public abstract class RequestablePost extends Post {
 
     public ArrayList<Request> getRequestCollection() {
         if (!LoginFrame.isTrial)
-            requestCollection = pullTheRequestsFromDB();
-
+            setUpCollections(realSender);
         return requestCollection;
     }
 
@@ -286,5 +284,33 @@ public abstract class RequestablePost extends Post {
                 count++;
         }
         return count;
+    }
+
+    public Request isUserInRequests(Student user) {
+        for (int i = 0; i < requestCollection.size(); i++) {
+            if (requestCollection.get(i).getRequesterID() == user.getId()){
+                return requestCollection.get(i);
+            }
+        }
+        for (int i = 0; i < deniedCollection.size(); i++) {
+            if (deniedCollection.get(i).getRequesterID() == user.getId()){
+                return deniedCollection.get(i);
+            }
+        }
+        for (int i = 0; i < agreementCollection.size(); i++) {
+            if (agreementCollection.get(i).getRequesterID() == user.getId()){
+                return agreementCollection.get(i);
+            }
+        }
+        return null;
+    }
+
+    public boolean isItReviewer(User currentUser) {
+        for (Request request : agreementCollection) {
+            if (request.getRequesterID() == currentUser.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 }

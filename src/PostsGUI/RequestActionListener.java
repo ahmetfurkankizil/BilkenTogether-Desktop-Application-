@@ -5,6 +5,8 @@ import Request.RequestsAndViewers.UnansweredRequest;
 import UserRelated.Student;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,5 +23,8 @@ public class RequestActionListener implements ActionListener {
         button.setText("Request Sent!");
         button.setEnabled(false);
         post.addRequest(new UnansweredRequest(user.getId()));
+        button.setBackground(new Color(228, 232, 183));
+        button.setOpaque(true);
+        button.setBorder(new EmptyBorder(5,5,5,5));
     }
 }

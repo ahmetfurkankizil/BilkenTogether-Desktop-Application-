@@ -133,33 +133,39 @@ public class LessonsPage {
         allUsers = currentUser.pullIDsFromUserInformationTable();
         ArrayList<ArrayList<LessonPost>> userPostCollections = new ArrayList<>();
 
-        boolean exceed = false;
         for (int i = 0; i < allUsers.size(); i++) {
             userPostCollections.add(c.pullUserByIdFromDB(allUsers.get(i)).pullFromLessonsPostTable());
         }
+
         int max1 = userPostCollections.size();
         int rand1;
-        int max2;
         int rand2;
         Random rand = new Random();
-        for (int i = 0; i < LessonsPage.NUMOFPOSTSINAPAGE; i++) {
-            rand1 = 0;
-            rand2 = 0;
-            if (max1 != 0)
-                rand1= rand.nextInt(max1);
-            max2= userPostCollections.get(rand1).size();
-            if (max2 != 0)
-                rand2= rand.nextInt(max2);
-            if (!userPostCollections.get(rand1).isEmpty() && !posts.contains(userPostCollections.get(rand1).get(rand2))){
-                addLessonPost(userPostCollections.get(rand1).get(rand2));
-                posts.add(userPostCollections.get(rand1).get(rand2));
-            }else if (exceed){
-                i--;
+        int total = getCollectionsSize(userPostCollections);
+        while (posts.size() < Math.min(LessonsPage.NUMOFPOSTSINAPAGE,total)) {
+            rand1= rand.nextInt(max1);
+            if (!userPostCollections.get(rand1).isEmpty()){
+                rand2= rand.nextInt(userPostCollections.get(rand1).size());
+                if (!posts.contains(userPostCollections.get(rand1).get(rand2))){
+                    addLessonPost(userPostCollections.get(rand1).get(rand2));
+                    posts.add(userPostCollections.get(rand1).get(rand2));
+                }
             }
         }
 
 
     }
+
+    private int getCollectionsSize(ArrayList<ArrayList<LessonPost>> userPostCollections) {
+        int count = 0;
+        for (int i = 0; i <userPostCollections.size() ; i++) {
+            for (int j = 0; j < userPostCollections.get(i).size(); j++) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private void getRandomPosts(boolean isItTrial) {
         TrialMain trial = (TrialMain) main;
         User[] allUsers2 = trial.getAllUsers();
@@ -334,12 +340,6 @@ public class LessonsPage {
         postButton.setCursor(handCursor);
         postButton.setFocusable(false);
     }
-    public boolean requestGiveButtonCheck() {
-        return !(postLessonButton.isSelected()) && !requestLessonButton.isSelected();
-    }
-    public boolean requestGiveButtonCheckFilter() {
-        return !(givenButton.isSelected()) && !requestedButton.isSelected();
-    }
     public void setMain(HomeMain main) {
         this.main =main;
         setCurrentUser(main.getCurrentUser());
@@ -351,7 +351,6 @@ public class LessonsPage {
         profilePhotoPanel.add(profilePhoto);
         profilePhotoPanel.revalidate();
         profilePhotoPanel.repaint();
-
     }
 
     private class requestActionListener implements ActionListener {
